@@ -1,0 +1,104 @@
+/**
+ * Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman,
+ * Kevin Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa, and others.
+ *
+ * This file is part of Crystal.
+ *
+ * Crystal is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Crystal is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package edu.cmu.cs.crystal.annotations;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AnnotationSummary {
+	List<ICrystalAnnotation>[] annos;
+	String[] paramNames;
+	
+	public AnnotationSummary(String[] paramNames) {
+		this.paramNames = paramNames;
+		annos = new List[paramNames.length + 1];
+		
+		for (int ndx = 0; ndx < annos.length; ndx++)
+			annos[ndx] = new ArrayList<ICrystalAnnotation>();
+	}
+	
+	public String getParameterName(int ndx) {
+		return paramNames[ndx];
+	}
+	
+	public String[] getParameterNames() {
+		return paramNames;
+	}
+	
+
+	public List<ICrystalAnnotation> getParameter(int ndx) {
+		if (ndx < annos.length - 1)
+			return annos[ndx];
+		else
+			return null;
+	}
+
+	/**
+	 * 
+	 * @param ndx
+	 * @param annoName
+	 * @return
+	 */
+	public ICrystalAnnotation getParameter(int ndx, String annoName) {
+		if (ndx > 0 && ndx < annos.length)
+			return AnnotationDatabase.findAnnotation(annoName, annos[ndx]);
+		else
+			return null;
+	}
+	
+	public List<ICrystalAnnotation> getReturn() {
+		return annos[annos.length - 1];
+	}
+
+	/**
+	 * 
+	 * @param annoName
+	 * @return
+	 */
+	public ICrystalAnnotation getReturn(String annoName) {
+		return AnnotationDatabase.findAnnotation(annoName, annos[annos.length - 1]);
+	}
+
+	public void add(AnnotationSummary summary) {
+		if (summary.annos.length == annos.length) {
+			for (int ndx = 0; ndx < annos.length; ndx++) {
+				annos[ndx].addAll(summary.annos[ndx]);
+			}
+		}
+	}
+	
+	public void addReturn(ICrystalAnnotation anno) {
+		annos[annos.length - 1].add(anno);
+	}
+	
+	public void addAllReturn(List<ICrystalAnnotation> annosToAdd) {
+		annos[annos.length - 1].addAll(annosToAdd);
+	}
+	
+	public void addParameter(ICrystalAnnotation anno, int ndx) {
+		if (ndx < annos.length - 1)
+			annos[ndx].add(anno);
+	}
+	
+	public void addAllParameter(List<ICrystalAnnotation> annosToAdd, int ndx) {
+		if (ndx < annos.length - 1)
+			annos[ndx].addAll(annosToAdd);
+	}
+}

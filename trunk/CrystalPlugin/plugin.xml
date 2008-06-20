@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension-point id="CrystalAnalysis" name="Crystal Analysis" schema="schema/CrystalAnalysis.exsd"/>
+   <extension-point id="CrystalAnnotation" name="Crystal Annotation" schema="schema/CrystalAnnotation.exsd"/>
+	<extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Crystal"
+            id="edu.cmu.cs.crystal.CrystalViews">
+      </category>
+      <view
+            allowMultiple="false"
+            category="edu.cmu.cs.crystal.CrystalViews"
+            class="edu.cmu.cs.crystal.internal.UserConsoleView"
+            icon="icons/sample.gif"
+            id="edu.cmu.cs.crystal.internal.UserConsoleView"
+            name="User Console">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="edu.cmu.cs.crystal.internal.UserConsoleView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+ <extension
+       point="org.eclipse.ui.popupMenus">
+    <objectContribution
+          id="Crystal.contribution1"
+          objectClass="org.eclipse.jdt.core.ICompilationUnit">
+       <menu
+             id="Crystal.menu1"
+             label="Crystal"
+             path="additions">
+          <separator
+                name="group1">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="Crystal.newAction"
+             label="Run Analyses"
+             menubarPath="Crystal.menu1/group1">
+       </action>
+    </objectContribution>
+ </extension>
+ <extension
+       point="org.eclipse.ui.actionSets">
+    <actionSet
+          id="edu.cmu.cs.crystal.CrystalActions"
+          label="Crystal Actions"
+          visible="true">
+       <menu
+             id="edu.cmu.cs.crystal.crystalMenu"
+             label="&amp;Crystal">
+          <separator
+                name="edu.cmu.cs.crystal.crystalGroup">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalUIAction"
+             icon="icons/sample.gif"
+             id="edu.cmu.cs.crystal.internal.CrystalUIAction"
+             label="&amp;Run Analyses"
+             menubarPath="edu.cmu.cs.crystal.crystalMenu/edu.cmu.cs.crystal.crystalGroup"
+             toolbarPath="edu.cmu.cs.crystal.crystalGroup"
+             tooltip="Runs the registered Crystal analyses.">
+       </action>
+       <action
+             class="edu.cmu.cs.crystal.internal.DisplayCrystalInfo"
+             id="edu.cmu.cs.crystal.internal.DisplayCrystalInfo"
+             label="&amp;Display analyses"
+             menubarPath="edu.cmu.cs.crystal.crystalMenu/edu.cmu.cs.crystal.crystalGroup"
+             tooltip="Displays the registered Crystal analyses">
+       </action>
+    </actionSet>
+ </extension>
+   
+</plugin>
