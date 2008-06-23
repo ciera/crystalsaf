@@ -1,0 +1,16 @@
+#labels Phase-QA
+#How to test parts of Crystal (not a Crystal analysis)
+
+= Introduction =
+
+Add your content here.
+
+
+= Testing within Crystal =
+
+We use JUnit to test features within Crystal. Currently, both the CFG and the TAC creation code has unit tests. Please keep these up to date. The tests are located within the test source folder. Some important things to note:
+
+   * When running these tests, they must be run as a JUnit Plugin Test, with the following options:
+      * Headless mode
+      * Set the workspace to be a new workspace called CrystalTest. Create this workspace to have the CrystalPlugin project within it. This will allow the tests to run on themselves.
+   * If you add a new class (or rename one), you'll need to open the CrystalTest workspace and refresh the project manually.
