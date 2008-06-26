@@ -21,6 +21,7 @@ package edu.cmu.cs.crystal.tac.eclipse;
 
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Modifier;
@@ -53,7 +54,7 @@ implements StoreFieldInstruction {
 	 * @see AbstractStoreInstruction#AbstractStoreInstruction(Expression, Variable, IEclipseVariableQuery)
 	 */
 	public StoreFieldInstructionImpl(
-			Expression node, 
+			ASTNode node, 
 			Variable source,
 			IEclipseFieldAccess target,
 			IEclipseVariableQuery tac) {

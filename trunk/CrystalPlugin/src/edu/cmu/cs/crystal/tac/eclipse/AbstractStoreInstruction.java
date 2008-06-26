@@ -19,7 +19,7 @@
  */
 package edu.cmu.cs.crystal.tac.eclipse;
 
-import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.tac.StoreInstruction;
 import edu.cmu.cs.crystal.tac.Variable;
@@ -30,7 +30,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * the {@link #getSourceOperand() source}.
  * @author Kevin Bierhoff
  */
-abstract class AbstractStoreInstruction extends ResultfulInstruction<Expression> 
+abstract class AbstractStoreInstruction extends ResultfulInstruction<ASTNode> 
 implements StoreInstruction {
 	
 	private Variable sourceOperand;
@@ -41,7 +41,7 @@ implements StoreInstruction {
 	 * @param tac
 	 * @see ResultfulInstruction#ResultfulInstruction(org.eclipse.jdt.core.dom.ASTNode, IEclipseVariableQuery)
 	 */
-	public AbstractStoreInstruction(Expression node, Variable sourceOperand, IEclipseVariableQuery tac) {
+	public AbstractStoreInstruction(ASTNode node, Variable sourceOperand, IEclipseVariableQuery tac) {
 		super(node, tac);
 		if(sourceOperand == null)
 			throw new IllegalArgumentException("sourceOperand must not be null.");

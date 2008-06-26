@@ -22,6 +22,7 @@ package edu.cmu.cs.crystal.tac.eclipse;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.ConditionalExpression;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
@@ -146,7 +147,13 @@ abstract class AbstractAssignmentInstruction<E extends ASTNode> extends Resultfu
 			
 			// found straight-line code without assignment
 			if(branches) return n;
-			if(n instanceof VariableDeclaration) return n;
+			if(n instanceof VariableDeclaration) {
+				VariableDeclaration decl = (VariableDeclaration) n;
+				if(n.getParent() instanceof FieldDeclaration)
+					// do *not* copy directly into a field--need a store in between
+					return null;
+				return n;
+			}
 			break;
 		}
 		return null;

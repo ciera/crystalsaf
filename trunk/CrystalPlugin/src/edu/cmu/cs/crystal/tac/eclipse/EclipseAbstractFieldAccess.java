@@ -19,14 +19,14 @@
  */
 package edu.cmu.cs.crystal.tac.eclipse;
 
-import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Modifier;
 
 /**
  * @author Kevin Bierhoff
  *
  */
-public abstract class EclipseAbstractFieldAccess<N extends Expression> implements IEclipseFieldAccess {
+public abstract class EclipseAbstractFieldAccess<N extends ASTNode> implements IEclipseFieldAccess {
 	
 	protected N node;
 	protected IEclipseVariableQuery query;
