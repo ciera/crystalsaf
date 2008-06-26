@@ -31,10 +31,11 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import att.grappa.Graph;
 import att.grappa.Parser;
-
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
+import edu.cmu.cs.crystal.cfg.eclipse.CFGTestUtils;
 
+@Deprecated
 public abstract class CFGTestAnalysis extends AbstractCrystalMethodAnalysis {
 
 	@Override
@@ -44,37 +45,39 @@ public abstract class CFGTestAnalysis extends AbstractCrystalMethodAnalysis {
 		Graph testGraph;
 		File out = null, original, projectRoot;
 		FileOutputStream outStream;
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("CrystalTest");
-		projectRoot = new File(project.getLocationURI());	// project.getLocationURI will return null for closed projects.
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
+				"CrystalTest");
+		projectRoot = new File(project.getLocationURI()); // project.getLocationURI
+		// will return null
+		// for closed
+		// projects.
 
-		
 		try {
 			className = method.resolveBinding().getDeclaringClass().getName();
 			methodName = method.getName().getIdentifier();
 			testName = className + "_" + methodName + ".dot";
-				
-			out = new File(projectRoot, "test/lastrun/" + testName);	
+
+			out = new File(projectRoot, "test/lastrun/" + testName);
 			testGraph = cfg.getDotGraph();
 			outStream = new FileOutputStream(out);
 			testGraph.printGraph(outStream);
-			
+
 			original = new File(projectRoot, "test/" + testName);
-			if (original.exists()) {		
+			if (original.exists()) {
 				Parser graphParser = new Parser(new FileInputStream(original));
 				Graph realGraph;
-				
+
 				graphParser.parse();
 				realGraph = graphParser.getGraph();
-				if (!TestUtilities.areGraphsEqual(testGraph, realGraph))
+				if (!CFGTestUtils.areGraphsEqual(testGraph, realGraph))
 					System.err.println("Failed test: " + testName);
 				else
 					System.out.println("Passed test: " + testName);
-			}
-			else {
+			} else {
 				System.out.println("(Did not check test: " + testName + ")");
 			}
 			outStream.close();
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("error from: " + out.getAbsolutePath());
@@ -86,7 +89,7 @@ public abstract class CFGTestAnalysis extends AbstractCrystalMethodAnalysis {
 			System.out.println("error from: " + out.getAbsolutePath());
 		}
 	}
-	
+
 	abstract public IControlFlowGraph getCFG(MethodDeclaration method);
 
 }

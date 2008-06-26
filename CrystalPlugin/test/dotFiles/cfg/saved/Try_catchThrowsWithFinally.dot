@@ -1,0 +1,282 @@
+digraph catchThrowsWithFinally {
+  50 [
+    label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  38 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  34 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  31 [
+    label = "new Exception",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
+    label = throw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  49 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  48 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  46 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  45 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = bar,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = "int bar",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  41 [
+    label = "new TestException",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  40 [
+    label = throw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = err,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = "int foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  27 [
+    label = TestException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = TestException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = "TestException err",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "String message",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  54 [
+    label = blah,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(throws)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  53 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  52 [
+    label = "+",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare catchThrowsWithFinally",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  51 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  46 -> 45 [
+    label = ""
+  ];
+  3 -> 5 [
+    label = ""
+  ];
+  38 -> 46 [
+    label = false
+  ];
+  15 -> 38 [
+    label = ""
+  ];
+  27 -> 26 [
+    label = ""
+  ];
+  54 -> 52 [
+    label = ""
+  ];
+  25 -> 27 [
+    label = ""
+  ];
+  53 -> 54 [
+    label = ""
+  ];
+  38 -> 41 [
+    label = true
+  ];
+  40 -> 25 [
+    label = "edu.cmu.cs.crystal.cfg.eclipse.Try.TestException"
+  ];
+  45 -> 53 [
+    label = ""
+  ];
+  41 -> 40 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  11 -> 12 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  34 -> 31 [
+    label = ""
+  ];
+  50 -> 49 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+  28 -> 34 [
+    label = ""
+  ];
+  51 -> 50 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  26 -> 28 [
+    label = ""
+  ];
+  52 -> 51 [
+    label = ""
+  ];
+  14 -> 15 [
+    label = ""
+  ];
+  13 -> 14 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  12 -> 13 [
+    label = ""
+  ];
+  30 -> 2 [
+    label = "java.lang.Exception"
+  ];
+  48 -> 1 [
+    label = ""
+  ];
+  31 -> 30 [
+    label = ""
+  ];
+  49 -> 48 [
+    label = ""
+  ];
+}

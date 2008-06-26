@@ -1,0 +1,234 @@
+digraph simpleReturning {
+  37 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  36 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  35 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  34 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  33 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  31 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = 2,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = "+",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = err,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = Exception,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = Exception,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = "Exception err",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = "new Exception",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = "int foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  27 [
+    label = throw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = 3,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "String message",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  23 [
+    label = "<",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare simpleReturning",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  33 -> 22 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  16 -> 1 [
+    label = ""
+  ];
+  31 -> 28 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  23 -> 31 [
+    label = true
+  ];
+  36 -> 1 [
+    label = ""
+  ];
+  25 -> 23 [
+    label = ""
+  ];
+  24 -> 25 [
+    label = ""
+  ];
+  8 -> 24 [
+    label = ""
+  ];
+  12 -> 14 [
+    label = ""
+  ];
+  34 -> 33 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = ""
+  ];
+  35 -> 34 [
+    label = ""
+  ];
+  28 -> 27 [
+    label = ""
+  ];
+  11 -> 13 [
+    label = ""
+  ];
+  23 -> 35 [
+    label = false
+  ];
+  27 -> 11 [
+    label = "java.lang.Exception"
+  ];
+  3 -> 5 [
+    label = ""
+  ];
+  4 -> 3 [
+    label = ""
+  ];
+  19 -> 17 [
+    label = ""
+  ];
+  2 -> 4 [
+    label = ""
+  ];
+  18 -> 19 [
+    label = ""
+  ];
+  37 -> 36 [
+    label = ""
+  ];
+  22 -> 37 [
+    label = ""
+  ];
+  14 -> 18 [
+    label = ""
+  ];
+}

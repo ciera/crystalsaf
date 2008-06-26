@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.cfg.eclipse.EclipseCFG;
 
+@Deprecated
 public class EclipseCFGTestAnalysis extends CFGTestAnalysis {
 
 	@Override

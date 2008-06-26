@@ -1,0 +1,159 @@
+digraph multiple {
+  19 [
+    label = d,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = c,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = "+",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = d,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = "int d",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = c,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = "int c",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = "int b",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "int a",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare multiple",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 -> 19 [
+    label = ""
+  ];
+  17 -> 18 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  16 -> 17 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  13 -> 16 [
+    label = ""
+  ];
+  14 -> 1 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  19 -> 15 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  12 -> 13 [
+    label = ""
+  ];
+  11 -> 12 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+}

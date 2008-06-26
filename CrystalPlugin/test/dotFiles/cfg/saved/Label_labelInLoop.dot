@@ -1,0 +1,245 @@
+digraph labelInLoop {
+  33 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  32 [
+    label = for,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
+    label = "Call meth2",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = "label foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = 4,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = "<",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = 0,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  29 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  27 [
+    label = break,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = forEdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = forBdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = 2,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = "==",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  23 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare labelInLoop",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = "Call meth1",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 -> 27 [
+    label = true
+  ];
+  19 -> 17 [
+    label = ""
+  ];
+  12 -> 21 [
+    label = true
+  ];
+  27 -> 19 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  12 -> 6 [
+    label = false
+  ];
+  24 -> 23 [
+    label = false
+  ];
+  4 -> 7 [
+    label = ""
+  ];
+  15 -> 32 [
+    label = ""
+  ];
+  26 -> 24 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  25 -> 26 [
+    label = ""
+  ];
+  11 -> 32 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  29 -> 19 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+  33 -> 1 [
+    label = ""
+  ];
+  30 -> 29 [
+    label = ""
+  ];
+  6 -> 33 [
+    label = ""
+  ];
+  23 -> 30 [
+    label = ""
+  ];
+  14 -> 12 [
+    label = ""
+  ];
+  13 -> 14 [
+    label = ""
+  ];
+  32 -> 13 [
+    label = ""
+  ];
+  5 -> 16 [
+    label = ""
+  ];
+  20 -> 25 [
+    label = ""
+  ];
+  17 -> 5 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+}

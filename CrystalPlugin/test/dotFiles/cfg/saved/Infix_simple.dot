@@ -1,0 +1,95 @@
+digraph simple {
+  9 [
+    label = "+",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = "int b",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "int a",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare simple",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  11 -> 9 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  8 -> 1 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  9 -> 8 [
+    label = ""
+  ];
+  7 -> 10 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+}
