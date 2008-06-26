@@ -35,6 +35,7 @@ import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldAccess;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -552,16 +553,21 @@ public class EclipseTACInstructionFactory {
 
 	public TACInstruction create(VariableDeclaration node,
 			IEclipseVariableQuery eclipseVariableQuery) {
-		SourceVariableDeclaration decl = new SourceVariableDeclarationImpl(node, eclipseVariableQuery);
-		return decl;
-//		if(node.getInitializer() == null)
-//			return decl;
-//		CopyInstruction init = new CopyInstruction(node, 
-//				eclipseVariableQuery.variable(node.getInitializer()),
-//				true,
-//				decl.getDeclaredVariable(),
-//				eclipseVariableQuery);
-//		return new EclipseInstructionSequence(node, new TACInstruction<?>[] { decl, init }, eclipseVariableQuery);
+		if(node.getParent() instanceof FieldDeclaration) {
+			// this can happen in the constructor, where the CFG inlines field initializers
+			// need to create a store iff this declaration has an initializer
+			if(node.getInitializer() == null)
+				return null;
+			return new StoreFieldInstructionImpl(
+					node, 
+					eclipseVariableQuery.variable(node.getInitializer()), 
+					new EclipseFieldDeclaration(node, eclipseVariableQuery),
+					eclipseVariableQuery);
+			
+		}
+		else {
+			return new SourceVariableDeclarationImpl(node, eclipseVariableQuery);
+		}
 	}
 
 	public TACInstruction create(EnhancedForStatement node,

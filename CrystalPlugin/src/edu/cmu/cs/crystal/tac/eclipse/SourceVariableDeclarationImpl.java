@@ -54,6 +54,11 @@ implements SourceVariableDeclaration {
 	 */
 	public SourceVariableDeclarationImpl(VariableDeclaration node, IEclipseVariableQuery tac) {
 		super(node, tac);
+		IVariableBinding b = node.resolveBinding();
+		if(b.isField())
+			throw new IllegalArgumentException("Field declaration: " + node);
+		if(b.isEnumConstant())
+			throw new IllegalArgumentException("Enum declaration: " + node);
 	}
 	
 	public SourceVariable getDeclaredVariable() {
