@@ -24,13 +24,11 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.cfg.eclipse.EclipseNodeFirstCFG;
 
-public class EclipseNodeFirstCFGTestAnalysis extends EclipseCFGTestAnalysis 
-{
+@Deprecated
+public class EclipseNodeFirstCFGTestAnalysis extends EclipseCFGTestAnalysis {
 	@Override
 	public IControlFlowGraph getCFG(MethodDeclaration method) {
 		return new EclipseNodeFirstCFG(method);
 	}
 
-	
-	
 }

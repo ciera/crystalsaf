@@ -1,0 +1,23 @@
+digraph completelyEmpty {
+  2 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare completelyEmpty",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  2 -> 1 [
+    label = ""
+  ];
+}

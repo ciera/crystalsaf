@@ -1,0 +1,224 @@
+digraph nestedSwitch2 {
+  33 [
+    label = 5,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  32 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
+    label = 6,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = val,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = switch,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = hctiws,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = "label bar",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = elihw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = while,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  29 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = "label foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = val,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = default,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = break,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = "int val",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = 4,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = 1,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare nestedSwitch2",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = 0,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 -> 18 [
+    label = ""
+  ];
+  12 -> 17 [
+    label = true
+  ];
+  10 -> 12 [
+    label = ""
+  ];
+  29 -> 1 [
+    label = ""
+  ];
+  22 -> 21 [
+    label = ""
+  ];
+  30 -> 29 [
+    label = ""
+  ];
+  20 -> 22 [
+    label = ""
+  ];
+  13 -> 10 [
+    label = ""
+  ];
+  28 -> 30 [
+    label = ""
+  ];
+  18 -> 20 [
+    label = 0
+  ];
+  18 -> 28 [
+    label = default
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  8 -> 33 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  11 -> 8 [
+    label = ""
+  ];
+  25 -> 26 [
+    label = ""
+  ];
+  12 -> 11 [
+    label = false
+  ];
+  18 -> 25 [
+    label = 4
+  ];
+  21 -> 1 [
+    label = ""
+  ];
+  7 -> 10 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  32 -> 1 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  33 -> 32 [
+    label = ""
+  ];
+  16 -> 14 [
+    label = ""
+  ];
+  26 -> 16 [
+    label = ""
+  ];
+}

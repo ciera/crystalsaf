@@ -1,0 +1,127 @@
+digraph onlyDefault {
+  9 [
+    label = switch,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = hctiws,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = "int foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = switcher,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = default,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "int switcher",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = switcher,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare onlyDefault",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 -> 9 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  15 -> 1 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = default
+  ];
+  8 -> 15 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  12 -> 8 [
+    label = ""
+  ];
+  11 -> 14 [
+    label = ""
+  ];
+}
