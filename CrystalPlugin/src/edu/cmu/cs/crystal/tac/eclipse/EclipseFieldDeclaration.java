@@ -44,27 +44,22 @@ public class EclipseFieldDeclaration extends EclipseAbstractFieldAccess<Variable
 			throw new IllegalArgumentException("Not a field declaration: " + node);
 	}
 
-	@Override
 	public Variable getAccessedObject() {
 		return query.implicitThisVariable(node.resolveBinding());
 	}
 
-	@Override
 	public SimpleName getFieldName() {
 		return node.getName();
 	}
 
-	@Override
 	public boolean isExplicitSuperAccess() {
 		return false;
 	}
 
-	@Override
 	public boolean isImplicitThisAccess() {
 		return true;
 	}
 
-	@Override
 	public IVariableBinding resolveFieldBinding() {
 		return node.resolveBinding();
 	}
