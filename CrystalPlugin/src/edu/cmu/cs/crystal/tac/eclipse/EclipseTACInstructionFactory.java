@@ -60,7 +60,6 @@ import org.eclipse.jdt.core.dom.VariableDeclaration;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
 import edu.cmu.cs.crystal.tac.BinaryOperator;
 import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
 import edu.cmu.cs.crystal.tac.SourceVariableRead;
 import edu.cmu.cs.crystal.tac.TACInstruction;
 import edu.cmu.cs.crystal.tac.ThisVariable;
