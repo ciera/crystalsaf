@@ -19,9 +19,9 @@
  */
 package edu.cmu.cs.crystal.analysis.metrics;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -37,19 +37,25 @@ import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.internal.Utilities;
 
 public class LoopCountingAnalysis extends AbstractCrystalMethodAnalysis {
-	private Map<ASTNode, Integer> loopDepth;
+	private Map<ASTNode, Integer> loopDepth = Collections.emptyMap();
 	private MethodDeclaration decl;
 	
 	public int getLoopDepth(ASTNode node) {		
-		if (decl == null || !decl.equals(Utilities.getMethodDeclaration(node)))
-			reset(Utilities.getMethodDeclaration(node));
+		if(!loopDepth.containsKey(node)) {
+			final MethodDeclaration d = Utilities.getMethodDeclaration(node);
+			if(d == null) {
+				return 0; // not in method --> cannot be in loop
+			}
+			else {
+				if (decl == null || !decl.equals(d))
+					reset(d);
+			}
+		}
 		return loopDepth.get(node).intValue();
 	}
 	
 	public boolean isInLoop(ASTNode node) {
-		if (decl == null || !decl.equals(Utilities.getMethodDeclaration(node)))
-				reset(Utilities.getMethodDeclaration(node));
-		return loopDepth.get(node).intValue() == 0;
+		return getLoopDepth(node) == 0;
 	}
 	
 	@Override
@@ -65,6 +71,8 @@ public class LoopCountingAnalysis extends AbstractCrystalMethodAnalysis {
 	}
 	
 	private void reset(MethodDeclaration method) {
+		if(method == null)
+			throw new IllegalArgumentException("Need a method declaration for counting loops");
 		decl = method;
 		loopDepth = new HashMap<ASTNode, Integer>();
 		decl.accept(new LoopCounter());
