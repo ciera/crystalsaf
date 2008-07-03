@@ -30,6 +30,7 @@ import org.eclipse.jdt.core.dom.ArrayAccess;
 import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.ArrayType;
+import org.eclipse.jdt.core.dom.AssertStatement;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
@@ -1324,5 +1325,29 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 			type.setStart(bound.getStart());
 		}
 		type.setName(node.toString());
-	}	
+	}
+	
+    @Override
+    public void endVisit(AssertStatement node) {
+        EclipseCFGNode assertNode = nodeMap.get(node);
+        EclipseCFGNode expNode = nodeMap.get(node.getExpression());
+        EclipseCFGNode messageNode = nodeMap.get(node.getMessage());
+        // ITypeBinding binding = ...
+        // EclipseCFGNode finallys = createCascadingFinally(binding);
+        // EclipseCFGNode catchNode = exceptionMap.getCatchNode(binding);
+
+        createEdge(assertNode, expNode.getStart());
+        assertNode.setStart(expNode.getStart());
+        createEdge(expNode.getEnd(), assertNode, true);
+
+//        createEdge(expNode.getEnd(), messageNode.getStart(), false);
+
+        // if (finallys != null) {
+        // createEdge(messageNode.getEnd(), finallys.getStart(), binding);
+        // if (catchNode != null)
+        // createEdge(finallys.getEnd(), catchNode.getStart());
+        // } else if (catchNode != null)
+        // createEdge(messageNode.getEnd(), catchNode.getStart(), binding);
+    }
+
 }
