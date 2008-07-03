@@ -32,13 +32,17 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.Message;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.junit.Assert;
 
 import edu.cmu.cs.crystal.Crystal;
@@ -230,6 +234,17 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 		List<MethodDeclaration> methods = WorkspaceUtilities.scanForMethodDeclarationsFromAST(compUnit);
 		Assert.assertFalse(methods.isEmpty());
 		return methods.get(0);
+	}
+	
+	public static VariableDeclarationFragment getFirstField(CompilationUnit compUnit) {
+		Assert.assertEquals(0, compUnit.getProblems().length);
+		List<BodyDeclaration> decls = ((AbstractTypeDeclaration) compUnit.types().get(0)).bodyDeclarations(); 
+		for(BodyDeclaration b : decls) {
+			if(b instanceof FieldDeclaration)
+				return (VariableDeclarationFragment) ((FieldDeclaration) b).fragments().get(0);
+		}
+		Assert.fail("No fields found in first type declared in " + compUnit);
+		return null; // unreachable
 	}
 	
 	public static ReturnStatement getLastStatementReturn(MethodDeclaration methodDecl) {
