@@ -355,13 +355,11 @@ public class EclipseTAC implements IEclipseVariableQuery {
 			if(result != null)
 				return result;
 		}
-		if(isMethod) {
-			// go though interfaces as well
-			for(ITypeBinding i : type.getInterfaces()) {
-				result = findElementDeclarationByName(name, isMethod, i);
-				if(result != null)
-					return result;
-			}
+		// go though interfaces as well
+		for(ITypeBinding i : type.getInterfaces()) {
+			result = findElementDeclarationByName(name, isMethod, i);
+			if(result != null)
+				return result;
 		}
 		return result;
 	}
