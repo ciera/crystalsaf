@@ -109,7 +109,49 @@ digraph ordering {
     fontname = Helvetica,
     fontsize = 10
   ];
+  16 -> 21 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  18 -> 16 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  20 -> 18 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  19 -> 20 [
+    label = ""
+  ];
   4 -> 5 [
+    label = ""
+  ];
+  14 -> 1 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  21 -> 15 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+  8 -> 9 [
     label = ""
   ];
   1 -> 0 [
@@ -128,48 +170,6 @@ digraph ordering {
     label = ""
   ];
   13 -> 17 [
-    label = ""
-  ];
-  2 -> 3 [
-    label = ""
-  ];
-  16 -> 21 [
-    label = ""
-  ];
-  7 -> 8 [
-    label = ""
-  ];
-  18 -> 16 [
-    label = ""
-  ];
-  6 -> 7 [
-    label = ""
-  ];
-  20 -> 18 [
-    label = ""
-  ];
-  5 -> 6 [
-    label = ""
-  ];
-  19 -> 20 [
-    label = ""
-  ];
-  14 -> 1 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  15 -> 14 [
-    label = ""
-  ];
-  9 -> 10 [
-    label = ""
-  ];
-  21 -> 15 [
-    label = ""
-  ];
-  8 -> 9 [
     label = ""
   ];
 }

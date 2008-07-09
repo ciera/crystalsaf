@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  */
 public class Try {
-	private class TestException extends Exception {
+	static private class TestException extends Exception {
 	}
 
 	// Assume that we are using a class where every method has a unique name
@@ -139,6 +139,27 @@ public class Try {
 	}
 
 	@Test
+	public void nestTryFinallyTest() throws Exception {
+		MethodDeclaration decl = methods.get("nestTryFinally");
+		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
+	}
+
+	public void nestTryFinally(String message) {
+		try {
+			try {
+				throw new TestException();
+			} finally {
+				message = message + "foo";
+			}
+		} catch (TestException err) {
+			message = message + "bar";
+		} finally {
+			message = message + "blah";
+		}
+
+	}
+
+	@Test
 	public void catchUsingExceptionTest() throws Exception {
 		MethodDeclaration decl = methods.get("catchUsingException");
 		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
@@ -153,4 +174,32 @@ public class Try {
 		}
 	}
 
+	private void foo() throws IOException {
+		throw new IOException();
+	}
+
+	private void bar() throws IOException {
+		throw new IOException();
+	}
+
+	@Test
+	public void finallyHasTryTest() throws Exception {
+		MethodDeclaration decl = methods.get("finallyHasTry");
+		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
+	}
+
+	private boolean finallyHasTry() {
+		try {
+			foo();
+			return true;
+		} catch (IOException io) {
+			return true;
+		} finally {
+			try {
+				bar();
+			} catch (IOException io) {
+				return false;
+			}
+		}
+	}
 }

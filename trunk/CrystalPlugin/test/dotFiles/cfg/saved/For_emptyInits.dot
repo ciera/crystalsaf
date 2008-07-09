@@ -94,7 +94,13 @@ digraph emptyInits {
     fontname = Helvetica,
     fontsize = 10
   ];
+  11 -> 17 [
+    label = ""
+  ];
   12 -> 11 [
+    label = ""
+  ];
+  5 -> 6 [
     label = ""
   ];
   8 -> 12 [
@@ -112,6 +118,12 @@ digraph emptyInits {
   2 -> 3 [
     label = ""
   ];
+  18 -> 1 [
+    label = ""
+  ];
+  17 -> 10 [
+    label = ""
+  ];
   9 -> 18 [
     label = ""
   ];
@@ -121,13 +133,7 @@ digraph emptyInits {
   7 -> 17 [
     label = ""
   ];
-  11 -> 17 [
-    label = ""
-  ];
   6 -> 7 [
-    label = ""
-  ];
-  5 -> 6 [
     label = ""
   ];
   16 -> 15 [
@@ -139,16 +145,10 @@ digraph emptyInits {
   1 -> 0 [
     label = ""
   ];
-  18 -> 1 [
-    label = ""
-  ];
   10 -> 16 [
     label = true
   ];
   15 -> 14 [
-    label = ""
-  ];
-  17 -> 10 [
     label = ""
   ];
 }

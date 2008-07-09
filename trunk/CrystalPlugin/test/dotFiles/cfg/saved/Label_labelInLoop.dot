@@ -149,19 +149,13 @@ digraph labelInLoop {
     fontname = Helvetica,
     fontsize = 10
   ];
-  24 -> 27 [
-    label = true
-  ];
-  19 -> 17 [
+  9 -> 10 [
     label = ""
   ];
-  12 -> 21 [
-    label = true
-  ];
-  27 -> 19 [
+  6 -> 33 [
     label = ""
   ];
-  2 -> 3 [
+  30 -> 29 [
     label = ""
   ];
   8 -> 9 [
@@ -173,8 +167,41 @@ digraph labelInLoop {
   12 -> 6 [
     label = false
   ];
+  23 -> 30 [
+    label = ""
+  ];
   24 -> 23 [
     label = false
+  ];
+  13 -> 14 [
+    label = ""
+  ];
+  32 -> 13 [
+    label = ""
+  ];
+  11 -> 32 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  24 -> 27 [
+    label = true
+  ];
+  19 -> 17 [
+    label = ""
+  ];
+  12 -> 21 [
+    label = true
+  ];
+  29 -> 19 [
+    label = ""
+  ];
+  27 -> 19 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
   ];
   4 -> 7 [
     label = ""
@@ -182,7 +209,7 @@ digraph labelInLoop {
   15 -> 32 [
     label = ""
   ];
-  26 -> 24 [
+  14 -> 12 [
     label = ""
   ];
   3 -> 4 [
@@ -191,46 +218,13 @@ digraph labelInLoop {
   16 -> 15 [
     label = ""
   ];
-  25 -> 26 [
-    label = ""
-  ];
-  11 -> 32 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  29 -> 19 [
-    label = ""
-  ];
-  9 -> 10 [
-    label = ""
-  ];
-  33 -> 1 [
-    label = ""
-  ];
-  30 -> 29 [
-    label = ""
-  ];
-  6 -> 33 [
-    label = ""
-  ];
-  23 -> 30 [
-    label = ""
-  ];
-  14 -> 12 [
-    label = ""
-  ];
-  13 -> 14 [
-    label = ""
-  ];
-  32 -> 13 [
+  26 -> 24 [
     label = ""
   ];
   5 -> 16 [
+    label = ""
+  ];
+  25 -> 26 [
     label = ""
   ];
   20 -> 25 [
@@ -240,6 +234,12 @@ digraph labelInLoop {
     label = ""
   ];
   21 -> 20 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  33 -> 1 [
     label = ""
   ];
 }

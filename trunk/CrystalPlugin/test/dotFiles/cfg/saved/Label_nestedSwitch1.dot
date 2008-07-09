@@ -1,16 +1,11 @@
 digraph nestedSwitch1 {
-  33 [
+  31 [
     label = 5,
     fontname = Helvetica,
     fontsize = 10
   ];
-  32 [
-    label = return,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
   30 [
-    label = 6,
+    label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -40,7 +35,7 @@ digraph nestedSwitch1 {
     fontsize = 10
   ];
   29 [
-    label = return,
+    label = 6,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -49,13 +44,13 @@ digraph nestedSwitch1 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
-    label = val,
+  28 [
+    label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
-  28 [
-    label = default,
+  7 [
+    label = val,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -64,8 +59,8 @@ digraph nestedSwitch1 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  26 [
-    label = continue,
+  27 [
+    label = default,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -75,12 +70,17 @@ digraph nestedSwitch1 {
     fontsize = 10
   ];
   25 [
-    label = 4,
+    label = continue,
     fontname = Helvetica,
     fontsize = 10
   ];
   4 [
     label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = 4,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -119,64 +119,25 @@ digraph nestedSwitch1 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 -> 3 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  32 -> 1 [
-    label = ""
-  ];
-  25 -> 26 [
-    label = ""
-  ];
-  21 -> 1 [
-    label = ""
-  ];
-  33 -> 32 [
-    label = ""
-  ];
-  18 -> 25 [
-    label = 4
-  ];
-  7 -> 10 [
-    label = ""
-  ];
-  6 -> 7 [
-    label = ""
-  ];
-  5 -> 6 [
-    label = ""
-  ];
-  29 -> 1 [
-    label = ""
-  ];
-  17 -> 18 [
-    label = ""
-  ];
-  12 -> 17 [
-    label = true
-  ];
-  30 -> 29 [
+  25 -> 10 [
     label = ""
   ];
   10 -> 12 [
     label = ""
   ];
-  28 -> 30 [
+  27 -> 29 [
     label = ""
   ];
-  26 -> 10 [
+  1 -> 0 [
     label = ""
   ];
-  18 -> 28 [
+  24 -> 25 [
+    label = ""
+  ];
+  18 -> 27 [
     label = default
   ];
-  8 -> 33 [
-    label = ""
-  ];
-  22 -> 21 [
+  7 -> 10 [
     label = ""
   ];
   20 -> 22 [
@@ -191,10 +152,49 @@ digraph nestedSwitch1 {
   12 -> 11 [
     label = false
   ];
-  4 -> 5 [
+  17 -> 18 [
+    label = ""
+  ];
+  28 -> 1 [
+    label = ""
+  ];
+  12 -> 17 [
+    label = true
+  ];
+  29 -> 28 [
     label = ""
   ];
   3 -> 4 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  18 -> 24 [
+    label = 4
+  ];
+  30 -> 1 [
+    label = ""
+  ];
+  21 -> 1 [
+    label = ""
+  ];
+  31 -> 30 [
+    label = ""
+  ];
+  8 -> 31 [
+    label = ""
+  ];
+  22 -> 21 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  4 -> 5 [
     label = ""
   ];
 }

@@ -23,30 +23,23 @@ import att.grappa.Edge;
 import att.grappa.Graph;
 import att.grappa.Node;
 import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.NormalLabel;
 import edu.cmu.cs.crystal.cfg.ICFGEdge;
-import edu.cmu.cs.crystal.cfg.ICFGNode;
 
 public class EclipseCFGEdge implements ICFGEdge {
 	EclipseCFGNode sink;
 	EclipseCFGNode source;
 	ILabel label;
-	
-//	EclipseCFGEdge(EclipseCFGNode source, EclipseCFGNode sink) {
-//		this.source = source;
-//		this.sink = sink;
-//		this.label = new NormalLabel();
-//	}
-	
+
 	EclipseCFGEdge(EclipseCFGNode source, EclipseCFGNode sink, ILabel label) {
 		this.source = source;
 		this.sink = sink;
 		this.label = label;
 	}
-	
+
 	public EclipseCFGNode getSink() {
 		return sink;
 	}
+
 	public EclipseCFGNode getSource() {
 		return source;
 	}
@@ -54,7 +47,7 @@ public class EclipseCFGEdge implements ICFGEdge {
 	public String toString() {
 		return getSource().toString() + "->" + getSink().toString();
 	}
-	
+
 	public void addToGraph(Graph graph, Node source, Node sink) {
 		Edge dotEdge = new Edge(graph, source, sink);
 		dotEdge.setAttribute(Edge.LABEL_ATTR, label.getLabel());

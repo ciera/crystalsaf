@@ -109,16 +109,34 @@ digraph continuing {
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 -> 4 [
+  20 -> 19 [
     label = ""
+  ];
+  12 -> 15 [
+    label = true
   ];
   14 -> 12 [
     label = ""
   ];
-  21 -> 1 [
+  19 -> 8 [
+    label = true
+  ];
+  11 -> 18 [
     label = ""
   ];
-  13 -> 14 [
+  1 -> 0 [
+    label = ""
+  ];
+  12 -> 11 [
+    label = false
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  5 -> 6 [
     label = ""
   ];
   17 -> 16 [
@@ -130,29 +148,20 @@ digraph continuing {
   15 -> 8 [
     label = ""
   ];
-  5 -> 6 [
-    label = ""
-  ];
   18 -> 17 [
     label = ""
   ];
   16 -> 10 [
     label = ""
   ];
-  12 -> 15 [
-    label = true
-  ];
-  11 -> 18 [
+  4 -> 5 [
     label = ""
   ];
-  2 -> 3 [
+  13 -> 14 [
     label = ""
   ];
-  9 -> 21 [
+  21 -> 1 [
     label = ""
-  ];
-  19 -> 9 [
-    label = false
   ];
   8 -> 13 [
     label = ""
@@ -160,22 +169,13 @@ digraph continuing {
   7 -> 8 [
     label = ""
   ];
-  20 -> 19 [
+  9 -> 21 [
     label = ""
   ];
   6 -> 7 [
     label = ""
   ];
-  19 -> 8 [
-    label = true
-  ];
-  4 -> 5 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  12 -> 11 [
+  19 -> 9 [
     label = false
   ];
 }

@@ -44,22 +44,22 @@ digraph ConstructorSelf1 {
     fontname = Helvetica,
     fontsize = 10
   ];
+  8 -> 9 [
+    label = ""
+  ];
   9 -> 10 [
     label = ""
   ];
-  1 -> 0 [
+  12 -> 11 [
     label = ""
   ];
-  12 -> 11 [
+  1 -> 0 [
     label = ""
   ];
   10 -> 14 [
     label = ""
   ];
   11 -> 15 [
-    label = ""
-  ];
-  8 -> 9 [
     label = ""
   ];
   14 -> 12 [

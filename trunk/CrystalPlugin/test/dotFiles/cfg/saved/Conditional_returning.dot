@@ -74,11 +74,8 @@ digraph returning {
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 -> 1 [
+  4 -> 5 [
     label = ""
-  ];
-  10 -> 13 [
-    label = true
   ];
   12 -> 10 [
     label = ""
@@ -92,26 +89,29 @@ digraph returning {
   11 -> 12 [
     label = ""
   ];
-  4 -> 5 [
+  6 -> 7 [
     label = ""
   ];
   3 -> 4 [
     label = ""
   ];
-  6 -> 7 [
-    label = ""
-  ];
   1 -> 0 [
-    label = ""
-  ];
-  13 -> 9 [
     label = ""
   ];
   10 -> 14 [
     label = false
   ];
+  13 -> 9 [
+    label = ""
+  ];
   7 -> 11 [
     label = ""
+  ];
+  8 -> 1 [
+    label = ""
+  ];
+  10 -> 13 [
+    label = true
   ];
   2 -> 3 [
     label = ""

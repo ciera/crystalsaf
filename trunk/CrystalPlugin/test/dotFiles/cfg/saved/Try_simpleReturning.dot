@@ -1,30 +1,30 @@
 digraph simpleReturning {
-  37 [
-    label = foo,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  36 [
-    label = return,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
   35 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
   34 [
-    label = "++",
+    label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
   33 [
-    label = ExpressionStatement,
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  32 [
+    label = "++",
     fontname = Helvetica,
     fontsize = 10
   ];
   31 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
@@ -79,18 +79,13 @@ digraph simpleReturning {
     fontname = Helvetica,
     fontsize = 10
   ];
-  28 [
-    label = "new Exception",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
   6 [
     label = "int foo",
     fontname = Helvetica,
     fontsize = 10
   ];
   27 [
-    label = throw,
+    label = "new Exception",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -99,13 +94,13 @@ digraph simpleReturning {
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 [
-    label = String,
+  26 [
+    label = throw,
     fontname = Helvetica,
     fontsize = 10
   ];
-  25 [
-    label = 3,
+  4 [
+    label = String,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -115,7 +110,7 @@ digraph simpleReturning {
     fontsize = 10
   ];
   24 [
-    label = foo,
+    label = 3,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -125,12 +120,7 @@ digraph simpleReturning {
     fontsize = 10
   ];
   23 [
-    label = "<",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  22 [
-    label = if,
+    label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -139,21 +129,31 @@ digraph simpleReturning {
     fontname = Helvetica,
     fontsize = 10
   ];
+  22 [
+    label = "<",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
   0 [
     label = "Declare simpleReturning",
     fontname = Helvetica,
     fontsize = 10
   ];
-  33 -> 22 [
+  32 -> 31 [
     label = ""
   ];
-  7 -> 8 [
+  13 -> 12 [
+    label = ""
+  ];
+  33 -> 32 [
     label = ""
   ];
   6 -> 7 [
-    label = ""
-  ];
-  1 -> 0 [
     label = ""
   ];
   5 -> 6 [
@@ -162,73 +162,73 @@ digraph simpleReturning {
   16 -> 1 [
     label = ""
   ];
-  31 -> 28 [
+  22 -> 30 [
+    label = true
+  ];
+  3 -> 5 [
     label = ""
   ];
   17 -> 16 [
     label = ""
   ];
-  23 -> 31 [
-    label = true
-  ];
-  36 -> 1 [
+  19 -> 17 [
     label = ""
   ];
-  25 -> 23 [
-    label = ""
-  ];
-  24 -> 25 [
-    label = ""
-  ];
-  8 -> 24 [
-    label = ""
-  ];
-  12 -> 14 [
-    label = ""
-  ];
-  34 -> 33 [
-    label = ""
-  ];
-  13 -> 12 [
-    label = ""
-  ];
-  35 -> 34 [
-    label = ""
-  ];
-  28 -> 27 [
-    label = ""
-  ];
-  11 -> 13 [
-    label = ""
-  ];
-  23 -> 35 [
-    label = false
-  ];
-  27 -> 11 [
-    label = "java.lang.Exception"
-  ];
-  3 -> 5 [
+  34 -> 1 [
     label = ""
   ];
   4 -> 3 [
     label = ""
   ];
-  19 -> 17 [
+  35 -> 34 [
+    label = ""
+  ];
+  23 -> 24 [
+    label = ""
+  ];
+  8 -> 23 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  27 -> 26 [
+    label = ""
+  ];
+  11 -> 13 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  22 -> 33 [
+    label = false
+  ];
+  30 -> 27 [
+    label = ""
+  ];
+  26 -> 11 [
+    label = "java.lang.Exception"
+  ];
+  18 -> 19 [
     label = ""
   ];
   2 -> 4 [
     label = ""
   ];
-  18 -> 19 [
+  24 -> 22 [
     label = ""
   ];
-  37 -> 36 [
-    label = ""
-  ];
-  22 -> 37 [
+  21 -> 35 [
     label = ""
   ];
   14 -> 18 [
+    label = ""
+  ];
+  12 -> 14 [
+    label = ""
+  ];
+  31 -> 21 [
     label = ""
   ];
 }

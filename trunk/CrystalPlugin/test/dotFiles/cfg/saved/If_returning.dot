@@ -4,23 +4,23 @@ digraph returning {
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 [
-    label = b,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
   7 [
     label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
   15 [
-    label = return,
+    label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
   6 [
     label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -74,21 +74,6 @@ digraph returning {
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 -> 5 [
-    label = ""
-  ];
-  11 -> 9 [
-    label = ""
-  ];
-  13 -> 12 [
-    label = ""
-  ];
-  16 -> 15 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
   6 -> 7 [
     label = ""
   ];
@@ -101,7 +86,7 @@ digraph returning {
   9 -> 13 [
     label = true
   ];
-  9 -> 16 [
+  9 -> 15 [
     label = false
   ];
   7 -> 10 [
@@ -110,13 +95,28 @@ digraph returning {
   12 -> 1 [
     label = ""
   ];
-  15 -> 1 [
+  14 -> 1 [
     label = ""
   ];
   5 -> 6 [
     label = ""
   ];
   2 -> 3 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  11 -> 9 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  10 -> 11 [
     label = ""
   ];
 }

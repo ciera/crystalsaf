@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -49,6 +50,8 @@ import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 
 public class CFGTestUtils {
 	static final String PROJECT = "CrystalPlugin";
+	private static final Logger log = Logger.getLogger(CFGTestUtils.class
+			.getName());
 
 	static public CompilationUnit parseCode(String qualifiedCompUnitName)
 			throws CoreException {
@@ -114,16 +117,24 @@ public class CFGTestUtils {
 		Vector g1Edges = g1.vectorOfElements(GrappaConstants.EDGE);
 		Vector g2Edges = g2.vectorOfElements(GrappaConstants.EDGE);
 
-		if (g1Nodes.size() != g2Nodes.size())
+		if (g1Nodes.size() != g2Nodes.size()) {
+			log.info("different number of nodes: " + g1Nodes.size() + " "
+					+ g2Nodes.size());
 			return false;
-		if (g1Edges.size() != g2Edges.size())
+		}
+		if (g1Edges.size() != g2Edges.size()) {
+			log.info("different number of edges: " + g1Edges.size() + " "
+					+ g2Edges.size());
 			return false;
+		}
 
 		for (Node node1 : (Vector<Node>) g1Nodes) {
 			Node node2 = g2.findNodeByName(node1.getName());
 
-			if (node2 == null)
+			if (node2 == null) {
+				log.info("G2 did not have node with name " + node1.getName());
 				return false;
+			}
 		}
 
 		boolean foundEdge;
@@ -132,17 +143,21 @@ public class CFGTestUtils {
 			for (Edge edge2 : (Vector<Edge>) g2Edges) {
 				if (edge1.getTail().getName().equals(edge2.getTail().getName())
 						&& edge1.getHead().getName().equals(
-								edge2.getHead().getName())) {
-					if (!edge1.getAttribute(Edge.LABEL_ATTR).equals(
-							edge2.getAttribute(Edge.LABEL_ATTR)))
-						return false;
+								edge2.getHead().getName())
+						&& edge1.getAttribute(Edge.LABEL_ATTR).equals(
+								edge2.getAttribute(Edge.LABEL_ATTR))) {
 					foundEdge = true;
 					g2Edges.remove(edge2);
 					break;
 				}
 			}
-			if (!foundEdge)
+			if (!foundEdge) {
+				log.info("did not find edge with head "
+						+ edge1.getHead().getName() + " and tail "
+						+ edge1.getTail().getName() + " and label "
+						+ edge1.getAttribute(Edge.LABEL_ATTR).getStringValue());
 				return false;
+			}
 		}
 
 		return true;
