@@ -1,20 +1,25 @@
 digraph returningEmptyElse {
   19 [
-    label = return,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
     label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
+  18 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
   17 [
-    label = "++",
+    label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
   16 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
@@ -94,10 +99,47 @@ digraph returningEmptyElse {
     fontname = Helvetica,
     fontsize = 10
   ];
-  20 [
-    label = b,
-    fontname = Helvetica,
-    fontsize = 10
+  1 -> 0 [
+    label = ""
+  ];
+  12 -> 11 [
+    label = false
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  2 -> 3 [
+    label = ""
+  ];
+  10 -> 12 [
+    label = ""
+  ];
+  11 -> 17 [
+    label = ""
+  ];
+  18 -> 1 [
+    label = ""
+  ];
+  19 -> 18 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  15 -> 19 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
   ];
   13 -> 1 [
     label = ""
@@ -115,48 +157,6 @@ digraph returningEmptyElse {
     label = ""
   ];
   7 -> 8 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  12 -> 11 [
-    label = false
-  ];
-  18 -> 17 [
-    label = ""
-  ];
-  2 -> 3 [
-    label = ""
-  ];
-  10 -> 12 [
-    label = ""
-  ];
-  11 -> 18 [
-    label = ""
-  ];
-  19 -> 1 [
-    label = ""
-  ];
-  20 -> 19 [
-    label = ""
-  ];
-  6 -> 7 [
-    label = ""
-  ];
-  16 -> 20 [
-    label = ""
-  ];
-  5 -> 6 [
-    label = ""
-  ];
-  4 -> 5 [
-    label = ""
-  ];
-  17 -> 16 [
     label = ""
   ];
 }

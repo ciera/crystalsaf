@@ -63,8 +63,8 @@ public class EclipseNodeFirstCFG extends EclipseCFG {
 
 		createEdge(doBegin, body.getStart());
 		createEdge(body.getEnd(), cond.getStart());
-		createEdge(cond.getEnd(), doBegin, true);
-		createEdge(cond.getEnd(), doEnd, false);
+		createBooleanEdge(cond.getEnd(), doBegin, true);
+		createBooleanEdge(cond.getEnd(), doEnd, false);
 
 		blockStack.popUnlabeled();
 
@@ -152,8 +152,8 @@ public class EclipseNodeFirstCFG extends EclipseCFG {
 		// connect for node to the conditional
 		if (cond != null) {
 			createEdge(forNode, cond.getStart());
-			createEdge(cond.getEnd(), endDummy, false);
-			createEdge(cond.getEnd(), body.getStart(), true);
+			createBooleanEdge(cond.getEnd(), endDummy, false);
+			createBooleanEdge(cond.getEnd(), body.getStart(), true);
 		} else {
 			createEdge(forNode, body.getStart());
 		}
@@ -197,8 +197,8 @@ public class EclipseNodeFirstCFG extends EclipseCFG {
 		EclipseCFGNode whileEnd = whileBegin.getEnd();
 
 		createEdge(whileBegin, cond.getStart());
-		createEdge(cond.getEnd(), whileEnd, false);
-		createEdge(cond.getEnd(), body.getStart(), true);
+		createBooleanEdge(cond.getEnd(), whileEnd, false);
+		createBooleanEdge(cond.getEnd(), body.getStart(), true);
 		createEdge(body.getEnd(), whileBegin);
 
 		blockStack.popUnlabeled();

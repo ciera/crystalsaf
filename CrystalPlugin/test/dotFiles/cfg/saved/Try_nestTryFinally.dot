@@ -1,126 +1,121 @@
-digraph breaking {
-  29 [
-    label = ndx,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  28 [
-    label = foo,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  27 [
-    label = "+",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  26 [
-    label = ndx,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
+digraph nestTryFinally {
   25 [
-    label = "=",
+    label = bar,
     fontname = Helvetica,
     fontsize = 10
   ];
   24 [
-    label = cond,
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
   23 [
-    label = 1,
+    label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
   22 [
-    label = k,
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
   21 [
-    label = k,
+    label = "=",
     fontname = Helvetica,
     fontsize = 10
   ];
   20 [
-    label = 0,
+    label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
   9 [
-    label = int,
+    label = "=",
     fontname = Helvetica,
     fontsize = 10
   ];
   8 [
-    label = cond,
+    label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
   19 [
-    label = ndx,
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
   7 [
-    label = boolean,
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
   18 [
-    label = ndx,
+    label = err,
     fontname = Helvetica,
     fontsize = 10
   ];
   6 [
-    label = "boolean cond",
+    label = try,
     fontname = Helvetica,
     fontsize = 10
   ];
   17 [
-    label = int,
+    label = TestException,
     fontname = Helvetica,
     fontsize = 10
   ];
   5 [
-    label = array,
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
   16 [
-    label = int,
+    label = TestException,
     fontname = Helvetica,
     fontsize = 10
   ];
   4 [
-    label = int,
+    label = String,
     fontname = Helvetica,
     fontsize = 10
   ];
   15 [
-    label = forEdummy,
+    label = "TestException err",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  47 [
+    label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
   3 [
-    label = "int[]",
+    label = String,
     fontname = Helvetica,
     fontsize = 10
   ];
   14 [
-    label = forBdummy,
+    label = catch,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  46 [
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
   2 [
-    label = "int[] array",
+    label = "String message",
     fontname = Helvetica,
     fontsize = 10
   ];
   13 [
-    label = 0,
+    label = blah,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  45 [
+    label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -130,212 +125,163 @@ digraph breaking {
     fontsize = 10
   ];
   12 [
-    label = foo,
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  44 [
+    label = "=",
     fontname = Helvetica,
     fontsize = 10
   ];
   0 [
-    label = "Declare breaking",
+    label = "Declare nestTryFinally",
     fontname = Helvetica,
     fontsize = 10
   ];
   11 [
-    label = foo,
+    label = "+",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  43 [
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
   10 [
-    label = int,
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  42 [
+    label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
   41 [
-    label = Block,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  40 [
-    label = for,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  39 [
-    label = k,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  38 [
-    label = "--",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  37 [
-    label = ExpressionStatement,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  36 [
-    label = break,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  35 [
-    label = cond,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  34 [
-    label = "!",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  33 [
-    label = if,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  32 [
-    label = "{}",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  31 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  30 [
-    label = "--",
+  40 [
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 -> 12 [
+  37 [
+    label = "new TestException",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  36 [
+    label = throw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 -> 25 [
     label = ""
   ];
-  23 -> 40 [
+  11 -> 10 [
     label = ""
   ];
-  6 -> 7 [
+  18 -> 24 [
     label = ""
   ];
-  14 -> 28 [
+  44 -> 45 [
     label = ""
   ];
-  18 -> 19 [
+  47 -> 1 [
     label = ""
   ];
-  3 -> 5 [
+  43 -> 44 [
     label = ""
   ];
-  33 -> 39 [
+  6 -> 47 [
     label = ""
   ];
-  16 -> 17 [
+  20 -> 19 [
     label = ""
   ];
-  24 -> 15 [
-    label = false
-  ];
-  35 -> 34 [
+  42 -> 43 [
     label = ""
   ];
-  9 -> 10 [
+  7 -> 6 [
     label = ""
   ];
-  27 -> 26 [
+  21 -> 20 [
     label = ""
   ];
-  21 -> 22 [
+  41 -> 42 [
     label = ""
   ];
-  37 -> 32 [
-    label = ""
-  ];
-  1 -> 0 [
+  22 -> 21 [
     label = ""
   ];
   2 -> 4 [
     label = ""
   ];
-  31 -> 30 [
+  15 -> 17 [
     label = ""
   ];
-  34 -> 36 [
-    label = true
+  46 -> 15 [
+    label = ""
+  ];
+  45 -> 46 [
+    label = ""
+  ];
+  13 -> 11 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  14 -> 12 [
+    label = ""
+  ];
+  16 -> 18 [
+    label = ""
+  ];
+  19 -> 14 [
+    label = ""
   ];
   12 -> 13 [
     label = ""
   ];
-  40 -> 24 [
+  37 -> 36 [
     label = ""
   ];
-  7 -> 8 [
+  5 -> 37 [
     label = ""
   ];
-  28 -> 29 [
-    label = ""
-  ];
-  19 -> 20 [
-    label = ""
-  ];
-  39 -> 38 [
-    label = ""
-  ];
-  15 -> 41 [
-    label = ""
-  ];
-  26 -> 25 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  22 -> 23 [
-    label = ""
-  ];
-  5 -> 6 [
-    label = ""
-  ];
-  32 -> 14 [
-    label = ""
-  ];
-  17 -> 18 [
+  3 -> 5 [
     label = ""
   ];
   4 -> 3 [
     label = ""
   ];
-  30 -> 40 [
+  8 -> 7 [
     label = ""
   ];
-  34 -> 33 [
-    label = false
-  ];
-  36 -> 15 [
+  40 -> 41 [
     label = ""
   ];
-  13 -> 16 [
+  17 -> 16 [
     label = ""
   ];
-  24 -> 35 [
-    label = true
-  ];
-  8 -> 9 [
+  9 -> 8 [
     label = ""
   ];
-  29 -> 27 [
+  23 -> 22 [
     label = ""
   ];
-  20 -> 21 [
+  36 -> 40 [
+    label = "edu.cmu.cs.crystal.cfg.eclipse.Try.TestException"
+  ];
+  10 -> 9 [
     label = ""
   ];
-  38 -> 37 [
-    label = ""
-  ];
-  41 -> 1 [
-    label = ""
-  ];
-  25 -> 31 [
+  25 -> 23 [
     label = ""
   ];
 }

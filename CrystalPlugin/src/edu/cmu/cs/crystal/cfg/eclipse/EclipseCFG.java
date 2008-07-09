@@ -1,27 +1,26 @@
 /**
- * Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman,
- * Kevin Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa, and others.
- *
+ * Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman, Kevin
+ * Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa, and others.
+ * 
  * This file is part of Crystal.
- *
- * Crystal is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Crystal is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Crystal is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Crystal is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Crystal. If
+ * not, see <http://www.gnu.org/licenses/>.
  */
 package edu.cmu.cs.crystal.cfg.eclipse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -88,6 +87,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
+import org.eclipse.jdt.core.dom.InfixExpression.Operator;
 
 import att.grappa.Graph;
 import edu.cmu.cs.crystal.BooleanLabel;
@@ -102,44 +102,47 @@ import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 
 /**
- * Builds a CFG on the Eclipse AST. This class has been tested at the method
- * level only, it has not been tested at higher or lower levels, though it would
- * theoretically work.
+ * Builds a CFG on the Eclipse AST. This class has been tested at the method level only, it has not
+ * been tested at higher or lower levels, though it would theoretically work.
  * 
- * There is an interesting problem regarding when the transfer function for a
- * node appears if it is a control flow statement. That is, when does the
- * transfer statement for constructs like if and while occur? We have produced
- * three possibilities:
+ * There is an interesting problem regarding when the transfer function for a node appears if it is
+ * a control flow statement. That is, when does the transfer statement for constructs like if and
+ * while occur? We have produced three possibilities:
  * 
- * Kevin: Should appear at the point when the branching of control flow occurs.
- * For example, the the conditionals of if and while.
+ * Kevin: Should appear at the point when the branching of control flow occurs. For example, the the
+ * conditionals of if and while.
  * 
- * Nels: Should appear at the merge point of the control flow. This is the
- * conditional for while, and the node that merges the two if branches.
+ * Nels: Should appear at the merge point of the control flow. This is the conditional for while,
+ * and the node that merges the two if branches.
  * 
- * Ciera: Should appear after all the children have been visited. This is the
- * merge point on if, and it is the node after the conditional on while.
+ * Ciera: Should appear after all the children have been visited. This is the merge point on if, and
+ * it is the node after the conditional on while.
  * 
- * Then we decided that no one in their right mind should be using transfer
- * functions on control flow anyway, so we can do whatever we want. Since I'm
- * writing this and I have a nice design for the third option anyway, we're
- * going with that.
+ * Then we decided that no one in their right mind should be using transfer functions on control
+ * flow anyway, so we can do whatever we want. Since I'm writing this and I have a nice design for
+ * the third option anyway, we're going with that.
  * 
- * Algorithm description: This class visits each node of the AST. When it visits
- * a node, it maps the ASTNode to the CFGNode that it is creating. This allows a
- * parent node to pull it out later and insert it into the graph. There are
- * several other data structures to help us with control flow. These are
- * described individually later. - In the previsit method, we create the node
- * and put it in the map. - In the visit method, we prepare any data structures
- * that will be needed by the children. - In the endvisit method, we put
- * together the CFG for this node and its children (with the exception of any
- * edges that were added by children through the data structures.
+ * Algorithm description: This class visits each node of the AST. When it visits a node, it maps the
+ * ASTNode to the CFGNode that it is creating. This allows a parent node to pull it out later and
+ * insert it into the graph. There are several other data structures to help us with control flow.
+ * These are described individually later. - In the previsit method, we create the node and put it
+ * in the map. - In the visit method, we prepare any data structures that will be needed by the
+ * children. - In the endvisit method, we put together the CFG for this node and its children (with
+ * the exception of any edges that were added by children through the data structures.
  * 
  * @author cchristo
  */
-public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
-		Cloneable {
-	protected EclipseCFGNode normalExit;
+public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneable {
+
+	// build simple cfg first, many edges into and out of finally
+	// then traverse using a DFS. When we encounter an exception tag, track it
+	// to a finally.
+	// mark the entrance/exit of the finally duplicate if necessary and store
+	// remember to stop within a finally and use the "original" if we hit a
+	// control flow statement that overrides normal flow
+	// continue until no more tags have been traversed.
+
+	// protected EclipseCFGNode normalExit;
 
 	protected BlockStack<EclipseCFGNode> blockStack;
 
@@ -151,6 +154,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	 * Each call to endvisit will reset what the startNode and endNode is.
 	 */
 	protected EclipseCFGNode startNode;
+	protected EclipseCFGNode uberReturn;
+	protected Map<ITypeBinding, EclipseCFGNode> excpReturns;
 	protected EclipseCFGNode endNode;
 	protected String name;
 
@@ -159,7 +164,6 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		blockStack = new BlockStack();
 		exceptionMap = new ExceptionMap<EclipseCFGNode>();
 		EclipseCFGNode.NEXT_ID = 0;
-		name = method.getName().getFullyQualifiedName();
 		createGraph(method);
 	}
 
@@ -175,16 +179,20 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		method.accept(this);
 	}
 
-	public void createGraphFromAnyPoint(ASTNode startPoint) {
-		startPoint.accept(this);
-	}
-
 	public ICFGNode getStartNode() {
 		return startNode;
 	}
 
 	public ICFGNode getEndNode() {
 		return endNode;
+	}
+
+	public ICFGNode getUberReturn() {
+		return uberReturn;
+	}
+
+	public Map<ITypeBinding, EclipseCFGNode> getExceptionalReturns() {
+		return excpReturns;
 	}
 
 	public Graph getDotGraph() {
@@ -194,13 +202,11 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	}
 
 	/**
-	 * Why might source be null? We get source from an endNode of something
-	 * else. endNodes are allowed to be null if a node decides to handle their
-	 * own outgoing control flow. This happens in breaks, returns, continues,
-	 * throws, etc.
+	 * Why might source be null? We get source from an endNode of something else. endNodes are
+	 * allowed to be null if a node decides to handle their own outgoing control flow. This happens
+	 * in breaks, returns, continues, throws, etc.
 	 */
-	private void createEdge(EclipseCFGNode source, EclipseCFGNode sink,
-			ILabel label) {
+	private void createEdge(EclipseCFGNode source, EclipseCFGNode sink, ILabel label) {
 		if (source != null) {
 			EclipseCFGEdge edge = new EclipseCFGEdge(source, sink, label);
 			source.addOutputEdge(edge);
@@ -213,32 +219,27 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		createEdge(source, sink, label);
 	}
 
-	protected void createItrEdge(EclipseCFGNode source, EclipseCFGNode sink,
-			boolean isEmpty) {
+	protected void createItrEdge(EclipseCFGNode source, EclipseCFGNode sink, boolean isEmpty) {
 		IteratorLabel label = IteratorLabel.getItrLabel(isEmpty);
 		createEdge(source, sink, label);
 	}
 
-	protected void createEdge(EclipseCFGNode source, EclipseCFGNode sink,
-			boolean boolValue) {
+	protected void createBooleanEdge(EclipseCFGNode source, EclipseCFGNode sink, boolean boolValue) {
 		BooleanLabel label = BooleanLabel.getBooleanLabel(boolValue);
 		createEdge(source, sink, label);
 	}
 
-	protected void createEdge(EclipseCFGNode source, EclipseCFGNode sink,
-			ITypeBinding exception) {
+	protected void createEdge(EclipseCFGNode source, EclipseCFGNode sink, ITypeBinding exception) {
 		ExceptionalLabel label = new ExceptionalLabel(exception);
 		createEdge(source, sink, label);
 	}
 
-	protected void createEdge(EclipseCFGNode source, EclipseCFGNode sink,
-			Expression switchCase) {
+	protected void createEdge(EclipseCFGNode source, EclipseCFGNode sink, Expression switchCase) {
 		SwitchLabel label = new SwitchLabel(switchCase);
 		createEdge(source, sink, label);
 	}
 
-	private void makeListEdges(EclipseCFGNode init, List<ASTNode> list,
-			EclipseCFGNode parent) {
+	private void makeListEdges(EclipseCFGNode init, List<ASTNode> list, EclipseCFGNode parent) {
 		EclipseCFGNode current, last = init;
 
 		if (last != null) {
@@ -249,7 +250,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 			current = nodeMap.get(node);
 			if (last != null) {
 				createEdge(last.getEnd(), current.getStart());
-			} else
+			}
+			else
 				parent.setStart(current.getStart());
 			last = current;
 		}
@@ -265,98 +267,128 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		nodeMap.put(node, cfgNode);
 	}
 
-	// clone the existing cfg, including all internal state
-	// call createGraph on node.getFinally()
-	// previsit will overwrite all nodes in that block
-	// otherwise, we will be reusing the existing nodes
-	// this will happen to create new nodes on our graph
-	// call newGraph.nodeMap to access the new finallyNode.
-	// hook it in, and we're done?
-	private EclipseCFGNode cloneCFGOnNode(ASTNode node) {
-		EclipseCFG clonedcfg = (EclipseCFG) this.clone();
-		clonedcfg.createGraphFromAnyPoint(node);
-		return clonedcfg.nodeMap.get(node);
+	/**
+	 * Creates an edge DIRECTLY from source to the proper finally blocks, and then from the finally
+	 * blocks DIRECTLY to the destination. By directly, this means that it won't call getEnd or
+	 * getStart. It uses the exceptionToStopAt to determine which finally blocks to grab. It will
+	 * also make the edge from the source to the finally block have this exception. A normal edge
+	 * will be used when exceptionToStopAt is null
+	 */
+	protected void hookFinally(EclipseCFGNode source, ITypeBinding exceptionToStopAt,
+	    EclipseCFGNode dest) {
+		Stack<EclipseCFGNode> finallyStack = exceptionMap.getFinallyToException(exceptionToStopAt);
+		EclipseCFGNode last = null, current = null, cloneCurrent = null, first = null;
+
+		while (!finallyStack.isEmpty()) {
+			current = finallyStack.pop();
+			cloneCurrent = copySubgraph(current);
+
+			if (first == null)
+				first = cloneCurrent;
+
+			if (last != null)
+				createEdge(last.getEnd(), cloneCurrent.getStart());
+			last = cloneCurrent;
+		}
+
+		if (first != null) { // there is a finally
+			if (exceptionToStopAt == null)
+				createEdge(source, first.getStart());
+			else
+				createEdge(source, first.getStart(), exceptionToStopAt);
+			createEdge(last.getEnd(), dest);
+		}
+		else {
+			// no finally
+			if (exceptionToStopAt == null)
+				createEdge(source, dest);
+			else
+				createEdge(source, dest, exceptionToStopAt);
+		}
+	}
+
+	private EclipseCFGNode copySubgraph(EclipseCFGNode current) {
+		HashMap<EclipseCFGNode, EclipseCFGNode> cloneMap =
+		    new HashMap<EclipseCFGNode, EclipseCFGNode>();
+		EclipseCFGNode cloneNode;
+
+		copySubgraphRecur(current.getStart(), current.getEnd(), cloneMap);
+
+		cloneNode = cloneMap.get(current);
+		return cloneNode;
 	}
 
 	/**
-	 * 
-	 * @param exceptionToStopAt
-	 * @return The node which a return or throw should connect to in order to
-	 *         get the finallys called properly. This node is a dummy node with
-	 *         no AST, it's only purpose is to make these connections.
+	 * @param current
+	 * @return
 	 */
-	protected EclipseCFGNode createCascadingFinally(
-			ITypeBinding exceptionToStopAt) {
-		Stack<EclipseCFGNode> finallyStack = exceptionMap
-				.getFinallyToException(exceptionToStopAt);
-		EclipseCFGNode last = null, current = null, dummy = new EclipseCFGNode(
-				null);
+	private EclipseCFGNode copySubgraphRecur(EclipseCFGNode current, EclipseCFGNode stopNode,
+	    HashMap<EclipseCFGNode, EclipseCFGNode> cloneMap) {
+		ASTNode node = current.getASTNode();
+		EclipseCFGNode clone = new EclipseCFGNode(node);
+		EclipseCFGNode start = current.getStart();
+		EclipseCFGNode end = current.getEnd();
 
-		if (finallyStack.isEmpty())
-			return null;
+		clone.setName(current.getName());
+		cloneMap.put(current, clone);
 
-		while (!finallyStack.isEmpty()) {
-			EclipseCFGNode finallyNode = finallyStack.pop();
+		if (current == stopNode || node instanceof ReturnStatement
+		    || node instanceof ThrowStatement || node instanceof BreakStatement
+		    || node instanceof ContinueStatement) {
+			for (EclipseCFGEdge edge : current.getOutputs()) {
+				EclipseCFGEdge cloneEdge =
+				    new EclipseCFGEdge(clone, edge.getSink(), edge.getLabel());
+				edge.getSink().addInputEdge(cloneEdge);
+				clone.addOutputEdge(cloneEdge);
+			}
+		}
+		else {
+			for (EclipseCFGEdge edge : current.getOutputs()) {
+				EclipseCFGNode cloneSink = copySubgraphRecur(edge.getSink(), stopNode, cloneMap);
+				EclipseCFGEdge cloneEdge = new EclipseCFGEdge(clone, cloneSink, edge.getLabel());
 
-			if (finallyNode.getASTNode() != null)
-				current = cloneCFGOnNode(finallyNode.getASTNode());
-			else
-				current = finallyNode;
-
-			if (last != null)
-				createEdge(last.getEnd(), current.getStart());
-			else
-				dummy.setStart(current.getStart());
-			last = current;
+				cloneSink.addInputEdge(cloneEdge);
+				clone.addOutputEdge(cloneEdge);
+			}
 		}
 
-		dummy.setEnd(last.getEnd());
+		if (cloneMap.containsKey(start))
+			start = cloneMap.get(start);
+		if (cloneMap.containsKey(end))
+			end = cloneMap.get(end);
 
-		return dummy;
-	}
+		clone.setStart(start);
+		clone.setEnd(end);
 
-	public Object clone() {
-		try {
-			int nodeCounter = EclipseCFGNode.NEXT_ID;
-			EclipseCFG clonedcfg = new EclipseCFG();
-			EclipseCFGNode.NEXT_ID = nodeCounter;
-
-			clonedcfg.exceptionMap = (ExceptionMap) this.exceptionMap.clone();
-			clonedcfg.blockStack = this.blockStack.clone();
-			clonedcfg.nodeMap = (HashMap<ASTNode, EclipseCFGNode>) this.nodeMap
-					.clone();
-			clonedcfg.normalExit = this.normalExit;
-
-			return clonedcfg;
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return clone;
 	}
 
 	/* CONTROL FLOW */
-
 	@Override
 	public void endVisit(AssertStatement node) {
 		EclipseCFGNode assertNode = nodeMap.get(node);
 		EclipseCFGNode expNode = nodeMap.get(node.getExpression());
 		EclipseCFGNode messageNode = nodeMap.get(node.getMessage());
+		EclipseCFGNode falsePath = new EclipseCFGNode(null);
 		// ITypeBinding binding = getAssertionErrorBinding();
-		// EclipseCFGNode finallys = createCascadingFinally(binding);
 		// EclipseCFGNode catchNode = exceptionMap.getCatchNode(binding);
 
 		createEdge(assertNode, expNode.getStart());
 		assertNode.setStart(expNode.getStart());
-		createEdge(expNode.getEnd(), assertNode, true);
+		createBooleanEdge(expNode.getEnd(), assertNode, true);
 
-		// createEdge(expNode.getEnd(), messageNode.getStart(), false);
+		falsePath.setName("POP!");
 
-		// if (finallys != null) {
-		// createEdge(messageNode.getEnd(), finallys.getStart(), binding);
-		// if (catchNode != null)
-		// createEdge(finallys.getEnd(), catchNode.getStart());
-		// } else if (catchNode != null)
-		// createEdge(messageNode.getEnd(), catchNode.getStart(), binding);
+		if (messageNode != null) {
+			createBooleanEdge(expNode.getEnd(), messageNode.getStart(), false);
+			createEdge(messageNode.getEnd(), falsePath);
+		}
+		else {
+			createBooleanEdge(expNode.getEnd(), falsePath, false);
+		}
+
+		// hookFinally(falsePath, binding, catchNode);
+
 	}
 
 	@Override
@@ -369,24 +401,22 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	@Override
 	public void endVisit(BreakStatement node) {
 		EclipseCFGNode breakStmnt = nodeMap.get(node);
-		String label = (node.getLabel() != null) ? node.getLabel()
-				.getIdentifier() : null;
+		String label = (node.getLabel() != null) ? node.getLabel().getIdentifier() : null;
 
 		EclipseCFGNode breakPoint = blockStack.getBreakPoint(label);
 		breakStmnt.setName("break");
-		createEdge(breakStmnt, breakPoint);
+		hookFinally(breakStmnt, null, breakPoint);
 		breakStmnt.setEnd(null);
 	}
 
 	@Override
 	public void endVisit(ContinueStatement node) {
 		EclipseCFGNode continueStmnt = nodeMap.get(node);
-		String label = (node.getLabel() != null) ? node.getLabel()
-				.getIdentifier() : null;
+		String label = (node.getLabel() != null) ? node.getLabel().getIdentifier() : null;
 
 		EclipseCFGNode continuePoint = blockStack.getContinuePoint(label);
 		continueStmnt.setName("continue");
-		createEdge(continueStmnt, continuePoint);
+		hookFinally(continueStmnt, null, continuePoint);
 		continueStmnt.setEnd(null);
 	}
 
@@ -397,9 +427,9 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		EclipseCFGNode thenClause = nodeMap.get(node.getThenExpression());
 		EclipseCFGNode elseClause = nodeMap.get(node.getElseExpression());
 
-		createEdge(cond.getEnd(), thenClause.getStart(), true);
+		createBooleanEdge(cond.getEnd(), thenClause.getStart(), true);
 		createEdge(thenClause.getEnd(), ifExp);
-		createEdge(cond.getEnd(), elseClause.getStart(), false);
+		createBooleanEdge(cond.getEnd(), elseClause.getStart(), false);
 		createEdge(elseClause.getEnd(), ifExp);
 
 		ifExp.setStart(cond.getStart());
@@ -426,8 +456,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 
 		createEdge(doBegin, body.getStart());
 		createEdge(body.getEnd(), cond.getStart());
-		createEdge(cond.getEnd(), body.getStart(), true);
-		createEdge(cond.getEnd(), doEnd, false);
+		createBooleanEdge(cond.getEnd(), body.getStart(), true);
+		createBooleanEdge(cond.getEnd(), doEnd, false);
 
 		blockStack.popUnlabeled();
 
@@ -503,9 +533,10 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 			else
 				forEnd.setStart(cond.getStart());
 
-			createEdge(cond.getEnd(), forEnd, false);
-			createEdge(cond.getEnd(), body.getStart(), true);
-		} else {
+			createBooleanEdge(cond.getEnd(), forEnd, false);
+			createBooleanEdge(cond.getEnd(), body.getStart(), true);
+		}
+		else {
 			if (last != null)
 				createEdge(last.getEnd(), body.getStart());
 			else
@@ -573,15 +604,16 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		EclipseCFGNode cond = nodeMap.get(node.getExpression());
 		EclipseCFGNode thenClause = nodeMap.get(node.getThenStatement());
 
-		createEdge(cond.getEnd(), thenClause.getStart(), true);
+		createBooleanEdge(cond.getEnd(), thenClause.getStart(), true);
 		createEdge(thenClause.getEnd(), ifStmnt);
 
 		if (node.getElseStatement() != null) {
 			EclipseCFGNode elseClause = nodeMap.get(node.getElseStatement());
-			createEdge(cond.getEnd(), elseClause.getStart(), false);
+			createBooleanEdge(cond.getEnd(), elseClause.getStart(), false);
 			createEdge(elseClause.getEnd(), ifStmnt);
-		} else {
-			createEdge(cond.getEnd(), ifStmnt, false);
+		}
+		else {
+			createBooleanEdge(cond.getEnd(), ifStmnt, false);
 		}
 
 		ifStmnt.setStart(cond.getStart());
@@ -591,22 +623,27 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	@Override
 	public boolean visit(MethodDeclaration node) {
 		EclipseCFGNode method = nodeMap.get(node);
-		EclipseCFGNode implicitFinally = new EclipseCFGNode(null);
+		// EclipseCFGNode implicitFinally = new EclipseCFGNode(null);
 		EclipseCFGNode implicitCatch;
 
-		normalExit = implicitFinally;
-		implicitFinally.setName("(finally)");
-		createEdge(implicitFinally, method);
-		method.setStart(implicitFinally);
+		excpReturns = new HashMap<ITypeBinding, EclipseCFGNode>();
 
-		exceptionMap.pushFinally(implicitFinally);
+		// normalExit = implicitFinally;
+		// implicitFinally.setName("(finally)");
+		// createEdge(implicitFinally, method);
+		// method.setStart(implicitFinally);
+
 		for (Name name : (List<Name>) node.thrownExceptions()) {
 			implicitCatch = new EclipseCFGNode(null);
 			createEdge(implicitCatch, method);
 			implicitCatch.setName("(throws)");
-			exceptionMap.pushCatch(implicitCatch, (ITypeBinding) name
-					.resolveBinding());
+			exceptionMap.pushCatch(implicitCatch, (ITypeBinding) name.resolveBinding());
+			excpReturns.put(name.resolveTypeBinding(), implicitCatch);
 		}
+
+		uberReturn = new EclipseCFGNode(null);
+		uberReturn.setName("(finally)");
+		createEdge(uberReturn, method);
 
 		if (node.isConstructor()) {
 			TypeDeclaration type = (TypeDeclaration) node.getParent();
@@ -647,20 +684,20 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		else
 			body = setUpMethodBody(node);
 
-		// connect the end of the body to the current start
-		// of method, which is the finally chain.
-		createEdge(body.getEnd(), method.getStart());
+		// connect the end of the body to the fall-off return
+		createEdge(body.getEnd(), uberReturn);
 
 		if (last != null) {
 			createEdge(last.getEnd(), body.getStart());
 			method.setStart(nodeMap.get(node.parameters().get(0)));
-		} else
+		}
+		else
 			method.setStart(body.getStart());
 
 		// finish off exceptions
 		for (int ndx = 0; ndx < node.thrownExceptions().size(); ndx++)
 			exceptionMap.popCatch();
-		exceptionMap.popFinally();
+		// exceptionMap.popFinally();
 
 		startNode = method.getStart();
 		endNode = method;
@@ -668,24 +705,21 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	}
 
 	/**
-	 * set up the body part of a constructor declaration. Return the node that
-	 * represents the body.
+	 * set up the body part of a constructor declaration. Return the node that represents the body.
 	 * 
 	 * @param node
 	 * @return
 	 */
 	private EclipseCFGNode setUpConstructorBody(MethodDeclaration node) {
 		EclipseCFGNode last = null, current = null;
-		List<ASTNode> statements = new ArrayList<ASTNode>(node.getBody()
-				.statements());
+		List<ASTNode> statements = new ArrayList<ASTNode>(node.getBody().statements());
 		ASTNode firstStmt = null;
 		EclipseCFGNode body = new EclipseCFGNode(node.getBody());
 
 		// connect field declarations with initializers together
-		for (FieldDeclaration field : ((TypeDeclaration) node.getParent())
-				.getFields()) {
+		for (FieldDeclaration field : ((TypeDeclaration) node.getParent()).getFields()) {
 			for (VariableDeclarationFragment frag : (List<VariableDeclarationFragment>) field
-					.fragments()) {
+			    .fragments()) {
 				if (frag.getInitializer() != null) {
 					current = nodeMap.get(frag);
 					if (last != null) {
@@ -709,7 +743,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 				}
 				last = current;
 				statements.remove(firstStmt);
-			} else if (firstStmt instanceof ConstructorInvocation) {
+			}
+			else if (firstStmt instanceof ConstructorInvocation) {
 				last = null;
 			}
 		}
@@ -720,8 +755,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	}
 
 	/**
-	 * set up the body part of a method declaration. Return the node that
-	 * represents the body.
+	 * set up the body part of a method declaration. Return the node that represents the body.
 	 * 
 	 * @param node
 	 * @return
@@ -739,14 +773,13 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	public void endVisit(ReturnStatement node) {
 		EclipseCFGNode ret = nodeMap.get(node);
 		EclipseCFGNode exp = nodeMap.get(node.getExpression());
-		EclipseCFGNode finallys = createCascadingFinally(null);
 
 		if (exp != null) {
 			createEdge(exp.getEnd(), ret);
 			ret.setStart(exp.getStart());
 		}
 
-		createEdge(ret, finallys.getStart());
+		hookFinally(ret, (ITypeBinding) null, uberReturn);
 
 		ret.setEnd(null);
 		ret.setName("return");
@@ -780,11 +813,10 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 			EclipseCFGNode current = nodeMap.get(currentAST);
 
 			if (currentAST instanceof SwitchCase) {
-				createEdge(exp.getEnd(), current.getStart(),
-						((SwitchCase) currentAST).getExpression());
+				createEdge(exp.getEnd(), current.getStart(), ((SwitchCase) currentAST)
+				    .getExpression());
 				createEdge(current.getEnd(), last);
-				hasDefault = hasDefault
-						|| ((SwitchCase) currentAST).getExpression() == null;
+				hasDefault = hasDefault || ((SwitchCase) currentAST).getExpression() == null;
 				continue;
 			}
 			createEdge(current.getEnd(), last);
@@ -826,20 +858,12 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		EclipseCFGNode throwNode = nodeMap.get(node);
 		EclipseCFGNode expNode = nodeMap.get(node.getExpression());
 		ITypeBinding binding = node.getExpression().resolveTypeBinding();
-		EclipseCFGNode finallys = createCascadingFinally(binding);
 		EclipseCFGNode catchNode = exceptionMap.getCatchNode(binding);
 		EclipseCFGNode current = throwNode;
 
 		createEdge(expNode.getEnd(), throwNode);
 
-		if (finallys != null) {
-			createEdge(throwNode, finallys.getStart(), node.getExpression()
-					.resolveTypeBinding());
-			if (catchNode != null)
-				createEdge(finallys.getEnd(), catchNode.getStart());
-		} else if (catchNode != null)
-			createEdge(throwNode, catchNode.getStart(), node.getExpression()
-					.resolveTypeBinding());
+		hookFinally(throwNode, binding, catchNode.getStart());
 
 		throwNode.setStart(expNode.getStart());
 		throwNode.setName("throw");
@@ -858,14 +882,15 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 			node.getFinally().accept(this);
 			finallyNode = nodeMap.get(node.getFinally());
 			exceptionMap.pushFinally(finallyNode);
+
 		}
 
 		// then analyze the catches
 		for (CatchClause catchClause : (List<CatchClause>) node.catchClauses()) {
 			catchClause.accept(this);
 			catchNode = nodeMap.get(catchClause);
-			exceptionMap.pushCatch(catchNode, catchClause.getException()
-					.getType().resolveBinding());
+			exceptionMap
+			    .pushCatch(catchNode, catchClause.getException().getType().resolveBinding());
 		}
 
 		// analyze body now that the exceptionMap is set up
@@ -879,9 +904,14 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		// set up normal flow
 		if (finallyNode != null) {
 			exceptionMap.popFinally();
-			createEdge(bodyNode.getEnd(), finallyNode.getStart());
-			createEdge(finallyNode.getEnd(), tryNode);
-		} else
+			if (bodyNode.getEnd() != null) {
+				// if the try has no normal ending, don't attach it to the
+				// finally
+				createEdge(bodyNode.getEnd(), finallyNode.getStart());
+				createEdge(finallyNode.getEnd(), tryNode);
+			}
+		}
+		else
 			createEdge(bodyNode.getEnd(), tryNode);
 
 		// set up exceptional flow
@@ -918,8 +948,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		EclipseCFGNode whileBegin = whileEnd.getStart();
 
 		createEdge(whileBegin, cond.getStart());
-		createEdge(cond.getEnd(), whileEnd, false);
-		createEdge(cond.getEnd(), body.getStart(), true);
+		createBooleanEdge(cond.getEnd(), whileEnd, false);
+		createBooleanEdge(cond.getEnd(), body.getStart(), true);
 		createEdge(body.getEnd(), cond.getStart());
 
 		blockStack.popUnlabeled();
@@ -965,7 +995,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		if (node.getExpression() != null) {
 			EclipseCFGNode exp = nodeMap.get(node.getExpression());
 			nodeMap.put(node, exp);
-		} else {
+		}
+		else {
 			EclipseCFGNode defCase = nodeMap.get(node);
 			defCase.setName("default");
 		}
@@ -1038,26 +1069,26 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		EclipseCFGNode type = nodeMap.get(node.getType());
 		EclipseCFGNode decl = handleVariableDecl(node, type);
 
-		decl.setName(node.getType().toString() + " "
-				+ node.getName().getIdentifier());
+		decl.setName(node.getType().toString() + " " + node.getName().getIdentifier());
 	}
 
-	private EclipseCFGNode handleVariableDecl(VariableDeclaration node,
-			EclipseCFGNode startPoint) {
+	private EclipseCFGNode handleVariableDecl(VariableDeclaration node, EclipseCFGNode startPoint) {
 		EclipseCFGNode decl = nodeMap.get(node);
 		EclipseCFGNode name = nodeMap.get(node.getName());
 
 		if (startPoint != null) {
 			createEdge(decl, startPoint.getStart());
 			createEdge(startPoint.getEnd(), name.getStart());
-		} else
+		}
+		else
 			createEdge(decl, name.getStart());
 
 		if (node.getInitializer() != null) {
 			EclipseCFGNode init = nodeMap.get(node.getInitializer());
 			createEdge(name.getEnd(), init.getStart());
 			decl.setEnd(init.getEnd());
-		} else
+		}
+		else
 			decl.setEnd(name.getEnd());
 
 		decl.setStart(decl);
@@ -1142,13 +1173,11 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		EclipseCFGNode infix = nodeMap.get(node);
 		EclipseCFGNode lhs = nodeMap.get(node.getLeftOperand());
 		EclipseCFGNode rhs = nodeMap.get(node.getRightOperand());
+		Operator op = node.getOperator();
 
 		// short circuiting
-		if (node.getOperator().equals(InfixExpression.Operator.CONDITIONAL_AND)
-				|| node.getOperator().equals(
-						InfixExpression.Operator.CONDITIONAL_OR)) {
-			boolean isAnd = node.getOperator().equals(
-					InfixExpression.Operator.CONDITIONAL_AND);
+		if (op.equals(Operator.CONDITIONAL_AND) || op.equals(Operator.CONDITIONAL_OR)) {
+			boolean isAnd = node.getOperator().equals(InfixExpression.Operator.CONDITIONAL_AND);
 			List<Expression> operands = new ArrayList<Expression>();
 			EclipseCFGNode last = null;
 
@@ -1160,18 +1189,19 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 
 			for (Expression opNode : operands) {
 				EclipseCFGNode operand = nodeMap.get(opNode);
-				boolean edgeType = node.getOperator().equals(
-						InfixExpression.Operator.CONDITIONAL_OR);
+				boolean edgeType =
+				    node.getOperator().equals(InfixExpression.Operator.CONDITIONAL_OR);
 
 				if (last != null)
-					createEdge(last.getEnd(), operand.getStart(), isAnd);
-				createEdge(operand.getEnd(), infix, !isAnd);
+					createBooleanEdge(last.getEnd(), operand.getStart(), isAnd);
+				createBooleanEdge(operand.getEnd(), infix, !isAnd);
 				if (ndx == operands.size() - 1)
-					createEdge(operand.getEnd(), infix, isAnd);
+					createBooleanEdge(operand.getEnd(), infix, isAnd);
 				last = operand;
 				ndx++;
 			}
-		} else {
+		}
+		else {
 			createEdge(lhs.getEnd(), rhs.getStart());
 
 			makeListEdges(rhs, (List<ASTNode>) node.extendedOperands(), infix);
@@ -1202,8 +1232,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		makeListEdges(null, (List<ASTNode>) node.arguments(), constructor);
 
 		// handle exception edges
-		for (ITypeBinding exception : node.resolveConstructorBinding()
-				.getExceptionTypes()) {
+		for (ITypeBinding exception : node.resolveConstructorBinding().getExceptionTypes()) {
 			EclipseCFGNode catchNode = exceptionMap.getCatchNode(exception);
 
 			if (catchNode != null)
@@ -1220,12 +1249,11 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		EclipseCFGNode invocation = nodeMap.get(node);
 
 		// normal edges
-		makeListEdges(nodeMap.get(node.getExpression()), (List<ASTNode>) node
-				.arguments(), invocation);
+		makeListEdges(
+		    nodeMap.get(node.getExpression()), (List<ASTNode>) node.arguments(), invocation);
 
 		// handle exception edges
-		for (ITypeBinding exception : node.resolveMethodBinding()
-				.getExceptionTypes()) {
+		for (ITypeBinding exception : node.resolveMethodBinding().getExceptionTypes()) {
 			EclipseCFGNode catchNode = exceptionMap.getCatchNode(exception);
 
 			if (catchNode != null)
@@ -1290,7 +1318,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 			EclipseCFGNode qual = nodeMap.get(node.getQualifier());
 			createEdge(qual.getEnd(), name.getStart());
 			field.setStart(qual.getStart());
-		} else
+		}
+		else
 			field.setStart(name.getStart());
 	}
 
@@ -1304,8 +1333,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 	}
 
 	/*
-	 * These methods are only here for debugging purposes and can be removed
-	 * later.
+	 * These methods are only here for debugging purposes and can be removed later.
 	 */
 
 	@Override

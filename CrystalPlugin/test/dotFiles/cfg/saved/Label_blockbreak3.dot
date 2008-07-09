@@ -119,61 +119,67 @@ digraph blockbreak3 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  25 -> 24 [
+  16 -> 21 [
     label = ""
-  ];
-  11 -> 25 [
-    label = false
-  ];
-  8 -> 30 [
-    label = ""
-  ];
-  4 -> 11 [
-    label = ""
-  ];
-  11 -> 14 [
-    label = true
-  ];
-  10 -> 8 [
-    label = ""
-  ];
-  27 -> 10 [
-    label = ""
-  ];
-  12 -> 10 [
-    label = ""
-  ];
-  18 -> 10 [
-    label = ""
-  ];
-  24 -> 27 [
-    label = ""
-  ];
-  17 -> 18 [
-    label = true
   ];
   7 -> 5 [
-    label = ""
-  ];
-  29 -> 7 [
     label = ""
   ];
   17 -> 16 [
     label = false
   ];
-  30 -> 29 [
-    label = ""
+  11 -> 25 [
+    label = false
   ];
-  13 -> 17 [
-    label = ""
-  ];
-  14 -> 13 [
+  4 -> 11 [
     label = ""
   ];
   3 -> 4 [
     label = ""
   ];
+  24 -> 27 [
+    label = ""
+  ];
+  12 -> 10 [
+    label = ""
+  ];
   1 -> 0 [
+    label = ""
+  ];
+  18 -> 10 [
+    label = ""
+  ];
+  20 -> 12 [
+    label = ""
+  ];
+  17 -> 18 [
+    label = true
+  ];
+  25 -> 24 [
+    label = ""
+  ];
+  13 -> 17 [
+    label = ""
+  ];
+  29 -> 7 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  30 -> 29 [
+    label = ""
+  ];
+  27 -> 10 [
+    label = ""
+  ];
+  11 -> 14 [
+    label = true
+  ];
+  8 -> 30 [
+    label = ""
+  ];
+  10 -> 8 [
     label = ""
   ];
   2 -> 3 [
@@ -182,16 +188,10 @@ digraph blockbreak3 {
   32 -> 1 [
     label = ""
   ];
-  20 -> 12 [
-    label = ""
-  ];
-  5 -> 32 [
-    label = ""
-  ];
   21 -> 20 [
     label = ""
   ];
-  16 -> 21 [
+  5 -> 32 [
     label = ""
   ];
 }

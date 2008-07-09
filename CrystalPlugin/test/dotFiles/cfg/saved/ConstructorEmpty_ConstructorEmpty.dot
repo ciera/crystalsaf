@@ -38,10 +38,10 @@ digraph ConstructorEmpty {
   8 -> 1 [
     label = ""
   ];
-  1 -> 0 [
+  6 -> 7 [
     label = ""
   ];
-  6 -> 7 [
+  1 -> 0 [
     label = ""
   ];
 }

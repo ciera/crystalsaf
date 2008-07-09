@@ -97,26 +97,38 @@ digraph nestedLoopContinue {
   1 -> 0 [
     label = ""
   ];
-  21 -> 1 [
+  18 -> 19 [
+    label = true
+  ];
+  15 -> 14 [
+    label = false
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  19 -> 7 [
     label = ""
   ];
   16 -> 13 [
     label = ""
   ];
-  17 -> 16 [
+  2 -> 3 [
     label = ""
   ];
-  5 -> 21 [
-    label = ""
-  ];
-  18 -> 17 [
+  9 -> 8 [
     label = false
   ];
-  2 -> 3 [
+  10 -> 7 [
+    label = ""
+  ];
+  13 -> 15 [
     label = ""
   ];
   11 -> 10 [
     label = ""
+  ];
+  9 -> 13 [
+    label = true
   ];
   7 -> 9 [
     label = ""
@@ -127,34 +139,22 @@ digraph nestedLoopContinue {
   4 -> 7 [
     label = ""
   ];
-  15 -> 14 [
-    label = false
-  ];
-  18 -> 19 [
-    label = true
-  ];
-  3 -> 4 [
+  21 -> 1 [
     label = ""
   ];
-  19 -> 7 [
+  5 -> 21 [
+    label = ""
+  ];
+  17 -> 16 [
     label = ""
   ];
   8 -> 5 [
     label = ""
   ];
-  15 -> 18 [
-    label = true
-  ];
-  9 -> 8 [
+  18 -> 17 [
     label = false
   ];
-  13 -> 15 [
-    label = ""
-  ];
-  10 -> 7 [
-    label = ""
-  ];
-  9 -> 13 [
+  15 -> 18 [
     label = true
   ];
 }
