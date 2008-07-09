@@ -621,8 +621,9 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph,
 		// into constructors.
 		for (ASTNode param : (List<ASTNode>) node.parameters())
 			param.accept(this);
-		for (ASTNode stmt : (List<ASTNode>) node.getBody().statements())
-			stmt.accept(this);
+		if (node.getBody() != null)
+			for (ASTNode stmt : (List<ASTNode>) node.getBody().statements())
+				stmt.accept(this);
 
 		return false;
 	}

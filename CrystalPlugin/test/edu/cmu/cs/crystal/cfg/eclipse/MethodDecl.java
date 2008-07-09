@@ -31,7 +31,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MethodDecl {
+public abstract class MethodDecl {
 	// Assume that we are using a class where every method has a unique name
 	static Map<String, MethodDeclaration> methods = new HashMap<String, MethodDeclaration>();
 	static IProject project;
@@ -51,6 +51,15 @@ public class MethodDecl {
 
 	public void completelyEmpty() {
 	}
+	
+	@Test
+	public void abstractTest() throws Exception {
+		MethodDeclaration decl = methods.get("abstractMethod");
+		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
+	}
+	
+	public abstract void abstractMethod();	
+	
 
 	@Test
 	public void withParamsTest() throws Exception {
