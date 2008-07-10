@@ -1,61 +1,66 @@
 digraph nestTryFinally {
-  25 [
+  26 [
     label = bar,
     fontname = Helvetica,
     fontsize = 10
   ];
-  24 [
+  25 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  23 [
+  24 [
     label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
-  22 [
+  23 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  21 [
+  22 [
     label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
   20 [
-    label = ExpressionStatement,
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
   9 [
-    label = "=",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  8 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
+  8 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
   19 [
-    label = "{}",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  7 [
-    label = "{}",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
     label = err,
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = try,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = TestException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -65,12 +70,17 @@ digraph nestTryFinally {
     fontsize = 10
   ];
   5 [
-    label = message,
+    label = String,
     fontname = Helvetica,
     fontsize = 10
   ];
   16 [
-    label = TestException,
+    label = "TestException err",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  48 [
+    label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -80,57 +90,52 @@ digraph nestTryFinally {
     fontsize = 10
   ];
   15 [
-    label = "TestException err",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  47 [
-    label = Block,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  3 [
-    label = String,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  14 [
     label = catch,
     fontname = Helvetica,
     fontsize = 10
   ];
-  46 [
+  47 [
     label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "String message",
     fontname = Helvetica,
     fontsize = 10
   ];
-  13 [
+  14 [
     label = blah,
     fontname = Helvetica,
     fontsize = 10
   ];
-  45 [
+  46 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  44 [
+  45 [
     label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = "+",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  44 [
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -140,133 +145,86 @@ digraph nestTryFinally {
     fontsize = 10
   ];
   11 [
-    label = "+",
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
   43 [
-    label = message,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  10 [
-    label = message,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  42 [
     label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
-  41 [
+  10 [
+    label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  42 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  40 [
+  41 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  37 [
+  38 [
     label = "new TestException",
     fontname = Helvetica,
     fontsize = 10
   ];
-  36 [
+  37 [
     label = throw,
     fontname = Helvetica,
     fontsize = 10
   ];
-  24 -> 25 [
+  38 -> 37 [
     label = ""
   ];
-  11 -> 10 [
+  18 -> 17 [
     label = ""
   ];
-  18 -> 24 [
-    label = ""
-  ];
-  44 -> 45 [
-    label = ""
-  ];
-  47 -> 1 [
-    label = ""
-  ];
-  43 -> 44 [
-    label = ""
-  ];
-  6 -> 47 [
-    label = ""
-  ];
-  20 -> 19 [
-    label = ""
-  ];
-  42 -> 43 [
-    label = ""
-  ];
-  7 -> 6 [
-    label = ""
-  ];
-  21 -> 20 [
-    label = ""
-  ];
-  41 -> 42 [
-    label = ""
-  ];
-  22 -> 21 [
-    label = ""
-  ];
-  2 -> 4 [
-    label = ""
-  ];
-  15 -> 17 [
-    label = ""
-  ];
-  46 -> 15 [
-    label = ""
-  ];
-  45 -> 46 [
-    label = ""
-  ];
-  13 -> 11 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  14 -> 12 [
+  6 -> 38 [
     label = ""
   ];
   16 -> 18 [
     label = ""
   ];
-  19 -> 14 [
+  4 -> 6 [
     label = ""
   ];
-  12 -> 13 [
+  42 -> 43 [
     label = ""
   ];
-  37 -> 36 [
+  47 -> 16 [
     label = ""
   ];
-  5 -> 37 [
+  12 -> 11 [
     label = ""
   ];
-  3 -> 5 [
+  41 -> 42 [
     label = ""
   ];
-  4 -> 3 [
+  46 -> 47 [
     label = ""
   ];
-  8 -> 7 [
+  19 -> 25 [
     label = ""
   ];
-  40 -> 41 [
+  15 -> 13 [
     label = ""
   ];
-  17 -> 16 [
+  14 -> 12 [
+    label = ""
+  ];
+  37 -> 41 [
+    label = "edu.cmu.cs.crystal.cfg.eclipse.Try.TestException"
+  ];
+  17 -> 19 [
+    label = ""
+  ];
+  13 -> 14 [
     label = ""
   ];
   9 -> 8 [
@@ -275,13 +233,55 @@ digraph nestTryFinally {
   23 -> 22 [
     label = ""
   ];
-  36 -> 40 [
-    label = "edu.cmu.cs.crystal.cfg.eclipse.Try.TestException"
+  24 -> 23 [
+    label = ""
   ];
   10 -> 9 [
     label = ""
   ];
-  25 -> 23 [
+  11 -> 10 [
+    label = ""
+  ];
+  26 -> 24 [
+    label = ""
+  ];
+  25 -> 26 [
+    label = ""
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  3 -> 5 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  45 -> 46 [
+    label = ""
+  ];
+  48 -> 2 [
+    label = ""
+  ];
+  20 -> 15 [
+    label = ""
+  ];
+  44 -> 45 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+  7 -> 48 [
+    label = ""
+  ];
+  43 -> 44 [
+    label = ""
+  ];
+  8 -> 7 [
+    label = ""
+  ];
+  22 -> 21 [
     label = ""
   ];
 }

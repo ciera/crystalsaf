@@ -1,66 +1,66 @@
 digraph ConstructorSelf2 {
-  21 [
+  22 [
     label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
   19 [
-    label = sx,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
     label = "+=",
     fontname = Helvetica,
     fontsize = 10
   ];
-  20 [
+  21 [
     label = bar,
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 [
-    label = String,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  17 [
+  18 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 [
+  20 [
+    label = sx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
     label = "String sx",
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 [
+  17 [
     label = sx,
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = Integer,
     fontname = Helvetica,
     fontsize = 10
   ];
-  13 [
+  14 [
     label = "Call parseInt",
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = ConstructorInvocation,
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 [
+  12 [
     label = sx,
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = String,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -69,51 +69,62 @@ digraph ConstructorSelf2 {
     fontname = Helvetica,
     fontsize = 10
   ];
+  1 [
+    label = "(error)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
   0 [
     label = "Declare ConstructorSelf2",
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 -> 14 [
-    label = ""
-  ];
-  8 -> 10 [
-    label = ""
-  ];
   1 -> 0 [
     label = ""
   ];
-  18 -> 17 [
-    label = ""
-  ];
-  12 -> 20 [
-    label = ""
-  ];
-  14 -> 16 [
-    label = ""
-  ];
-  21 -> 1 [
-    label = ""
-  ];
-  19 -> 18 [
-    label = ""
-  ];
-  9 -> 11 [
-    label = ""
-  ];
-  10 -> 9 [
-    label = ""
-  ];
-  13 -> 12 [
-    label = ""
-  ];
-  17 -> 21 [
+  22 -> 2 [
     label = ""
   ];
   20 -> 19 [
     label = ""
   ];
-  16 -> 13 [
+  14 -> 13 [
+    label = ""
+  ];
+  18 -> 22 [
+    label = ""
+  ];
+  14 -> 1 [
+    label = "java.lang.NumberFormatException"
+  ];
+  15 -> 17 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  12 -> 15 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+  9 -> 11 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  19 -> 18 [
+    label = ""
+  ];
+  13 -> 21 [
+    label = ""
+  ];
+  17 -> 14 [
+    label = ""
+  ];
+  10 -> 12 [
     label = ""
   ];
 }

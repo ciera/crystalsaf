@@ -1,85 +1,85 @@
 digraph emptyElse {
-  17 [
+  18 [
     label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 [
+  17 [
     label = 4,
     fontname = Helvetica,
     fontsize = 10
   ];
-  15 [
+  16 [
     label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = "=",
     fontname = Helvetica,
     fontsize = 10
   ];
-  13 [
+  14 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 [
+  12 [
     label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
   10 [
-    label = a,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  9 [
     label = "<",
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 [
+  9 [
     label = if,
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  5 [
+  6 [
     label = "int b",
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 [
+  5 [
     label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 [
+  4 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "int a",
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
@@ -89,58 +89,58 @@ digraph emptyElse {
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 -> 4 [
-    label = ""
-  ];
-  15 -> 14 [
-    label = ""
-  ];
-  2 -> 3 [
-    label = ""
-  ];
-  16 -> 15 [
-    label = ""
-  ];
-  17 -> 1 [
-    label = ""
-  ];
-  7 -> 10 [
-    label = ""
-  ];
-  8 -> 17 [
-    label = ""
+  10 -> 9 [
+    label = false
   ];
   6 -> 7 [
     label = ""
   ];
-  12 -> 8 [
+  14 -> 13 [
     label = ""
   ];
   5 -> 6 [
     label = ""
   ];
-  11 -> 9 [
-    label = ""
-  ];
-  9 -> 16 [
-    label = true
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  9 -> 8 [
-    label = false
-  ];
-  13 -> 12 [
+  15 -> 14 [
     label = ""
   ];
   4 -> 5 [
     label = ""
   ];
-  14 -> 13 [
+  16 -> 15 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  11 -> 12 [
+    label = ""
+  ];
+  18 -> 2 [
+    label = ""
+  ];
+  8 -> 11 [
+    label = ""
+  ];
+  9 -> 18 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  13 -> 9 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  10 -> 17 [
+    label = true
+  ];
+  12 -> 10 [
     label = ""
   ];
 }

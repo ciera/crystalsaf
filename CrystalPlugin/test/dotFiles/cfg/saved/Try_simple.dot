@@ -1,36 +1,41 @@
 digraph simple {
-  30 [
+  31 [
     label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
-  19 [
-    label = blah,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
+  30 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  17 [
+  19 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
     label = "=",
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 [
+  17 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  15 [
+  16 [
     label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = err,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = Exception,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -40,52 +45,52 @@ digraph simple {
     fontsize = 10
   ];
   12 [
-    label = Exception,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  11 [
     label = "Exception err",
     fontname = Helvetica,
     fontsize = 10
   ];
-  10 [
+  11 [
     label = catch,
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 [
+  10 [
     label = try,
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 [
+  9 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  29 [
-    label = message,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  7 [
+  8 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = "int foo",
     fontname = Helvetica,
     fontsize = 10
   ];
-  5 [
+  6 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  26 [
+  27 [
     label = "new Exception",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = throw,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -95,42 +100,37 @@ digraph simple {
     fontsize = 10
   ];
   25 [
-    label = throw,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  3 [
-    label = String,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  24 [
     label = 3,
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "String message",
     fontname = Helvetica,
     fontsize = 10
   ];
-  23 [
+  24 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
   ];
-  22 [
+  23 [
     label = "<",
     fontname = Helvetica,
     fontsize = 10
   ];
-  21 [
+  22 [
     label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -140,95 +140,95 @@ digraph simple {
     fontsize = 10
   ];
   20 [
-    label = "{}",
+    label = blah,
     fontname = Helvetica,
     fontsize = 10
   ];
-  20 -> 9 [
+  24 -> 25 [
     label = ""
   ];
-  18 -> 17 [
-    label = ""
-  ];
-  21 -> 20 [
-    label = ""
-  ];
-  6 -> 7 [
-    label = ""
-  ];
-  5 -> 6 [
-    label = ""
-  ];
-  30 -> 1 [
-    label = ""
-  ];
-  11 -> 13 [
-    label = ""
-  ];
-  3 -> 5 [
-    label = ""
-  ];
-  9 -> 30 [
-    label = ""
-  ];
-  10 -> 9 [
-    label = ""
-  ];
-  25 -> 11 [
-    label = "java.lang.Exception"
-  ];
-  4 -> 3 [
-    label = ""
-  ];
-  26 -> 25 [
-    label = ""
-  ];
-  23 -> 24 [
-    label = ""
-  ];
-  8 -> 23 [
-    label = ""
-  ];
-  7 -> 8 [
-    label = ""
-  ];
-  12 -> 14 [
+  9 -> 24 [
     label = ""
   ];
   19 -> 18 [
     label = ""
   ];
-  1 -> 0 [
+  8 -> 9 [
     label = ""
   ];
   22 -> 21 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = ""
+  ];
+  13 -> 15 [
+    label = ""
+  ];
+  23 -> 22 [
     label = false
   ];
-  13 -> 12 [
+  15 -> 20 [
     label = ""
   ];
-  14 -> 19 [
+  5 -> 4 [
     label = ""
   ];
-  15 -> 10 [
+  3 -> 5 [
     label = ""
   ];
-  2 -> 4 [
+  16 -> 11 [
     label = ""
   ];
-  24 -> 22 [
-    label = ""
-  ];
-  16 -> 15 [
-    label = ""
-  ];
-  29 -> 26 [
+  27 -> 26 [
     label = ""
   ];
   17 -> 16 [
     label = ""
   ];
-  22 -> 29 [
+  30 -> 27 [
+    label = ""
+  ];
+  18 -> 17 [
+    label = ""
+  ];
+  23 -> 30 [
     label = true
+  ];
+  21 -> 10 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  31 -> 2 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  10 -> 31 [
+    label = ""
+  ];
+  12 -> 14 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  26 -> 12 [
+    label = "java.lang.Exception"
+  ];
+  25 -> 23 [
+    label = ""
   ];
 }

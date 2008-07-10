@@ -1,16 +1,16 @@
 digraph ordering {
   19 [
-    label = b,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
     label = "*",
     fontname = Helvetica,
     fontsize = 10
   ];
-  17 [
+  18 [
     label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -20,77 +20,77 @@ digraph ordering {
     fontsize = 10
   ];
   15 [
-    label = "+",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  14 [
     label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
-  13 [
+  14 [
     label = d,
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 [
+  12 [
     label = "int d",
     fontname = Helvetica,
     fontsize = 10
   ];
-  10 [
+  11 [
     label = c,
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 [
+  10 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 [
+  9 [
     label = "int c",
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  5 [
+  6 [
     label = "int b",
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 [
+  5 [
     label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 [
+  4 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "int a",
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = d,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -100,22 +100,16 @@ digraph ordering {
     fontsize = 10
   ];
   21 [
-    label = d,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  20 [
     label = c,
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 -> 21 [
-    label = ""
+  20 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
   ];
-  2 -> 3 [
-    label = ""
-  ];
-  18 -> 16 [
+  21 -> 19 [
     label = ""
   ];
   7 -> 8 [
@@ -124,52 +118,58 @@ digraph ordering {
   6 -> 7 [
     label = ""
   ];
-  20 -> 18 [
+  2 -> 0 [
     label = ""
   ];
-  5 -> 6 [
-    label = ""
-  ];
-  19 -> 20 [
-    label = ""
-  ];
-  4 -> 5 [
-    label = ""
-  ];
-  14 -> 1 [
-    label = ""
-  ];
-  15 -> 14 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  21 -> 15 [
-    label = ""
-  ];
-  9 -> 10 [
-    label = ""
-  ];
-  8 -> 9 [
-    label = ""
-  ];
-  1 -> 0 [
+  15 -> 2 [
     label = ""
   ];
   12 -> 13 [
     label = ""
   ];
-  17 -> 19 [
-    label = ""
-  ];
-  3 -> 4 [
+  16 -> 15 [
     label = ""
   ];
   11 -> 12 [
     label = ""
   ];
-  13 -> 17 [
+  22 -> 16 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  20 -> 21 [
+    label = ""
+  ];
+  5 -> 6 [
+    label = ""
+  ];
+  13 -> 14 [
+    label = ""
+  ];
+  18 -> 20 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  14 -> 18 [
+    label = ""
+  ];
+  17 -> 22 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+  19 -> 17 [
+    label = ""
+  ];
+  8 -> 9 [
     label = ""
   ];
 }

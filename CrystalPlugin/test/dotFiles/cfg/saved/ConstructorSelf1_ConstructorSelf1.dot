@@ -1,41 +1,41 @@
 digraph ConstructorSelf1 {
   9 [
-    label = double,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  8 [
     label = "double dx",
     fontname = Helvetica,
     fontsize = 10
   ];
-  15 [
+  16 [
     label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = dx,
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = CastExpression,
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 [
+  12 [
     label = ConstructorInvocation,
     fontname = Helvetica,
     fontsize = 10
   ];
-  10 [
+  11 [
     label = dx,
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = double,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -44,28 +44,28 @@ digraph ConstructorSelf1 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 -> 9 [
+  16 -> 2 [
     label = ""
   ];
-  9 -> 10 [
+  2 -> 0 [
     label = ""
   ];
-  12 -> 11 [
+  10 -> 11 [
     label = ""
   ];
-  1 -> 0 [
-    label = ""
-  ];
-  10 -> 14 [
+  13 -> 12 [
     label = ""
   ];
   11 -> 15 [
     label = ""
   ];
-  14 -> 12 [
+  12 -> 16 [
     label = ""
   ];
-  15 -> 1 [
+  9 -> 10 [
+    label = ""
+  ];
+  15 -> 13 [
     label = ""
   ];
 }

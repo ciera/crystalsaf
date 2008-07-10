@@ -159,6 +159,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 	protected EclipseCFGNode endNode;
 	protected String name;
 
+	private EclipseCFGNode undeclExit;
+
 	public EclipseCFG(MethodDeclaration method) {
 		nodeMap = new HashMap<ASTNode, EclipseCFGNode>();
 		blockStack = new BlockStack();
@@ -189,6 +191,10 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 
 	public ICFGNode getUberReturn() {
 		return uberReturn;
+	}
+
+	public ICFGNode getUndeclaredExit() {
+		return undeclExit;
 	}
 
 	public Map<ITypeBinding, EclipseCFGNode> getExceptionalReturns() {
@@ -370,8 +376,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 		EclipseCFGNode expNode = nodeMap.get(node.getExpression());
 		EclipseCFGNode messageNode = nodeMap.get(node.getMessage());
 		EclipseCFGNode falsePath = new EclipseCFGNode(null);
-		// ITypeBinding binding = getAssertionErrorBinding();
-		// EclipseCFGNode catchNode = exceptionMap.getCatchNode(binding);
+		ITypeBinding binding = node.getAST().resolveWellKnownType("java.lang.Throwable");
+		EclipseCFGNode catchNode = exceptionMap.getCatchNode(binding);
 
 		createEdge(assertNode, expNode.getStart());
 		assertNode.setStart(expNode.getStart());
@@ -387,7 +393,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 			createBooleanEdge(expNode.getEnd(), falsePath, false);
 		}
 
-		// hookFinally(falsePath, binding, catchNode);
+		hookFinally(falsePath, binding, catchNode);
 
 	}
 
@@ -623,15 +629,15 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 	@Override
 	public boolean visit(MethodDeclaration node) {
 		EclipseCFGNode method = nodeMap.get(node);
-		// EclipseCFGNode implicitFinally = new EclipseCFGNode(null);
 		EclipseCFGNode implicitCatch;
 
 		excpReturns = new HashMap<ITypeBinding, EclipseCFGNode>();
 
-		// normalExit = implicitFinally;
-		// implicitFinally.setName("(finally)");
-		// createEdge(implicitFinally, method);
-		// method.setStart(implicitFinally);
+		undeclExit = new EclipseCFGNode(null);
+		createEdge(undeclExit, method);
+		undeclExit.setName("(error)");
+		exceptionMap.pushCatch(undeclExit, node
+		    .getAST().resolveWellKnownType("java.lang.Throwable"));
 
 		for (Name name : (List<Name>) node.thrownExceptions()) {
 			implicitCatch = new EclipseCFGNode(null);
