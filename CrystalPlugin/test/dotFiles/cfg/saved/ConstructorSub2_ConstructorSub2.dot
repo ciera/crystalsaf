@@ -55,7 +55,7 @@ digraph ConstructorSub2 {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -64,31 +64,31 @@ digraph ConstructorSub2 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 -> 7 [
+  15 -> 16 [
     label = ""
   ];
-  14 -> 19 [
+  6 -> 8 [
     label = ""
   ];
-  8 -> 12 [
+  13 -> 19 [
+    label = ""
+  ];
+  7 -> 12 [
     label = ""
   ];
   18 -> 6 [
     label = ""
   ];
-  2 -> 0 [
-    label = ""
-  ];
   16 -> 17 [
     label = ""
   ];
-  15 -> 16 [
+  2 -> 0 [
     label = ""
   ];
-  13 -> 14 [
+  14 -> 13 [
     label = ""
   ];
-  7 -> 8 [
+  8 -> 7 [
     label = ""
   ];
   17 -> 18 [
@@ -97,7 +97,7 @@ digraph ConstructorSub2 {
   19 -> 2 [
     label = ""
   ];
-  12 -> 13 [
+  12 -> 14 [
     label = ""
   ];
 }

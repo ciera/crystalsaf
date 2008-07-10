@@ -100,7 +100,7 @@ digraph catchUsingException {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -114,37 +114,19 @@ digraph catchUsingException {
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 -> 10 [
-    label = ""
-  ];
-  25 -> 24 [
-    label = ""
-  ];
-  20 -> 25 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  27 -> 2 [
-    label = ""
-  ];
-  5 -> 7 [
-    label = ""
-  ];
-  3 -> 27 [
-    label = ""
-  ];
   24 -> 5 [
     label = "java.io.IOException"
   ];
-  4 -> 3 [
+  3 -> 27 [
     label = ""
   ];
   14 -> 3 [
     label = ""
   ];
-  16 -> 18 [
+  4 -> 3 [
+    label = ""
+  ];
+  23 -> 14 [
     label = ""
   ];
   17 -> 16 [
@@ -153,10 +135,7 @@ digraph catchUsingException {
   15 -> 17 [
     label = ""
   ];
-  12 -> 11 [
-    label = ""
-  ];
-  19 -> 20 [
+  20 -> 19 [
     label = ""
   ];
   7 -> 6 [
@@ -165,22 +144,43 @@ digraph catchUsingException {
   8 -> 12 [
     label = ""
   ];
-  18 -> 19 [
+  2 -> 0 [
+    label = ""
+  ];
+  18 -> 20 [
+    label = ""
+  ];
+  5 -> 7 [
     label = ""
   ];
   6 -> 8 [
     label = ""
   ];
-  9 -> 4 [
+  16 -> 18 [
     label = ""
   ];
-  23 -> 14 [
+  9 -> 4 [
     label = ""
   ];
   24 -> 23 [
     label = ""
   ];
   10 -> 9 [
+    label = ""
+  ];
+  25 -> 24 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  19 -> 25 [
+    label = ""
+  ];
+  12 -> 11 [
+    label = ""
+  ];
+  27 -> 2 [
     label = ""
   ];
 }

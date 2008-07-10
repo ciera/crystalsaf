@@ -648,7 +648,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 		}
 
 		uberReturn = new EclipseCFGNode(null);
-		uberReturn.setName("(finally)");
+		uberReturn.setName("(uber-return)");
 		createEdge(uberReturn, method);
 
 		if (node.isConstructor()) {
@@ -1081,23 +1081,22 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 	private EclipseCFGNode handleVariableDecl(VariableDeclaration node, EclipseCFGNode startPoint) {
 		EclipseCFGNode decl = nodeMap.get(node);
 		EclipseCFGNode name = nodeMap.get(node.getName());
+		EclipseCFGNode current = decl;
 
 		if (startPoint != null) {
-			createEdge(decl, startPoint.getStart());
-			createEdge(startPoint.getEnd(), name.getStart());
+			createEdge(current, startPoint.getStart());
+			current = startPoint.getEnd();
 		}
-		else
-			createEdge(decl, name.getStart());
 
 		if (node.getInitializer() != null) {
 			EclipseCFGNode init = nodeMap.get(node.getInitializer());
-			createEdge(name.getEnd(), init.getStart());
-			decl.setEnd(init.getEnd());
+			createEdge(current, init.getStart());
+			current = init.getEnd();
 		}
-		else
-			decl.setEnd(name.getEnd());
 
+		createEdge(current, name.getStart());
 		decl.setStart(decl);
+		decl.setEnd(name.getEnd());
 
 		return decl;
 	}

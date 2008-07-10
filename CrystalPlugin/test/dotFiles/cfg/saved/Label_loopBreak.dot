@@ -55,7 +55,7 @@ digraph loopBreak {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -69,34 +69,19 @@ digraph loopBreak {
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 -> 16 [
-    label = ""
-  ];
-  14 -> 9 [
-    label = ""
-  ];
-  12 -> 11 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
   10 -> 13 [
     label = true
   ];
   4 -> 5 [
     label = ""
   ];
-  9 -> 6 [
-    label = ""
-  ];
-  8 -> 10 [
+  2 -> 0 [
     label = ""
   ];
   13 -> 14 [
     label = true
   ];
-  3 -> 4 [
+  9 -> 6 [
     label = ""
   ];
   13 -> 12 [
@@ -108,10 +93,25 @@ digraph loopBreak {
   10 -> 9 [
     label = false
   ];
-  11 -> 8 [
+  8 -> 10 [
+    label = ""
+  ];
+  3 -> 4 [
     label = ""
   ];
   5 -> 8 [
+    label = ""
+  ];
+  11 -> 8 [
+    label = ""
+  ];
+  6 -> 16 [
+    label = ""
+  ];
+  14 -> 9 [
+    label = ""
+  ];
+  12 -> 11 [
     label = ""
   ];
 }

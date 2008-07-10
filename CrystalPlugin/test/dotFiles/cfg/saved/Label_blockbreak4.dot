@@ -110,7 +110,7 @@ digraph blockbreak4 {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -129,53 +129,29 @@ digraph blockbreak4 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  33 -> 32 [
-    label = ""
-  ];
-  14 -> 18 [
-    label = ""
-  ];
-  9 -> 33 [
-    label = ""
-  ];
-  15 -> 14 [
-    label = ""
-  ];
-  18 -> 17 [
-    label = false
-  ];
-  12 -> 15 [
-    label = true
-  ];
-  13 -> 11 [
-    label = ""
-  ];
-  12 -> 28 [
-    label = false
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  5 -> 12 [
+  4 -> 5 [
     label = ""
   ];
   35 -> 2 [
     label = ""
   ];
-  4 -> 5 [
+  3 -> 4 [
     label = ""
   ];
   6 -> 35 [
     label = ""
   ];
-  3 -> 4 [
+  22 -> 21 [
     label = ""
   ];
   8 -> 6 [
     label = ""
   ];
-  30 -> 26 [
+  17 -> 22 [
     label = ""
+  ];
+  18 -> 17 [
+    label = false
   ];
   27 -> 30 [
     label = ""
@@ -183,10 +159,16 @@ digraph blockbreak4 {
   28 -> 27 [
     label = ""
   ];
-  11 -> 9 [
-    label = ""
+  12 -> 28 [
+    label = false
   ];
   24 -> 11 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  13 -> 11 [
     label = ""
   ];
   19 -> 11 [
@@ -195,19 +177,37 @@ digraph blockbreak4 {
   26 -> 24 [
     label = ""
   ];
-  18 -> 19 [
-    label = true
-  ];
   21 -> 13 [
     label = ""
   ];
-  22 -> 21 [
-    label = ""
+  18 -> 19 [
+    label = true
   ];
-  17 -> 22 [
+  30 -> 26 [
     label = ""
   ];
   32 -> 8 [
+    label = ""
+  ];
+  33 -> 32 [
+    label = ""
+  ];
+  14 -> 18 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  9 -> 33 [
+    label = ""
+  ];
+  12 -> 15 [
+    label = true
+  ];
+  11 -> 9 [
+    label = ""
+  ];
+  5 -> 12 [
     label = ""
   ];
 }

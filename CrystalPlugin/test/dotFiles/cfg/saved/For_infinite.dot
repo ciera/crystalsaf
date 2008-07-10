@@ -64,31 +64,16 @@ digraph infinite {
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 -> 4 [
-    label = ""
-  ];
-  6 -> 14 [
-    label = ""
-  ];
-  12 -> 16 [
-    label = ""
-  ];
-  9 -> 10 [
+  5 -> 8 [
     label = ""
   ];
   13 -> 16 [
     label = ""
   ];
-  5 -> 8 [
-    label = ""
-  ];
   15 -> 6 [
     label = ""
   ];
-  4 -> 5 [
-    label = ""
-  ];
-  11 -> 12 [
+  12 -> 11 [
     label = ""
   ];
   8 -> 9 [
@@ -100,7 +85,22 @@ digraph infinite {
   16 -> 15 [
     label = ""
   ];
-  10 -> 11 [
+  4 -> 5 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  10 -> 12 [
+    label = ""
+  ];
+  6 -> 14 [
+    label = ""
+  ];
+  11 -> 16 [
+    label = ""
+  ];
+  9 -> 10 [
     label = ""
   ];
 }

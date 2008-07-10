@@ -115,7 +115,7 @@ digraph simpleFinally {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -179,13 +179,61 @@ digraph simpleFinally {
     fontname = Helvetica,
     fontsize = 10
   ];
+  7 -> 8 [
+    label = ""
+  ];
+  34 -> 33 [
+    label = ""
+  ];
+  23 -> 18 [
+    label = ""
+  ];
+  30 -> 29 [
+    label = false
+  ];
+  22 -> 27 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  17 -> 15 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  30 -> 37 [
+    label = true
+  ];
+  31 -> 32 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  25 -> 24 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
   3 -> 5 [
     label = ""
   ];
-  18 -> 16 [
-    label = ""
+  33 -> 19 [
+    label = "java.lang.Exception"
   ];
   29 -> 28 [
+    label = ""
+  ];
+  18 -> 16 [
     label = ""
   ];
   27 -> 26 [
@@ -224,67 +272,19 @@ digraph simpleFinally {
   28 -> 16 [
     label = ""
   ];
-  26 -> 25 [
-    label = ""
-  ];
   38 -> 2 [
     label = ""
   ];
   9 -> 31 [
     label = ""
   ];
-  19 -> 21 [
+  26 -> 25 [
     label = ""
   ];
   14 -> 13 [
     label = ""
   ];
-  7 -> 8 [
+  19 -> 21 [
     label = ""
-  ];
-  34 -> 33 [
-    label = ""
-  ];
-  23 -> 18 [
-    label = ""
-  ];
-  30 -> 29 [
-    label = false
-  ];
-  22 -> 27 [
-    label = ""
-  ];
-  11 -> 10 [
-    label = ""
-  ];
-  17 -> 15 [
-    label = ""
-  ];
-  4 -> 6 [
-    label = ""
-  ];
-  30 -> 37 [
-    label = true
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  25 -> 24 [
-    label = ""
-  ];
-  31 -> 32 [
-    label = ""
-  ];
-  21 -> 20 [
-    label = ""
-  ];
-  13 -> 12 [
-    label = ""
-  ];
-  8 -> 9 [
-    label = ""
-  ];
-  33 -> 19 [
-    label = "java.lang.Exception"
   ];
 }

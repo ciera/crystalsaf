@@ -75,7 +75,7 @@ digraph nestedLoopBreak {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -94,16 +94,37 @@ digraph nestedLoopBreak {
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 -> 19 [
+  5 -> 8 [
+    label = ""
+  ];
+  19 -> 20 [
     label = true
+  ];
+  16 -> 15 [
+    label = false
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  17 -> 14 [
+    label = ""
+  ];
+  20 -> 9 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
   ];
   10 -> 9 [
     label = false
   ];
-  11 -> 8 [
+  14 -> 16 [
     label = ""
   ];
-  14 -> 16 [
+  11 -> 8 [
     label = ""
   ];
   12 -> 11 [
@@ -115,10 +136,7 @@ digraph nestedLoopBreak {
   8 -> 10 [
     label = ""
   ];
-  2 -> 0 [
-    label = ""
-  ];
-  17 -> 14 [
+  15 -> 12 [
     label = ""
   ];
   22 -> 2 [
@@ -136,25 +154,7 @@ digraph nestedLoopBreak {
   9 -> 6 [
     label = ""
   ];
-  3 -> 4 [
-    label = ""
-  ];
-  15 -> 12 [
-    label = ""
-  ];
-  5 -> 8 [
-    label = ""
-  ];
-  16 -> 15 [
-    label = false
-  ];
-  19 -> 20 [
+  16 -> 19 [
     label = true
-  ];
-  4 -> 5 [
-    label = ""
-  ];
-  20 -> 9 [
-    label = ""
   ];
 }
