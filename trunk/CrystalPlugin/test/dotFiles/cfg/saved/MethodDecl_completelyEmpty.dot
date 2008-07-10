@@ -5,7 +5,7 @@ digraph completelyEmpty {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];

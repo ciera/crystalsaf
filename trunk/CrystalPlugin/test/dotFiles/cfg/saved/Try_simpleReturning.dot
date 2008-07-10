@@ -120,7 +120,7 @@ digraph simpleReturning {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -144,39 +144,6 @@ digraph simpleReturning {
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 -> 8 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  31 -> 28 [
-    label = ""
-  ];
-  6 -> 7 [
-    label = ""
-  ];
-  17 -> 2 [
-    label = ""
-  ];
-  23 -> 31 [
-    label = true
-  ];
-  4 -> 6 [
-    label = ""
-  ];
-  18 -> 17 [
-    label = ""
-  ];
-  35 -> 2 [
-    label = ""
-  ];
-  20 -> 18 [
-    label = ""
-  ];
-  25 -> 23 [
-    label = ""
-  ];
   24 -> 25 [
     label = ""
   ];
@@ -184,9 +151,6 @@ digraph simpleReturning {
     label = ""
   ];
   8 -> 9 [
-    label = ""
-  ];
-  14 -> 13 [
     label = ""
   ];
   34 -> 33 [
@@ -201,22 +165,25 @@ digraph simpleReturning {
   23 -> 34 [
     label = false
   ];
+  2 -> 0 [
+    label = ""
+  ];
+  31 -> 28 [
+    label = ""
+  ];
   27 -> 12 [
     label = "java.lang.Exception"
-  ];
-  5 -> 4 [
-    label = ""
-  ];
-  36 -> 35 [
-    label = ""
   ];
   3 -> 5 [
     label = ""
   ];
-  19 -> 20 [
+  25 -> 23 [
     label = ""
   ];
   22 -> 36 [
+    label = ""
+  ];
+  19 -> 20 [
     label = ""
   ];
   15 -> 19 [
@@ -229,6 +196,39 @@ digraph simpleReturning {
     label = ""
   ];
   33 -> 32 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  17 -> 2 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  23 -> 31 [
+    label = true
+  ];
+  18 -> 17 [
+    label = ""
+  ];
+  35 -> 2 [
+    label = ""
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  36 -> 35 [
+    label = ""
+  ];
+  20 -> 18 [
     label = ""
   ];
 }

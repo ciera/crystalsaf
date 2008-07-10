@@ -30,7 +30,7 @@ digraph ConstructorSelf1 {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -44,10 +44,13 @@ digraph ConstructorSelf1 {
     fontname = Helvetica,
     fontsize = 10
   ];
+  15 -> 13 [
+    label = ""
+  ];
   16 -> 2 [
     label = ""
   ];
-  2 -> 0 [
+  9 -> 10 [
     label = ""
   ];
   10 -> 11 [
@@ -56,16 +59,13 @@ digraph ConstructorSelf1 {
   13 -> 12 [
     label = ""
   ];
+  2 -> 0 [
+    label = ""
+  ];
   11 -> 15 [
     label = ""
   ];
   12 -> 16 [
-    label = ""
-  ];
-  9 -> 10 [
-    label = ""
-  ];
-  15 -> 13 [
     label = ""
   ];
 }

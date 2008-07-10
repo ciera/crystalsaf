@@ -125,7 +125,7 @@ digraph labelInLoop {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -149,73 +149,10 @@ digraph labelInLoop {
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 -> 10 [
-    label = ""
-  ];
-  16 -> 33 [
-    label = ""
-  ];
-  25 -> 24 [
-    label = false
-  ];
-  17 -> 16 [
+  26 -> 27 [
     label = ""
   ];
   6 -> 17 [
-    label = ""
-  ];
-  15 -> 13 [
-    label = ""
-  ];
-  14 -> 15 [
-    label = ""
-  ];
-  33 -> 14 [
-    label = ""
-  ];
-  22 -> 21 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  13 -> 22 [
-    label = true
-  ];
-  34 -> 2 [
-    label = ""
-  ];
-  30 -> 20 [
-    label = ""
-  ];
-  7 -> 34 [
-    label = ""
-  ];
-  31 -> 30 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  13 -> 7 [
-    label = false
-  ];
-  24 -> 31 [
-    label = ""
-  ];
-  8 -> 9 [
-    label = ""
-  ];
-  5 -> 8 [
-    label = ""
-  ];
-  27 -> 25 [
-    label = ""
-  ];
-  4 -> 5 [
-    label = ""
-  ];
-  26 -> 27 [
     label = ""
   ];
   21 -> 26 [
@@ -224,22 +161,85 @@ digraph labelInLoop {
   18 -> 6 [
     label = ""
   ];
+  12 -> 11 [
+    label = ""
+  ];
+  10 -> 12 [
+    label = ""
+  ];
+  34 -> 2 [
+    label = ""
+  ];
+  31 -> 30 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+  7 -> 34 [
+    label = ""
+  ];
+  24 -> 31 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  13 -> 7 [
+    label = false
+  ];
+  25 -> 24 [
+    label = false
+  ];
+  14 -> 15 [
+    label = ""
+  ];
+  33 -> 14 [
+    label = ""
+  ];
+  11 -> 33 [
+    label = ""
+  ];
+  22 -> 21 [
+    label = ""
+  ];
   20 -> 18 [
+    label = ""
+  ];
+  2 -> 0 [
     label = ""
   ];
   25 -> 28 [
     label = true
   ];
+  13 -> 22 [
+    label = true
+  ];
+  30 -> 20 [
+    label = ""
+  ];
   28 -> 20 [
     label = ""
   ];
-  12 -> 33 [
+  3 -> 4 [
     label = ""
   ];
-  11 -> 12 [
+  5 -> 8 [
     label = ""
   ];
-  10 -> 11 [
+  15 -> 13 [
+    label = ""
+  ];
+  16 -> 33 [
+    label = ""
+  ];
+  27 -> 25 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  17 -> 16 [
     label = ""
   ];
 }

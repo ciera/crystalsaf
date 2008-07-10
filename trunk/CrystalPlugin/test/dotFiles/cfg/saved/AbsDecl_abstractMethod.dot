@@ -5,7 +5,7 @@ digraph abstractMethod {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -14,10 +14,10 @@ digraph abstractMethod {
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 -> 0 [
+  3 -> 2 [
     label = ""
   ];
-  3 -> 2 [
+  2 -> 0 [
     label = ""
   ];
 }

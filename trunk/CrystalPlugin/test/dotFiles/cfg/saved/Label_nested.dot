@@ -80,7 +80,7 @@ digraph nested {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -109,7 +109,43 @@ digraph nested {
     fontname = Helvetica,
     fontsize = 10
   ];
+  19 -> 17 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = ""
+  ];
+  24 -> 2 [
+    label = ""
+  ];
+  12 -> 24 [
+    label = ""
+  ];
+  18 -> 17 [
+    label = false
+  ];
+  14 -> 12 [
+    label = ""
+  ];
+  11 -> 18 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  3 -> 4 [
+    label = ""
+  ];
   6 -> 7 [
+    label = ""
+  ];
+  2 -> 0 [
     label = ""
   ];
   23 -> 22 [
@@ -124,55 +160,19 @@ digraph nested {
   22 -> 21 [
     label = ""
   ];
-  15 -> 14 [
-    label = ""
-  ];
-  17 -> 15 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  19 -> 17 [
-    label = ""
-  ];
-  9 -> 10 [
-    label = ""
-  ];
-  8 -> 9 [
-    label = ""
-  ];
-  7 -> 8 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  24 -> 2 [
-    label = ""
-  ];
-  12 -> 24 [
-    label = ""
-  ];
-  14 -> 12 [
-    label = ""
-  ];
   18 -> 23 [
     label = true
   ];
-  18 -> 17 [
-    label = false
-  ];
-  11 -> 18 [
+  15 -> 14 [
     label = ""
   ];
   4 -> 5 [
     label = ""
   ];
-  20 -> 19 [
+  17 -> 15 [
     label = ""
   ];
-  3 -> 4 [
+  9 -> 10 [
     label = ""
   ];
 }

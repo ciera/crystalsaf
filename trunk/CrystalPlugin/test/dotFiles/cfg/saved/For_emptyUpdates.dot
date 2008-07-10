@@ -85,7 +85,7 @@ digraph emptyUpdates {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -93,6 +93,24 @@ digraph emptyUpdates {
     label = "Declare emptyUpdates",
     fontname = Helvetica,
     fontsize = 10
+  ];
+  3 -> 4 [
+    label = ""
+  ];
+  18 -> 13 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  11 -> 18 [
+    label = ""
+  ];
+  13 -> 17 [
+    label = true
   ];
   6 -> 18 [
     label = ""
@@ -112,41 +130,23 @@ digraph emptyUpdates {
   4 -> 5 [
     label = ""
   ];
-  2 -> 0 [
-    label = ""
-  ];
-  12 -> 18 [
-    label = ""
-  ];
-  11 -> 12 [
+  16 -> 15 [
     label = ""
   ];
   19 -> 2 [
     label = ""
   ];
+  12 -> 11 [
+    label = ""
+  ];
   7 -> 19 [
     label = ""
   ];
-  10 -> 11 [
+  10 -> 12 [
     label = ""
   ];
   13 -> 7 [
     label = false
-  ];
-  16 -> 15 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  17 -> 16 [
-    label = ""
-  ];
-  18 -> 13 [
-    label = ""
-  ];
-  13 -> 17 [
-    label = true
   ];
   9 -> 10 [
     label = ""

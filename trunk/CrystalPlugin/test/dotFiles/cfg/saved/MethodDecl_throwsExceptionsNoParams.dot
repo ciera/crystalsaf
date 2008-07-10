@@ -5,7 +5,7 @@ digraph throwsExceptionsNoParams {
     fontsize = 10
   ];
   3 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];

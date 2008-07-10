@@ -85,7 +85,7 @@ digraph continuing {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -109,32 +109,53 @@ digraph continuing {
     fontname = Helvetica,
     fontsize = 10
   ];
+  20 -> 9 [
+    label = true
+  ];
+  12 -> 19 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = false
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  6 -> 7 [
+    label = ""
+  ];
+  18 -> 17 [
+    label = ""
+  ];
   11 -> 21 [
     label = ""
   ];
   17 -> 11 [
     label = ""
   ];
-  15 -> 13 [
+  19 -> 18 [
+    label = ""
+  ];
+  5 -> 6 [
     label = ""
   ];
   14 -> 15 [
     label = ""
   ];
-  8 -> 9 [
-    label = ""
-  ];
   9 -> 14 [
     label = ""
   ];
-  6 -> 7 [
+  8 -> 9 [
     label = ""
   ];
-  16 -> 9 [
+  3 -> 4 [
     label = ""
-  ];
-  13 -> 16 [
-    label = true
   ];
   22 -> 2 [
     label = ""
@@ -145,37 +166,16 @@ digraph continuing {
   20 -> 10 [
     label = false
   ];
-  19 -> 18 [
-    label = ""
-  ];
-  7 -> 8 [
-    label = ""
-  ];
-  12 -> 19 [
-    label = ""
-  ];
-  20 -> 9 [
-    label = true
-  ];
-  13 -> 12 [
-    label = false
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  5 -> 6 [
-    label = ""
-  ];
   21 -> 20 [
     label = ""
   ];
-  4 -> 5 [
+  16 -> 9 [
     label = ""
   ];
-  18 -> 17 [
+  15 -> 13 [
     label = ""
+  ];
+  13 -> 16 [
+    label = true
   ];
 }

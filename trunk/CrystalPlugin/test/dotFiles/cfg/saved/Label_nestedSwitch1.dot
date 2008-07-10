@@ -100,7 +100,7 @@ digraph nestedSwitch1 {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -119,34 +119,19 @@ digraph nestedSwitch1 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 -> 5 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  25 -> 26 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  31 -> 2 [
+  32 -> 31 [
     label = ""
   ];
   19 -> 25 [
     label = 4
   ];
-  32 -> 31 [
+  9 -> 32 [
     label = ""
   ];
   22 -> 2 [
     label = ""
   ];
-  9 -> 32 [
-    label = ""
-  ];
-  8 -> 11 [
+  23 -> 22 [
     label = ""
   ];
   7 -> 8 [
@@ -155,11 +140,14 @@ digraph nestedSwitch1 {
   6 -> 7 [
     label = ""
   ];
-  30 -> 29 [
+  5 -> 6 [
     label = ""
   ];
   13 -> 18 [
     label = true
+  ];
+  2 -> 0 [
+    label = ""
   ];
   26 -> 11 [
     label = ""
@@ -170,20 +158,23 @@ digraph nestedSwitch1 {
   11 -> 13 [
     label = ""
   ];
+  25 -> 26 [
+    label = ""
+  ];
   19 -> 28 [
     label = default
-  ];
-  23 -> 22 [
-    label = ""
   ];
   12 -> 9 [
     label = ""
   ];
-  21 -> 23 [
+  8 -> 11 [
     label = ""
   ];
   13 -> 12 [
     label = false
+  ];
+  21 -> 23 [
+    label = ""
   ];
   29 -> 2 [
     label = ""
@@ -194,7 +185,16 @@ digraph nestedSwitch1 {
   18 -> 19 [
     label = ""
   ];
-  5 -> 6 [
+  30 -> 29 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  31 -> 2 [
+    label = ""
+  ];
+  3 -> 4 [
     label = ""
   ];
 }

@@ -55,7 +55,7 @@ digraph ConstructorSelf2 {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -79,23 +79,11 @@ digraph ConstructorSelf2 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 -> 0 [
-    label = ""
-  ];
-  22 -> 2 [
-    label = ""
-  ];
-  20 -> 19 [
-    label = ""
-  ];
-  14 -> 13 [
-    label = ""
+  14 -> 1 [
+    label = "java.lang.NumberFormatException"
   ];
   18 -> 22 [
     label = ""
-  ];
-  14 -> 1 [
-    label = "java.lang.NumberFormatException"
   ];
   15 -> 17 [
     label = ""
@@ -125,6 +113,18 @@ digraph ConstructorSelf2 {
     label = ""
   ];
   10 -> 12 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  22 -> 2 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = ""
+  ];
+  14 -> 13 [
     label = ""
   ];
 }

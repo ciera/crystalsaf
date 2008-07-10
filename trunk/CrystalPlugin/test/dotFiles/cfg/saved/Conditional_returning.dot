@@ -55,7 +55,7 @@ digraph returning {
     fontsize = 10
   ];
   2 [
-    label = "(finally)",
+    label = "(uber-return)",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -74,13 +74,10 @@ digraph returning {
     fontname = Helvetica,
     fontsize = 10
   ];
+  2 -> 0 [
+    label = ""
+  ];
   14 -> 10 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  6 -> 7 [
     label = ""
   ];
   11 -> 15 [
@@ -95,10 +92,16 @@ digraph returning {
   11 -> 14 [
     label = true
   ];
-  13 -> 11 [
+  6 -> 7 [
+    label = ""
+  ];
+  3 -> 4 [
     label = ""
   ];
   5 -> 6 [
+    label = ""
+  ];
+  13 -> 11 [
     label = ""
   ];
   10 -> 9 [
@@ -110,13 +113,10 @@ digraph returning {
   12 -> 13 [
     label = ""
   ];
-  2 -> 0 [
+  7 -> 8 [
     label = ""
   ];
   4 -> 5 [
-    label = ""
-  ];
-  7 -> 8 [
     label = ""
   ];
 }
