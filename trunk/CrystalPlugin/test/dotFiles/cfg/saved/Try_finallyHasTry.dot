@@ -1,76 +1,76 @@
 digraph finallyHasTry {
   50 [
-    label = "{}",
+    label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  38 [
+  39 [
     label = "Call foo",
     fontname = Helvetica,
     fontsize = 10
   ];
-  37 [
+  38 [
     label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  36 [
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
   35 [
-    label = "{}",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  34 [
     label = try,
     fontname = Helvetica,
     fontsize = 10
   ];
-  33 [
+  34 [
     label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
-  32 [
+  33 [
     label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  32 [
+    label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
   31 [
-    label = return,
+    label = false,
     fontname = Helvetica,
     fontsize = 10
   ];
   30 [
-    label = false,
+    label = io,
     fontname = Helvetica,
     fontsize = 10
   ];
   19 [
-    label = IOException,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  49 [
-    label = ExpressionStatement,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
     label = "IOException io",
     fontname = Helvetica,
     fontsize = 10
   ];
-  48 [
+  49 [
     label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
-  47 [
+  48 [
     label = false,
     fontname = Helvetica,
     fontsize = 10
   ];
-  46 [
+  47 [
     label = io,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  46 [
+    label = IOException,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -80,32 +80,27 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   44 [
-    label = IOException,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  43 [
     label = "IOException io",
     fontname = Helvetica,
     fontsize = 10
   ];
-  42 [
+  43 [
     label = "Call bar",
     fontname = Helvetica,
     fontsize = 10
   ];
-  41 [
+  42 [
     label = true,
     fontname = Helvetica,
     fontsize = 10
   ];
-  40 [
+  41 [
     label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
   29 [
-    label = io,
+    label = IOException,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -115,37 +110,42 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   27 [
-    label = IOException,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  26 [
     label = "IOException io",
     fontname = Helvetica,
     fontsize = 10
   ];
-  25 [
+  26 [
     label = "Call bar",
     fontname = Helvetica,
     fontsize = 10
   ];
-  24 [
+  25 [
     label = true,
     fontname = Helvetica,
     fontsize = 10
   ];
-  23 [
+  24 [
     label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
   ];
-  52 [
+  53 [
     label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = io,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  52 [
+    label = try,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -155,12 +155,12 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   21 [
-    label = io,
+    label = IOException,
     fontname = Helvetica,
     fontsize = 10
   ];
   51 [
-    label = try,
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -169,112 +169,112 @@ digraph finallyHasTry {
     fontname = Helvetica,
     fontsize = 10
   ];
-  19 -> 21 [
+  22 -> 25 [
+    label = ""
+  ];
+  31 -> 32 [
+    label = ""
+  ];
+  26 -> 27 [
+    label = "java.io.IOException"
+  ];
+  41 -> 43 [
+    label = ""
+  ];
+  47 -> 48 [
+    label = ""
+  ];
+  53 -> 2 [
+    label = ""
+  ];
+  26 -> 33 [
     label = ""
   ];
   29 -> 30 [
     label = ""
   ];
-  35 -> 1 [
+  21 -> 20 [
     label = ""
   ];
-  41 -> 40 [
+  35 -> 36 [
+    label = ""
+  ];
+  38 -> 42 [
     label = ""
   ];
   45 -> 46 [
     label = ""
   ];
+  32 -> 2 [
+    label = ""
+  ];
+  25 -> 24 [
+    label = ""
+  ];
   51 -> 52 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  23 -> 25 [
     label = ""
   ];
   27 -> 28 [
     label = ""
   ];
-  49 -> 50 [
+  39 -> 19 [
+    label = "java.io.IOException"
+  ];
+  43 -> 50 [
     label = ""
   ];
-  18 -> 20 [
-    label = ""
-  ];
-  48 -> 1 [
-    label = ""
-  ];
-  38 -> 37 [
+  48 -> 49 [
     label = ""
   ];
   33 -> 34 [
     label = ""
   ];
   43 -> 44 [
-    label = ""
+    label = "java.io.IOException"
   ];
-  21 -> 24 [
+  20 -> 22 [
     label = ""
   ];
   30 -> 31 [
     label = ""
   ];
-  25 -> 26 [
-    label = "java.io.IOException"
+  36 -> 2 [
+    label = ""
   ];
-  40 -> 42 [
+  42 -> 41 [
+    label = ""
+  ];
+  2 -> 0 [
     label = ""
   ];
   46 -> 47 [
     label = ""
   ];
-  25 -> 32 [
+  52 -> 53 [
     label = ""
   ];
-  52 -> 1 [
+  24 -> 26 [
     label = ""
   ];
   28 -> 29 [
     label = ""
   ];
-  20 -> 19 [
-    label = ""
-  ];
-  34 -> 35 [
-    label = ""
-  ];
-  37 -> 41 [
-    label = ""
-  ];
-  44 -> 45 [
-    label = ""
-  ];
-  31 -> 1 [
+  19 -> 21 [
     label = ""
   ];
   50 -> 51 [
     label = ""
   ];
-  24 -> 23 [
+  49 -> 2 [
     label = ""
   ];
-  38 -> 18 [
-    label = "java.io.IOException"
-  ];
-  26 -> 27 [
+  39 -> 38 [
     label = ""
   ];
-  42 -> 49 [
+  34 -> 35 [
     label = ""
   ];
-  47 -> 48 [
+  44 -> 45 [
     label = ""
-  ];
-  32 -> 33 [
-    label = ""
-  ];
-  42 -> 43 [
-    label = "java.io.IOException"
   ];
 }

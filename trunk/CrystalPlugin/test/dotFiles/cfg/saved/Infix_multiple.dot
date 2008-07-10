@@ -1,95 +1,90 @@
 digraph multiple {
   19 [
-    label = d,
+    label = c,
     fontname = Helvetica,
     fontsize = 10
   ];
   18 [
-    label = c,
+    label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
   17 [
-    label = b,
+    label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
   16 [
-    label = a,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  15 [
     label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
-  13 [
+  14 [
     label = d,
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 [
+  12 [
     label = "int d",
     fontname = Helvetica,
     fontsize = 10
   ];
-  10 [
+  11 [
     label = c,
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 [
+  10 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 [
+  9 [
     label = "int c",
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = b,
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  5 [
+  6 [
     label = "int b",
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 [
+  5 [
     label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 [
+  4 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "int a",
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
@@ -99,31 +94,36 @@ digraph multiple {
     fontname = Helvetica,
     fontsize = 10
   ];
-  19 -> 15 [
+  20 [
+    label = d,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 -> 17 [
     label = ""
   ];
-  7 -> 8 [
+  3 -> 4 [
     label = ""
   ];
-  6 -> 7 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  12 -> 13 [
-    label = ""
-  ];
-  9 -> 10 [
+  13 -> 14 [
     label = ""
   ];
   11 -> 12 [
     label = ""
   ];
+  12 -> 13 [
+    label = ""
+  ];
+  19 -> 20 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
   18 -> 19 [
+    label = ""
+  ];
+  6 -> 7 [
     label = ""
   ];
   17 -> 18 [
@@ -132,25 +132,25 @@ digraph multiple {
   5 -> 6 [
     label = ""
   ];
-  16 -> 17 [
-    label = ""
-  ];
   4 -> 5 [
     label = ""
   ];
-  3 -> 4 [
+  2 -> 0 [
     label = ""
   ];
-  13 -> 16 [
+  15 -> 2 [
     label = ""
   ];
-  2 -> 3 [
+  10 -> 11 [
     label = ""
   ];
-  14 -> 1 [
+  16 -> 15 [
     label = ""
   ];
-  15 -> 14 [
+  9 -> 10 [
+    label = ""
+  ];
+  20 -> 16 [
     label = ""
   ];
   8 -> 9 [

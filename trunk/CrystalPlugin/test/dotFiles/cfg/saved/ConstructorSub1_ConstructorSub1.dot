@@ -1,36 +1,46 @@
 digraph ConstructorSub1 {
-  19 [
-    label = x,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  20 [
+  21 [
     label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
-  18 [
+  19 [
     label = "++",
     fontname = Helvetica,
     fontsize = 10
   ];
-  17 [
+  18 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 [
+  20 [
+    label = x,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
     label = SuperConstructorInvocation,
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  15 [
+  16 [
     label = x,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = field2,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -40,21 +50,11 @@ digraph ConstructorSub1 {
     fontsize = 10
   ];
   14 [
-    label = int,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  5 [
-    label = field2,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  13 [
     label = "int x",
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
@@ -64,40 +64,40 @@ digraph ConstructorSub1 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 -> 15 [
-    label = ""
-  ];
-  1 -> 0 [
-    label = ""
-  ];
-  18 -> 17 [
-    label = ""
-  ];
   6 -> 7 [
+    label = ""
+  ];
+  18 -> 21 [
+    label = ""
+  ];
+  8 -> 20 [
+    label = ""
+  ];
+  17 -> 6 [
+    label = ""
+  ];
+  2 -> 0 [
     label = ""
   ];
   15 -> 16 [
     label = ""
   ];
-  20 -> 1 [
-    label = ""
-  ];
   19 -> 18 [
     label = ""
   ];
-  13 -> 14 [
+  14 -> 15 [
     label = ""
   ];
-  5 -> 6 [
+  7 -> 8 [
     label = ""
   ];
-  17 -> 20 [
+  16 -> 17 [
     label = ""
   ];
-  7 -> 19 [
+  21 -> 2 [
     label = ""
   ];
-  16 -> 5 [
+  20 -> 19 [
     label = ""
   ];
 }

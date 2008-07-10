@@ -1,6 +1,16 @@
 digraph catchThrowsWithFinally {
-  28 [
+  29 [
     label = err,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = TestException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  59 [
+    label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -10,77 +20,67 @@ digraph catchThrowsWithFinally {
     fontsize = 10
   ];
   58 [
-    label = "{}",
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  26 [
-    label = TestException,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  57 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  25 [
+  26 [
     label = "TestException err",
     fontname = Helvetica,
     fontsize = 10
   ];
-  56 [
+  57 [
     label = "=",
     fontname = Helvetica,
     fontsize = 10
   ];
-  55 [
+  56 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  54 [
+  55 [
     label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
-  53 [
+  54 [
     label = blah,
     fontname = Helvetica,
     fontsize = 10
   ];
-  52 [
+  53 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  51 [
+  52 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  50 [
+  51 [
     label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
   9 [
-    label = foo,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  8 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = "int foo",
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = String,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -89,58 +89,58 @@ digraph catchThrowsWithFinally {
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 [
-    label = String,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  15 [
+  16 [
     label = cond,
     fontname = Helvetica,
     fontsize = 10
   ];
-  47 [
+  48 [
     label = "new TestException",
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 [
+  4 [
     label = "String message",
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = boolean,
     fontname = Helvetica,
     fontsize = 10
   ];
-  46 [
+  47 [
     label = throw,
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
   ];
-  13 [
+  14 [
     label = "boolean cond",
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(throws)",
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = bar,
     fontname = Helvetica,
     fontsize = 10
   ];
-  44 [
+  45 [
     label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -150,42 +150,47 @@ digraph catchThrowsWithFinally {
     fontsize = 10
   ];
   11 [
-    label = int,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  10 [
     label = "int bar",
     fontname = Helvetica,
     fontsize = 10
   ];
-  41 [
+  10 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  42 [
     label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
-  40 [
+  41 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  39 [
+  40 [
     label = "=",
     fontname = Helvetica,
     fontsize = 10
   ];
-  38 [
+  39 [
     label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
-  37 [
+  38 [
     label = "+",
     fontname = Helvetica,
     fontsize = 10
   ];
-  36 [
+  37 [
     label = blah,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  36 [
+    label = message,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -194,98 +199,99 @@ digraph catchThrowsWithFinally {
     fontname = Helvetica,
     fontsize = 10
   ];
-  34 [
-    label = message,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  31 [
+  32 [
     label = "new Exception",
     fontname = Helvetica,
     fontsize = 10
   ];
-  30 [
+  31 [
     label = throw,
     fontname = Helvetica,
     fontsize = 10
   ];
-  30 -> 35 [
-    label = "java.lang.Exception"
-  ];
   11 -> 12 [
-    label = ""
-  ];
-  6 -> 7 [
     label = ""
   ];
   54 -> 55 [
     label = ""
   ];
-  27 -> 26 [
+  5 -> 7 [
     label = ""
   ];
-  44 -> 51 [
-    label = false
-  ];
-  1 -> 0 [
+  27 -> 29 [
     label = ""
   ];
-  5 -> 4 [
+  16 -> 45 [
     label = ""
   ];
-  37 -> 38 [
+  39 -> 40 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  59 -> 3 [
     label = ""
   ];
   14 -> 15 [
     label = ""
   ];
-  2 -> 0 [
+  57 -> 58 [
+    label = ""
+  ];
+  32 -> 31 [
     label = ""
   ];
   9 -> 10 [
     label = ""
   ];
-  57 -> 58 [
+  51 -> 53 [
     label = ""
   ];
-  34 -> 31 [
-    label = ""
-  ];
-  52 -> 53 [
-    label = ""
-  ];
-  40 -> 41 [
-    label = ""
-  ];
-  46 -> 25 [
-    label = "edu.cmu.cs.crystal.cfg.eclipse.Try.TestException"
-  ];
-  35 -> 36 [
-    label = ""
-  ];
-  12 -> 13 [
-    label = ""
-  ];
-  7 -> 8 [
-    label = ""
-  ];
-  55 -> 56 [
+  42 -> 2 [
     label = ""
   ];
   26 -> 28 [
     label = ""
   ];
-  51 -> 50 [
+  48 -> 47 [
     label = ""
   ];
-  38 -> 39 [
+  37 -> 38 [
     label = ""
   ];
-  44 -> 47 [
-    label = true
-  ];
-  31 -> 30 [
+  12 -> 13 [
     label = ""
+  ];
+  55 -> 56 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  29 -> 35 [
+    label = ""
+  ];
+  45 -> 52 [
+    label = false
+  ];
+  6 -> 5 [
+    label = ""
+  ];
+  3 -> 0 [
+    label = ""
+  ];
+  40 -> 41 [
+    label = ""
+  ];
+  15 -> 16 [
+    label = ""
+  ];
+  58 -> 59 [
+    label = ""
+  ];
+  31 -> 36 [
+    label = "java.lang.Exception"
   ];
   10 -> 11 [
     label = ""
@@ -293,25 +299,13 @@ digraph catchThrowsWithFinally {
   53 -> 54 [
     label = ""
   ];
-  4 -> 6 [
+  2 -> 0 [
     label = ""
   ];
-  41 -> 1 [
+  28 -> 27 [
     label = ""
   ];
-  25 -> 27 [
-    label = ""
-  ];
-  15 -> 44 [
-    label = ""
-  ];
-  3 -> 5 [
-    label = ""
-  ];
-  58 -> 2 [
-    label = ""
-  ];
-  36 -> 37 [
+  38 -> 39 [
     label = ""
   ];
   13 -> 14 [
@@ -323,16 +317,22 @@ digraph catchThrowsWithFinally {
   8 -> 9 [
     label = ""
   ];
-  28 -> 34 [
+  52 -> 51 [
     label = ""
   ];
-  50 -> 52 [
+  35 -> 32 [
     label = ""
   ];
-  39 -> 40 [
+  41 -> 42 [
     label = ""
   ];
-  47 -> 46 [
+  47 -> 26 [
+    label = "edu.cmu.cs.crystal.cfg.eclipse.Try.TestException"
+  ];
+  45 -> 48 [
+    label = true
+  ];
+  36 -> 37 [
     label = ""
   ];
 }

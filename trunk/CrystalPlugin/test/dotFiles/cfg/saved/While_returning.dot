@@ -1,106 +1,106 @@
 digraph returning {
   19 [
-    label = ExpressionStatement,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
     label = return,
     fontname = Helvetica,
     fontsize = 10
   ];
-  17 [
+  18 [
     label = 2,
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 [
+  17 [
     label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
-  15 [
+  16 [
     label = "==",
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = if,
     fontname = Helvetica,
     fontsize = 10
   ];
-  13 [
+  14 [
     label = "{}",
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = 3,
     fontname = Helvetica,
     fontsize = 10
   ];
-  11 [
+  12 [
     label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
-  10 [
+  11 [
     label = ">",
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 [
+  10 [
     label = elihw,
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 [
+  9 [
     label = while,
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  5 [
+  6 [
     label = "int a",
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 [
+  5 [
     label = cond,
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 [
+  4 [
     label = boolean,
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "boolean cond",
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
   ];
-  22 [
+  23 [
     label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
-  21 [
+  22 [
     label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = "++",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -110,80 +110,80 @@ digraph returning {
     fontsize = 10
   ];
   20 [
-    label = "++",
+    label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 -> 8 [
+  5 -> 6 [
     label = ""
-  ];
-  22 -> 1 [
-    label = ""
-  ];
-  17 -> 15 [
-    label = ""
-  ];
-  16 -> 17 [
-    label = ""
-  ];
-  9 -> 22 [
-    label = ""
-  ];
-  10 -> 9 [
-    label = false
-  ];
-  10 -> 16 [
-    label = true
   ];
   4 -> 5 [
+    label = ""
+  ];
+  20 -> 14 [
     label = ""
   ];
   3 -> 4 [
     label = ""
   ];
-  2 -> 3 [
+  8 -> 9 [
     label = ""
   ];
-  14 -> 21 [
-    label = ""
-  ];
-  20 -> 19 [
-    label = ""
-  ];
-  6 -> 7 [
-    label = ""
-  ];
-  15 -> 14 [
-    label = false
-  ];
-  1 -> 0 [
+  15 -> 22 [
     label = ""
   ];
   21 -> 20 [
     label = ""
   ];
-  5 -> 6 [
+  7 -> 8 [
     label = ""
   ];
-  18 -> 1 [
+  22 -> 21 [
     label = ""
   ];
-  12 -> 10 [
-    label = ""
-  ];
-  15 -> 18 [
+  11 -> 17 [
     label = true
   ];
-  11 -> 12 [
+  19 -> 2 [
     label = ""
   ];
-  13 -> 8 [
+  13 -> 11 [
     label = ""
   ];
-  8 -> 11 [
+  16 -> 19 [
+    label = true
+  ];
+  14 -> 9 [
     label = ""
   ];
-  19 -> 13 [
+  12 -> 13 [
+    label = ""
+  ];
+  9 -> 12 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = false
+  ];
+  23 -> 2 [
+    label = ""
+  ];
+  18 -> 16 [
+    label = ""
+  ];
+  10 -> 23 [
+    label = ""
+  ];
+  17 -> 18 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = false
+  ];
+  6 -> 7 [
     label = ""
   ];
 }

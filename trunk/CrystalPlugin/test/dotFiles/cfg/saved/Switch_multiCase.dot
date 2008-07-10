@@ -1,116 +1,116 @@
 digraph multiCase {
   19 [
-    label = foo,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  18 [
     label = "++",
     fontname = Helvetica,
     fontsize = 10
   ];
-  17 [
+  18 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 [
+  17 [
     label = 2,
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 [
+  15 [
     label = 1,
     fontname = Helvetica,
     fontsize = 10
   ];
-  12 [
+  13 [
     label = 0,
     fontname = Helvetica,
     fontsize = 10
   ];
-  10 [
+  11 [
     label = switcher,
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 [
+  10 [
     label = switch,
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 [
+  9 [
     label = hctiws,
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  28 [
+  29 [
     label = Block,
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  27 [
+  28 [
     label = break,
     fontname = Helvetica,
     fontsize = 10
   ];
-  5 [
+  6 [
     label = "int foo",
     fontname = Helvetica,
     fontsize = 10
   ];
-  26 [
+  27 [
     label = foo,
     fontname = Helvetica,
     fontsize = 10
   ];
-  4 [
+  5 [
     label = switcher,
     fontname = Helvetica,
     fontsize = 10
   ];
-  25 [
+  26 [
     label = "--",
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 [
+  4 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  24 [
+  25 [
     label = ExpressionStatement,
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "int switcher",
     fontname = Helvetica,
     fontsize = 10
   ];
-  23 [
+  24 [
     label = default,
     fontname = Helvetica,
     fontsize = 10
   ];
-  22 [
+  23 [
     label = 3,
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 [
+  2 [
     label = "(finally)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = break,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -120,92 +120,92 @@ digraph multiCase {
     fontsize = 10
   ];
   20 [
-    label = break,
+    label = foo,
     fontname = Helvetica,
     fontsize = 10
-  ];
-  10 -> 12 [
-    label = 0
   ];
   24 -> 27 [
     label = ""
   ];
-  10 -> 16 [
-    label = 2
-  ];
-  16 -> 19 [
-    label = ""
-  ];
-  25 -> 24 [
-    label = ""
-  ];
-  14 -> 19 [
-    label = ""
-  ];
-  26 -> 25 [
-    label = ""
-  ];
-  10 -> 14 [
+  11 -> 15 [
     label = 1
   ];
-  23 -> 26 [
+  11 -> 23 [
+    label = 3
+  ];
+  11 -> 24 [
+    label = default
+  ];
+  13 -> 20 [
     label = ""
   ];
-  5 -> 6 [
-    label = ""
-  ];
-  4 -> 5 [
+  23 -> 27 [
     label = ""
   ];
   3 -> 4 [
     label = ""
   ];
-  28 -> 1 [
+  20 -> 19 [
     label = ""
   ];
-  2 -> 3 [
+  25 -> 28 [
     label = ""
   ];
   17 -> 20 [
     label = ""
   ];
-  8 -> 28 [
+  26 -> 25 [
     label = ""
   ];
-  18 -> 17 [
+  11 -> 17 [
+    label = 2
+  ];
+  27 -> 26 [
     label = ""
   ];
-  27 -> 8 [
+  15 -> 20 [
     label = ""
   ];
-  19 -> 18 [
-    label = ""
-  ];
-  9 -> 10 [
-    label = ""
-  ];
-  7 -> 9 [
+  7 -> 8 [
     label = ""
   ];
   6 -> 7 [
     label = ""
   ];
-  12 -> 19 [
+  2 -> 0 [
     label = ""
   ];
-  10 -> 22 [
-    label = 3
-  ];
-  10 -> 23 [
-    label = default
-  ];
-  1 -> 0 [
+  21 -> 9 [
     label = ""
   ];
-  20 -> 8 [
+  5 -> 6 [
     label = ""
   ];
-  22 -> 26 [
+  29 -> 2 [
+    label = ""
+  ];
+  18 -> 21 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  9 -> 29 [
+    label = ""
+  ];
+  19 -> 18 [
+    label = ""
+  ];
+  28 -> 9 [
+    label = ""
+  ];
+  11 -> 13 [
+    label = 0
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  8 -> 10 [
     label = ""
   ];
 }

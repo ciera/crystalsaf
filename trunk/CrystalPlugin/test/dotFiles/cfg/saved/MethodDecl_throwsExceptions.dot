@@ -1,21 +1,21 @@
 digraph throwsExceptions {
   9 [
-    label = a,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  8 [
     label = int,
     fontname = Helvetica,
     fontsize = 10
   ];
-  7 [
+  8 [
     label = "int a",
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 [
+  7 [
     label = str,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = String,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -25,22 +25,22 @@ digraph throwsExceptions {
     fontsize = 10
   ];
   4 [
-    label = String,
-    fontname = Helvetica,
-    fontsize = 10
-  ];
-  3 [
     label = "String str",
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 [
+  3 [
     label = "(finally)",
     fontname = Helvetica,
     fontsize = 10
   ];
-  10 [
+  11 [
     label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = a,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -49,31 +49,31 @@ digraph throwsExceptions {
     fontname = Helvetica,
     fontsize = 10
   ];
-  2 -> 0 [
+  6 -> 5 [
     label = ""
   ];
-  8 -> 9 [
-    label = ""
-  ];
-  4 -> 6 [
-    label = ""
-  ];
-  10 -> 2 [
+  10 -> 11 [
     label = ""
   ];
   7 -> 8 [
     label = ""
   ];
-  5 -> 4 [
+  4 -> 6 [
+    label = ""
+  ];
+  3 -> 0 [
     label = ""
   ];
   9 -> 10 [
     label = ""
   ];
-  6 -> 7 [
+  5 -> 7 [
     label = ""
   ];
-  3 -> 5 [
+  11 -> 3 [
+    label = ""
+  ];
+  8 -> 9 [
     label = ""
   ];
 }

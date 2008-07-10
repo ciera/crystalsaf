@@ -1,21 +1,19 @@
 /**
- * Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman,
- * Kevin Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa, and others.
- *
+ * Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman, Kevin
+ * Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa, and others.
+ * 
  * This file is part of Crystal.
- *
- * Crystal is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Crystal is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Crystal is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Crystal is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Crystal. If
+ * not, see <http://www.gnu.org/licenses/>.
  */
 package edu.cmu.cs.crystal.cfg.eclipse;
 
@@ -36,8 +34,7 @@ import org.junit.Test;
  * 
  */
 public class Try {
-	static private class TestException extends Exception {
-	}
+	static private class TestException extends Exception {}
 
 	// Assume that we are using a class where every method has a unique name
 	static Map<String, MethodDeclaration> methods = new HashMap<String, MethodDeclaration>();
@@ -58,10 +55,12 @@ public class Try {
 		try {
 			if (foo < 3) {
 				throw new Exception(message);
-			} else
+			}
+			else
 				foo++;
 			return foo;
-		} catch (Exception err) {
+		}
+		catch (Exception err) {
 			return foo + 2;
 		}
 	}
@@ -76,7 +75,8 @@ public class Try {
 		try {
 			if (foo < 3)
 				throw new Exception(message);
-		} catch (Exception err) {
+		}
+		catch (Exception err) {
 			message = "blah";
 		}
 	}
@@ -91,9 +91,11 @@ public class Try {
 		try {
 			if (foo < 3)
 				throw new Exception(message);
-		} catch (Exception err) {
+		}
+		catch (Exception err) {
 			message = "blah";
-		} finally {
+		}
+		finally {
 			message = message + "foobar";
 		}
 	}
@@ -104,16 +106,18 @@ public class Try {
 		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
 	}
 
-	public int simpleFinallyReturning(String message, int foo, int bar,
-			boolean cond) {
+	public int simpleFinallyReturning(String message, int foo, int bar, boolean cond) {
 		try {
 			if (cond) {
 				throw new Exception(message);
-			} else
+			}
+			else
 				return foo;
-		} catch (Exception err) {
+		}
+		catch (Exception err) {
 			return bar;
-		} finally {
+		}
+		finally {
 			message = "blah";
 		}
 	}
@@ -124,16 +128,19 @@ public class Try {
 		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
 	}
 
-	public int catchThrowsWithFinally(String message, int foo, int bar,
-			boolean cond) throws Exception {
+	public int catchThrowsWithFinally(String message, int foo, int bar, boolean cond)
+	    throws Exception {
 		try {
 			if (cond) {
 				throw new TestException();
-			} else
+			}
+			else
 				return foo;
-		} catch (TestException err) {
+		}
+		catch (TestException err) {
 			throw new Exception(message);
-		} finally {
+		}
+		finally {
 			message = message + "blah";
 		}
 	}
@@ -148,12 +155,15 @@ public class Try {
 		try {
 			try {
 				throw new TestException();
-			} finally {
+			}
+			finally {
 				message = message + "foo";
 			}
-		} catch (TestException err) {
+		}
+		catch (TestException err) {
 			message = message + "bar";
-		} finally {
+		}
+		finally {
 			message = message + "blah";
 		}
 
@@ -169,7 +179,8 @@ public class Try {
 		try {
 			Socket sock = new Socket();
 			sock.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -192,14 +203,27 @@ public class Try {
 		try {
 			foo();
 			return true;
-		} catch (IOException io) {
+		}
+		catch (IOException io) {
 			return true;
-		} finally {
+		}
+		finally {
 			try {
 				bar();
-			} catch (IOException io) {
+			}
+			catch (IOException io) {
 				return false;
 			}
 		}
+	}
+
+	@Test
+	public void runtimeExpTest() throws Exception {
+		MethodDeclaration decl = methods.get("runtimeExp");
+		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
+	}
+
+	private void runtimeExp() {
+		throw new NullPointerException();
 	}
 }
