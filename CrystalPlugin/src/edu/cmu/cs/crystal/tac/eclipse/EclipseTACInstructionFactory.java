@@ -271,12 +271,20 @@ public class EclipseTACInstructionFactory {
 	}
 
 	private boolean isLoad(Expression node) {
-		if((node.getParent() instanceof Assignment) == false)
+		if(node.getParent() instanceof Assignment) {
+			Assignment parent = (Assignment) node.getParent();
+			if(parent.getLeftHandSide() != node)
+				return true;
+			// node is on the left
+			// it's still a load if this is += or something like that.
+			return Assignment.Operator.ASSIGN.equals(parent.getOperator()) == false;
+		}
+		else if((node.getParent() instanceof VariableDeclaration) &&
+				(((VariableDeclaration) node.getParent()).getName() == node))
+			// node is the name of a declaration --> not a load but a store
+			return false;
+		else
 			return true;
-		Assignment parent = (Assignment) node.getParent();
-		if(parent.getLeftHandSide() != node)
-			return true;
-		return Assignment.Operator.ASSIGN.equals(parent.getOperator()) == false;
 	}
 
 	public TACInstruction create(
@@ -458,12 +466,12 @@ public class EclipseTACInstructionFactory {
 			if(vb.isField() || vb.isEnumConstant()) {
 				if((node.getParent() instanceof QualifiedName) &&
 						(((QualifiedName) node.getParent()).getName() == node))
-					// trying to avoid double-creation of array accesses through
+					// trying to avoid double-creation of field accesses through
 					// QualifiedName and nested SimpleName
 					return null;
 				if((node.getParent() instanceof FieldAccess) &&
 						(((FieldAccess) node.getParent()).getName() == node))
-					// trying to avoid double-creation of array accesses through
+					// trying to avoid double-creation of field accesses through
 					// FieldAccess and nested SimpleName
 					return null;
 				// implicit field access on this
