@@ -197,7 +197,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 		return undeclExit;
 	}
 
-	public Map<ITypeBinding, EclipseCFGNode> getExceptionalReturns() {
+	public Map<ITypeBinding, EclipseCFGNode> getExceptionalExits() {
 		return excpReturns;
 	}
 
