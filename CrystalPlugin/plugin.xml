@@ -33,11 +33,11 @@
  <extension
        point="org.eclipse.ui.popupMenus">
     <objectContribution
-          id="Crystal.contribution1"
+          id="CrystalPlugin.analyzeCompUnit"
           objectClass="org.eclipse.jdt.core.ICompilationUnit">
        <menu
              id="Crystal.menu1"
-             label="Crystal"
+             label="&amp;Crystal"
              path="additions">
           <separator
                 name="group1">
@@ -48,8 +48,73 @@
              enablesFor="*"
              icon="icons/sample.gif"
              id="Crystal.newAction"
-             label="Run Analyses"
-             menubarPath="Crystal.menu1/group1">
+             label="&amp;Run Analyses"
+             menubarPath="Crystal.menu1/group1"
+             tooltip="Runs Crystal on this compilation unit">
+       </action>
+    </objectContribution>
+    <objectContribution
+          adaptable="false"
+          id="CrystalPlugin.analyzePackage"
+          objectClass="org.eclipse.jdt.core.IPackageFragment">
+       <menu
+             id="CrystalPlugin.packageMenu"
+             label="&amp;Crystal"
+             path="additions">
+          <separator
+                name="CrystalPlugin.packageSeparator">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="CrystalPlugin.analyzePackageAction"
+             label="&amp;Run Analyses"
+             menubarPath="CrystalPlugin.packageMenu/CrystalPlugin.packageSeparator"
+             tooltip="Runs Crystal on all compilation units in this folder">
+       </action>
+    </objectContribution>
+    <objectContribution
+          adaptable="false"
+          id="CrystalPlugin.analyzePackageRoot"
+          objectClass="org.eclipse.jdt.core.IPackageFragmentRoot">
+       <menu
+             id="CrystalPlugin.packageRootMenu"
+             label="&amp;Crystal">
+          <separator
+                name="CrystalPlugin.packageRootSeparator">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="CrystalPlugin.analyzePackageRootAction"
+             label="&amp;Run Analyses"
+             menubarPath="CrystalPlugin.packageRootMenu/CrystalPlugin.packageRootSeparator"
+             tooltip="Runs Crystal on all compilation units in this folder">
+       </action>
+    </objectContribution>
+    <objectContribution
+          adaptable="false"
+          id="CrystalPlugin.analyzeProject"
+          objectClass="org.eclipse.jdt.core.IJavaProject">
+       <menu
+             id="CrystalPlugin.projectMenu"
+             label="&amp;Crystal">
+          <separator
+                name="CrystalPlugin.projectSeparator">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="CrystalPlugin.analyzeProjectAction"
+             label="&amp;Run Analyses"
+             menubarPath="CrystalPlugin.projectMenu/CrystalPlugin.projectSeparator"
+             tooltip="Runs Crystal on all compilation units in this project">
        </action>
     </objectContribution>
  </extension>
