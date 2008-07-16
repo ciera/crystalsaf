@@ -19,23 +19,16 @@
  */
 package edu.cmu.cs.crystal.internal;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-
-import java.util.List;
 
 import edu.cmu.cs.crystal.Crystal;
 
@@ -61,18 +54,27 @@ public class CrystalFileAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		List<ICompilationUnit> reanalyzeList = new ArrayList<ICompilationUnit>();
+		List<ICompilationUnit> reanalyzeList = null;
 		
 		if (!selection.isEmpty()) {
 			if (selection instanceof IStructuredSelection) {
 				for (Object element : ((IStructuredSelection)selection).toList()) {
-					reanalyzeList.add((ICompilationUnit)element);
+					List<ICompilationUnit> temp =
+						WorkspaceUtilities.collectCompilationUnits((IJavaElement) element);
+					if(temp == null)
+						continue;
+					if(reanalyzeList == null)
+						reanalyzeList = temp;
+					else
+						reanalyzeList.addAll(temp);
 				}
 			}
 		}
 		
-		Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
-		crystal.runAnalyses(reanalyzeList);
+		if(reanalyzeList != null) {
+			Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
+			crystal.runAnalyses(reanalyzeList);
+		}
 	}
 
 	/**

@@ -65,13 +65,14 @@ public class WorkspaceUtilities {
 	}
 
 	/**
-	 * A recursive traversal of the IJavaModel to collect all ICompilationUnits.
+	 * A recursive traversal of the IJavaModel starting from the given
+	 * element to collect all ICompilationUnits.
 	 * Each compilation unit corresponds to each java file.
 	 *  
 	 * @param javaElement a node in the IJavaModel that will be traversed
 	 * @return a list of compilation units
 	 */
-	private static List<ICompilationUnit> collectCompilationUnits(IJavaElement javaElement) {
+	public static List<ICompilationUnit> collectCompilationUnits(IJavaElement javaElement) {
 		List<ICompilationUnit> list = null, temp = null;
 		// We are traversing the JavaModel for COMPILATION_UNITs
  		if(javaElement.getElementType() == IJavaElement.COMPILATION_UNIT) {
@@ -85,6 +86,7 @@ public class WorkspaceUtilities {
  	 		IParent parent = (IParent) javaElement;
  	 		
  	 		// Do not traverse PACKAGE_FRAGMENT_ROOTs that are ReadOnly
+ 	 		// this ignores libraries and .class files
  	 		if(javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT
  	 				&& javaElement.isReadOnly()) {
 				return null;
@@ -288,6 +290,8 @@ class BindingsCollectorVisitor extends ASTVisitor {
 	}
 	
 	protected void addNewBinding(IBinding binding, ASTNode node) {
+		if(binding == null)
+			return;
 		if(bindings == null)
 			throw new CrystalRuntimeException("BindingsCollectorVisitor::addNewBinding: Unexpected null mapping");
 		if(bindings.containsKey(binding)) {

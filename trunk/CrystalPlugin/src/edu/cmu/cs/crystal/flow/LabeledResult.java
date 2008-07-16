@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import edu.cmu.cs.crystal.ILabel;
 
 /**
@@ -49,6 +47,13 @@ public class LabeledResult<LE extends LatticeElement<LE>> implements IResult<LE>
 		return new LabeledResult<LE>(defaultValue);
 	}
 	
+	/**
+	 * Create a result for the given labels with the given default value.
+	 * @param <LE>
+	 * @param labels
+	 * @param defaultValue
+	 * @return A new result for the given labels with the given default value.
+	 */
 	public static <LE extends LatticeElement<LE>> LabeledResult<LE> 
 	createResult(List<ILabel> labels, LE defaultValue) {
 		return new LabeledResult<LE>(labels, defaultValue);

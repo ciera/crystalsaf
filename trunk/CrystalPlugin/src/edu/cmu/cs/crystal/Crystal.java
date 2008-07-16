@@ -299,8 +299,6 @@ public class Crystal {
 	private void runAnalysesOnMultiUnit(
 			List<ICompilationUnit> units, PrintWriter output,
 			PrintWriter user) {
-		ICompilationUnit compUnit = null;
-		
 		if(units == null || units.isEmpty())
 			return;
 		
@@ -323,9 +321,9 @@ public class Crystal {
 		}
 		
 		//run the annotation finder on everything
-		Iterator<ICompilationUnit> unitIterator = units.iterator();
-		while (unitIterator.hasNext()) {
-			compUnit = unitIterator.next();
+		if(logger.isLoggable(Level.INFO))
+			logger.info("Scanning annotations of analyzed compilation units");
+		for(ICompilationUnit compUnit : units) {
 			if (compUnit == null)
 				continue;
 			ASTNode node = getASTNodeFromCompilationUnit(compUnit);
@@ -336,10 +334,8 @@ public class Crystal {
 			bindings = null;
 		}
 		
-		unitIterator = units.iterator();
-		while (unitIterator.hasNext()) {
+		for(ICompilationUnit compUnit : units) {
 			try {
-				compUnit = unitIterator.next();
 				if(compUnit == null) {
 					if(logger.isLoggable(Level.WARNING))
 						logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
@@ -361,12 +357,12 @@ public class Crystal {
 				}
 			} 
 			catch (JavaModelException e) {
-				logger.log(Level.SEVERE, 
+				logger.log(Level.WARNING, 
 						"AbstractCompilationUnitAnalysis: Unable to retrieve path of CompilationUnit" + compUnit.getElementName(),
 						e);
 			} 
 			catch (CoreException e) {
-				logger.log(Level.SEVERE, 
+				logger.log(Level.WARNING, 
 						"Could not remove markers from CompilationUnit" + compUnit.getElementName(),
 						e);
 			}
