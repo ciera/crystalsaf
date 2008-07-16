@@ -59,28 +59,25 @@ digraph empty {
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 -> 12 [
+  6 -> 10 [
     label = ""
   ];
-  8 -> 10 [
-    label = ""
-  ];
-  5 -> 6 [
-    label = ""
-  ];
-  3 -> 4 [
+  3 -> 7 [
     label = ""
   ];
   2 -> 0 [
     label = ""
   ];
+  4 -> 5 [
+    label = ""
+  ];
   11 -> 9 [
     label = default
   ];
-  7 -> 8 [
+  5 -> 3 [
     label = ""
   ];
-  4 -> 5 [
+  8 -> 6 [
     label = ""
   ];
   12 -> 2 [
@@ -89,7 +86,10 @@ digraph empty {
   10 -> 11 [
     label = ""
   ];
-  6 -> 7 [
+  7 -> 8 [
+    label = ""
+  ];
+  9 -> 12 [
     label = ""
   ];
 }

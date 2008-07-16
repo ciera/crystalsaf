@@ -19,13 +19,13 @@ digraph runtimeExp {
     fontname = Helvetica,
     fontsize = 10
   ];
-  1 -> 0 [
-    label = ""
-  ];
   4 -> 3 [
     label = ""
   ];
   3 -> 1 [
     label = "java.lang.NullPointerException"
+  ];
+  1 -> 0 [
+    label = ""
   ];
 }

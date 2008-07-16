@@ -29,19 +29,19 @@ digraph ConstructorEmpty {
     fontname = Helvetica,
     fontsize = 10
   ];
-  6 -> 8 [
+  8 -> 7 [
     label = ""
   ];
   9 -> 2 [
     label = ""
   ];
-  8 -> 7 [
-    label = ""
-  ];
   2 -> 0 [
     label = ""
   ];
-  7 -> 9 [
+  7 -> 6 [
+    label = ""
+  ];
+  6 -> 9 [
     label = ""
   ];
 }

@@ -45,7 +45,7 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   30 [
-    label = io,
+    label = "IOException io",
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -65,12 +65,12 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   47 [
-    label = io,
+    label = "IOException io",
     fontname = Helvetica,
     fontsize = 10
   ];
   46 [
-    label = IOException,
+    label = io,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -80,7 +80,7 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   44 [
-    label = "IOException io",
+    label = IOException,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -100,7 +100,7 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   29 [
-    label = IOException,
+    label = io,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -110,7 +110,7 @@ digraph finallyHasTry {
     fontsize = 10
   ];
   27 [
-    label = "IOException io",
+    label = IOException,
     fontname = Helvetica,
     fontsize = 10
   ];
@@ -169,70 +169,91 @@ digraph finallyHasTry {
     fontname = Helvetica,
     fontsize = 10
   ];
-  43 -> 44 [
+  25 -> 24 [
+    label = ""
+  ];
+  51 -> 52 [
+    label = ""
+  ];
+  39 -> 21 [
     label = "java.io.IOException"
+  ];
+  32 -> 2 [
+    label = ""
+  ];
+  43 -> 50 [
+    label = ""
+  ];
+  48 -> 49 [
+    label = ""
+  ];
+  27 -> 28 [
+    label = ""
   ];
   33 -> 34 [
     label = ""
   ];
-  20 -> 22 [
+  43 -> 44 [
+    label = "java.io.IOException"
+  ];
+  22 -> 19 [
     label = ""
   ];
   36 -> 2 [
     label = ""
   ];
-  31 -> 32 [
+  42 -> 41 [
     label = ""
   ];
-  42 -> 41 [
+  30 -> 31 [
     label = ""
   ];
   46 -> 47 [
     label = ""
   ];
-  26 -> 27 [
-    label = "java.io.IOException"
+  24 -> 26 [
+    label = ""
   ];
   52 -> 53 [
     label = ""
   ];
-  24 -> 26 [
+  21 -> 20 [
     label = ""
   ];
-  19 -> 21 [
+  2 -> 0 [
     label = ""
   ];
   50 -> 51 [
     label = ""
   ];
-  29 -> 30 [
+  49 -> 2 [
+    label = ""
+  ];
+  28 -> 29 [
     label = ""
   ];
   39 -> 38 [
     label = ""
   ];
-  49 -> 2 [
+  34 -> 35 [
     label = ""
   ];
   44 -> 45 [
     label = ""
   ];
-  34 -> 35 [
+  19 -> 25 [
     label = ""
   ];
-  22 -> 25 [
-    label = ""
-  ];
-  32 -> 2 [
+  31 -> 32 [
     label = ""
   ];
   41 -> 43 [
     label = ""
   ];
-  47 -> 48 [
-    label = ""
+  26 -> 27 [
+    label = "java.io.IOException"
   ];
-  27 -> 28 [
+  47 -> 48 [
     label = ""
   ];
   26 -> 33 [
@@ -241,40 +262,19 @@ digraph finallyHasTry {
   53 -> 2 [
     label = ""
   ];
-  21 -> 20 [
+  20 -> 22 [
     label = ""
   ];
   35 -> 36 [
     label = ""
   ];
+  29 -> 30 [
+    label = ""
+  ];
   38 -> 42 [
     label = ""
   ];
-  30 -> 31 [
-    label = ""
-  ];
   45 -> 46 [
-    label = ""
-  ];
-  51 -> 52 [
-    label = ""
-  ];
-  25 -> 24 [
-    label = ""
-  ];
-  39 -> 19 [
-    label = "java.io.IOException"
-  ];
-  43 -> 50 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  48 -> 49 [
-    label = ""
-  ];
-  28 -> 29 [
     label = ""
   ];
 }

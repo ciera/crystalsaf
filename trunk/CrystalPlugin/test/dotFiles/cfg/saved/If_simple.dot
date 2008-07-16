@@ -109,52 +109,13 @@ digraph simple {
     fontname = Helvetica,
     fontsize = 10
   ];
-  22 -> 2 [
-    label = ""
-  ];
-  15 -> 14 [
-    label = ""
-  ];
   4 -> 5 [
-    label = ""
-  ];
-  12 -> 22 [
-    label = ""
-  ];
-  16 -> 15 [
-    label = ""
-  ];
-  9 -> 10 [
-    label = ""
-  ];
-  17 -> 16 [
-    label = ""
-  ];
-  8 -> 9 [
-    label = ""
-  ];
-  7 -> 8 [
     label = ""
   ];
   13 -> 17 [
     label = true
   ];
-  13 -> 21 [
-    label = false
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  11 -> 13 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  6 -> 7 [
+  7 -> 8 [
     label = ""
   ];
   20 -> 19 [
@@ -163,16 +124,55 @@ digraph simple {
   18 -> 12 [
     label = ""
   ];
-  5 -> 6 [
-    label = ""
-  ];
-  21 -> 20 [
+  3 -> 7 [
     label = ""
   ];
   19 -> 18 [
     label = ""
   ];
+  15 -> 14 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  6 -> 10 [
+    label = ""
+  ];
+  8 -> 6 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  22 -> 2 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+  12 -> 22 [
+    label = ""
+  ];
+  13 -> 21 [
+    label = false
+  ];
   14 -> 12 [
+    label = ""
+  ];
+  9 -> 13 [
+    label = ""
+  ];
+  11 -> 9 [
+    label = ""
+  ];
+  5 -> 3 [
     label = ""
   ];
 }
