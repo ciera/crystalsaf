@@ -144,76 +144,34 @@ digraph simple {
     fontname = Helvetica,
     fontsize = 10
   ];
-  21 -> 10 [
+  7 -> 24 [
     label = ""
   ];
   19 -> 18 [
     label = ""
   ];
-  7 -> 8 [
-    label = ""
-  ];
-  6 -> 7 [
-    label = ""
-  ];
-  31 -> 2 [
-    label = ""
-  ];
-  12 -> 14 [
-    label = ""
-  ];
-  4 -> 6 [
-    label = ""
-  ];
-  10 -> 31 [
-    label = ""
-  ];
-  26 -> 12 [
-    label = "java.lang.Exception"
-  ];
-  5 -> 4 [
-    label = ""
-  ];
-  11 -> 10 [
-    label = ""
-  ];
-  27 -> 26 [
-    label = ""
-  ];
-  24 -> 25 [
-    label = ""
-  ];
-  9 -> 24 [
-    label = ""
-  ];
-  8 -> 9 [
+  9 -> 7 [
     label = ""
   ];
   22 -> 21 [
     label = ""
   ];
+  15 -> 12 [
+    label = ""
+  ];
   20 -> 19 [
-    label = ""
-  ];
-  13 -> 15 [
-    label = ""
-  ];
-  2 -> 0 [
     label = ""
   ];
   23 -> 22 [
     label = false
   ];
-  14 -> 13 [
+  12 -> 20 [
     label = ""
   ];
-  15 -> 20 [
+  4 -> 6 [
     label = ""
   ];
-  3 -> 5 [
-    label = ""
-  ];
-  25 -> 23 [
+  5 -> 4 [
     label = ""
   ];
   16 -> 11 [
@@ -230,5 +188,47 @@ digraph simple {
   ];
   23 -> 30 [
     label = true
+  ];
+  21 -> 10 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  3 -> 8 [
+    label = ""
+  ];
+  13 -> 15 [
+    label = ""
+  ];
+  31 -> 2 [
+    label = ""
+  ];
+  6 -> 3 [
+    label = ""
+  ];
+  10 -> 31 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  26 -> 14 [
+    label = "java.lang.Exception"
+  ];
+  27 -> 26 [
+    label = ""
+  ];
+  25 -> 23 [
+    label = ""
+  ];
+  24 -> 25 [
+    label = ""
   ];
 }

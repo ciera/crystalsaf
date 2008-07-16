@@ -184,82 +184,7 @@ digraph simpleFinallyReturning {
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 -> 10 [
-    label = ""
-  ];
-  46 -> 47 [
-    label = ""
-  ];
-  25 -> 24 [
-    label = ""
-  ];
   14 -> 15 [
-    label = ""
-  ];
-  37 -> 43 [
-    label = true
-  ];
-  33 -> 34 [
-    label = ""
-  ];
-  29 -> 28 [
-    label = ""
-  ];
-  7 -> 8 [
-    label = ""
-  ];
-  45 -> 44 [
-    label = ""
-  ];
-  39 -> 23 [
-    label = "java.lang.Exception"
-  ];
-  31 -> 32 [
-    label = ""
-  ];
-  12 -> 13 [
-    label = ""
-  ];
-  49 -> 50 [
-    label = ""
-  ];
-  24 -> 26 [
-    label = ""
-  ];
-  4 -> 6 [
-    label = ""
-  ];
-  3 -> 5 [
-    label = ""
-  ];
-  15 -> 37 [
-    label = ""
-  ];
-  34 -> 2 [
-    label = ""
-  ];
-  43 -> 40 [
-    label = ""
-  ];
-  10 -> 11 [
-    label = ""
-  ];
-  28 -> 30 [
-    label = ""
-  ];
-  47 -> 48 [
-    label = ""
-  ];
-  8 -> 9 [
-    label = ""
-  ];
-  44 -> 46 [
-    label = ""
-  ];
-  23 -> 25 [
-    label = ""
-  ];
-  13 -> 14 [
     label = ""
   ];
   50 -> 2 [
@@ -268,13 +193,10 @@ digraph simpleFinallyReturning {
   32 -> 33 [
     label = ""
   ];
-  26 -> 29 [
+  23 -> 29 [
     label = ""
   ];
-  5 -> 4 [
-    label = ""
-  ];
-  6 -> 7 [
+  3 -> 8 [
     label = ""
   ];
   37 -> 45 [
@@ -286,13 +208,91 @@ digraph simpleFinallyReturning {
   40 -> 39 [
     label = ""
   ];
-  11 -> 12 [
+  12 -> 10 [
     label = ""
   ];
   30 -> 31 [
     label = ""
   ];
   48 -> 49 [
+    label = ""
+  ];
+  7 -> 11 [
+    label = ""
+  ];
+  46 -> 47 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  24 -> 26 [
+    label = ""
+  ];
+  15 -> 13 [
+    label = ""
+  ];
+  37 -> 43 [
+    label = true
+  ];
+  33 -> 34 [
+    label = ""
+  ];
+  29 -> 28 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  45 -> 44 [
+    label = ""
+  ];
+  39 -> 25 [
+    label = "java.lang.Exception"
+  ];
+  10 -> 14 [
+    label = ""
+  ];
+  31 -> 32 [
+    label = ""
+  ];
+  49 -> 50 [
+    label = ""
+  ];
+  26 -> 23 [
+    label = ""
+  ];
+  6 -> 3 [
+    label = ""
+  ];
+  13 -> 37 [
+    label = ""
+  ];
+  34 -> 2 [
+    label = ""
+  ];
+  43 -> 40 [
+    label = ""
+  ];
+  11 -> 12 [
+    label = ""
+  ];
+  28 -> 30 [
+    label = ""
+  ];
+  47 -> 48 [
+    label = ""
+  ];
+  9 -> 7 [
+    label = ""
+  ];
+  44 -> 46 [
+    label = ""
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  25 -> 24 [
     label = ""
   ];
 }

@@ -109,19 +109,22 @@ digraph breaking {
     fontname = Helvetica,
     fontsize = 10
   ];
-  16 -> 10 [
+  20 -> 9 [
+    label = true
+  ];
+  3 -> 7 [
     label = ""
   ];
-  15 -> 13 [
+  5 -> 3 [
     label = ""
   ];
   4 -> 5 [
     label = ""
   ];
-  3 -> 4 [
+  21 -> 20 [
     label = ""
   ];
-  7 -> 8 [
+  8 -> 6 [
     label = ""
   ];
   18 -> 17 [
@@ -133,23 +136,20 @@ digraph breaking {
   2 -> 0 [
     label = ""
   ];
-  6 -> 7 [
+  7 -> 8 [
     label = ""
   ];
   17 -> 11 [
     label = ""
   ];
-  19 -> 18 [
+  22 -> 2 [
     label = ""
   ];
-  5 -> 6 [
+  10 -> 22 [
     label = ""
   ];
-  13 -> 16 [
-    label = true
-  ];
-  20 -> 9 [
-    label = true
+  16 -> 10 [
+    label = ""
   ];
   14 -> 15 [
     label = ""
@@ -160,22 +160,22 @@ digraph breaking {
   9 -> 14 [
     label = ""
   ];
-  8 -> 9 [
+  6 -> 9 [
     label = ""
   ];
-  21 -> 20 [
-    label = ""
-  ];
-  22 -> 2 [
+  19 -> 18 [
     label = ""
   ];
   12 -> 19 [
     label = ""
   ];
-  10 -> 22 [
-    label = ""
-  ];
   13 -> 12 [
     label = false
+  ];
+  15 -> 13 [
+    label = ""
+  ];
+  13 -> 16 [
+    label = true
   ];
 }

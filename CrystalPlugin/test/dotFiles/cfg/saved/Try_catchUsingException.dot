@@ -114,19 +114,37 @@ digraph catchUsingException {
     fontname = Helvetica,
     fontsize = 10
   ];
-  24 -> 5 [
-    label = "java.io.IOException"
-  ];
-  3 -> 27 [
+  24 -> 23 [
     label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  25 -> 24 [
+    label = ""
+  ];
+  18 -> 25 [
+    label = ""
+  ];
+  7 -> 6 [
+    label = ""
+  ];
+  24 -> 7 [
+    label = "java.io.IOException"
   ];
   14 -> 3 [
     label = ""
   ];
-  4 -> 3 [
+  23 -> 14 [
     label = ""
   ];
-  23 -> 14 [
+  9 -> 4 [
+    label = ""
+  ];
+  10 -> 9 [
+    label = ""
+  ];
+  16 -> 20 [
     label = ""
   ];
   17 -> 16 [
@@ -135,52 +153,34 @@ digraph catchUsingException {
   15 -> 17 [
     label = ""
   ];
-  20 -> 19 [
+  12 -> 11 [
     label = ""
   ];
-  7 -> 6 [
-    label = ""
-  ];
-  8 -> 12 [
-    label = ""
-  ];
-  2 -> 0 [
-    label = ""
-  ];
-  18 -> 20 [
-    label = ""
-  ];
-  5 -> 7 [
+  19 -> 18 [
     label = ""
   ];
   6 -> 8 [
     label = ""
   ];
-  16 -> 18 [
+  5 -> 12 [
     label = ""
   ];
-  9 -> 4 [
+  2 -> 0 [
     label = ""
   ];
-  24 -> 23 [
+  20 -> 19 [
     label = ""
   ];
-  10 -> 9 [
-    label = ""
-  ];
-  25 -> 24 [
-    label = ""
-  ];
-  11 -> 10 [
-    label = ""
-  ];
-  19 -> 25 [
-    label = ""
-  ];
-  12 -> 11 [
+  8 -> 5 [
     label = ""
   ];
   27 -> 2 [
+    label = ""
+  ];
+  3 -> 27 [
+    label = ""
+  ];
+  4 -> 3 [
     label = ""
   ];
 }

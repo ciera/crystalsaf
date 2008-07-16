@@ -69,20 +69,23 @@ digraph loopBreak {
     fontname = Helvetica,
     fontsize = 10
   ];
+  2 -> 0 [
+    label = ""
+  ];
   10 -> 13 [
     label = true
   ];
-  4 -> 5 [
+  5 -> 3 [
     label = ""
   ];
-  2 -> 0 [
+  8 -> 10 [
+    label = ""
+  ];
+  9 -> 6 [
     label = ""
   ];
   13 -> 14 [
     label = true
-  ];
-  9 -> 6 [
-    label = ""
   ];
   13 -> 12 [
     label = false
@@ -93,16 +96,13 @@ digraph loopBreak {
   10 -> 9 [
     label = false
   ];
-  8 -> 10 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  5 -> 8 [
-    label = ""
-  ];
   11 -> 8 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  3 -> 8 [
     label = ""
   ];
   6 -> 16 [

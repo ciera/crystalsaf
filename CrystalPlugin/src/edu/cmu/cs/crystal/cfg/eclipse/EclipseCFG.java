@@ -695,7 +695,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 
 		if (last != null) {
 			createEdge(last.getEnd(), body.getStart());
-			method.setStart(nodeMap.get(node.parameters().get(0)));
+			method.setStart(nodeMap.get(node.parameters().get(0)).getStart());
 		}
 		else
 			method.setStart(body.getStart());
@@ -1081,22 +1081,29 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 	private EclipseCFGNode handleVariableDecl(VariableDeclaration node, EclipseCFGNode startPoint) {
 		EclipseCFGNode decl = nodeMap.get(node);
 		EclipseCFGNode name = nodeMap.get(node.getName());
-		EclipseCFGNode current = decl;
+		EclipseCFGNode current = null;
 
 		if (startPoint != null) {
-			createEdge(current, startPoint.getStart());
 			current = startPoint.getEnd();
 		}
 
 		if (node.getInitializer() != null) {
 			EclipseCFGNode init = nodeMap.get(node.getInitializer());
-			createEdge(current, init.getStart());
+			if (current != null)
+				createEdge(current, init.getStart());
+			else
+				startPoint = init;
 			current = init.getEnd();
 		}
 
-		createEdge(current, name.getStart());
-		decl.setStart(decl);
-		decl.setEnd(name.getEnd());
+		if (current != null)
+			createEdge(current, name.getStart());
+		else
+			startPoint = name;
+
+		createEdge(name.getEnd(), decl);
+
+		decl.setStart(startPoint.getStart());
 
 		return decl;
 	}

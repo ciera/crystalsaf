@@ -49,16 +49,13 @@ digraph withParams {
     fontname = Helvetica,
     fontsize = 10
   ];
-  9 -> 10 [
+  9 -> 7 [
     label = ""
   ];
-  6 -> 7 [
+  6 -> 3 [
     label = ""
   ];
-  3 -> 5 [
-    label = ""
-  ];
-  2 -> 0 [
+  10 -> 2 [
     label = ""
   ];
   8 -> 9 [
@@ -67,13 +64,16 @@ digraph withParams {
   4 -> 6 [
     label = ""
   ];
-  10 -> 2 [
+  7 -> 10 [
     label = ""
   ];
-  7 -> 8 [
+  3 -> 8 [
     label = ""
   ];
   5 -> 4 [
+    label = ""
+  ];
+  2 -> 0 [
     label = ""
   ];
 }

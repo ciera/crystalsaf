@@ -79,25 +79,10 @@ digraph ConstructorSelf2 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  14 -> 1 [
-    label = "java.lang.NumberFormatException"
-  ];
-  18 -> 22 [
-    label = ""
-  ];
-  15 -> 17 [
-    label = ""
-  ];
   11 -> 10 [
     label = ""
   ];
-  12 -> 15 [
-    label = ""
-  ];
-  21 -> 20 [
-    label = ""
-  ];
-  9 -> 11 [
+  13 -> 21 [
     label = ""
   ];
   2 -> 0 [
@@ -106,16 +91,19 @@ digraph ConstructorSelf2 {
   19 -> 18 [
     label = ""
   ];
-  13 -> 21 [
+  1 -> 0 [
     label = ""
   ];
   17 -> 14 [
     label = ""
   ];
-  10 -> 12 [
+  12 -> 9 [
     label = ""
   ];
-  1 -> 0 [
+  15 -> 17 [
+    label = ""
+  ];
+  14 -> 13 [
     label = ""
   ];
   22 -> 2 [
@@ -124,7 +112,19 @@ digraph ConstructorSelf2 {
   20 -> 19 [
     label = ""
   ];
-  14 -> 13 [
+  21 -> 20 [
+    label = ""
+  ];
+  14 -> 1 [
+    label = "java.lang.NumberFormatException"
+  ];
+  18 -> 22 [
+    label = ""
+  ];
+  10 -> 12 [
+    label = ""
+  ];
+  9 -> 15 [
     label = ""
   ];
 }

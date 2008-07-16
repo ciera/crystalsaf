@@ -94,7 +94,34 @@ digraph nestedLoopBreak {
     fontname = Helvetica,
     fontsize = 10
   ];
-  5 -> 8 [
+  22 -> 2 [
+    label = ""
+  ];
+  17 -> 14 [
+    label = ""
+  ];
+  6 -> 22 [
+    label = ""
+  ];
+  18 -> 17 [
+    label = ""
+  ];
+  9 -> 6 [
+    label = ""
+  ];
+  19 -> 18 [
+    label = false
+  ];
+  16 -> 19 [
+    label = true
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  15 -> 12 [
+    label = ""
+  ];
+  3 -> 8 [
     label = ""
   ];
   19 -> 20 [
@@ -103,28 +130,19 @@ digraph nestedLoopBreak {
   16 -> 15 [
     label = false
   ];
-  2 -> 0 [
-    label = ""
-  ];
-  4 -> 5 [
-    label = ""
-  ];
-  17 -> 14 [
+  5 -> 3 [
     label = ""
   ];
   20 -> 9 [
     label = ""
   ];
-  3 -> 4 [
-    label = ""
-  ];
   10 -> 9 [
     label = false
   ];
-  14 -> 16 [
+  11 -> 8 [
     label = ""
   ];
-  11 -> 8 [
+  14 -> 16 [
     label = ""
   ];
   12 -> 11 [
@@ -136,25 +154,7 @@ digraph nestedLoopBreak {
   8 -> 10 [
     label = ""
   ];
-  15 -> 12 [
+  2 -> 0 [
     label = ""
-  ];
-  22 -> 2 [
-    label = ""
-  ];
-  18 -> 17 [
-    label = ""
-  ];
-  6 -> 22 [
-    label = ""
-  ];
-  19 -> 18 [
-    label = false
-  ];
-  9 -> 6 [
-    label = ""
-  ];
-  16 -> 19 [
-    label = true
   ];
 }

@@ -94,61 +94,61 @@ digraph emptyUpdates {
     fontname = Helvetica,
     fontsize = 10
   ];
-  3 -> 4 [
-    label = ""
-  ];
-  18 -> 13 [
-    label = ""
-  ];
-  17 -> 16 [
-    label = ""
-  ];
   2 -> 0 [
     label = ""
   ];
-  11 -> 18 [
+  10 -> 18 [
     label = ""
   ];
-  13 -> 17 [
-    label = true
-  ];
-  6 -> 18 [
-    label = ""
-  ];
-  8 -> 9 [
-    label = ""
-  ];
-  14 -> 6 [
-    label = ""
-  ];
-  5 -> 8 [
-    label = ""
-  ];
-  15 -> 14 [
-    label = ""
-  ];
-  4 -> 5 [
-    label = ""
-  ];
-  16 -> 15 [
+  11 -> 10 [
     label = ""
   ];
   19 -> 2 [
     label = ""
   ];
-  12 -> 11 [
-    label = ""
-  ];
   7 -> 19 [
     label = ""
   ];
-  10 -> 12 [
+  12 -> 11 [
+    label = ""
+  ];
+  9 -> 12 [
     label = ""
   ];
   13 -> 7 [
     label = false
   ];
-  9 -> 10 [
+  4 -> 5 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  18 -> 13 [
+    label = ""
+  ];
+  13 -> 17 [
+    label = true
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  6 -> 18 [
+    label = ""
+  ];
+  14 -> 6 [
+    label = ""
+  ];
+  3 -> 8 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  15 -> 14 [
     label = ""
   ];
 }

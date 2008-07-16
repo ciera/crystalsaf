@@ -119,16 +119,7 @@ digraph nestedSwitch3 {
     fontname = Helvetica,
     fontsize = 10
   ];
-  8 -> 11 [
-    label = ""
-  ];
-  13 -> 12 [
-    label = false
-  ];
   21 -> 23 [
-    label = ""
-  ];
-  29 -> 2 [
     label = ""
   ];
   19 -> 21 [
@@ -140,23 +131,17 @@ digraph nestedSwitch3 {
   30 -> 29 [
     label = ""
   ];
+  5 -> 3 [
+    label = ""
+  ];
   4 -> 5 [
     label = ""
   ];
-  31 -> 2 [
-    label = ""
-  ];
-  3 -> 4 [
-    label = ""
-  ];
-  32 -> 31 [
+  25 -> 26 [
     label = ""
   ];
   19 -> 25 [
     label = 4
-  ];
-  9 -> 32 [
-    label = ""
   ];
   22 -> 2 [
     label = ""
@@ -164,20 +149,29 @@ digraph nestedSwitch3 {
   23 -> 22 [
     label = ""
   ];
+  12 -> 9 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = false
+  ];
+  6 -> 11 [
+    label = ""
+  ];
+  29 -> 2 [
+    label = ""
+  ];
+  8 -> 6 [
+    label = ""
+  ];
   7 -> 8 [
     label = ""
   ];
-  6 -> 7 [
-    label = ""
-  ];
-  5 -> 6 [
+  3 -> 7 [
     label = ""
   ];
   13 -> 18 [
     label = true
-  ];
-  2 -> 0 [
-    label = ""
   ];
   26 -> 12 [
     label = ""
@@ -188,13 +182,19 @@ digraph nestedSwitch3 {
   11 -> 13 [
     label = ""
   ];
+  2 -> 0 [
+    label = ""
+  ];
   19 -> 28 [
     label = default
   ];
-  25 -> 26 [
+  31 -> 2 [
     label = ""
   ];
-  12 -> 9 [
+  32 -> 31 [
+    label = ""
+  ];
+  9 -> 32 [
     label = ""
   ];
 }
