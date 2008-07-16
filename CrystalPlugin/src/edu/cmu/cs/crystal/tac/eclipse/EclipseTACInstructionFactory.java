@@ -38,6 +38,7 @@ import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.InfixExpression;
@@ -506,8 +507,9 @@ public class EclipseTACInstructionFactory {
 			}
 		}
 		if(log.isLoggable(Level.WARNING)
-				&& ((binding instanceof ITypeBinding) == false) 
-				&& ((binding instanceof IMethodBinding) == false))
+				&& ((binding instanceof ITypeBinding) == false)     // type name
+				&& ((binding instanceof IMethodBinding) == false)   // method name
+				&& ((binding instanceof IPackageBinding) == false)) // package name
 			log.warning("Ignore simple name \"" + node + "\" inside node: " + node.getParent());
 		return null;
 	}
@@ -573,7 +575,20 @@ public class EclipseTACInstructionFactory {
 			
 		}
 		else {
-			return new SourceVariableDeclarationImpl(node, eclipseVariableQuery);
+			// local variable
+			SourceVariableDeclarationImpl decl = 
+				new SourceVariableDeclarationImpl(node, eclipseVariableQuery);
+			if(node.getInitializer() == null)
+				return decl;
+			// copy result of previous initializer into declared variable
+			CopyInstructionImpl init = new CopyInstructionImpl(node, 
+					eclipseVariableQuery.variable(node.getInitializer()),
+					true,
+					eclipseVariableQuery.sourceVariable(decl.resolveBinding()),
+					eclipseVariableQuery);
+			return new EclipseInstructionSequence(node,
+					new TACInstruction[] { decl, init },
+					eclipseVariableQuery);
 		}
 	}
 

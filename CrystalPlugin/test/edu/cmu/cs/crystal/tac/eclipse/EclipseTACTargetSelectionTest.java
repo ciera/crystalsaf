@@ -106,11 +106,12 @@ public class EclipseTACTargetSelectionTest {
 			Variable t = ((AssignmentInstruction) init).getTarget();
 			
 			Variable declared = null;
-			if(decl instanceof SourceVariableDeclaration) {
-				declared = ((SourceVariableDeclaration) decl).getDeclaredVariable();
-				Assert.assertEquals("Statement: " + s, declared, t);
-			}
-			else if(decl instanceof EclipseInstructionSequence) {
+//			if(decl instanceof SourceVariableDeclaration) {
+//				declared = ((SourceVariableDeclaration) decl).getDeclaredVariable();
+//				Assert.assertEquals("Statement: " + s, declared, t);
+//			}
+//			else 
+			if(decl instanceof EclipseInstructionSequence) {
 				TACInstruction[] seq = ((EclipseInstructionSequence) decl).getInstructions();
 				Assert.assertTrue("Statement: " + s, seq.length == 2);
 				Assert.assertTrue("Statement: " + s, seq[0] instanceof SourceVariableDeclaration);
