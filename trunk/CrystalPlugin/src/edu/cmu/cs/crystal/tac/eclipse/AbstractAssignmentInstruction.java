@@ -147,13 +147,13 @@ abstract class AbstractAssignmentInstruction<E extends ASTNode> extends Resultfu
 			
 			// found straight-line code without assignment
 			if(branches) return n;
-			if(n instanceof VariableDeclaration) {
-				VariableDeclaration decl = (VariableDeclaration) n;
-				if(n.getParent() instanceof FieldDeclaration)
-					// do *not* copy directly into a field--need a store in between
-					return null;
-				return n;
-			}
+//			if(n instanceof VariableDeclaration) {
+//				VariableDeclaration decl = (VariableDeclaration) n;
+//				if(n.getParent() instanceof FieldDeclaration)
+//					// do *not* copy directly into a field--need a store in between
+//					return null;
+//				return n;
+//			}
 			break;
 		}
 		return null;
@@ -190,8 +190,9 @@ abstract class AbstractAssignmentInstruction<E extends ASTNode> extends Resultfu
 			return Assignment.Operator.ASSIGN.equals(((Assignment) p).getOperator())
 				&& ((Assignment) p).getRightHandSide() == n;
 		}
-		return (p instanceof VariableDeclaration)
-			&& ((VariableDeclaration) p).getInitializer() == n;
+		return false;
+//		return (p instanceof VariableDeclaration)
+//			&& ((VariableDeclaration) p).getInitializer() == n;
 	}
 
 	protected Variable getResultVariable() {
