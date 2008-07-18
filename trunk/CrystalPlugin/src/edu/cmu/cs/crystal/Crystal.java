@@ -22,7 +22,6 @@ package edu.cmu.cs.crystal;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
@@ -93,14 +93,6 @@ public class Crystal {
 	 * the list of analyses to perfrom
 	 */
 	private LinkedList<ICrystalAnalysis> analyses;
-
-	/**
-	 * A map from a unique String from an IBinding to an ASTNode.
-	 * The ASTNode is the node that initially declared the object
-	 * in the binding. It will only contain the bindings for the
-	 * compilation unit currently being analyzed.
-	 */
-	private Map<String, ASTNode> bindings;
 
 	/**
 	 * The annotation database will be populated before
@@ -252,8 +244,23 @@ public class Crystal {
 	 * This will run all the analyses on a single compilation unit at a time.
 	 * After finishing a compilation unit, we may not hold onto any ASTNodes
 	 * @param reanalyzeList The compilation units to analyze
+	 * @deprecated Use {@link #runAnalyses(List<ICompilationUnit>,IProgressMonitor)} instead
 	 */
 	public void runAnalyses(List<ICompilationUnit> reanalyzeList) {
+		runAnalyses(reanalyzeList, null);
+	}
+
+	/**
+	 * Runs all of the analyses on the compilation units passed in.
+	 * Will clear the console before starting.
+	 * Will clear ALL the markers for each compilation unit before starting.
+	 * This will run all the analyses on a single compilation unit at a time.
+	 * After finishing a compilation unit, we may not hold onto any ASTNodes
+	 * @param reanalyzeList The compilation units to analyze
+	 * @param monitor the progress monitor used to report progress and request cancellation, 
+	 * or <code>null</code> if none.  Will be incremented for each comp unit analyzed.
+	 */
+	public void runAnalyses(List<ICompilationUnit> reanalyzeList, IProgressMonitor monitor) {
 		PrintWriter output = debugOut();
 		PrintWriter user = userOut();
 
@@ -261,7 +268,7 @@ public class Crystal {
 		UserConsoleView console = UserConsoleView.getInstance();
 		if (console != null)
 			console.clearConsole();
-		runAnalysesOnMultiUnit(reanalyzeList, output, user);
+		runAnalysesOnMultiUnit(reanalyzeList, output, user, monitor);
 	}
 
 
@@ -271,8 +278,22 @@ public class Crystal {
 	 * Will clear ALL the markers for each compilation unit before starting.
 	 * This will run all the analyses on a single compilation unit at a time.
 	 * After finishing a compilation unit, we may not hold onto any ASTNodes
+	 * @deprecated Use {@link #runAnalyses(IProgressMonitor)} instead
 	 */
 	public void runAnalyses() {
+		runAnalyses((IProgressMonitor) null);
+	}
+
+	/**
+	 * Runs all of the analyses on all of the compilation units in the workspace.
+	 * Will clear the console before starting.
+	 * Will clear ALL the markers for each compilation unit before starting.
+	 * This will run all the analyses on a single compilation unit at a time.
+	 * After finishing a compilation unit, we may not hold onto any ASTNodes
+	 * @param monitor the progress monitor used to report progress and request cancellation, 
+	 * or <code>null</code> if none.  Will be incremented for each comp unit analyzed.
+	 */
+	public void runAnalyses(IProgressMonitor monitor) {
 		PrintWriter output = debugOut();
 		PrintWriter user = userOut();
 		
@@ -286,7 +307,7 @@ public class Crystal {
 		if (console != null)
 			console.clearConsole();
 
-		runAnalysesOnMultiUnit(WorkspaceUtilities.scanForCompilationUnits(), output, user);
+		runAnalysesOnMultiUnit(WorkspaceUtilities.scanForCompilationUnits(), output, user, monitor);
 	}
 
 	/**
@@ -295,10 +316,12 @@ public class Crystal {
 	 * @param units CompilationUnits to analyze
 	 * @param output Debug output
 	 * @param user User output
+	 * @param monitor the progress monitor used to report progress and request cancellation, 
+	 * or <code>null</code> if none.  Will be incremented for each comp unit analyzed.
 	 */
 	private void runAnalysesOnMultiUnit(
 			List<ICompilationUnit> units, PrintWriter output,
-			PrintWriter user) {
+			PrintWriter user, IProgressMonitor monitor) {
 		if(units == null || units.isEmpty())
 			return;
 		
@@ -321,30 +344,39 @@ public class Crystal {
 		}
 		
 		//run the annotation finder on everything
+		if(monitor != null)
+			monitor.subTask("Scanning annotations of analyzed compilation units");
 		if(logger.isLoggable(Level.INFO))
 			logger.info("Scanning annotations of analyzed compilation units");
 		for(ICompilationUnit compUnit : units) {
 			if (compUnit == null)
 				continue;
-			ASTNode node = getASTNodeFromCompilationUnit(compUnit);
+			ASTNode node = getASTNodeFromCompilationUnit(compUnit, monitor);
+			if(monitor != null && monitor.isCanceled())
+				// cancel here in case cancellation can produce null or incomplete ASTs
+				return;
 			if (!(node instanceof CompilationUnit))
 				continue;
-			bindings = WorkspaceUtilities.scanForBindings(compUnit, node);
 			finder.runAnalysis(this, compUnit, (CompilationUnit)node);
-			bindings = null;
 		}
 		
 		for(ICompilationUnit compUnit : units) {
+			if(monitor != null && monitor.isCanceled())
+				return;
 			try {
 				if(compUnit == null) {
 					if(logger.isLoggable(Level.WARNING))
 						logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
 					continue;
 				}
+				// update monitor
+				if(monitor != null)
+					monitor.subTask(compUnit.getElementName());
+				
 				// TODO Only delete Crystal-generated markers
 				compUnit.getResource().deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 
-			// Retrieve the path of this compilation unit, and output it
+				// Retrieve the path of this compilation unit, and output it
 				IResource resource = compUnit.getCorrespondingResource();
 				if(resource != null) {
 					IPath path = resource.getLocation();
@@ -367,7 +399,9 @@ public class Crystal {
 						e);
 			}
 			
-			runAnalysesOnSingleUnit(compUnit, output, user);
+			runAnalysesOnSingleUnit(compUnit, output, user, monitor);
+			if(monitor != null)
+				monitor.worked(1);
 		}
 		annoDB = null;
 	}
@@ -377,18 +411,23 @@ public class Crystal {
 	 * @param compUnit
 	 * @param output The debug output
 	 * @param user The output to the user
+	 * @param monitor the progress monitor used to report progress and request cancellation, 
+	 * or <code>null</code> if none
 	 */
-	private void runAnalysesOnSingleUnit(ICompilationUnit compUnit, PrintWriter output, PrintWriter user) {
+	private void runAnalysesOnSingleUnit(ICompilationUnit compUnit, PrintWriter output, PrintWriter user, IProgressMonitor monitor) {
 		// Obtain the AST for this CompilationUnit and analyze it
-		ASTNode node = getASTNodeFromCompilationUnit(compUnit);
+		ASTNode node = getASTNodeFromCompilationUnit(compUnit, monitor);
 		
+		if(monitor != null && monitor.isCanceled())
+			// check for cancel in case returned AST is null or incomplete
+			return;
+
 		if (!(node instanceof CompilationUnit)) {
 			if(logger.isLoggable(Level.WARNING))
 				logger.warning("Root node is not a CompilationUnit " + compUnit.getElementName());
 			return;
 		}
 		
-		bindings = WorkspaceUtilities.scanForBindings(compUnit, node);
 		boolean logInfo = logger.isLoggable(Level.INFO);
 		for (ICrystalAnalysis crystalAnalysis : analyses) {
 			String analysisName = null;
@@ -416,19 +455,21 @@ public class Crystal {
 //				e.printStackTrace(user);
 			}
 		}
-		bindings = null;
 	}
 	
 	/**
 	 * Gets the root ASTNode for a compilation unit, with bindings on
 	 * @param compUnit
-	 * @return
+	 * @param monitor the progress monitor used to report progress and request cancellation, 
+	 * or <code>null</code> if none
+	 * @return the root ASTNode for a compilation unit, with bindings on; not sure
+	 * what happens when progress monitor is cancelled in-flight
 	 */
-	private ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
+	private ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit, IProgressMonitor monitor) {
 	 	ASTParser parser = ASTParser.newParser(AST.JLS3);
  		parser.setResolveBindings(true);
  		parser.setSource(compUnit);
- 		return parser.createAST(null);
+ 		return parser.createAST(monitor);
 	}
 
 	public void registerAnnotation(String annotationName,
