@@ -21,6 +21,10 @@ package edu.cmu.cs.crystal.internal;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.action.IAction;
@@ -72,8 +76,22 @@ public class CrystalFileAction implements IObjectActionDelegate {
 		}
 		
 		if(reanalyzeList != null) {
-			Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
-			crystal.runAnalyses(reanalyzeList);
+			final Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
+			final List<ICompilationUnit> compUnits = reanalyzeList;
+			Job j = new Job("Crystal") {
+
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					monitor.beginTask("Running registered Crystal analyses on selected files", compUnits.size());
+					crystal.runAnalyses(compUnits, monitor);
+					if(monitor.isCanceled())
+						return Status.CANCEL_STATUS;
+					return Status.OK_STATUS;
+				}
+				
+			};
+			j.setUser(true);
+			j.schedule();
 		}
 	}
 

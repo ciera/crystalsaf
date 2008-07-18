@@ -19,12 +19,16 @@
  */
 package edu.cmu.cs.crystal.internal;
 
-import java.io.PrintWriter;
-
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.*;
-import edu.cmu.cs.crystal.*;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+
+import edu.cmu.cs.crystal.Crystal;
 
 /**
  * Begins the execution of the Crystal framework when the corresponding
@@ -41,8 +45,21 @@ public class CrystalUIAction implements IWorkbenchWindowActionDelegate {
 	 * required by the IWorkbenchWindowActionDelegate interface
 	 */
 	public void run(IAction action) {
-		Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
-		crystal.runAnalyses();
+		final Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
+		Job j = new Job("Crystal") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				monitor.beginTask("Running registered Crystal analyses", IProgressMonitor.UNKNOWN);
+				crystal.runAnalyses(monitor);
+				if(monitor.isCanceled())
+					return Status.CANCEL_STATUS;
+				return Status.OK_STATUS;
+			}
+			
+		};
+		j.setUser(true);
+		j.schedule();
 		
 //		AbstractCrystalPlugin plugin = AbstractCrystalPlugin.getInstance();
 //		plugin.runCrystal();
