@@ -82,7 +82,6 @@ public class CrystalFileAction implements IObjectActionDelegate {
 
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					monitor.beginTask("Running registered Crystal analyses on selected files", compUnits.size());
 					crystal.runAnalyses(compUnits, monitor);
 					if(monitor.isCanceled())
 						return Status.CANCEL_STATUS;

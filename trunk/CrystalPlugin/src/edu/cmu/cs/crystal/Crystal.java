@@ -258,7 +258,7 @@ public class Crystal {
 	 * After finishing a compilation unit, we may not hold onto any ASTNodes
 	 * @param reanalyzeList The compilation units to analyze
 	 * @param monitor the progress monitor used to report progress and request cancellation, 
-	 * or <code>null</code> if none.  Will be incremented for each comp unit analyzed.
+	 * or <code>null</code> if none.  Monitor must not be initialized with {@link IProgressMonitor#beginTask(String, int)}.
 	 */
 	public void runAnalyses(List<ICompilationUnit> reanalyzeList, IProgressMonitor monitor) {
 		PrintWriter output = debugOut();
@@ -291,7 +291,7 @@ public class Crystal {
 	 * This will run all the analyses on a single compilation unit at a time.
 	 * After finishing a compilation unit, we may not hold onto any ASTNodes
 	 * @param monitor the progress monitor used to report progress and request cancellation, 
-	 * or <code>null</code> if none.  Will be incremented for each comp unit analyzed.
+	 * or <code>null</code> if none.  Monitor must not be initialized with {@link IProgressMonitor#beginTask(String, int)}.
 	 */
 	public void runAnalyses(IProgressMonitor monitor) {
 		PrintWriter output = debugOut();
@@ -317,13 +317,19 @@ public class Crystal {
 	 * @param output Debug output
 	 * @param user User output
 	 * @param monitor the progress monitor used to report progress and request cancellation, 
-	 * or <code>null</code> if none.  Will be incremented for each comp unit analyzed.
+	 * or <code>null</code> if none.  Monitor must not be initialized with {@link IProgressMonitor#beginTask(String, int)}.
 	 */
 	private void runAnalysesOnMultiUnit(
 			List<ICompilationUnit> units, PrintWriter output,
 			PrintWriter user, IProgressMonitor monitor) {
 		if(units == null || units.isEmpty())
 			return;
+		
+		if(monitor != null) {
+			String task = units.size() <= 1 ? "Running registered Crystal analyses" :
+				"Running registered Crystal analyses on " + units.size() + " files";
+			monitor.beginTask(task, units.size());
+		}
 		
 		annoDB = new AnnotationDatabase();
 		AnnotationFinder finder = new AnnotationFinder(annoDB);
@@ -351,7 +357,7 @@ public class Crystal {
 		for(ICompilationUnit compUnit : units) {
 			if (compUnit == null)
 				continue;
-			ASTNode node = getASTNodeFromCompilationUnit(compUnit, monitor);
+			ASTNode node = getASTNodeFromCompilationUnit(compUnit);
 			if(monitor != null && monitor.isCanceled())
 				// cancel here in case cancellation can produce null or incomplete ASTs
 				return;
@@ -369,9 +375,6 @@ public class Crystal {
 						logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
 					continue;
 				}
-				// update monitor
-				if(monitor != null)
-					monitor.subTask(compUnit.getElementName());
 				
 				// TODO Only delete Crystal-generated markers
 				compUnit.getResource().deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
@@ -401,6 +404,7 @@ public class Crystal {
 			
 			runAnalysesOnSingleUnit(compUnit, output, user, monitor);
 			if(monitor != null)
+				// increment monitor
 				monitor.worked(1);
 		}
 		annoDB = null;
@@ -416,12 +420,8 @@ public class Crystal {
 	 */
 	private void runAnalysesOnSingleUnit(ICompilationUnit compUnit, PrintWriter output, PrintWriter user, IProgressMonitor monitor) {
 		// Obtain the AST for this CompilationUnit and analyze it
-		ASTNode node = getASTNodeFromCompilationUnit(compUnit, monitor);
+		ASTNode node = getASTNodeFromCompilationUnit(compUnit);
 		
-		if(monitor != null && monitor.isCanceled())
-			// check for cancel in case returned AST is null or incomplete
-			return;
-
 		if (!(node instanceof CompilationUnit)) {
 			if(logger.isLoggable(Level.WARNING))
 				logger.warning("Root node is not a CompilationUnit " + compUnit.getElementName());
@@ -433,6 +433,11 @@ public class Crystal {
 			String analysisName = null;
 			try {
 				analysisName = crystalAnalysis.getName();
+				if(monitor != null) {
+					if(monitor.isCanceled())
+						return;
+					monitor.subTask("Run " + analysisName  + " on " + compUnit.getElementName());
+				}
 				if(logInfo) logger.info("Begin [" + analysisName + "] Analysis");
 				crystalAnalysis.runAnalysis(this, compUnit, (CompilationUnit)node);
 				if(logInfo) logger.info("End [" + analysisName + "] Analysis");
@@ -458,18 +463,15 @@ public class Crystal {
 	}
 	
 	/**
-	 * Gets the root ASTNode for a compilation unit, with bindings on
+	 * Gets the root ASTNode for a compilation unit, with bindings on.
 	 * @param compUnit
-	 * @param monitor the progress monitor used to report progress and request cancellation, 
-	 * or <code>null</code> if none
-	 * @return the root ASTNode for a compilation unit, with bindings on; not sure
-	 * what happens when progress monitor is cancelled in-flight
+	 * @return the root ASTNode for a compilation unit, with bindings on.
 	 */
-	private ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit, IProgressMonitor monitor) {
+	private ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
 	 	ASTParser parser = ASTParser.newParser(AST.JLS3);
  		parser.setResolveBindings(true);
  		parser.setSource(compUnit);
- 		return parser.createAST(monitor);
+ 		return parser.createAST(/* passing in monitor messes up previous monitor state */ null);
 	}
 
 	public void registerAnnotation(String annotationName,
