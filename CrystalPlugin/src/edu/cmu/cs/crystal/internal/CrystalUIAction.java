@@ -50,7 +50,6 @@ public class CrystalUIAction implements IWorkbenchWindowActionDelegate {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Running registered Crystal analyses", IProgressMonitor.UNKNOWN);
 				crystal.runAnalyses(monitor);
 				if(monitor.isCanceled())
 					return Status.CANCEL_STATUS;
