@@ -47,7 +47,7 @@ public class SystemTestUtils {
 			String masterLine = master.readLine();
 			String compareLine = compare.readLine();
 			while(masterLine != null) {
-				Assert.assertNotNull(compareLine);
+				Assert.assertNotNull("Unexpected end of file in " + compareFile + ". Expected: " + masterLine, compareLine);
 				
 				// replace dates and times (from logger) with dummy values
 				Matcher m = date.matcher(masterLine);
@@ -62,7 +62,7 @@ public class SystemTestUtils {
 				masterLine = master.readLine();
 				compareLine = compare.readLine();
 			}
-			Assert.assertNull(compareLine);
+			Assert.assertNull("Additional content in " + compareFile + ": " + compareLine, compareLine);
 		}
 		finally {
 			master.close();
