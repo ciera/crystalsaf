@@ -145,6 +145,10 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		return driver.tac.thisVariable();
 	}
 	
+	public SuperVariable getSuperVariable() {
+		return driver.tac.superVariable(null);
+	}
+	
 	/**
 	 * Returns the variable for a given parameter or local <i>after
 	 * previously analyzing the method declaring the parameter or local.</i>

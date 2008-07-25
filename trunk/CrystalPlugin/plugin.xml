@@ -149,5 +149,37 @@
        </action>
     </actionSet>
  </extension>
+ <extension
+       id="edu.cmu.cs.crystal.marker.default"
+       name="Default Crystal analysis marker"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="org.eclipse.core.resources.problemmarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+    <attribute
+          name="analysis">
+    </attribute>
+    <attribute
+          name="message">
+    </attribute>
+    <attribute
+          name="lineNumber">
+    </attribute>
+    <attribute
+          name="severity">
+    </attribute>
+    <attribute
+          name="priority">
+    </attribute>
+    <attribute
+          name="charStart">
+    </attribute>
+    <attribute
+          name="charEnd">
+    </attribute>
+ </extension>
    
 </plugin>

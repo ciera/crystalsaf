@@ -19,6 +19,7 @@
  */
 package edu.cmu.cs.crystal.tac.eclipse;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.WeakHashMap;
 
@@ -135,8 +136,8 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	 * 
 	 * TODO It's possible that the key ends up preventing ASTs from being garbage-collected. 
 	 */
-	private static final WeakHashMap<MethodDeclaration, EclipseTAC> tacCache =
-		new WeakHashMap<MethodDeclaration, EclipseTAC>();
+	private static final WeakHashMap<IMethodBinding, EclipseTAC> tacCache =
+		new WeakHashMap<IMethodBinding, EclipseTAC>();
 
 	/**
 	 * Returns the singleton TAC object for the given method.
@@ -145,11 +146,12 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	 */
 	public static synchronized EclipseTAC getInstance(MethodDeclaration methodDecl) {
 		EclipseTAC tac;
+		IMethodBinding methodBinding = methodDecl.resolveBinding();
 		// try to reuse existing TAC instructions for this method
-		tac = tacCache.get(methodDecl);
+		tac = tacCache.get(methodBinding);
 		if(tac == null) {
-			tac = new EclipseTAC(methodDecl.resolveBinding());
-			tacCache.put(methodDecl, tac);
+			tac = new EclipseTAC(methodBinding);
+			tacCache.put(methodBinding, tac);
 		}
 		return tac;
 	}
@@ -247,6 +249,10 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	 */
 	public ThisVariable thisVariable() {
 		ITypeBinding thisBinding = resolveThisType();
+		if(thisBinding == null)
+			// static method
+			return null;
+		
 		ThisVariable result = thisVar.get(thisBinding);
 		if(result == null) {
 			// unqualified this
@@ -257,6 +263,11 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	}
 	
 	public ThisVariable implicitThisVariable(IBinding accessedElement) {
+		if(isStaticBinding(accessedElement))
+			throw new IllegalArgumentException("Accessed element is static: " + accessedElement);
+		if(isStaticBinding(method))
+			throw new IllegalStateException("Access happens in static method: " + accessedElement);
+		
 		ITypeBinding thisBinding = implicitThisBinding(accessedElement);
 		boolean implicitQualifier = thisBinding.equals(method.getDeclaringClass()) == false;
 		// TODO can this happen?
@@ -280,11 +291,18 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	}
 	
 	/**
-	 * Returns the type of <code>this</code>.
-	 * @return the type of <code>this</code>.
+	 * Returns the type of <code>this</code>, if any.
+	 * @return the type of <code>this</code> or <code>null</code> if this is a static method.
 	 */
-	public ITypeBinding resolveThisType() {
+	// TODO should be package-private once variables move into tac.eclipse
+	public ITypeBinding resolveThisType() { 
+		if(isStaticBinding(method))
+			return null;
 		return method.getDeclaringClass();
+	}
+	
+	public static boolean isStaticBinding(IBinding binding) {
+		return (binding.getModifiers() & Modifier.STATIC) == Modifier.STATIC;
 	}
 	
 	/**
@@ -365,6 +383,11 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	}
 	
 	public SuperVariable superVariable(Name qualifier) {
+		ITypeBinding thisType = resolveThisType();
+		if(thisType == null || thisType.getSuperclass() == null)
+			// static method or no superclass
+			return null;
+		
 		// TODO find super-type binding based on qualifier and accessed element
 		SuperVariable result = superVar.get(qualifier);
 		if(result == null) {
