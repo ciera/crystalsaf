@@ -48,6 +48,13 @@ public interface ITACAnalysisContext {
 	 * @return The <b>this</b> variable for the analyzed method. 
 	 */
 	public ThisVariable getThisVariable();
+	
+	/**
+	 * Returns the <b>super</b> variable for the analyzed method, if any.
+	 * @return the <b>super</b> variable for the analyzed method or
+	 * <code>null</code> if it doesn't exist.
+	 */
+	public SuperVariable getSuperVariable();
 
 	/**
 	 * Returns the variable for a given parameter or local.

@@ -84,6 +84,17 @@ public class Crystal {
 	 */
 	public static final String REGRESSION_LOGGER = "edu.cmu.cs.crystal.regression";
 	
+	/**
+	 * Currently unused default marker type for Crystal.
+	 * @see IMarker
+	 */
+	public static final String MARKER_DEFAULT = "edu.cmu.cs.crystal.marker.default";
+	
+	/**
+	 * Currently unused marker attribute for markers of type {@link #MARKER_DEFAULT}.
+	 */
+	public static final String MARKER_ATTR_ANALYSIS = "analysis";
+	
 	private static final Logger logger = Logger.getLogger(Crystal.class.getName());
 	
 	private static Logger regressionLogger = Logger.getLogger(REGRESSION_LOGGER);
