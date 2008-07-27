@@ -21,10 +21,10 @@ package edu.cmu.cs.crystal.tac.eclipse;
 
 import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.SimpleName;
 
 import edu.cmu.cs.crystal.tac.Variable;
+
 /**
  * @author Kevin Bierhoff
  *
@@ -41,33 +41,25 @@ public class EclipseReferenceFieldAccess extends EclipseAbstractFieldAccess<Fiel
 		super(node, query);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getAccessedObject()
-	 */
-	public Variable getAccessedObject() {
-		return query.variable(node.getExpression());
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getFieldName()
-	 */
 	public SimpleName getFieldName() {
 		return node.getName();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#resolveFieldBinding()
-	 */
 	public IVariableBinding resolveFieldBinding() {
 		return node.resolveFieldBinding();
 	}
 
 	public boolean isImplicitThisAccess() {
-		return false;
+		return false; // FieldAccess nodes include the target of the field access
 	}
 
 	public boolean isExplicitSuperAccess() {
-		return false;
+		return false; // assuming FieldAccess is never used for accessing super
+	}
+
+	@Override
+	protected Variable getAccessedInstanceInternal(IVariableBinding field) {
+		return query.variable(node.getExpression());
 	}
 
 }

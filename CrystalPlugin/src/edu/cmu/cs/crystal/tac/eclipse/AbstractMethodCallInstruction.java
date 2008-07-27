@@ -22,7 +22,6 @@ package edu.cmu.cs.crystal.tac.eclipse;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.Modifier;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
@@ -33,10 +32,13 @@ import edu.cmu.cs.crystal.tac.MethodCallInstruction;
 import edu.cmu.cs.crystal.tac.Variable;
 
 /**
- * x = y.m(z1, ..., zn), where m is a method.
+ * x = y.m(z1, ..., zn), where m is a method and y is possibly a type variable,
+ * in the case of a static method call, or <code>super</code>, in the case
+ * of a <b>super</b> call.
  * 
  * @author Kevin Bierhoff
- *
+ * @see #isStaticMethodCall() determine whether this is a static method call
+ * @see #isSuperCall() determine whether this is a <b>super</b> call.
  */
 abstract class AbstractMethodCallInstruction<E extends Expression> 
 extends AbstractAssignmentInstruction<E> implements MethodCallInstruction {
@@ -63,7 +65,7 @@ extends AbstractAssignmentInstruction<E> implements MethodCallInstruction {
 	public abstract boolean isSuperCall();
 	
 	public boolean isStaticMethodCall() {
-		return (resolveBinding().getModifiers() & Modifier.STATIC) != 0;
+		return EclipseTAC.isStaticBinding(resolveBinding());
 	}
 	
 	public abstract String getMethodName();
@@ -78,9 +80,6 @@ extends AbstractAssignmentInstruction<E> implements MethodCallInstruction {
 		return tf.transfer(this, labels, value);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return getTarget() + " = "+ getReceiverOperand() + "." + getMethodName() + "(" + argsString(getArgOperands()) + ")";

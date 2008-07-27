@@ -20,7 +20,6 @@
 package edu.cmu.cs.crystal.tac.eclipse;
 
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 
@@ -41,33 +40,25 @@ public class EclipseBrokenFieldAccess extends EclipseAbstractFieldAccess<Qualifi
 		super(node, query);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getAccessedObject()
-	 */
-	public Variable getAccessedObject() {
-		return query.variable(node.getQualifier());
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getFieldName()
-	 */
 	public SimpleName getFieldName() {
 		return node.getName();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#resolveFieldBinding()
-	 */
 	public IVariableBinding resolveFieldBinding() {
 		return (IVariableBinding) node.resolveBinding();
 	}
 
 	public boolean isImplicitThisAccess() {
-		return false;
+		return false; // the qualifier makes it explicit
 	}
 
 	public boolean isExplicitSuperAccess() {
-		return false;
+		return false; // assuming the qualifier cannot be super
+	}
+
+	@Override
+	protected Variable getAccessedInstanceInternal(IVariableBinding field) {
+		return query.variable(node.getQualifier());
 	}
 
 }
