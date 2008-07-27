@@ -21,9 +21,12 @@ package edu.cmu.cs.crystal.tac;
 
 
 /**
- * x = y.m(z1, ..., zn), where m is a method.
+ * x = y.m(z1, ..., zn), where m is a method and y is possibly a type variable,
+ * in the case of a static method call.
  * 
  * @author Kevin Bierhoff
+ * @see #isStaticMethodCall() determine whether this is a static method call
+ * @see #isSuperCall() determine whether this is a <b>super</b> call.
  * @see ContructorCallInstruction calls between constructors
  */
 public interface MethodCallInstruction extends InvocationInstruction {
