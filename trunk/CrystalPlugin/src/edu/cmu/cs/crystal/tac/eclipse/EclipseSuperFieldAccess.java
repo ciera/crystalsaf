@@ -20,14 +20,13 @@
 package edu.cmu.cs.crystal.tac.eclipse;
 
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SuperFieldAccess;
 
 import edu.cmu.cs.crystal.tac.Variable;
 
 /**
- * @author kbierhof
+ * @author Kevin Bierhoff
  *
  */
 public class EclipseSuperFieldAccess extends EclipseAbstractFieldAccess<SuperFieldAccess> 
@@ -41,23 +40,10 @@ public class EclipseSuperFieldAccess extends EclipseAbstractFieldAccess<SuperFie
 		super(node, query);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getFieldName()
-	 */
 	public SimpleName getFieldName() {
 		return node.getName();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getObjectOperand()
-	 */
-	public Variable getAccessedObject() {
-		return query.superVariable(node.getQualifier());
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#resolveFieldBinding()
-	 */
 	public IVariableBinding resolveFieldBinding() {
 		return node.resolveFieldBinding();
 	}
@@ -67,7 +53,12 @@ public class EclipseSuperFieldAccess extends EclipseAbstractFieldAccess<SuperFie
 	}
 
 	public boolean isExplicitSuperAccess() {
-		return true;
+		return true; // this is what SuperFieldAccess is for
+	}
+
+	@Override
+	protected Variable getAccessedInstanceInternal(IVariableBinding field) {
+		return query.superVariable(node.getQualifier());
 	}
 
 }

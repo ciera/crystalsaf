@@ -50,14 +50,17 @@ public interface IEclipseFieldAccess {
 	public abstract IVariableBinding resolveFieldBinding();
 	
 	/**
-	 * Returns the variable for the object whose field is accessed.
-	 * @return Variable for the object whose field is accessed.
+	 * Returns the variable representing the target of the field access.
+	 * The accessed object can be a type or instance variable.
+	 * @return the variable representing the target of the field access.
 	 */
 	public abstract Variable getAccessedObject();
 	
 	/**
 	 * Indicates whether this is an implicit access to a receiver field
-	 * (which could actually be a field of an outer class).
+	 * (which could actually be a field of an outer class).  Accessing
+	 * a static field does <i>not</i> constitute an implicit access to the
+	 * receiver in the sense of this method.
 	 * @return <code>true</code> if this is an implicit access to a receiver field
 	 * and <code>false</code> otherwise.
 	 */
@@ -65,6 +68,7 @@ public interface IEclipseFieldAccess {
 	
 	/**
 	 * Indicates whether this is an explicit super-field access, <code>super.f</code>.
+	 * The field being accessed may be a static or instance field.
 	 * @return <code>true</code> if this is an explicit super-field access,
 	 * <code>false</code> otherwise.
 	 */

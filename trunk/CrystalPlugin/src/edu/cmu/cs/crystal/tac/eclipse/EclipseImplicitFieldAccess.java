@@ -21,7 +21,6 @@ package edu.cmu.cs.crystal.tac.eclipse;
 
 import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 
@@ -49,29 +48,10 @@ public class EclipseImplicitFieldAccess extends EclipseAbstractFieldAccess<Simpl
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getAccessedObject()
-	 */
-	public Variable getAccessedObject() {
-		IVariableBinding field = resolveFieldBinding();
-		if(field.isField())
-			return query.implicitThisVariable(resolveFieldBinding());
-		else if(field.isEnumConstant())
-			return query.typeVariable(field.getDeclaringClass());
-		else
-			throw new UnsupportedOperationException("Don't know how to determine accessed object for non-field binding: " + getFieldName());
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#getFieldName()
-	 */
 	public SimpleName getFieldName() {
 		return node;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.IEclipseFieldAccess#resolveFieldBinding()
-	 */
 	public IVariableBinding resolveFieldBinding() {
 		return (IVariableBinding) node.resolveBinding();
 	}
@@ -82,6 +62,11 @@ public class EclipseImplicitFieldAccess extends EclipseAbstractFieldAccess<Simpl
 
 	public boolean isExplicitSuperAccess() {
 		return false;
+	}
+
+	@Override
+	protected Variable getAccessedInstanceInternal(IVariableBinding field) {
+		return query.implicitThisVariable(field);
 	}
 
 }
