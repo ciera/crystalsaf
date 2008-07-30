@@ -172,9 +172,7 @@ public class WorkspaceUtilities {
 	}
 	
 	/**
-	 * Collects all top level methods from an AST.
-	 * 
-	 * (Embedded Methods are currently not collected.)
+	 * Collects all top level methods from an AST including embedded methods.
 	 * 
 	 * @param node	the root of an AST
 	 * @return		all top level methods within the AST
@@ -194,7 +192,7 @@ public class WorkspaceUtilities {
 				methodList.add(methodDeclaration);
 				
 				// false returns us back, instead of traversing further down
-				return false;
+				return true;
 			}
 		}
 
