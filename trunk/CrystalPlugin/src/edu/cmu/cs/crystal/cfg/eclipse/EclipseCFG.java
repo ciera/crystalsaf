@@ -25,6 +25,7 @@ import java.util.Stack;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.ArrayAccess;
 import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
@@ -80,6 +81,7 @@ import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.ThrowStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclarationStatement;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
@@ -1457,4 +1459,15 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 		}
 		type.setName(node.toString());
 	}
+
+	@Override
+	public boolean visit(TypeDeclarationStatement node) {
+		return false;
+	}
+
+	@Override
+	public boolean visit(AnonymousClassDeclaration node) {
+		return false;
+	}
+
 }
