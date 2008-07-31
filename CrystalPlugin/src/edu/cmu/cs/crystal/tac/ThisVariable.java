@@ -106,4 +106,9 @@ public class ThisVariable extends KeywordVariable {
 		return visitor.thisVar(this);
 	}
 
+	@Override
+	public boolean isUnqualifiedThis() {
+		return ! isQualified();
+	}
+
 }

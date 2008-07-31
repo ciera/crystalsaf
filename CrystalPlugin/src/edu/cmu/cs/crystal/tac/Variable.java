@@ -50,4 +50,12 @@ public abstract class Variable {
 	}
 	
 	public abstract <T> T dispatch(IVariableVisitor<T> visitor);
+
+	public boolean isUnqualifiedSuper() {
+		return false;
+	}
+	
+	public boolean isUnqualifiedThis() {
+		return false;
+	}
 }

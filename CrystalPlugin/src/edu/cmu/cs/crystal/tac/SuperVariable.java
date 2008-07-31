@@ -54,9 +54,6 @@ public class SuperVariable extends KeywordVariable {
 		super(tac, qualifier);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.KeywordVariable#getKeyword()
-	 */
 	@Override
 	public String getKeyword() {
 		return "super";
@@ -64,7 +61,7 @@ public class SuperVariable extends KeywordVariable {
 
 	@Override
 	public ITypeBinding resolveType() {
-		if(getQualifier() != null)
+		if(getQualifier() == null)
 			return tac.resolveThisType().getSuperclass();
 		return getQualifier().resolveTypeBinding().getSuperclass();
 	}
@@ -72,6 +69,11 @@ public class SuperVariable extends KeywordVariable {
 	@Override
 	public <T> T dispatch(IVariableVisitor<T> visitor) {
 		return visitor.superVar(this);
+	}
+
+	@Override
+	public boolean isUnqualifiedSuper() {
+		return ! isQualified();
 	}
 
 }
