@@ -55,12 +55,12 @@ class EclipseLoadDesugaredLiteralInstruction extends
 
 	@Override
 	public boolean isNull() {
-		return super.getLiteral() != null;
+		return super.getLiteral() == null;
 	}
 
 	@Override
 	public boolean isNumber() {
-		return super.getLiteral() instanceof Number;
+		return super.getLiteral() != null && super.getLiteral() instanceof Number;
 	}
 
 	@Override
