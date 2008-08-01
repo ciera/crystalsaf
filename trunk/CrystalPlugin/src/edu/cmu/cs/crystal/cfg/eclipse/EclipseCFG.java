@@ -56,6 +56,7 @@ import org.eclipse.jdt.core.dom.InstanceofExpression;
 import org.eclipse.jdt.core.dom.LabeledStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NullLiteral;
 import org.eclipse.jdt.core.dom.NumberLiteral;
@@ -656,7 +657,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 		if (node.isConstructor()) {
 			TypeDeclaration type = (TypeDeclaration) node.getParent();
 			for (FieldDeclaration field : type.getFields()) {
-				field.accept(this);
+				if (!Modifier.isStatic(field.getModifiers()))
+					field.accept(this);
 			}
 		}
 
@@ -726,6 +728,8 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 
 		// connect field declarations with initializers together
 		for (FieldDeclaration field : ((TypeDeclaration) node.getParent()).getFields()) {
+			if (Modifier.isStatic(field.getModifiers()))
+				continue;
 			for (VariableDeclarationFragment frag : (List<VariableDeclarationFragment>) field
 			    .fragments()) {
 				if (frag.getInitializer() != null) {
