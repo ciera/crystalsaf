@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
@@ -62,6 +64,9 @@ public class LiveVariableTransferFunction extends AbstractingTransferFunction<Tu
 	
 	public Lattice<TupleLatticeElement<Variable, LiveVariableLE>> getLattice(MethodDeclaration d) 
 	{
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		
+		
 		TupleLatticeElement<Variable, LiveVariableLE> entry = new TupleLatticeElement<Variable, LiveVariableLE>(
 				LiveVariableLE.DEAD, LiveVariableLE.DEAD);
 		return new Lattice<TupleLatticeElement<Variable, LiveVariableLE>>(entry, entry.bottom());
@@ -166,7 +171,10 @@ public class LiveVariableTransferFunction extends AbstractingTransferFunction<Tu
 	{
 		log(instr, value);
 		value.put(instr.getTarget(), LiveVariableLE.DEAD);
-		value.put(instr.getSourceObject(), LiveVariableLE.LIVE);	
+		
+		// Static field accesses do not have source objects
+		if (!instr.isStaticFieldAccess())
+			value.put(instr.getSourceObject(), LiveVariableLE.LIVE);	
 		return value;	
 	}
 

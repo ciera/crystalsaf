@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.flow.TupleLatticeElement;
+import edu.cmu.cs.crystal.internal.Utilities;
 import edu.cmu.cs.crystal.tac.ITACTransferFunction;
 import edu.cmu.cs.crystal.tac.TACFlowAnalysis;
 import edu.cmu.cs.crystal.tac.Variable;
@@ -42,7 +43,12 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 	
 	public boolean isLiveBefore(Variable var, ASTNode node) 
 	{
-		return fa.getResultsBefore(node).get(var) == LiveVariableLE.LIVE;
+		// If the node is located in a field initializer (no surrounding method), no results exist for it.  In this case,
+		// we default to live.
+		if (Utilities.getMethodDeclaration(node) == null)
+			return true;
+		else
+			return fa.getResultsBefore(node).get(var) == LiveVariableLE.LIVE;
 	}
 
 	@Override
