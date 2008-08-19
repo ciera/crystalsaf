@@ -221,6 +221,8 @@ public class LiveVariableTransferFunction extends AbstractingTransferFunction<Tu
 		// the state of the array to dead even though we write to it.
 		value.put(instr.getArrayIndex(), LiveVariableLE.LIVE);
 		value.put(instr.getSourceOperand(), LiveVariableLE.LIVE);
+		// array being stored into is read!
+		value.put(instr.getAccessedArrayOperand(), LiveVariableLE.LIVE);
 		return value;
 	}
 
@@ -231,6 +233,8 @@ public class LiveVariableTransferFunction extends AbstractingTransferFunction<Tu
 		// Since there potentially exist other fields in the object that are still live, we do not change
 		// the state of the object to dead even though we write to it.
 		value.put(instr.getSourceOperand(), LiveVariableLE.LIVE);
+		// object being stored into is read!
+		value.put(instr.getAccessedObjectOperand(), LiveVariableLE.LIVE);
 		return value;
 	}
 
