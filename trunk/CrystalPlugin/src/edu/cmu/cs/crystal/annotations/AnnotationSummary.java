@@ -51,13 +51,15 @@ public class AnnotationSummary {
 	}
 
 	/**
-	 * 
-	 * @param ndx
-	 * @param annoName
-	 * @return
+	 * Returns the (first) annotation of the given type for the given parameter, if any.
+	 * Notice that when using {@link MultiAnnotation} there can be multiple annotations
+	 * of one type on a given Java element, but this method returns only the first one.
+	 * @param ndx 0-based parameter index.
+	 * @param annoName The type name of the annotation.
+	 * @return The (first) annotation of the given type or <code>null</code>.
 	 */
 	public ICrystalAnnotation getParameter(int ndx, String annoName) {
-		if (ndx > 0 && ndx < annos.length)
+		if (ndx < annos.length - 1)
 			return AnnotationDatabase.findAnnotation(annoName, annos[ndx]);
 		else
 			return null;
@@ -68,9 +70,11 @@ public class AnnotationSummary {
 	}
 
 	/**
-	 * 
-	 * @param annoName
-	 * @return
+	 * Returns the (first) return annotation of the given type, if any.
+	 * Notice that when using {@link MultiAnnotation} there can be multiple annotations
+	 * of one type on a given Java element, but this method returns only the first one.
+	 * @param annoName The type name of the annotation.
+	 * @return The (first) annotation of the given type or <code>null</code>.
 	 */
 	public ICrystalAnnotation getReturn(String annoName) {
 		return AnnotationDatabase.findAnnotation(annoName, annos[annos.length - 1]);
