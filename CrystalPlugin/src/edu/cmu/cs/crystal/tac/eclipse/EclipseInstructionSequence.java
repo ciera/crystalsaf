@@ -28,6 +28,7 @@ import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.NormalLabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IResult;
+import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ITACTransferFunction;
@@ -38,7 +39,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * @author Kevin Bierhoff
  *
  */
-class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
+public class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 	
 	private final int useAsResult;
 	private final TACInstruction[] instructions; // this must be a non-empty array
@@ -94,7 +95,7 @@ class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 		}
 		return value;
 	}
-
+	
 	@Override
 	public <LE extends LatticeElement<LE>> IResult<LE> transfer(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, LE value) {
 		ILabel normal = NormalLabel.getNormalLabel();
@@ -119,6 +120,91 @@ class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 		default:
 			throw new UnsupportedOperationException("Unknown analysis direction: " + tf.getAnalysisDirection());
 		}
+	}
+
+	public <LE extends LatticeElement<LE>> LE deriveResult(ITACTransferFunction<LE> tf, TACInstruction targetInstr, LE value, boolean afterResult) {
+		if(AnalysisDirection.FORWARD_ANALYSIS.equals(tf.getAnalysisDirection())) {
+			if(!afterResult && targetInstr == this)
+				return value;
+			for(TACInstruction instr : instructions) {
+				if(!afterResult && instr == targetInstr)
+					return value;
+				value = instr.transfer(tf, value);
+				if(afterResult && instr == targetInstr)
+					return value;
+			}
+			if(afterResult && targetInstr == this)
+				return value;
+		}
+		else {
+			if(afterResult && targetInstr == this)
+				return value;
+			for(int i = instructions.length - 1; i >= 0; i--) {
+				TACInstruction instr = instructions[i];
+				if(afterResult && instr == targetInstr)
+					return value;
+				value = instr.transfer(tf, value);
+				if(!afterResult && instr == targetInstr)
+					return value;
+			}
+			if(!afterResult && targetInstr == this)
+				return value;
+		}
+		// should never reach this point
+		throw new IllegalArgumentException("Given instruction is unknown: " + targetInstr);
+	}
+
+	public <LE extends LatticeElement<LE>> IResult<LE> deriveResult(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, TACInstruction targetInstr, LE value, boolean afterResult) {
+		ILabel normal = NormalLabel.getNormalLabel();
+		List<ILabel> normalOnly = Collections.singletonList(normal);
+		
+		// this implementation makes the simplifying assumption that the last instruction
+		// in the sequence relative to the analysis direction should generate results for
+		// provided list of labels.  All other instructions only transfer over NormalLabel.
+		switch(tf.getAnalysisDirection()) {
+		case FORWARD_ANALYSIS:
+			if(!afterResult && targetInstr == this)
+				return LabeledSingleResult.createResult(value, normalOnly);
+			for(int i = 0; i < instructions.length-1; i++) {
+				TACInstruction instr = instructions[i];
+				if(!afterResult && instr == targetInstr)
+					return LabeledSingleResult.createResult(value, normalOnly);
+				IResult<LE> result = instr.transfer(tf, normalOnly, value);
+				if(afterResult && instr == targetInstr)
+					return result;
+				value = result.get(normal);
+			}
+			TACInstruction last = instructions[instructions.length-1]; 
+			if(!afterResult && last == targetInstr)
+				return LabeledSingleResult.createResult(value, normalOnly);
+			else if(afterResult && (last == targetInstr || this == targetInstr))
+			    return last.transfer(tf, labels, value);
+			else
+				break;
+		case BACKWARD_ANALYSIS:
+			if(afterResult && targetInstr == this)
+				return LabeledSingleResult.createResult(value, normalOnly);
+			for(int i = instructions.length-1; i > 0; i--) {
+				TACInstruction instr = instructions[i];
+				if(afterResult && instr == targetInstr)
+					return LabeledSingleResult.createResult(value, normalOnly);
+				IResult<LE> result = instr.transfer(tf, normalOnly, value);
+				if(!afterResult && instr == targetInstr)
+					return result;
+				value = result.get(normal);
+			}
+			TACInstruction instr = instructions[0];
+			if(afterResult && instr == targetInstr)
+				return LabeledSingleResult.createResult(value, normalOnly);
+			else if(!afterResult && (instr == targetInstr || this == targetInstr))
+				return instr.transfer(tf, labels, value);
+			else
+				break;
+		default:
+			throw new UnsupportedOperationException("Unknown analysis direction: " + tf.getAnalysisDirection());
+		}
+		// should never reach this point
+		throw new IllegalArgumentException("Given instruction is unknown: " + targetInstr);
 	}
 
 }

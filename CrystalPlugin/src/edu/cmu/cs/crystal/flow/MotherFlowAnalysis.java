@@ -93,47 +93,81 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	}
 	
 	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, including <b>bottom</b>.
 	 * 
 	 * Before is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Or null if the node doesn't
+	 * 					before analyzing the node.  Will be bottom if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     public LE getResultsBefore(ASTNode node) {
+    	LE result = getResultsOrNullBefore(node);
+		return result == null ? currentLattice.bottom() : result;
+    }
+    
+	/**
+	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, if any.
+	 * 
+	 * Before is respective to normal program flow and not the direction of the analysis.
+	 * 
+	 * @param node		the {@link ASTNode} of interest 
+	 * @return			the lattice that represents the analysis state 
+	 * 					before analyzing the node.  Will be <code>null</code> if the node doesn't
+	 * 					have a corresponding control flow node.
+	 */
+    protected LE getResultsOrNullBefore(ASTNode node) {
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
 
 		Set<ICFGNode<?>> cfgnodes = nodeMap.get(node);
-    	if(cfgnodes == null || cfgnodes.isEmpty()) {
+    	
+		if(cfgnodes == null || cfgnodes.isEmpty()) {
     		if(log.isLoggable(Level.FINE))
     			log.fine("Unable to get results before node: " + getNodeDebugInfo(node));
-    		return currentLattice.bottom();
+    		return null;
     	}
-
-    	if(cfgnodes.size() == 1)
+		else if(cfgnodes.size() == 1) {
     		return getResultBefore(cfgnodes.iterator().next());
-    	
-    	HashMap<ICFGNode<?>, LE> results = new HashMap<ICFGNode<?>, LE>();
-    	for(ICFGNode<?> n : cfgnodes) {
-    		results.put(n, getResultBefore(n));
     	}
-    	return mergeResults(results, node);
+    	else {
+	    	HashMap<ICFGNode<?>, LE> results = new HashMap<ICFGNode<?>, LE>();
+	    	for(ICFGNode<?> n : cfgnodes) {
+	    		LE result = getResultBefore(n);
+	    		if(result != null)
+	    			results.put(n, result);
+	    	}
+	    	return mergeResults(results, node);
+    	}
     }
 
 	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, including <b>bottom</b>.
 	 * 
 	 * After is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Or null if the node doesn't
+	 * 					before analyzing the node.  Will be bottom if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     public LE getResultsAfter(ASTNode node) {
+    	LE result = getResultsOrNullAfter(node);
+    	return result == null ? currentLattice.bottom() : result;
+    }
+    
+	/**
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, if any.
+	 * 
+	 * After is respective to normal program flow and not the direction of the analysis.
+	 * 
+	 * @param node		the {@link ASTNode} of interest 
+	 * @return			the lattice that represents the analysis state 
+	 * 					before analyzing the node.  Will be <code>null</code> if the node doesn't
+	 * 					have a corresponding control flow node.
+	 */
+    protected LE getResultsOrNullAfter(ASTNode node) {
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
 
@@ -142,17 +176,20 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     	if(cfgnodes == null || cfgnodes.isEmpty()) {
     		if(log.isLoggable(Level.FINE))
     			log.fine("Unable to get results after node: " + getNodeDebugInfo(node));
-    		return currentLattice.bottom();
+    		return null;
     	}
-
-    	if(cfgnodes.size() == 1)
+    	else if(cfgnodes.size() == 1) {
     		return getResultAfter(cfgnodes.iterator().next());
-    	
-    	HashMap<ICFGNode<?>, LE> results = new HashMap<ICFGNode<?>, LE>();
-    	for(ICFGNode<?> n : cfgnodes) {
-    		results.put(n, getResultAfter(n));
     	}
-    	return mergeResults(results, node);
+    	else {
+	    	HashMap<ICFGNode<?>, LE> results = new HashMap<ICFGNode<?>, LE>();
+	    	for(ICFGNode<?> n : cfgnodes) {
+	    		LE result = getResultAfter(n);
+	    		if(result != null)
+	    			results.put(n, result);
+	    	}
+	    	return mergeResults(results, node);
+    	}
     }
     
 	public LE getEndResults(MethodDeclaration d) {
@@ -160,7 +197,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 			performAnalysisOnSurroundingMethodIfNeeded(d);
 		}
 		
-		return getResultAfter(this.cfgEndNode);
+		LE result = getResultAfter(this.cfgEndNode);
+		return result == null ? currentLattice.bottom() : result;
 	}
 
 	public LE getStartResults(MethodDeclaration d) {
@@ -168,7 +206,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 			performAnalysisOnSurroundingMethodIfNeeded(d);
 		}
 		
-		return getResultBefore(this.cfgStartNode);
+		LE result = getResultBefore(this.cfgStartNode);
+		return result == null ? currentLattice.bottom() : result;
 	}
 
 	private String getNodeDebugInfo(ASTNode node) {
@@ -179,6 +218,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     }
 
     protected LE mergeResults(HashMap<ICFGNode<?>, LE> results, ASTNode node) {
+    	if(results.isEmpty())
+    		return null; // shortcut
     	LE result = null;
     	for(LE r : results.values()) {
     		if(result == null)
@@ -190,13 +231,13 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	}
 
 	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, including <b>bottom</b>.
 	 * 
 	 * Before is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					after analyzing the node.  Or null if the node doesn't
+	 * 					after analyzing the node.  Will be bottom if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     public IResult<LE> getLabeledResultsBefore(ASTNode node) {
@@ -211,24 +252,30 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		return new SingleResult<LE>(currentLattice.bottom());
     	}
 
-    	if(cfgnodes.size() == 1)
-    		return getLabeledResultBefore(cfgnodes.iterator().next());
-    	
-    	HashMap<ICFGNode<?>, IResult<LE>> results = new HashMap<ICFGNode<?>, IResult<LE>>();
-    	for(ICFGNode<?> n : cfgnodes) {
-    		results.put(n, getLabeledResultBefore(n));
+    	IResult<LE> result; 
+    	if(cfgnodes.size() == 1) {
+    		result = getLabeledResultBefore(cfgnodes.iterator().next());
     	}
-    	return mergeLabeledResults(results);
+    	else {
+	    	HashMap<ICFGNode<?>, IResult<LE>> results = new HashMap<ICFGNode<?>, IResult<LE>>();
+	    	for(ICFGNode<?> n : cfgnodes) {
+	    		result = getLabeledResultBefore(n);
+	    		if(result != null)
+	    			results.put(n, result);
+	    	}
+	    	result = mergeLabeledResults(results);
+    	}
+    	return result == null ? new SingleResult<LE>(currentLattice.bottom()) : result;
    	}
     
 	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, including <b>bottom</b>.
 	 * 
 	 * After is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					after analyzing the node.  Or null if the node doesn't
+	 * 					after analyzing the node.  Will be bottom if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     public IResult<LE> getLabeledResultsAfter(ASTNode node) {
@@ -243,15 +290,20 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		return new SingleResult<LE>(currentLattice.bottom());
     	}
 
-
-    	if(cfgnodes.size() == 1)
-    		return getLabeledResultAfter(cfgnodes.iterator().next());
-    	
-    	HashMap<ICFGNode<?>, IResult<LE>> results = new HashMap<ICFGNode<?>, IResult<LE>>();
-    	for(ICFGNode<?> n : cfgnodes) {
-    		results.put(n, getLabeledResultAfter(n));
+    	IResult<LE> result;
+    	if(cfgnodes.size() == 1) {
+    		result = getLabeledResultAfter(cfgnodes.iterator().next());
     	}
-    	return mergeLabeledResults(results);
+    	else {
+	    	HashMap<ICFGNode<?>, IResult<LE>> results = new HashMap<ICFGNode<?>, IResult<LE>>();
+	    	for(ICFGNode<?> n : cfgnodes) {
+	    		result = getLabeledResultAfter(n);
+	    		if(result != null)
+	    			results.put(n, result);
+	    	}
+	    	result = mergeLabeledResults(results);
+    	}
+    	return result == null ? new SingleResult<LE>(currentLattice.bottom()) : result;
    	}
 
 	public IResult<LE> getLabeledEndResult(MethodDeclaration d) {
@@ -259,7 +311,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 			performAnalysisOnSurroundingMethodIfNeeded(d);
 		}
 		
-		return getLabeledResultAfter(this.cfgEndNode);
+		IResult<LE> result = getLabeledResultAfter(this.cfgEndNode);
+		return result == null ? new SingleResult<LE>(currentLattice.bottom()) : result; 
 	}
 
 	public IResult<LE> getLabeledStartResult(MethodDeclaration d) {
@@ -267,7 +320,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 			performAnalysisOnSurroundingMethodIfNeeded(d);
 		}
 		
-		return getLabeledResultBefore(this.cfgStartNode);
+		IResult<LE> result = getLabeledResultBefore(this.cfgStartNode);
+		return result == null ? new SingleResult<LE>(currentLattice.bottom()) : result; 
 	}
     
 	protected IResult<LE> mergeLabeledResults(
@@ -277,13 +331,13 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	}
 
 	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, if any.
 	 * 
 	 * Before is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Or null if the node doesn't
+	 * 					before analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     protected LE getResultBefore(ICFGNode<?> node) {
@@ -291,13 +345,13 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     }
 
 	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, if any.
 	 * 
 	 * After is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Or null if the node doesn't
+	 * 					before analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     protected LE getResultAfter(ICFGNode<?> node) {
@@ -305,6 +359,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     }
 
     protected LE mergeLabeledResult(IResult<LE> labeledResult, ASTNode node) {
+    	if(labeledResult == null)
+    		return null;
     	LE result = null;
     	for(ILabel label : labeledResult.keySet()) {
     		if(result == null)
@@ -316,13 +372,13 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	}
 
 	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, if any.
 	 * 
 	 * Before is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					after analyzing the node.  Or null if the node doesn't
+	 * 					after analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     protected IResult<LE> getLabeledResultBefore(ICFGNode<?> node) {
@@ -335,17 +391,18 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		return labeledResultsBefore.get(node);
 		if(log.isLoggable(Level.FINE))
 			log.fine("Unable to get results after CFG node [" + node + "]");
-		return new SingleResult<LE>(currentLattice.bottom());
+		return null;
+//		return new SingleResult<LE>(currentLattice.bottom());
    	}
     
     /**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node.
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, if any.
 	 * 
 	 * After is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					after analyzing the node.  Or null if the node doesn't
+	 * 					after analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
     protected IResult<LE> getLabeledResultAfter(ICFGNode<?> node) {
@@ -358,7 +415,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		return labeledResultsAfter.get(node);
 		if(log.isLoggable(Level.FINE))
 			log.fine("Unable to get results after CFG node [" + node + "]");
-		return new SingleResult<LE>(currentLattice.bottom());
+		return null;
+//		return new SingleResult<LE>(currentLattice.bottom());
    	}
     
     /**

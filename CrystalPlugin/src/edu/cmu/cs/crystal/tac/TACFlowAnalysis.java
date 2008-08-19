@@ -19,7 +19,9 @@
  */
 package edu.cmu.cs.crystal.tac;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.IBinding;
@@ -38,6 +40,8 @@ import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.Lattice;
 import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
+import edu.cmu.cs.crystal.flow.SingleResult;
+import edu.cmu.cs.crystal.tac.eclipse.EclipseInstructionSequence;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseTAC;
 
 /**
@@ -101,6 +105,48 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		this.driver = new BranchSensitiveTACAnalysisDriver<LE>(transferFunction);
 		// TODO use the driver as the analysis context
 		transferFunction.setAnalysisContext(this);
+	}
+
+	public LE getResultsAfter(TACInstruction instr) {
+		ASTNode node = instr.getNode();
+		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		if(rootInstr == instr) {
+			return getResultsAfter(node);
+		}
+		else if(rootInstr instanceof EclipseInstructionSequence) {
+			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
+			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
+					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			if(incoming == null) 
+				// no result available -> return bottom
+				return getResultsAfter(node);
+			else
+				// derive result for needed instruction in sequence
+				return mergeLabeledResult(this.driver.deriveResult(seq, incoming, instr, true), node);
+		}
+		else
+			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
+	}
+
+	public LE getResultsBefore(TACInstruction instr) {
+		ASTNode node = instr.getNode();
+		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		if(rootInstr == instr) {
+			return getResultsBefore(node);
+		}
+		else if(rootInstr instanceof EclipseInstructionSequence) {
+			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
+			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
+					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			if(incoming == null) 
+				// no result available -> return bottom
+				return getResultsBefore(node);
+			else
+				// derive result for needed instruction in sequence
+				return mergeLabeledResult(this.driver.deriveResult(seq, incoming, instr, false), node);
+		}
+		else
+			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
 	}
 
 	public ASTNode getNode(Variable x, TACInstruction instruction) {
@@ -185,16 +231,14 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		return driver.tac.implicitThisVariable(accessedElement);
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.MotherFlowAnalysis#createTransferFunction()
-	 */
 	@Override
 	protected IFlowAnalysisDefinition<LE> createTransferFunction(MethodDeclaration method) {
 		driver.switchToMethod(method);
 		return driver;
 	}
 
-	protected static class AbstractTACAnalysisDriver<LE extends LatticeElement<LE>, TF extends IFlowAnalysisDefinition<LE>> 
+	protected abstract static class 
+	AbstractTACAnalysisDriver<LE extends LatticeElement<LE>, TF extends IFlowAnalysisDefinition<LE>> 
 	implements IFlowAnalysisDefinition<LE> {
 
 		protected TF tf;
@@ -212,19 +256,15 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			this.tac = EclipseTAC.getInstance(methodDecl);
 		}
 		
-		/* (non-Javadoc)
-		 * @see edu.cmu.cs.crystal.flow.ITransferFunction#getAnalysisDirection()
-		 */
 		public AnalysisDirection getAnalysisDirection() {
 			return tf.getAnalysisDirection();
 		}
 		
-		/* (non-Javadoc)
-		 * @see edu.cmu.cs.crystal.flow.ITransferFunction#getLattice(org.eclipse.jdt.core.dom.MethodDeclaration)
-		 */
 		public Lattice<LE> getLattice(MethodDeclaration methodDeclaration) {
 			return tf.getLattice(methodDeclaration);
 		}
+		
+		public abstract IResult<LE> deriveResult(EclipseInstructionSequence seq, LE incoming, TACInstruction targetInstruction, boolean afterResult);
 	}
 	
 	protected static class BranchInsensitiveTACAnalysisDriver<LE extends LatticeElement<LE>> 
@@ -235,9 +275,6 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			super(tf);
 		}
 		
-		/* (non-Javadoc)
-		 * @see edu.cmu.cs.crystal.flow.ITransferFunction#transfer(org.eclipse.jdt.core.dom.ASTNode, edu.cmu.cs.crystal.flow.LatticeElement)
-		 */
 		public LE transfer(ASTNode astNode, LE incoming) {
 			LE result;
 			TACInstruction instr = tac.instruction(astNode);
@@ -247,18 +284,19 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 				result = instr.transfer(tf, incoming);
 			return result;
 		}
+		
+		public IResult<LE> deriveResult(EclipseInstructionSequence seq, LE incoming, TACInstruction targetInstruction, boolean afterResult) {
+			return SingleResult.createSingleResult(seq.deriveResult(tf, targetInstruction, incoming, afterResult));
+		}
 	}		
-	protected static class BranchSensitiveTACAnalysisDriver<LE extends LatticeElement<LE>> 
+	protected class BranchSensitiveTACAnalysisDriver<LE extends LatticeElement<LE>> 
 	extends AbstractTACAnalysisDriver<LE, ITACBranchSensitiveTransferFunction<LE>> 
 	implements IBranchSensitiveTransferFunction<LE> {
 		
 		public BranchSensitiveTACAnalysisDriver(ITACBranchSensitiveTransferFunction<LE> tf) {
 			super(tf);
 		}
-		
-		/* (non-Javadoc)
-		 * @see edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction#transfer(org.eclipse.jdt.core.dom.ASTNode, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-		 */
+
 		public IResult<LE> transfer(ASTNode astNode, List<ILabel> labels, LE value) {
 			TACInstruction instr = tac.instruction(astNode);
 			if(instr == null)
@@ -267,6 +305,13 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 				return instr.transfer(tf, labels, value);
 		}
 		
+		public IResult<LE> deriveResult(EclipseInstructionSequence seq, LE incoming, 
+				TACInstruction targetInstruction, boolean afterResult) {
+			Set<ILabel> labels = tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
+					getLabeledResultsBefore(targetInstruction.getNode()).keySet() :
+						getLabeledResultsAfter(targetInstruction.getNode()).keySet();
+			return seq.deriveResult(tf, new ArrayList<ILabel>(labels), targetInstruction, incoming, afterResult);
+		}
 	}
 
 }
