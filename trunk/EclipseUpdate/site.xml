@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <description url="http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/">
+      The update site for the Crystal Static Analysis Framework.
+   </description>
+   <feature url="features/CrystalFeature_3.3.0.jar" id="CrystalFeature" version="3.3.0"/>
 </site>
