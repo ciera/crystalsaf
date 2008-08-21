@@ -4,11 +4,12 @@
       label="Crystal"
       version="3.3.0">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="http://code.google.com/p/crystalsaf/">
+      Crystal is a framework for facilitating static Java source code
+analyses in Eclipse.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
+   <copyright url="http://code.google.com/p/crystalsaf/">
       Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich,
 Nels E. Beckman, Kevin Bierhoff, David Dickey, Ciera Jaspan,
 Thomas LaToza, Gabriel Zenarosa, and others.
