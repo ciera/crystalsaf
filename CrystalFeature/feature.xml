@@ -9,17 +9,29 @@
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+      Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich,
+Nels E. Beckman, Kevin Bierhoff, David Dickey, Ciera Jaspan,
+Thomas LaToza, Gabriel Zenarosa, and others.
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="http://www.gnu.org/licenses/">
+      Crystal is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation, either version 3 of
+the 
+License, or (at your option) any later version.
+Crystal is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public
+License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
    </license>
 
    <plugin
          id="edu.cmu.cs.crystal"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="3.3.0"/>
 
 </feature>
