@@ -1,0 +1,22 @@
+#summary Eclipse update site: http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/
+#labels Featured,Phase-Deploy
+
+= Eclipse update site =
+
+The easiest way to install Crystal is to update your existing Eclipse installation.  Use the following update site and follow the instructions.
+
+[http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/]
+
+== Eclipse 3.4 ==
+
+  # Select Help -> Software Updates... from the main menu.
+  # Switch to the "Available Software" page.
+  # Use "Add site" to add the Crystal update site (if not already present)
+  # Check "Crystal Static Analysis Framework" from the list of update sites
+  # Click the "Install..." button and follow the instructions.
+
+Eclipse will automatically download and install Crystal.
+
+= Source installation =
+
+You can use Subversion to check out the CrystalPlugin module from this repository.  CrystalPlugin is an Eclipse plug-in project that you should add to your Eclipse workspace.  (If you are checking out through Eclipse it will offer to add the project automatically to your workspace.)  Create a "Run Configuration" for an "Eclipse Application" and make sure "edu.cmu.cs.crystal" is among the loaded Plug-ins.  Running the application will open a second Eclipse window, called the _child eclipse_, in which Crystal is loaded.
