@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?metadataRepository class='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'?>
-<repository name='Crystal Static Analysis Framework' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
+<repository name='Crystal Static Analysis Framework' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1219333684569'/>
+    <property name='p2.timestamp' value='1219334050097'/>
   </properties>
   <references size='2'>
     <repository url='http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/' type='1' options='0'/>
@@ -57,7 +57,7 @@
       <touchpointData size='1'>
         <instructions size='2'>
           <instruction key='manifest'>
-            Bundle-Name: Crystal Plug-in&#xA;Bundle-ClassPath: edu.cmu.cs.crystal/,grappa1_2.jar&#xA;Bundle-Version: 3.3.0&#xA;Eclipse-LazyStart: true&#xA;Import-Package: org.junit;version=&quot;4.1.0&quot;;resolution:=optional&#xA;Bundle-Activator: edu.cmu.cs.crystal.CrystalPlugin&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.jdt.core,org.eclipse.ui.console,org.eclipse.core.resources,org.eclipse.jface.text,org.eclipse.debug.core&#xA;Export-Package: att.grappa,edu.cmu.cs.crystal,edu.cmu.cs.crystal.analysis,edu.cmu.cs.crystal.analysis.alias,edu.cmu.cs.crystal.analysis.constant,edu.cmu.cs.crystal.analysis.live,edu.cmu.cs.crystal.analysis.metrics,edu.cmu.cs.crystal.annotations,edu.cmu.cs.crystal.cfg,edu.cmu.cs.crystal.cfg.eclipse,edu.cmu.cs.crystal.flow,edu.cmu.cs.crystal.flow.eclipse,edu.cmu.cs.crystal.flow.examples,edu.cmu.cs.crystal.flow.experimental,edu.cmu.cs.crystal.internal,edu.cmu.cs.crystal.tac,edu.cmu.cs.crystal.tac.eclipse,edu.cmu.cs.crystal.tac.examples,edu.cmu.cs.crystal.test,java_cup.runtime&#xA;Bundle-SymbolicName: edu.cmu.cs.crystal;singleton:=true&#xA;Manifest-Version: 1.0&#xA;Eclipse-BuddyPolicy: registered&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-RequiredExecutionEnvironment: J2SE-1.5&#xA;Bundle-Localization: plugin
+            Bundle-Name: Crystal Plug-in&#xA;Bundle-ClassPath: edu.cmu.cs.crystal/,grappa1_2.jar&#xA;Bundle-Version: 3.3.0&#xA;Eclipse-LazyStart: true&#xA;Import-Package: org.junit;version=&quot;4.1.0&quot;;resolution:=optional&#xA;Bundle-Activator: edu.cmu.cs.crystal.CrystalPlugin&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.jdt.core,org.eclipse.ui.console,org.eclipse.core.resources,org.eclipse.jface.text,org.eclipse.debug.core&#xA;Export-Package: att.grappa,edu.cmu.cs.crystal,edu.cmu.cs.crystal.analysis,edu.cmu.cs.crystal.analysis.alias,edu.cmu.cs.crystal.analysis.constant,edu.cmu.cs.crystal.analysis.live,edu.cmu.cs.crystal.analysis.metrics,edu.cmu.cs.crystal.annotations,edu.cmu.cs.crystal.cfg,edu.cmu.cs.crystal.cfg.eclipse,edu.cmu.cs.crystal.flow,edu.cmu.cs.crystal.flow.eclipse,edu.cmu.cs.crystal.flow.examples,edu.cmu.cs.crystal.flow.experimental,edu.cmu.cs.crystal.internal,edu.cmu.cs.crystal.tac,edu.cmu.cs.crystal.tac.eclipse,edu.cmu.cs.crystal.tac.examples,edu.cmu.cs.crystal.test,java_cup.runtime&#xA;Bundle-SymbolicName: edu.cmu.cs.crystal;singleton:=true&#xA;Manifest-Version: 1.0&#xA;Eclipse-BuddyPolicy: registered&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-RequiredExecutionEnvironment: J2SE-1.5&#xA;Bundle-Localization: plugin&#xA;
           </instruction>
           <instruction key='zipped'>
             true
@@ -156,8 +156,8 @@
       <update id='edu.cmu.cs.crystal.feature.feature.group' range='[0.0.0,3.3.0)' severity='0'/>
       <properties size='4'>
         <property name='org.eclipse.equinox.p2.name' value='Crystal'/>
-        <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
-        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+        <property name='org.eclipse.equinox.p2.description' value='Crystal is a framework for facilitating static Java source code&#xA;analyses in Eclipse.'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://code.google.com/p/crystalsaf/'/>
         <property name='org.eclipse.equinox.p2.type.group' value='true'/>
       </properties>
       <provides size='1'>
@@ -177,7 +177,7 @@
           Crystal is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as&#xA;published by the Free Software Foundation, either version 3 of&#xA;the &#xA;License, or (at your option) any later version.&#xA;Crystal is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU Lesser General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public&#xA;License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
         </license>
       </licenses>
-      <copyright url='http://www.example.com/copyright'>
+      <copyright url='http://code.google.com/p/crystalsaf/'>
         Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich,&#xA;Nels E. Beckman, Kevin Bierhoff, David Dickey, Ciera Jaspan,&#xA;Thomas LaToza, Gabriel Zenarosa, and others.
       </copyright>
     </unit>
@@ -207,8 +207,8 @@
       <update id='edu.cmu.cs.crystal.feature.feature.jar' range='[0.0.0,3.3.0)' severity='0'/>
       <properties size='3'>
         <property name='org.eclipse.equinox.p2.name' value='Crystal'/>
-        <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
-        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+        <property name='org.eclipse.equinox.p2.description' value='Crystal is a framework for facilitating static Java source code&#xA;analyses in Eclipse.'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://code.google.com/p/crystalsaf/'/>
       </properties>
       <provides size='3'>
         <provided namespace='org.eclipse.equinox.p2.iu' name='edu.cmu.cs.crystal.feature.feature.jar' version='3.3.0'/>
@@ -234,7 +234,7 @@
           Crystal is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as&#xA;published by the Free Software Foundation, either version 3 of&#xA;the &#xA;License, or (at your option) any later version.&#xA;Crystal is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU Lesser General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public&#xA;License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
         </license>
       </licenses>
-      <copyright url='http://www.example.com/copyright'>
+      <copyright url='http://code.google.com/p/crystalsaf/'>
         Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich,&#xA;Nels E. Beckman, Kevin Bierhoff, David Dickey, Ciera Jaspan,&#xA;Thomas LaToza, Gabriel Zenarosa, and others.
       </copyright>
     </unit>
