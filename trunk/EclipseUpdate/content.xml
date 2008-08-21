@@ -3,9 +3,13 @@
 <repository name='file:/C:/Documents and Settings/kbierhof/My Documents/workspace/EclipseUpdate/ - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1219331268943'/>
+    <property name='p2.timestamp' value='1219332148250'/>
   </properties>
-  <units size='8'>
+  <references size='2'>
+    <repository url='http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/' type='1' options='0'/>
+    <repository url='http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/' type='0' options='0'/>
+  </references>
+  <units size='10'>
     <unit id='edu.cmu.cs.crystal' version='3.3.0'>
       <update id='edu.cmu.cs.crystal' range='[0.0.0,3.3.0)' severity='0'/>
       <properties size='1'>
@@ -355,6 +359,70 @@
         <provided namespace='java.package' name='org.xml.sax.helpers' version='0.0.0'/>
       </provides>
       <touchpoint id='org.eclipse.equinox.p2.native' version='1.0.0'/>
+    </unit>
+    <unit id='edu.cmu.cs.crystal.feature.feature.group' version='3.3.0' singleton='false'>
+      <update id='edu.cmu.cs.crystal.feature.feature.group' range='[0.0.0,3.3.0)' severity='0'/>
+      <properties size='4'>
+        <property name='org.eclipse.equinox.p2.name' value='Crystal'/>
+        <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='edu.cmu.cs.crystal.feature.feature.group' version='3.3.0'/>
+      </provides>
+      <requires size='2'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='edu.cmu.cs.crystal' range='[3.3.0,3.3.0]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='edu.cmu.cs.crystal.feature.feature.jar' range='[3.3.0,3.3.0]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+      <licenses size='1'>
+        <license url='http://www.gnu.org/licenses/'>
+          Crystal is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as&#xA;published by the Free Software Foundation, either version 3 of&#xA;the &#xA;License, or (at your option) any later version.&#xA;Crystal is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU Lesser General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public&#xA;License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+        </license>
+      </licenses>
+      <copyright url='http://www.example.com/copyright'>
+        Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich,&#xA;Nels E. Beckman, Kevin Bierhoff, David Dickey, Ciera Jaspan,&#xA;Thomas LaToza, Gabriel Zenarosa, and others.
+      </copyright>
+    </unit>
+    <unit id='edu.cmu.cs.crystal.feature.feature.jar' version='3.3.0'>
+      <update id='edu.cmu.cs.crystal.feature.feature.jar' range='[0.0.0,3.3.0)' severity='0'/>
+      <properties size='3'>
+        <property name='org.eclipse.equinox.p2.name' value='Crystal'/>
+        <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='edu.cmu.cs.crystal.feature.feature.jar' version='3.3.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='edu.cmu.cs.crystal.feature' version='3.3.0'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='edu.cmu.cs.crystal.feature' version='3.3.0'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+      <licenses size='1'>
+        <license url='http://www.gnu.org/licenses/'>
+          Crystal is free software: you can redistribute it and/or modify&#xA;it under the terms of the GNU Lesser General Public License as&#xA;published by the Free Software Foundation, either version 3 of&#xA;the &#xA;License, or (at your option) any later version.&#xA;Crystal is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU Lesser General Public License for more details.&#xA;You should have received a copy of the GNU Lesser General Public&#xA;License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+        </license>
+      </licenses>
+      <copyright url='http://www.example.com/copyright'>
+        Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich,&#xA;Nels E. Beckman, Kevin Bierhoff, David Dickey, Ciera Jaspan,&#xA;Thomas LaToza, Gabriel Zenarosa, and others.
+      </copyright>
     </unit>
   </units>
 </repository>
