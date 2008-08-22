@@ -276,9 +276,9 @@ public class Crystal {
 		PrintWriter user = userOut();
 
 		// Clear User Output Console
-		UserConsoleView console = UserConsoleView.getInstance();
-		if (console != null)
-			console.clearConsole();
+//		UserConsoleView console = UserConsoleView.getInstance();
+//		if (console != null)
+//			console.clearConsole();
 		runAnalysesOnMultiUnit(reanalyzeList, output, user, monitor);
 	}
 
@@ -314,9 +314,9 @@ public class Crystal {
 		}
 		
 		// Clear User Output Console
-		UserConsoleView console = UserConsoleView.getInstance();
-		if (console != null)
-			console.clearConsole();
+//		UserConsoleView console = UserConsoleView.getInstance();
+//		if (console != null)
+//			console.clearConsole();
 
 		runAnalysesOnMultiUnit(WorkspaceUtilities.scanForCompilationUnits(), output, user, monitor);
 	}
