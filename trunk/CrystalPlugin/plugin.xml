@@ -118,6 +118,7 @@
        </action>
     </objectContribution>
  </extension>
+ <!--
  <extension
        point="org.eclipse.ui.actionSets">
     <actionSet
@@ -149,6 +150,7 @@
        </action>
     </actionSet>
  </extension>
+ -->
  <extension
        id="edu.cmu.cs.crystal.marker.default"
        name="Default Crystal analysis marker"
@@ -181,5 +183,63 @@
           name="charEnd">
     </attribute>
  </extension>
-   
+ <extension
+       point="org.eclipse.ui.commands">
+    <category
+          description="Holds Crystal Commands"
+          id="CrystalPlugin.crystalcategory"
+          name="Crystal Commands">
+    </category>
+    <command
+          category="CrystalPlugin.crystalcategory"
+          categoryId="CrystalPlugin.crystalcategory"
+          defaultHandler="edu.cmu.cs.crystal.internal.RunCrystalHandler"
+          description="Runs Crystal"
+          id="CrystalPlugin.runcrystal"
+          name="Run Crystal">
+    </command>
+    <command
+          category="CrystalPlugin.crystalcategory"
+          categoryId="CrystalPlugin.crystalcategory"
+          defaultHandler="edu.cmu.cs.crystal.internal.EnableAnalysisHandler"
+          description="Enables or disables an analysis"
+          id="CrystalPlugin.enableanalysis"
+          name="Enable Analysis">
+       <commandParameter
+             id="CrystalPlugin.analysisname"
+             name="Analysis Name">
+       </commandParameter>
+    </command>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+       <menu
+             id="Crystal.maincyrstalmenu"
+             label="Crystal">
+          <dynamic
+                class="edu.cmu.cs.crystal.internal.AnalysisMenuPopulator"
+                id="CrystalPlugin.populateanalyses">
+          </dynamic>
+          <command
+                commandId="CrystalPlugin.runcrystal"
+                icon="icons/sample.gif"
+                label="Run Crystal"
+                tooltip="Run the enabled Crystal analyses">
+          </command>
+       </menu>
+    </menuContribution>
+    <menuContribution
+          locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+       <toolbar
+             id="CrystalPlugin.crystaltoolbar">
+          <command
+                commandId="CrystalPlugin.runcrystal"
+                icon="icons/sample.gif"
+                tooltip="Run the enabled Crystal analyses">
+          </command>
+       </toolbar>
+    </menuContribution>
+ </extension>
 </plugin>
