@@ -22,9 +22,11 @@ package edu.cmu.cs.crystal;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -104,7 +106,12 @@ public class Crystal {
 	 * the list of analyses to perfrom
 	 */
 	private LinkedList<ICrystalAnalysis> analyses;
-
+	
+	/**
+	 * The names of the analyses that are enabled.
+	 */
+	private Set<String> enabledAnalyses;
+	
 	/**
 	 * The annotation database will be populated before
 	 * any analyses are run. It will populate from all compilation
@@ -121,6 +128,7 @@ public class Crystal {
 	
 	public Crystal() {
 		analyses = new LinkedList<ICrystalAnalysis>();
+		enabledAnalyses = new HashSet<String>();
 	}
 	
 	/**
@@ -215,6 +223,7 @@ public class Crystal {
 	 */
 	public void registerAnalysis(ICrystalAnalysis analysis) {
 		analyses.add(analysis);
+		enabledAnalyses.add(analysis.getName());
 	}
 	
 	/**
@@ -246,6 +255,31 @@ public class Crystal {
 	
 	public List<ICrystalAnalysis> getAnalyses() {
 		return Collections.unmodifiableList(analyses);
+	}
+	
+	/**
+	 * Is the analysis will the given name currently enabled?
+	 */
+	public boolean isAnalysisEnabled(String analysis_name) {
+		return this.enabledAnalyses.contains(analysis_name);
+	}
+	
+	/**
+	 * Add the given name to the set of analyses that are enabled. Note
+	 * that if there is no analysis with this name, no error will be
+	 * reported!
+	 */
+	public void enableAnalysis(String analysis_name) {
+		this.enabledAnalyses.add(analysis_name);
+	}
+	
+	/**
+	 * Remove the given name from the set of analyses that are enabled. Note
+	 * that if there is no analysis with this name, no error will be
+	 * reported!
+	 */
+	public void disableAnalysis(String analysis_name) {
+		this.enabledAnalyses.remove(analysis_name);
 	}
 	
 	/**
@@ -441,6 +475,9 @@ public class Crystal {
 		
 		boolean logInfo = logger.isLoggable(Level.INFO);
 		for (ICrystalAnalysis crystalAnalysis : analyses) {
+			if( !enabledAnalyses.contains(crystalAnalysis.getName()) )
+				continue;
+			
 			String analysisName = null;
 			try {
 				analysisName = crystalAnalysis.getName();
