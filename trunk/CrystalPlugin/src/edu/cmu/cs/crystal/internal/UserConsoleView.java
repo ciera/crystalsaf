@@ -20,13 +20,14 @@
 package edu.cmu.cs.crystal.internal;
 
 import java.io.PrintWriter;
+import java.util.logging.Logger;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 import org.eclipse.ui.console.TextConsoleViewer;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.part.ViewPart;
 
 /**
  * This is a text console for users to submit messages to.
@@ -35,6 +36,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
  *
  */
 public class UserConsoleView extends ViewPart {
+	
+	private static final Logger log = Logger.getLogger(UserConsoleView.class.getName());
+	
 	private static UserConsoleView instance = null;
 	private TextConsoleViewer viewer;
 	private IOConsole ioConsole;
@@ -44,7 +48,7 @@ public class UserConsoleView extends ViewPart {
 	 * The constructor.
 	 */
 	public UserConsoleView() {
-		System.out.println("UserConsoleView Instantiated");
+		log.fine("UserConsoleView Instantiated");
 		instance = this;
 	}
 	
@@ -80,7 +84,7 @@ public class UserConsoleView extends ViewPart {
 	 */
 	public PrintWriter getPrintWriter() {
 		if(ioConsoleOutputStream == null) {
-			System.out.println("The User Console has not been properly initiated.");
+			log.warning("The User Console has not been properly initiated.");
 			return null;
 		}
 		return new PrintWriter(ioConsoleOutputStream, true);
