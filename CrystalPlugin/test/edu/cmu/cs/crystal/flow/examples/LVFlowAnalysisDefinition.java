@@ -34,8 +34,8 @@ import edu.cmu.cs.crystal.flow.Lattice;
  */
 public class LVFlowAnalysisDefinition extends FlowAnalysisDefinition<LVLatticeElement> {
 	
-	public LVFlowAnalysisDefinition(Crystal crystal) {
-		super(crystal);
+	public LVFlowAnalysisDefinition() {
+		super();
 	}
 
 	public String getName() {

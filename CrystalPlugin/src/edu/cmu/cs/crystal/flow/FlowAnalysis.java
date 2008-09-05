@@ -37,13 +37,11 @@ public class FlowAnalysis<LE extends LatticeElement<LE>> extends MotherFlowAnaly
 	
 	protected IFlowAnalysisDefinition<LE> def;
 
-	public FlowAnalysis(Crystal crystal, ITransferFunction<LE> def) {
-		super(crystal);
+	public FlowAnalysis(ITransferFunction<LE> def) {
 		this.def = def;
 	}
 
-	public FlowAnalysis(Crystal crystal, IBranchSensitiveTransferFunction<LE> def) {
-		super(crystal);
+	public FlowAnalysis(IBranchSensitiveTransferFunction<LE> def) {
 		this.def = def;
 	}
 

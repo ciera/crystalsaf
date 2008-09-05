@@ -43,8 +43,7 @@ public class BranchSensitiveTACAnalysis<LE extends LatticeElement<LE>>
 	 * @param crystal
 	 * @param tf
 	 */
-	public BranchSensitiveTACAnalysis(Crystal crystal,
-			ITACBranchSensitiveTransferFunction<LE> tf) {
-		super(crystal, tf);
+	public BranchSensitiveTACAnalysis(ITACBranchSensitiveTransferFunction<LE> tf) {
+		super(tf);
 	}
 }

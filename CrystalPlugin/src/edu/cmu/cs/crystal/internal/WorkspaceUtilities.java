@@ -278,6 +278,18 @@ public class WorkspaceUtilities {
 		return result;
 	}
 
+	/**
+	 * Gets the root ASTNode for a compilation unit, with bindings on.
+	 * @param compUnit
+	 * @return the root ASTNode for a compilation unit, with bindings on.
+	 */
+	public static ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
+	 	ASTParser parser = ASTParser.newParser(AST.JLS3);
+		parser.setResolveBindings(true);
+		parser.setSource(compUnit);
+		return parser.createAST(/* passing in monitor messes up previous monitor state */ null);
+	}
+
 }
 
 class BindingsCollectorVisitor extends ASTVisitor {

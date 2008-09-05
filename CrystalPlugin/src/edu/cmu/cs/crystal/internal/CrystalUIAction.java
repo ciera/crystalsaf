@@ -19,16 +19,23 @@
  */
 package edu.cmu.cs.crystal.internal;
 
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import edu.cmu.cs.crystal.Crystal;
+import edu.cmu.cs.crystal.IAnalysisReporter;
+import edu.cmu.cs.crystal.IRunCrystalCommand;
+import edu.cmu.cs.crystal.StandardAnalysisReporter;
 
 /**
  * Begins the execution of the Crystal framework when the corresponding
@@ -50,7 +57,18 @@ public class CrystalUIAction implements IWorkbenchWindowActionDelegate {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				crystal.runAnalyses(monitor);
+				final Set<String> enabled = AbstractCrystalPlugin.getEnabledAnalyses();
+				final List<ICompilationUnit> cus = WorkspaceUtilities.scanForCompilationUnits();
+				
+				IRunCrystalCommand run_command = new IRunCrystalCommand(){
+					public Set<String> analyses() { return enabled;	}
+					public List<ICompilationUnit> compilationUnits() { return cus; }
+					public IAnalysisReporter reporter() { 
+						return new StandardAnalysisReporter(); 
+					}
+				};
+				
+				crystal.runAnalyses(run_command, monitor);
 				if(monitor.isCanceled())
 					return Status.CANCEL_STATUS;
 				return Status.OK_STATUS;
@@ -59,9 +77,6 @@ public class CrystalUIAction implements IWorkbenchWindowActionDelegate {
 		};
 		j.setUser(true);
 		j.schedule();
-		
-//		AbstractCrystalPlugin plugin = AbstractCrystalPlugin.getInstance();
-//		plugin.runCrystal();
 	}
 	/**
 	 * required by the IWorkbenchWindowActionDelegate interface

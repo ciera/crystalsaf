@@ -64,10 +64,10 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 		for (Variable var : lattice.getKeySet()) {
 			LiveVariableLE live = lattice.get(var);
 			if (live == LiveVariableLE.LIVE)
-				crystal.debugOut().println(var.getSourceString() + ":" + " LIVE  ");		
+				reporter.debugOut().println(var.getSourceString() + ":" + " LIVE  ");		
 			else
-				crystal.debugOut().println(var.getSourceString() + ":" + " DEAD  ");
+				reporter.debugOut().println(var.getSourceString() + ":" + " DEAD  ");
 		}
-		crystal.debugOut().println("\n\n");
+		reporter.debugOut().println("\n\n");
 	}
 }

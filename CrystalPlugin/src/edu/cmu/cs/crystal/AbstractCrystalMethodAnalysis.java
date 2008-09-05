@@ -27,7 +27,9 @@ import java.util.Map;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.*;
 
+import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
+import edu.cmu.cs.crystal.internal.Option;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 
 /**
@@ -39,7 +41,11 @@ import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
  * 
  */
 public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis {
-	protected Crystal crystal;
+	
+	protected IAnalysisReporter reporter = null;
+	
+	protected IAnalysisInput analysisInput = null;
+	
 	/**
 	 * This method is intended to be used to simply
 	 * return an arbitrary name that can be used to
@@ -59,8 +65,11 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	 * Finally {@link #afterAllMethods()} is run after all methods have
 	 * been analyzed.
 	 */
-	public final void runAnalysis(Crystal crystal, ICompilationUnit compUnit, CompilationUnit rootNode) {
-		this.crystal = crystal;
+	public final void runAnalysis(IAnalysisReporter reporter,
+			IAnalysisInput input, ICompilationUnit compUnit, 
+			CompilationUnit rootNode) {
+		this.reporter = reporter;
+		this.analysisInput = input;
 		
 		beforeAllMethods(compUnit, rootNode);
 		

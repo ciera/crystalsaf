@@ -122,11 +122,10 @@ import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
  */
 public abstract class FlowAnalysisDefinition<LE extends LatticeElement<LE>> 
 		implements ITransferFunction<LE> {
-	protected Crystal crystal;
-
 	
-	public FlowAnalysisDefinition(Crystal crystal) {
-		this.crystal = crystal;
+	
+	public FlowAnalysisDefinition() {
+		
 	}
 
 	/**

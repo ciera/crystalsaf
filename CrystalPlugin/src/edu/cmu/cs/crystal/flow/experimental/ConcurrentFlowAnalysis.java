@@ -154,11 +154,10 @@ implements IFlowAnalysis<LE> {
 		 * hopefully we can just override this to return an TACFA.
 		 */
 		if( transferFunction instanceof IBranchSensitiveTransferFunction ) {
-			return new FlowAnalysis<LE>(crystal,
-					(IBranchSensitiveTransferFunction<LE>)transferFunction);
+			return new FlowAnalysis<LE>((IBranchSensitiveTransferFunction<LE>)transferFunction);
 		}
 		else {
-			return new FlowAnalysis<LE>(crystal,transferFunction);
+			return new FlowAnalysis<LE>(transferFunction);
 		}
 	}
 	

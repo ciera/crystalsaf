@@ -24,7 +24,9 @@ import java.util.Map;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
+import edu.cmu.cs.crystal.internal.Option;
 
 /**
  * Presents the interface for an analysis.
@@ -36,11 +38,14 @@ import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 public interface ICrystalAnalysis {
 	/**
 	 * Run the analysis!
-	 * @param crystal The crystal instance
+	 * @param reporter The object that is used to report errors. Output.
+	 * @param input The input to this analysis.
 	 * @param compUnit The compilation unit
 	 * @param rootNode The root ASTNode of the compilation unit
 	 */
-	public void runAnalysis(Crystal crystal, ICompilationUnit compUnit, CompilationUnit rootNode);
+	public void runAnalysis(IAnalysisReporter reporter,	
+			IAnalysisInput input, ICompilationUnit compUnit, 
+			CompilationUnit rootNode);
 	
 	/**
 	 * @return a unique name for this analysis

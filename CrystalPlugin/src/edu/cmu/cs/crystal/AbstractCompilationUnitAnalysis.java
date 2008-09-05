@@ -30,7 +30,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
+import edu.cmu.cs.crystal.internal.Option;
 
 /**
  * Carries out an analysis on each CompilationUnit.
@@ -40,7 +42,8 @@ import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
  */
 public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysis {
 	
-	protected Crystal crystal;
+	protected IAnalysisReporter reporter = null;
+	protected IAnalysisInput analysisInput = null;
 	
 	/**
 	 * This method is intended to be used to simply
@@ -52,15 +55,19 @@ public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysi
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
-
+	
 	/**
 	 * Newest version of runAnalysis to run on a single compilation unit.
 	 * 
 	 * @param compUnit The ICompilationUnit that represents the file we are analyzing
+	 * @param reporter The IAnalysisReport that allows an analysis to report issues.
 	 * @param rootNode The ASTNode which represents this compilation unit.
 	 */
-	public final void runAnalysis(Crystal crystal, ICompilationUnit compUnit, CompilationUnit rootNode) {
-		this.crystal = crystal;
+	public void runAnalysis(IAnalysisReporter reporter,
+			IAnalysisInput input, ICompilationUnit compUnit, 
+			CompilationUnit rootNode) {
+		this.reporter = reporter;
+		this.analysisInput = input;
 		analyzeCompilationUnit(rootNode);
 	}
 

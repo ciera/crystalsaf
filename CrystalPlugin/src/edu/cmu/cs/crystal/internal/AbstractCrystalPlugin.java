@@ -19,6 +19,12 @@
  */
 package edu.cmu.cs.crystal.internal;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,6 +50,53 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 	private static final Logger log = Logger.getLogger(AbstractCrystalPlugin.class.getName());
 	
 	/**
+	 * Contains the names of all registered analyses, as well as a boolean indicating
+	 * whether or not that analysis is enabled.
+	 */
+	private static final Map<String,Boolean> registeredAnalyses = 
+		Collections.synchronizedMap(new LinkedHashMap<String,Boolean>());
+	
+	public static Set<String> getAllAnalyses() {
+		synchronized(registeredAnalyses) {
+			return new HashSet<String>(registeredAnalyses.keySet());
+		}
+	}
+	
+	/**
+	 * Returns the set of analyses that are enabled at the moment this method
+	 * is called.
+	 */
+	public static Set<String> getEnabledAnalyses() {
+		Set<String> result = new HashSet<String>();
+		
+		synchronized(registeredAnalyses) {
+			for( Map.Entry<String, Boolean> entry : registeredAnalyses.entrySet() ) {
+				if( entry.getValue() )
+					result.add(entry.getKey());
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Add the given name to the set of analyses that are enabled. Note
+	 * that if there is no analysis with this name, no error will be
+	 * reported!
+	 */
+	public static void enableAnalysis(String analysis_name) {
+		registeredAnalyses.put(analysis_name, Boolean.TRUE);
+	}
+	
+	/**
+	 * Remove the given name from the set of analyses that are enabled. Note
+	 * that if there is no analysis with this name, no error will be
+	 * reported!
+	 */
+	public static void disableAnalysis(String analysis_name) {
+		registeredAnalyses.put(analysis_name, Boolean.FALSE);
+	}
+	
+	/**
 	 * This method is called upon plug-in activation.  Used to initialize
 	 * the plugin for first time use.  Invokes setupCrystalAnalyses,
 	 * which is overridden by CrystalPlugin.java to register any
@@ -57,6 +110,7 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 		}
 	}
 	
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		synchronized(AbstractCrystalPlugin.class) {
@@ -78,6 +132,9 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 				if(log.isLoggable(Level.CONFIG))
 					log.config("Registering analysis extension: " + analysis.getName());
 				crystal.registerAnalysis(analysis);
+				
+				// Enable analysis by default
+				registeredAnalyses.put(analysis.getName(), Boolean.TRUE);
 			}
 			catch(CoreException e) {
 				log.log(Level.SEVERE, "Problem with configured analysis: " + config.getValue(), e);

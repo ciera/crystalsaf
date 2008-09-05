@@ -20,6 +20,7 @@
 package edu.cmu.cs.crystal.internal;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -48,13 +49,13 @@ public class EnableAnalysisHandler implements IHandler, IElementUpdater {
 	 * chosen.
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		final Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
 		final String analysis_name = event.getParameter("CrystalPlugin.analysisname");
+		final Set<String> enabled = AbstractCrystalPlugin.getEnabledAnalyses();
 		
-		if( crystal.isAnalysisEnabled(analysis_name) )
-			crystal.disableAnalysis(analysis_name);
+		if( enabled.contains(analysis_name) )
+			AbstractCrystalPlugin.disableAnalysis(analysis_name);
 		else
-			crystal.enableAnalysis(analysis_name);
+			AbstractCrystalPlugin.enableAnalysis(analysis_name);
 		
 		return null;
 	}
@@ -70,10 +71,10 @@ public class EnableAnalysisHandler implements IHandler, IElementUpdater {
 	 * should be checked or not.
 	 */
 	public void updateElement(UIElement element, Map parameters) {
-		final Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
 		final String analysis_name = (String)parameters.get("CrystalPlugin.analysisname");
+		final Set<String> enabled = AbstractCrystalPlugin.getEnabledAnalyses();
 		
-		if( crystal.isAnalysisEnabled(analysis_name) )
+		if( enabled.contains(analysis_name) )
 			element.setChecked(true);
 		else
 			element.setChecked(false);

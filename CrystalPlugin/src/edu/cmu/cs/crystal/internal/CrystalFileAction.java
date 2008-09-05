@@ -20,6 +20,7 @@
 package edu.cmu.cs.crystal.internal;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -35,7 +36,13 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 import edu.cmu.cs.crystal.Crystal;
+import edu.cmu.cs.crystal.IAnalysisReporter;
+import edu.cmu.cs.crystal.IRunCrystalCommand;
+import edu.cmu.cs.crystal.StandardAnalysisReporter;
 
+/**
+ * An action that will be called when a popup menu is used to run Crystal.
+ */
 public class CrystalFileAction implements IObjectActionDelegate {
 
 	private ISelection selection;
@@ -82,7 +89,18 @@ public class CrystalFileAction implements IObjectActionDelegate {
 
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					crystal.runAnalyses(compUnits, monitor);
+					final Set<String> enabled = AbstractCrystalPlugin.getEnabledAnalyses(); 
+					IRunCrystalCommand run_command = new IRunCrystalCommand(){
+						public Set<String> analyses() {	return enabled;	}
+						public List<ICompilationUnit> compilationUnits() {
+							return compUnits;
+						}
+						public IAnalysisReporter reporter() { 
+							return new StandardAnalysisReporter(); 
+						}
+					};
+					
+					crystal.runAnalyses(run_command, monitor);
 					if(monitor.isCanceled())
 						return Status.CANCEL_STATUS;
 					return Status.OK_STATUS;
@@ -100,5 +118,4 @@ public class CrystalFileAction implements IObjectActionDelegate {
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
 	}
-
 }

@@ -45,7 +45,8 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.junit.Assert;
 
-import edu.cmu.cs.crystal.Crystal;
+import edu.cmu.cs.crystal.IAnalysisInput;
+import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
@@ -69,7 +70,7 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 	/* (non-Javadoc)
 	 * @see edu.cmu.cs.crystal.ICrystalAnalysis#runAnalysis()
 	 */
-	public void runAnalysis(Crystal crystal, ICompilationUnit compUnit, CompilationUnit rootNode) {
+	public void runAnalysis(IAnalysisReporter reporter, IAnalysisInput input, ICompilationUnit compUnit, CompilationUnit rootNode) {
 		if (runOnce) {
 			runSimpleTests();
 			runTargetSelectionTests();

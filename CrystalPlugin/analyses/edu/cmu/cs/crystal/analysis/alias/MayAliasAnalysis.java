@@ -168,7 +168,7 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		MayAliasTransferFunction tf = new MayAliasTransferFunction(this);
-		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, AliasLE>>(crystal, tf);
+		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, AliasLE>>(tf);
 		// must call getResultsAfter at least once on this method,
 		// or the analysis won't be run on this method
 		TupleLatticeElement<Variable, AliasLE> finalLattice = fa.getResultsAfter(d);
@@ -181,10 +181,10 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 			if (!(var instanceof SourceVariable))
 				continue;
 			AliasLE aliases = lattice.get(var);
-			crystal.debugOut().println(var.getSourceString() + ":");
+			reporter.debugOut().println(var.getSourceString() + ":");
 			
 			for (Variable alias : getAliases(lattice, var)) {
-				crystal.debugOut().println("   " + alias.getSourceString() + "(" + alias.toString() + ")");
+				reporter.debugOut().println("   " + alias.getSourceString() + "(" + alias.toString() + ")");
 			}
 		}		
 	}

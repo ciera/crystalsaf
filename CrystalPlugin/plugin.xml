@@ -118,39 +118,6 @@
        </action>
     </objectContribution>
  </extension>
- <!--
- <extension
-       point="org.eclipse.ui.actionSets">
-    <actionSet
-          id="edu.cmu.cs.crystal.CrystalActions"
-          label="Crystal Actions"
-          visible="true">
-       <menu
-             id="edu.cmu.cs.crystal.crystalMenu"
-             label="&amp;Crystal">
-          <separator
-                name="edu.cmu.cs.crystal.crystalGroup">
-          </separator>
-       </menu>
-       <action
-             class="edu.cmu.cs.crystal.internal.CrystalUIAction"
-             icon="icons/sample.gif"
-             id="edu.cmu.cs.crystal.internal.CrystalUIAction"
-             label="&amp;Run Analyses"
-             menubarPath="edu.cmu.cs.crystal.crystalMenu/edu.cmu.cs.crystal.crystalGroup"
-             toolbarPath="edu.cmu.cs.crystal.crystalGroup"
-             tooltip="Runs the registered Crystal analyses.">
-       </action>
-       <action
-             class="edu.cmu.cs.crystal.internal.DisplayCrystalInfo"
-             id="edu.cmu.cs.crystal.internal.DisplayCrystalInfo"
-             label="&amp;Display analyses"
-             menubarPath="edu.cmu.cs.crystal.crystalMenu/edu.cmu.cs.crystal.crystalGroup"
-             tooltip="Displays the registered Crystal analyses">
-       </action>
-    </actionSet>
- </extension>
- -->
  <extension
        id="edu.cmu.cs.crystal.marker.default"
        name="Default Crystal analysis marker"
@@ -191,7 +158,6 @@
           name="Crystal Commands">
     </category>
     <command
-          category="CrystalPlugin.crystalcategory"
           categoryId="CrystalPlugin.crystalcategory"
           defaultHandler="edu.cmu.cs.crystal.internal.RunCrystalHandler"
           description="Runs Crystal"
@@ -199,7 +165,6 @@
           name="Run Crystal">
     </command>
     <command
-          category="CrystalPlugin.crystalcategory"
           categoryId="CrystalPlugin.crystalcategory"
           defaultHandler="edu.cmu.cs.crystal.internal.EnableAnalysisHandler"
           description="Enables or disables an analysis"
@@ -242,4 +207,12 @@
        </toolbar>
     </menuContribution>
  </extension>
+ 
+    <extension
+         point="edu.cmu.cs.crystal.CrystalAnalysis">
+      <analysis
+            class="edu.cmu.cs.crystal.tac.examples.DivideByZeroAnalysis"
+            name="Divide by Zero Analysis">
+      </analysis>
+    </extension>
 </plugin>
