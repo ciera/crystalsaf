@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Writing a static analysis can be tricky. Writing one without tests is a downright bad idea! On this page, we will explain the !AnnotatedTest class, a !JUnit test, and how it can be used to write tests for an analysis that you have developed.
+Writing a static analysis can be tricky. Writing one without tests is a downright bad idea! On this page, we will explain the !AnnotatedTest class, a JUnit test, and how it can be used to write tests for an analysis that you have developed.
 
 = Testing Strategy =
 
@@ -29,7 +29,7 @@ Annotations:
 
 = Creating a Test Workspace =
 
-In order to test your analysis, you have to run what is known as a "!JUnit Plugin Test" in Eclipse. This means that your input test files must exist in a _different_ project in a _different_ workspace! I normally use my standard runtime workspace.
+In order to test your analysis, you have to run what is known as a "JUnit Plugin Test" in Eclipse. This means that your input test files must exist in a _different_ project in a _different_ workspace! I normally use my standard runtime workspace.
 
 In your testing workspace, whichever one you choose:
   * You need to have a Java project which contains the Java classes under test. You can have more than one! !AnalysisTest will look at every compilation unit in the project to see if it is a Crystal analysis test file.
@@ -55,3 +55,22 @@ public class XXX_DivideByZ_test1 {
 }
 
 }}}
+
+= Running the Tests =
+
+Now it's time to run those tests! This is pretty straightforward, but there are a few things that you need to watch out for! Here's how you do it:
+  # Close any open Eclipse instances that are using your test workspace.
+  # Go to the instance of Eclipse that is using your Crystal/Analysis workspace.
+  # Select *Run* then *Open Run Dialog*
+  # Create a new *JUnit Plugin Test* with the name of your choice.
+  # You want to *Run a single test* in the !CrystalPlugin project with edu.cmu.cs.crystal.test.!AnnotatedTest as your *Test class*. Make sure your are using JUnit 4 as your *Test runner*.
+  # Now go to the *Main* tab of the same dialog. Make sure the *Location* corresponds to your testing workspace! By default it probably will not!
+  # This step is important! Uncheck the *Clear* checkbox! Failure to do so will delete any files in your testing workspace!
+  # Select "[ No Application ] - Headless Mode" under the *Run an application* menu of *Program to Run*.
+  # You're done! Now just click the *Run* button.
+
+= Troubleshooting =
+
+If things don't work:
+
+  * Make sure your analysis is 'registered.' Analyses are registered in the build.xml file, or alternatively by modifying the Crystak source code.
