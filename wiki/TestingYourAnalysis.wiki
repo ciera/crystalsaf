@@ -1,5 +1,5 @@
 #summary How to write tests for your own analysis.
-#labels Phase-QA
+#labels Phase-QA,Featured
 
 = Introduction =
 
