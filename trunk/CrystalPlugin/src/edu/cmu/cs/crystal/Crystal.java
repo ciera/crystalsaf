@@ -20,6 +20,7 @@
 package edu.cmu.cs.crystal;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,9 +40,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IBinding;
 
@@ -49,7 +48,11 @@ import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.AnnotationFinder;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
+import edu.cmu.cs.crystal.internal.ICrystalJob;
+import edu.cmu.cs.crystal.internal.ISingleCrystalJob;
+import edu.cmu.cs.crystal.internal.Option;
 import edu.cmu.cs.crystal.internal.UserConsoleView;
+import edu.cmu.cs.crystal.internal.Utilities;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 
 /**
@@ -113,14 +116,6 @@ public class Crystal {
 	private Set<String> enabledAnalyses;
 	
 	/**
-	 * The annotation database will be populated before
-	 * any analyses are run. It will populate from all compilation
-	 * units that the run is going on. It will be reset at each analysis
-	 * run and will NOT store the data from the last run.
-	 */
-	private AnnotationDatabase annoDB;
-
-	/**
 	 * Permanent registry for annotation parsers, populated at plugin initialization time.
 	 */
 	private Map<String, Class<? extends ICrystalAnnotation>> annotationRegistry =
@@ -130,91 +125,7 @@ public class Crystal {
 		analyses = new LinkedList<ICrystalAnalysis>();
 		enabledAnalyses = new HashSet<String>();
 	}
-	
-	/**
-	 * Returns a PrintWriter that can be used to output text to 
-	 * a console the user can see.
-	 * 
-	 * This text will goto the "UserConsole", a console
-	 * in the child-eclipse window that the user must enable through
-	 * the "Window" menu. If this console is not open, then it will
-	 * print to standard out.
-	 */
-	public PrintWriter userOut() {
-		UserConsoleView consoleView = UserConsoleView.getInstance();
-		if (consoleView == null) {
-			// TODO: Automatically enable the user console or make this a pop-up on the child eclipse
-			return new PrintWriter(System.out, true);
-		}
-		return consoleView.getPrintWriter();
-	}
-	
-	/**
-	 * Returns a PrintWriter that can be used to output text to 
-	 * a console the static-analysis developer can see.
-	 * 
-	 * Currently this text will goto the parent-eclipse's standard
-	 * console.
-	 */
-	public PrintWriter debugOut()  {
-		return new PrintWriter(System.out, true);
-	}
-	
-	/**
-	 * Reports a problem in the problems window the user can see.
-	 * Provides relevant problem information like "Description", "Resource", 
-	 * "Resource Folder" and "Line Location" whenever possible.
-	 * 
-	 * @param	problemDescription	the text describing the problem
-	 * @param	node				the {@link #ASTNode} where the problem occurred
-	 * @param	analysis			the analysis where the problem occurred
-	 */
-	public void reportUserProblem(String problemDescription, ASTNode node, ICrystalAnalysis analysis) {
-		if(node == null)
-			throw new NullPointerException("null ASTNode argument in reportUserProblem");
-		if(analysis == null)
-			throw new NullPointerException("null analysis argument in reportUserProblem");
-		if(logger.isLoggable(Level.FINE))
-			logger.fine("Reporting problem to user: " + problemDescription + "; node: " + node);
-		if(regressionLogger.isLoggable(Level.INFO)) {
-			regressionLogger.info(problemDescription);
-			regressionLogger.info(node.toString());
-		}
-		
-		IResource resource;
-		ASTNode root = node.getRoot();
-
-		// Identify the closest resource to the ASTNode,
-		// otherwise fall back to using the high-level workspace root.
-		if(root.getNodeType() == ASTNode.COMPILATION_UNIT) {
-			CompilationUnit cu = (CompilationUnit) root;
-			IJavaElement je = cu.getJavaElement();
-			resource = je.getResource();
-		} 
-		else {
-			// Use the high-level Workspace
-			resource = ResourcesPlugin.getWorkspace().getRoot();
-		}
-		
-		// Create the marker
-		//TODO: create markers according to the type of the analysis
-		try {
-			IMarker marker = resource.createMarker(IMarker.PROBLEM);
-			marker.setAttribute(IMarker.CHAR_START, node.getStartPosition());
-			marker.setAttribute(IMarker.CHAR_END, node.getStartPosition() + node.getLength());
-			marker.setAttribute(IMarker.MESSAGE, "[" + analysis.getName() + "]: " + problemDescription);
-			marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
-			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-			CompilationUnit cu = (CompilationUnit) node.getRoot();
-			int line = cu.getLineNumber(node.getStartPosition());
-			if(line >= 0) // -1 and -2 indicate error conditions
-				marker.setAttribute(IMarker.LINE_NUMBER, line);
-		} 
-		catch (CoreException ce) {
-			logger.log(Level.SEVERE, "CoreException when creating marker", ce);
-		}
-	}
-	
+				
 	/**
 	 * Registers an analysis with the framework.  All analyses must be
 	 * registered in order for them to be invoked.
@@ -239,47 +150,10 @@ public class Crystal {
 	 */
 	public ASTNode getASTNodeFromBinding(IBinding binding) {
 		throw new UnsupportedOperationException("Retrieving AST nodes for bindings not supported");
-//		if (bindings == null)
-//			throw new CrystalRuntimeException("Crystal::getASTNodeFromBinding: An error occured while creating the binding -> declarations mapping");
-//		return bindings.get(binding.getKey());
-	}
-	
-	/**
-	 * 
-	 * @return the annotation database for the compilation unit currently being analyzed.
-	 * Null if no compilation unit is being analyzed
-	 */
-	public AnnotationDatabase getAnnotationDatabase() {
-		return annoDB;
 	}
 	
 	public List<ICrystalAnalysis> getAnalyses() {
 		return Collections.unmodifiableList(analyses);
-	}
-	
-	/**
-	 * Is the analysis will the given name currently enabled?
-	 */
-	public boolean isAnalysisEnabled(String analysis_name) {
-		return this.enabledAnalyses.contains(analysis_name);
-	}
-	
-	/**
-	 * Add the given name to the set of analyses that are enabled. Note
-	 * that if there is no analysis with this name, no error will be
-	 * reported!
-	 */
-	public void enableAnalysis(String analysis_name) {
-		this.enabledAnalyses.add(analysis_name);
-	}
-	
-	/**
-	 * Remove the given name from the set of analyses that are enabled. Note
-	 * that if there is no analysis with this name, no error will be
-	 * reported!
-	 */
-	public void disableAnalysis(String analysis_name) {
-		this.enabledAnalyses.remove(analysis_name);
 	}
 	
 	/**
@@ -291,6 +165,7 @@ public class Crystal {
 	 * @param reanalyzeList The compilation units to analyze
 	 * @deprecated Use {@link #runAnalyses(List<ICompilationUnit>,IProgressMonitor)} instead
 	 */
+	@Deprecated
 	public void runAnalyses(List<ICompilationUnit> reanalyzeList) {
 		runAnalyses(reanalyzeList, null);
 	}
@@ -305,221 +180,164 @@ public class Crystal {
 	 * @param monitor the progress monitor used to report progress and request cancellation, 
 	 * or <code>null</code> if none.  Monitor must not be initialized with {@link IProgressMonitor#beginTask(String, int)}.
 	 */
-	public void runAnalyses(List<ICompilationUnit> reanalyzeList, IProgressMonitor monitor) {
-		PrintWriter output = debugOut();
-		PrintWriter user = userOut();
-
-		// Clear User Output Console
-//		UserConsoleView console = UserConsoleView.getInstance();
-//		if (console != null)
-//			console.clearConsole();
-		runAnalysesOnMultiUnit(reanalyzeList, output, user, monitor);
-	}
-
-
-	/**
-	 * Runs all of the analyses on all of the compilation units in the workspace.
-	 * Will clear the console before starting.
-	 * Will clear ALL the markers for each compilation unit before starting.
-	 * This will run all the analyses on a single compilation unit at a time.
-	 * After finishing a compilation unit, we may not hold onto any ASTNodes
-	 * @deprecated Use {@link #runAnalyses(IProgressMonitor)} instead
-	 */
-	public void runAnalyses() {
-		runAnalyses((IProgressMonitor) null);
-	}
-
-	/**
-	 * Runs all of the analyses on all of the compilation units in the workspace.
-	 * Will clear the console before starting.
-	 * Will clear ALL the markers for each compilation unit before starting.
-	 * This will run all the analyses on a single compilation unit at a time.
-	 * After finishing a compilation unit, we may not hold onto any ASTNodes
-	 * @param monitor the progress monitor used to report progress and request cancellation, 
-	 * or <code>null</code> if none.  Monitor must not be initialized with {@link IProgressMonitor#beginTask(String, int)}.
-	 */
-	public void runAnalyses(IProgressMonitor monitor) {
-		PrintWriter output = debugOut();
-		PrintWriter user = userOut();
-		
+	private void runAnalyses(List<ICompilationUnit> reanalyzeList, IProgressMonitor monitor) {
 		if (analyses == null || analyses.isEmpty()) {
 			logger.warning("Crystal::runAnalyses() No analyses registered");
 			return;
 		}
-		
-		// Clear User Output Console
-//		UserConsoleView console = UserConsoleView.getInstance();
-//		if (console != null)
-//			console.clearConsole();
-
-		runAnalysesOnMultiUnit(WorkspaceUtilities.scanForCompilationUnits(), output, user, monitor);
+		Utilities.nyi();
 	}
-
-	/**
-	 * Runs the analyses on many compilation units. This method will first load up the annotation
-	 * database for these compilation units, and it will clear the markers for each unit.
-	 * @param units CompilationUnits to analyze
-	 * @param output Debug output
-	 * @param user User output
-	 * @param monitor the progress monitor used to report progress and request cancellation, 
-	 * or <code>null</code> if none.  Monitor must not be initialized with {@link IProgressMonitor#beginTask(String, int)}.
-	 */
-	private void runAnalysesOnMultiUnit(
-			List<ICompilationUnit> units, PrintWriter output,
-			PrintWriter user, IProgressMonitor monitor) {
-		if(units == null || units.isEmpty())
-			return;
-		
-		if(monitor != null) {
-			String task = units.size() <= 1 ? "Running registered Crystal analyses" :
-				"Running registered Crystal analyses on " + units.size() + " files";
-			monitor.beginTask(task, units.size());
-		}
-		
-		annoDB = new AnnotationDatabase();
-		AnnotationFinder finder = new AnnotationFinder(annoDB);
-		
-		// register annotation parsers from registry
-		for(Map.Entry<String, Class<? extends ICrystalAnnotation>> entry : annotationRegistry.entrySet()) {
-			annoDB.register(entry.getKey(), entry.getValue());
-		}
-		
-		//register any special classes for the annotation database
-		// TODO remove getAnnotationClasses() from ICrystalAnalysis
-		for (ICrystalAnalysis crystalAnalysis : analyses) {
-			Map<String, Class<? extends CrystalAnnotation>> map = crystalAnalysis.getAnnotationClasses();
-			if (map == null)
-				continue;	
-			for (Map.Entry<String, Class<? extends CrystalAnnotation>> entry : map.entrySet())
-				annoDB.register(entry.getKey(), entry.getValue());
-		}
-		
-		//run the annotation finder on everything
-		if(monitor != null)
-			monitor.subTask("Scanning annotations of analyzed compilation units");
-		if(logger.isLoggable(Level.INFO))
-			logger.info("Scanning annotations of analyzed compilation units");
-		for(ICompilationUnit compUnit : units) {
-			if (compUnit == null)
-				continue;
-			ASTNode node = getASTNodeFromCompilationUnit(compUnit);
-			if(monitor != null && monitor.isCanceled())
-				// cancel here in case cancellation can produce null or incomplete ASTs
-				return;
-			if (!(node instanceof CompilationUnit))
-				continue;
-			finder.runAnalysis(this, compUnit, (CompilationUnit)node);
-		}
-		
-		for(ICompilationUnit compUnit : units) {
-			if(monitor != null && monitor.isCanceled())
-				return;
-			try {
-				if(compUnit == null) {
-					if(logger.isLoggable(Level.WARNING))
-						logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
-					continue;
-				}
-				
-				// TODO Only delete Crystal-generated markers
-				compUnit.getResource().deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-
-				// Retrieve the path of this compilation unit, and output it
-				IResource resource = compUnit.getCorrespondingResource();
-				if(resource != null) {
-					IPath path = resource.getLocation();
-					if(path != null) {
-						if(logger.isLoggable(Level.INFO)) 
-							logger.info("Running Crystal on " + path.toPortableString());
-						if(regressionLogger.isLoggable(Level.INFO))
-							regressionLogger.info("Running Crystal on " + path.toFile().getName());
-					}
-				}
-			} 
-			catch (JavaModelException e) {
-				logger.log(Level.WARNING, 
-						"AbstractCompilationUnitAnalysis: Unable to retrieve path of CompilationUnit" + compUnit.getElementName(),
-						e);
-			} 
-			catch (CoreException e) {
-				logger.log(Level.WARNING, 
-						"Could not remove markers from CompilationUnit" + compUnit.getElementName(),
-						e);
-			}
-			
-			runAnalysesOnSingleUnit(compUnit, output, user, monitor);
-			if(monitor != null)
-				// increment monitor
-				monitor.worked(1);
-		}
-		annoDB = null;
+	
+	public void runAnalyses(IRunCrystalCommand command, IProgressMonitor monitor) {
+		runCrystalJob(createJobFromCommand(command, monitor));
 	}
 	
 	/**
-	 * Runs all analyses on the compilation unit.
-	 * @param compUnit
-	 * @param output The debug output
-	 * @param user The output to the user
-	 * @param monitor the progress monitor used to report progress and request cancellation, 
-	 * or <code>null</code> if none
+	 * Run the crystal job. At the moment, this consists of calling the {@code run}
+	 * method on the job parameter, but reserves the right to run many jobs in
+	 * parallel.
 	 */
-	private void runAnalysesOnSingleUnit(ICompilationUnit compUnit, PrintWriter output, PrintWriter user, IProgressMonitor monitor) {
-		// Obtain the AST for this CompilationUnit and analyze it
-		ASTNode node = getASTNodeFromCompilationUnit(compUnit);
+	private void runCrystalJob(ICrystalJob job) {
+		job.runJobs();
+	}
+	
+	/**
+	 * Given a command to run some analyses on some compilation units, 
+	 * creates a job to run all of those analyses. This method does many
+	 * of the things that runAnalysisOnMultiUnit and runAnalysisOnSingleUnit
+	 * used to do, but now those activities are packaged up as ISingleCrystalJobs
+	 * and in an ICrystalJob.
+	 */
+	private ICrystalJob createJobFromCommand(final IRunCrystalCommand command, 
+			                                 final IProgressMonitor monitor) {
+		final int num_jobs = command.analyses().size() * command.compilationUnits().size();
+		final List<ISingleCrystalJob> jobs = new ArrayList<ISingleCrystalJob>(num_jobs); 
+		final Set<ICrystalAnalysis> used_analyses = new HashSet<ICrystalAnalysis>();
 		
-		if (!(node instanceof CompilationUnit)) {
-			if(logger.isLoggable(Level.WARNING))
-				logger.warning("Root node is not a CompilationUnit " + compUnit.getElementName());
-			return;
-		}
-		
-		boolean logInfo = logger.isLoggable(Level.INFO);
-		for (ICrystalAnalysis crystalAnalysis : analyses) {
-			if( !enabledAnalyses.contains(crystalAnalysis.getName()) )
-				continue;
-			
-			String analysisName = null;
-			try {
-				analysisName = crystalAnalysis.getName();
-				if(monitor != null) {
-					if(monitor.isCanceled())
-						return;
-					monitor.subTask("Run " + analysisName  + " on " + compUnit.getElementName());
+		for( final ICompilationUnit cu : command.compilationUnits() ) {
+			for( String analysis_name : command.analyses() ) {
+				final Option<ICrystalAnalysis> analysis_ = findAnalysisWithName(analysis_name);
+				if( analysis_.isSome() ) {
+					// Just to keep track of the total set of analyses that will be used
+					used_analyses.add(analysis_.unwrap());
+					
+					jobs.add(new ISingleCrystalJob(){
+						public ICrystalAnalysis analysis() { return analysis_.unwrap(); }
+						public ICompilationUnit compilationUnit() { return cu; }
+						public void run(final AnnotationDatabase annoDB) {
+							if( monitor != null && monitor.isCanceled() )
+								return;
+							
+							ICompilationUnit compUnit = compilationUnit(); 
+							if(compUnit == null) {
+								if(logger.isLoggable(Level.WARNING))
+									logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
+							}
+							else {
+								IAnalysisInput input = new IAnalysisInput() {
+									public AnnotationDatabase getAnnoDB() {	return annoDB; }
+								};
+								
+								// Run the analysis
+								analysis().runAnalysis(command.reporter(),
+										               input,
+										               compUnit,
+										               (CompilationUnit)WorkspaceUtilities.getASTNodeFromCompilationUnit(compUnit));
+								if(monitor != null) {
+									// increment monitor
+									monitor.worked(1);
+								}
+							}						
+						}});
 				}
-				if(logInfo) logger.info("Begin [" + analysisName + "] Analysis");
-				crystalAnalysis.runAnalysis(this, compUnit, (CompilationUnit)node);
-				if(logInfo) logger.info("End [" + analysisName + "] Analysis");
-			} 
-			catch (Throwable e) {
-				logger.log(Level.SEVERE, 
-						"Exception during analysis" + (analysisName != null ? " [ " + analysisName + " ] " : ""), 
-						e);
-//				String message;
-//				
-//				if (e instanceof CrystalRuntimeException)
-//					message = "\n*** INTERNAL CRYSTAL EXCEPTION ***";
-//				else if (e instanceof StudentRuntimeException)
-//					message = "\n*** ANALYSIS EXCEPTION ***";
-//				else
-//					message = "\n*** EXCEPTION ***";
-//				if (analysisName != null)
-//					message += " [ " + analysisName + " analysis ]";
-//				user.println(message);
-//				e.printStackTrace(user);
 			}
 		}
+		
+		return new ICrystalJob(){
+			public List<ISingleCrystalJob> analysisJobs() {
+				return Collections.unmodifiableList(jobs);
+			}
+			public void runJobs() {
+				if(monitor != null) {
+					String task = "Running " +num_jobs + " total analyses.";
+					monitor.beginTask(task, num_jobs);
+				}
+				
+				AnnotationDatabase annoDB = new AnnotationDatabase();
+				AnnotationFinder finder = new AnnotationFinder(annoDB);
+				
+				// register annotation parsers from registry
+				for(Map.Entry<String, Class<? extends ICrystalAnnotation>> entry : annotationRegistry.entrySet()) {
+					annoDB.register(entry.getKey(), entry.getValue());
+				}
+				
+				//register any special classes for the annotation database
+				// TODO remove getAnnotationClasses() from ICrystalAnalysis
+				for( ICrystalAnalysis crystalAnalysis : used_analyses ) {
+					Map<String, Class<? extends CrystalAnnotation>> map = crystalAnalysis.getAnnotationClasses();
+					if (map == null)
+						continue;	
+					for (Map.Entry<String, Class<? extends CrystalAnnotation>> entry : map.entrySet())
+						annoDB.register(entry.getKey(), entry.getValue());
+				}
+								
+				//run the annotation finder on everything
+				if(monitor != null)
+					monitor.subTask("Scanning annotations of analyzed compilation units");
+				if(logger.isLoggable(Level.INFO))
+					logger.info("Scanning annotations of analyzed compilation units");
+				for( ICompilationUnit compUnit : command.compilationUnits() ) {
+					if (compUnit == null)
+						continue;
+					ASTNode node = WorkspaceUtilities.getASTNodeFromCompilationUnit(compUnit);
+					if(monitor != null && monitor.isCanceled())
+						// cancel here in case cancellation can produce null or incomplete ASTs
+						return;
+					if (!(node instanceof CompilationUnit))
+						continue;
+					
+					// Clear any markers that may be onscreen...
+					command.reporter().clearMarkersForCompUnit(compUnit);
+					
+					IAnalysisInput input = new IAnalysisInput() {
+						AnnotationDatabase annoDB = new AnnotationDatabase();
+						public AnnotationDatabase getAnnoDB() {	return annoDB; }
+					};
+					
+					// Run annotation finder
+					finder.runAnalysis(command.reporter(),
+							           input,
+							           compUnit, 
+							           (CompilationUnit)node);
+				}
+				
+				// Now, run every single job
+				for( ISingleCrystalJob job : analysisJobs() ) {
+					job.run(annoDB);
+				}
+		}};
+	}
+
+	/**
+	 * @param analysis_name
+	 * @return
+	 */
+	private Option<ICrystalAnalysis> findAnalysisWithName(String analysis_name) {
+		for( ICrystalAnalysis analysis : this.getAnalyses() ) {
+			if( analysis.getName().equals(analysis_name) )
+				return Option.some(analysis);
+		}
+		return Option.none();
 	}
 	
 	/**
 	 * Gets the root ASTNode for a compilation unit, with bindings on.
 	 * @param compUnit
 	 * @return the root ASTNode for a compilation unit, with bindings on.
+	 * @deprecated Use {@link WorkspaceUtilities#getASTNodeFromCompilationUnit(ICompilationUnit)} instead
 	 */
-	private ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
-	 	ASTParser parser = ASTParser.newParser(AST.JLS3);
- 		parser.setResolveBindings(true);
- 		parser.setSource(compUnit);
- 		return parser.createAST(/* passing in monitor messes up previous monitor state */ null);
+	private static ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
+		return WorkspaceUtilities.getASTNodeFromCompilationUnit(compUnit);
 	}
 
 	public void registerAnnotation(String annotationName,

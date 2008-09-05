@@ -40,18 +40,20 @@ import edu.cmu.cs.crystal.internal.Utilities;
  */
 public class LVAnalysis extends AbstractCrystalMethodAnalysis {
 
+	@Override
 	public String getName() {
 		return "LVAnalysis";
 	}
 
+	@Override
 	public void analyzeMethod(MethodDeclaration md) {
-		PrintWriter output = crystal.userOut();
+		PrintWriter output = reporter.userOut();
 		
 		output.println(getName() + " analyzeMethod() [" + md.getName() + "]");
 		
 		// Initialize the FlowAnalysis objects
-		LVFlowAnalysisDefinition lvfad = new LVFlowAnalysisDefinition(crystal);
-		FlowAnalysis<LVLatticeElement> fa = new FlowAnalysis<LVLatticeElement>(crystal, lvfad);
+		LVFlowAnalysisDefinition lvfad = new LVFlowAnalysisDefinition();
+		FlowAnalysis<LVLatticeElement> fa = new FlowAnalysis<LVLatticeElement>(lvfad);
 
 		output.println("\nResults of Live Variables Analysis");
 		LVResultsVisitor visitor = new LVResultsVisitor(fa);
@@ -60,12 +62,13 @@ public class LVAnalysis extends AbstractCrystalMethodAnalysis {
 	
 	class LVResultsVisitor extends ASTVisitor {
 		protected FlowAnalysis<LVLatticeElement> flowAnalysis;
-		protected PrintWriter output = crystal.userOut();
+		protected PrintWriter output = reporter.userOut();
 
 		LVResultsVisitor(FlowAnalysis<LVLatticeElement> fa) {
 			flowAnalysis = fa;
 		}
 		
+		@Override
 		public void preVisit(ASTNode node) {
 			// Show results of nodes that we are interested in.
 			switch(node.getNodeType()) {
@@ -82,7 +85,9 @@ public class LVAnalysis extends AbstractCrystalMethodAnalysis {
 				output.println("\t getResultsAfter: " + lvgra);
 			}
 		}
+		@Override
 		public void postVisit(ASTNode node) {
+			
 		}
 	}
 }

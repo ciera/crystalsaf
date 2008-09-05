@@ -153,4 +153,20 @@ public class Utilities {
 		output += ")";
 		return output;
 	}
+	
+	/**
+	 * Not Yet Implemented. Throws a runtime exception, and is
+	 * of any type.
+	 */
+	public static <T> T nyi() {
+		return nyi("This code has not yet been implemented.");
+	}
+	
+	/**
+	 * Not Yet Implemented. Throws a runtime exception with the
+	 * given error message.
+	 */
+	public static <T> T nyi(String err_msg) {
+		throw new RuntimeException(err_msg);
+	}
 }

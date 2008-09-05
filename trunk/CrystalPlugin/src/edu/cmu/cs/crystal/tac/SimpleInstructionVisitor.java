@@ -54,11 +54,11 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		System.out.println("Method: " + d.getName().getIdentifier());
-		doAccept(crystal, d);
+		doAccept(d);
 	}
 
-	public final void doAccept(Crystal crystal, MethodDeclaration d) {
-		new TACFlowAnalysis<SingletonLatticeElement>(crystal, new TransferVisitor())
+	public final void doAccept(MethodDeclaration d) {
+		new TACFlowAnalysis<SingletonLatticeElement>(new TransferVisitor())
 				.getResultsAfter(d);
 	}
 

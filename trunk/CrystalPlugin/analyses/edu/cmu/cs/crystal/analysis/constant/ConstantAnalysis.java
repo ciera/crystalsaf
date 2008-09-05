@@ -68,7 +68,7 @@ public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		ITACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, BooleanConstantLE>> tf = new ConstantTransferFunction();
-		fa = new BranchSensitiveTACAnalysis<TupleLatticeElement<Variable, BooleanConstantLE>>(crystal, tf);
+		fa = new BranchSensitiveTACAnalysis<TupleLatticeElement<Variable, BooleanConstantLE>>(tf);
 	
 		// must call getResultsAfter at least once on this method,
 		// or the analysis won't be run on this method
@@ -79,7 +79,7 @@ public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
 		for (Variable var : lattice.getKeySet()) {
 			BooleanConstantLE bool = lattice.get(var);
 			if (bool != BooleanConstantLE.BOTTOM)
-			crystal.debugOut().println(var.getSourceString() + ":" + bool.toString());
+			reporter.debugOut().println(var.getSourceString() + ":" + bool.toString());
 		}		
 	}
 

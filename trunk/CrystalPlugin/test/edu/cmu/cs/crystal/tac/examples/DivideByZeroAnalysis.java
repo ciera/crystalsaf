@@ -46,7 +46,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * actual analysis instance to pass to it.
  * 
  * 
- * @author Nels Beckman
+ * @author Nels E. Beckman
  *
  */
 public class DivideByZeroAnalysis extends AbstractCrystalMethodAnalysis {
@@ -57,8 +57,7 @@ public class DivideByZeroAnalysis extends AbstractCrystalMethodAnalysis {
 	public void analyzeMethod(MethodDeclaration d) {
 		// create a transfer function object and pass it to a new FlowAnalysis
 		DBZTransferMethods tf = new DBZTransferMethods();
-		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, DivideByZeroLatticeElement>>(
-				crystal, tf);
+		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, DivideByZeroLatticeElement>>(tf);
 		
 		// must call getResultsAfter at least once on this method,
 		// or the analysis won't be run on this method
@@ -78,9 +77,9 @@ public class DivideByZeroAnalysis extends AbstractCrystalMethodAnalysis {
 		// we look up the AST node associated with the instruction
 		// so that the Crystal framework knows where the error is
 		if(le.equals(DivideByZeroLatticeElement.ZERO))
-			crystal.reportUserProblem("ERROR: Definite divide by zero: " + instr, instr.getNode(), this);
+			reporter.reportUserProblem("ERROR: Definite divide by zero: " + instr, instr.getNode(), this.getName());
 		if(le.equals(DivideByZeroLatticeElement.MAYBEZERO))
-			crystal.reportUserProblem("Warning: Possible divide by zero: " + instr, instr.getNode(), this);
+			reporter.reportUserProblem("Warning: Possible divide by zero: " + instr, instr.getNode(), this.getName());
 	}
 	
 	private class DBZTransferMethods extends AbstractingTransferFunction<TupleLatticeElement<Variable, DivideByZeroLatticeElement>> {
