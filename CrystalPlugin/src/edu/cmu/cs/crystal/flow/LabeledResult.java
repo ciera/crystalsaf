@@ -76,7 +76,7 @@ public class LabeledResult<LE extends LatticeElement<LE>> implements IResult<LE>
 	
 	public void put(ILabel label, LE value) {
 		LE existing = labelMap.get(value);
-		
+		// existing will always be null because we're not using the key (label) to look up
 		if (existing != null) 
 			value = existing.join(value, null);
 		labelMap.put(label, value);
