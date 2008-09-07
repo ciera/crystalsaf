@@ -19,4 +19,7 @@ Eclipse will automatically download and install Crystal.
 
 = Source installation =
 
-You can use Subversion to check out the CrystalPlugin module from this repository.  CrystalPlugin is an Eclipse plug-in project that you should add to your Eclipse workspace.  (If you are checking out through Eclipse it will offer to add the project automatically to your workspace.)  Create a "Run Configuration" for an "Eclipse Application" and make sure "edu.cmu.cs.crystal" is among the loaded Plug-ins.  Running the application will open a second Eclipse window, called the _child eclipse_, in which Crystal is loaded.
+You can use Subversion to check out the !CrystalPlugin module from this repository.  !CrystalPlugin is an Eclipse plug-in project that you should add to your Eclipse workspace.  (If you are checking out through Eclipse it will offer to add the project automatically to your workspace.)  Create a "Run Configuration" for an "Eclipse Application" and make sure "edu.cmu.cs.crystal" is among the loaded Plug-ins.  Running the application will open a second Eclipse window, called the _child eclipse_, in which Crystal is loaded.
+
+= Troubleshooting =
+  * Note that if you intend to build Crystal from source, you must have certain Eclipse plug-ins such as [http://www.eclipse.org/pde/ PDE] and [http://www.eclipse.org/jdt/ JDT]. These plugins do not come with every Eclipse package. In particular, they do not come with "Eclipse for Java Developers." We recommend using either "Eclipse Classic" or "Eclipse for RCP/Plug-in Developers."
