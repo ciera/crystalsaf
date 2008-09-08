@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -61,7 +62,7 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 	 * is called.
 	 */
 	public static Set<String> getEnabledAnalyses() {
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new LinkedHashSet<String>();
 		
 		synchronized(registeredAnalyses) {
 			for( Map.Entry<String, Boolean> entry : registeredAnalyses.entrySet() ) {

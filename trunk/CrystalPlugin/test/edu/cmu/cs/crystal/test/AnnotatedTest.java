@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -88,7 +89,7 @@ public class AnnotatedTest {
 		final Box<Boolean> is_a_test = Box.box(false);
 		final Box<Boolean> is_passing_test = Box.box(false);
 		final Box<Integer> failures = Box.box(0);
-		final Set<String> analyses = new HashSet<String>();
+		final Set<String> analyses = new LinkedHashSet<String>();
 						
 		ASTVisitor annotation_visitor = new ASTVisitor() {
 			// Visitor will find @PassingTest, @FailingTest, @UseAnalyses
