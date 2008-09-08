@@ -56,12 +56,6 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 	private static final Map<String,Boolean> registeredAnalyses = 
 		Collections.synchronizedMap(new LinkedHashMap<String,Boolean>());
 	
-	public static Set<String> getAllAnalyses() {
-		synchronized(registeredAnalyses) {
-			return new HashSet<String>(registeredAnalyses.keySet());
-		}
-	}
-	
 	/**
 	 * Returns the set of analyses that are enabled at the moment this method
 	 * is called.
