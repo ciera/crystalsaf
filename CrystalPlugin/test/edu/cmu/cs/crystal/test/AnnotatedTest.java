@@ -115,6 +115,16 @@ public class AnnotatedTest {
 						else if( value instanceof String ) {
 							return Collections.singleton((String)value);
 						}
+						else if( value instanceof Object[] ) {
+							List<String> result = new LinkedList<String>();
+							for( Object obj : ((Object[])value) ) {
+								if( obj instanceof String ) 
+									result.add((String)obj);
+								else
+									throw new RuntimeException("Value was not of expected type.");
+							}
+							return result;
+						}
 						else {
 							throw new RuntimeException("Value was not of expected type.");
 						}
