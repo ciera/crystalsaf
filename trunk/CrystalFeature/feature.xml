@@ -33,6 +33,17 @@ License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <update label="Crystal Update Site" url="http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/"/>
    </url>
 
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.junit4"/>
+   </requires>
+
    <plugin
          id="edu.cmu.cs.crystal"
          download-size="0"
