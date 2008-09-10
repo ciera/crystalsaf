@@ -93,7 +93,7 @@ public class Crystal {
 	 * Currently unused default marker type for Crystal.
 	 * @see IMarker
 	 */
-	public static final String MARKER_DEFAULT = "edu.cmu.cs.crystal.marker.default";
+	public static final String MARKER_DEFAULT = "edu.cmu.cs.crystal.crystalproblem";
 	
 	/**
 	 * Currently unused marker attribute for markers of type {@link #MARKER_DEFAULT}.
