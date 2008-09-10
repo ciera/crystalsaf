@@ -119,37 +119,14 @@
     </objectContribution>
  </extension>
  <extension
-       id="edu.cmu.cs.crystal.marker.default"
-       name="Default Crystal analysis marker"
-       point="org.eclipse.core.resources.markers">
-    <super
-          type="org.eclipse.core.resources.problemmarker">
-    </super>
-    <persistent
-          value="true">
-    </persistent>
-    <attribute
-          name="analysis">
-    </attribute>
-    <attribute
-          name="message">
-    </attribute>
-    <attribute
-          name="lineNumber">
-    </attribute>
-    <attribute
-          name="severity">
-    </attribute>
-    <attribute
-          name="priority">
-    </attribute>
-    <attribute
-          name="charStart">
-    </attribute>
-    <attribute
-          name="charEnd">
-    </attribute>
+      id="crystalproblem"
+      name="Crystal Marker"
+      point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="true"/>
+      <attribute name="analysis"/>
  </extension>
+
  <extension
        point="org.eclipse.ui.commands">
     <category
@@ -175,6 +152,13 @@
              name="Analysis Name">
        </commandParameter>
     </command>
+    <command
+          categoryId="CrystalPlugin.crystalcategory"
+          defaultHandler="edu.cmu.cs.crystal.internal.ClearWarningHandler"
+          description="Clears Warnings"
+          id="edu.cmu.cs.crystal.clearproblems"
+          name="Clear Warnings">
+    </command>
  </extension>
  <extension
        point="org.eclipse.ui.menus">
@@ -192,6 +176,11 @@
                 icon="icons/sample.gif"
                 label="Run Crystal"
                 tooltip="Run the enabled Crystal analyses">
+          </command>
+          <command
+                commandId="edu.cmu.cs.crystal.clearproblems"
+                label="Clear Warnings"
+                tooltip="Clear all warnings created by Crystal">
           </command>
        </menu>
     </menuContribution>

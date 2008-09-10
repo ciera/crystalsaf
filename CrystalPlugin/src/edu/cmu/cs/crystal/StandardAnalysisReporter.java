@@ -48,8 +48,7 @@ public class StandardAnalysisReporter implements IAnalysisReporter {
 	
 	public void clearMarkersForCompUnit(ICompilationUnit compUnit) {
 		try {
-			// TODO Only delete Crystal-generated markers
-			compUnit.getResource().deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+			compUnit.getResource().deleteMarkers(Crystal.MARKER_DEFAULT, true, IResource.DEPTH_INFINITE);
 		} catch(CoreException ce) {
 			logger.log(Level.SEVERE, "CoreException when removing markers", ce);
 		}
@@ -98,12 +97,13 @@ public class StandardAnalysisReporter implements IAnalysisReporter {
 		// Create the marker
 		//TODO: create markers according to the type of the analysis
 		try {
-			IMarker marker = resource.createMarker(IMarker.PROBLEM);
+			IMarker marker = resource.createMarker(Crystal.MARKER_DEFAULT);
 			marker.setAttribute(IMarker.CHAR_START, node.getStartPosition());
 			marker.setAttribute(IMarker.CHAR_END, node.getStartPosition() + node.getLength());
 			marker.setAttribute(IMarker.MESSAGE, "[" + analysisName + "]: " + problemDescription);
 			marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+			marker.setAttribute(Crystal.MARKER_ATTR_ANALYSIS, analysisName);
 			CompilationUnit cu = (CompilationUnit) node.getRoot();
 			int line = cu.getLineNumber(node.getStartPosition());
 			if(line >= 0) // -1 and -2 indicate error conditions
