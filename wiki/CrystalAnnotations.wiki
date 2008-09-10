@@ -7,9 +7,9 @@ Crystal provides several Java 5 annotation classes that you may find useful for 
 
 = Meta-annotations =
 
-== @MultiAnnotation ==
+== @!MultiAnnotation ==
 
-Place this annotation on an annotation class that aggregates other annotations to get around Java's "one-annotation-of-each-type-per-element" restriction.  When seeing an annotation class that is annotated with !@MultiAnnotation, Crystal's annotation database automatically unwraps the surrounded annotations.
+Place this annotation on an annotation class that aggregates other annotations to get around Java's "one-annotation-of-each-type-per-element" restriction.  When seeing an annotation class that is annotated with @!MultiAnnotation, Crystal's annotation database automatically unwraps the surrounded annotations.
 
 = Testing annotations =
 
