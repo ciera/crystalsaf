@@ -20,7 +20,7 @@
 package edu.cmu.cs.crystal.internal;
 
 /**
- * An interface for mutable objects that can be made unmutable by freezing them.
+ * An interface for mutable objects that can be made immutable by freezing them.
  * 
  * @author Nels Beckman
  * @date Feb 20, 2008
