@@ -24,13 +24,18 @@ package edu.cmu.cs.crystal.internal;
  */
 public abstract class Option<T> {
 
-	private static final Option<?> NONE = new Option(){
+	
+	@SuppressWarnings("unchecked")
+	private static final Option<?> NONE = new Option() {
 		@Override public boolean isNone() { return true; }
 		@Override public boolean isSome() {	return false; }
 		@Override
 		public Object unwrap() { throw new IllegalStateException("Unwrapped None."); }
+		@Override public String toString() { return "NONE"; }
 	};
 	
+	
+	@SuppressWarnings("unchecked")
 	public static <T> Option<T> none() {
 		return (Option<T>)NONE;
 	}
@@ -40,6 +45,7 @@ public abstract class Option<T> {
 			@Override public boolean isNone() { return false;	}
 			@Override public boolean isSome() { return true; }
 			@Override public T unwrap() { return t; }
+			@Override public String toString() { return "SOME(" + t.toString() + ")"; }
 	    };
 	}
 	
@@ -48,4 +54,6 @@ public abstract class Option<T> {
 	public abstract boolean isSome();
 	
 	public abstract boolean isNone();
+	
+	
 }
