@@ -270,17 +270,13 @@ public class AnnotatedTest {
 		// assert success/failure
 		if( this.test.passingTest ) {
 			assertEquals(fileName() + " is supposed to pass, but reported errors.", 
-					     failures_encountered.getValue(), 0);
+					     0, failures_encountered.getValue());
 		}
 		else {
-			if( this.test.numErrors > 0 ) {
-				assertEquals(fileName() + " reported a different number of errors than expected.",
-						     this.test.numErrors, failures_encountered.getValue());
-			}
-			else {
-				assertTrue(fileName() + " is supposed to fail, but reported no errors.",
-						   failures_encountered.getValue() > 0);
-			}
+			assertTrue(fileName() + " is supposed to fail, but reported no errors.",
+					   failures_encountered.getValue() > 0);
+			assertEquals(fileName() + " reported a different number of errors than expected.",
+					     this.test.numErrors, failures_encountered.getValue());
 		}
 	}
 	
