@@ -210,47 +210,57 @@ public class Crystal {
 	 */
 	private ICrystalJob createJobFromCommand(final IRunCrystalCommand command, 
 			                                 final IProgressMonitor monitor) {
-		final int num_jobs = command.analyses().size() * command.compilationUnits().size();
+		final int num_jobs = command.compilationUnits().size();
 		final List<ISingleCrystalJob> jobs = new ArrayList<ISingleCrystalJob>(num_jobs); 
-		final Set<ICrystalAnalysis> used_analyses = new HashSet<ICrystalAnalysis>();
 		
-		for( final ICompilationUnit cu : command.compilationUnits() ) {
-			for( String analysis_name : command.analyses() ) {
-				final Option<ICrystalAnalysis> analysis_ = findAnalysisWithName(analysis_name);
-				if( analysis_.isSome() ) {
-					// Just to keep track of the total set of analyses that will be used
-					used_analyses.add(analysis_.unwrap());
-					
-					jobs.add(new ISingleCrystalJob(){
-						public ICrystalAnalysis analysis() { return analysis_.unwrap(); }
-						public ICompilationUnit compilationUnit() { return cu; }
-						public void run(final AnnotationDatabase annoDB) {
-							if( monitor != null && monitor.isCanceled() )
-								return;
-							
-							ICompilationUnit compUnit = compilationUnit(); 
-							if(compUnit == null) {
-								if(logger.isLoggable(Level.WARNING))
-									logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
-							}
-							else {
-								IAnalysisInput input = new IAnalysisInput() {
-									public AnnotationDatabase getAnnoDB() {	return annoDB; }
-								};
-								
-								// Run the analysis
-								analysis().runAnalysis(command.reporter(),
-										               input,
-										               compUnit,
-										               (CompilationUnit)WorkspaceUtilities.getASTNodeFromCompilationUnit(compUnit));
-								if(monitor != null) {
-									// increment monitor
-									monitor.worked(1);
-								}
-							}						
-						}});
-				}
+		// Get a list of all the analyses to run
+		final List<ICrystalAnalysis> analyses_to_use = new ArrayList<ICrystalAnalysis>(command.analyses().size());
+		for( String analysis_name : command.analyses() ) {
+			Option<ICrystalAnalysis> analysis_ = findAnalysisWithName(analysis_name);
+			if( analysis_.isSome() ) {
+				analyses_to_use.add(analysis_.unwrap());
 			}
+		}
+		
+		// Now, create one job per compilation unit
+		for( final ICompilationUnit cu : command.compilationUnits() ) {
+			
+			jobs.add(new ISingleCrystalJob(){
+				public void run(final AnnotationDatabase annoDB) {
+					if( monitor != null && monitor.isCanceled() )
+						return;
+					
+					if(cu == null) {
+						if(logger.isLoggable(Level.WARNING))
+							logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
+					}
+					else {
+						// Run each analysis on the current compilation unit.
+						CompilationUnit ast_comp_unit = 
+							(CompilationUnit)WorkspaceUtilities.getASTNodeFromCompilationUnit(cu);
+
+						// Here, create one TAC cache per compilation unit.
+						
+						for( ICrystalAnalysis analysis : analyses_to_use ) {
+							IAnalysisInput input = new IAnalysisInput() {
+								public AnnotationDatabase getAnnoDB() {	return annoDB; }
+							};
+
+							// Run the analysis
+							analysis.runAnalysis(command.reporter(),
+									             input,
+									             cu,
+									             ast_comp_unit);
+						}
+						
+						if( monitor != null && monitor.isCanceled() ) return;
+						
+						if(monitor != null) {
+							// increment monitor
+							monitor.worked(1);
+						}
+					}
+				}});
 		}
 		
 		return new ICrystalJob(){
@@ -273,7 +283,7 @@ public class Crystal {
 				
 				//register any special classes for the annotation database
 				// TODO remove getAnnotationClasses() from ICrystalAnalysis
-				for( ICrystalAnalysis crystalAnalysis : used_analyses ) {
+				for( ICrystalAnalysis crystalAnalysis : analyses_to_use ) {
 					Map<String, Class<? extends CrystalAnnotation>> map = crystalAnalysis.getAnnotationClasses();
 					if (map == null)
 						continue;	
