@@ -29,16 +29,12 @@ import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 
 /**
  * An interface for a single analysis job. A single analysis job is the running
- * of one analysis on one compilation unit. In the future, this may also manage
- * dependencies to other analyses.
+ * of any number of analysis on one compilation unit. In the future, this may also 
+ * manage dependencies in some more meaningful way.
  * 
  * @author Nels E. Beckman
  */
 public interface ISingleCrystalJob {
-	
-	public ICrystalAnalysis analysis();
-		
-	public ICompilationUnit compilationUnit();
 	
 	/**
 	 * Run this single analysis. The given annotation database can be used to
