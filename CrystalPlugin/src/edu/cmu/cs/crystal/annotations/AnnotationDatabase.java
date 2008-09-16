@@ -92,7 +92,7 @@ public class AnnotationDatabase {
 	public AnnotationSummary getSummaryForMethod(IMethodBinding binding) {
 		while(binding != binding.getMethodDeclaration())
 			binding = binding.getMethodDeclaration();
-		String name = resolveMethodBinding(binding);
+		String name = binding.getKey();
 		
 		AnnotationSummary result = methods.get(name);
 		if(result == null) {
@@ -132,7 +132,7 @@ public class AnnotationDatabase {
 			log.warning("Annotations for array type requested: " + type.getName());
 		}
 		
-		String name = type.getQualifiedName();
+		String name = type.getKey();
 		
 		List<ICrystalAnnotation> result = classes.get(name);
 		if(result == null) {
@@ -146,7 +146,7 @@ public class AnnotationDatabase {
 	public List<ICrystalAnnotation> getAnnosForField(IVariableBinding binding) {
 		while(binding != binding.getVariableDeclaration())
 			binding = binding.getVariableDeclaration();
-		String name = resolveVariableBinding(binding);
+		String name = binding.getKey();
 		
 		List<ICrystalAnnotation> result = fields.get(name);
 		if(result == null) {
@@ -279,7 +279,7 @@ public class AnnotationDatabase {
 			return;
 		
 		binding = ((VariableDeclarationFragment)field.fragments().get(0)).resolveBinding();
-		name = resolveVariableBinding(binding);
+		name = binding.getKey(); 
 		annoList = fields.get(name);
 		if (annoList == null) {
 			annoList = new ArrayList<ICrystalAnnotation>();
@@ -290,7 +290,7 @@ public class AnnotationDatabase {
 	
 	public void addAnnotationToMethod(AnnotationSummary anno, MethodDeclaration method) {
 		IMethodBinding binding = method.resolveBinding();
-		String name = resolveMethodBinding(binding);
+		String name = binding.getKey();
 		
 		AnnotationSummary existing = methods.get(name);
 		if (existing == null)
@@ -302,7 +302,7 @@ public class AnnotationDatabase {
 	
 	public void addAnnotationToType(ICrystalAnnotation anno, TypeDeclaration type) {
 		ITypeBinding binding = type.resolveBinding();
-		String name = binding.getQualifiedName();
+		String name = binding.getKey();
 		List<ICrystalAnnotation> annoList;
 		
 		annoList = classes.get(name);
@@ -331,36 +331,5 @@ public class AnnotationDatabase {
 			}
 		}
 		return result;
-	}
-
-	private String resolveMethodBinding(IMethodBinding binding) {
-		return getFunctionName(binding) + getTypes(binding);
-	}
-	
-	private String resolveVariableBinding(IVariableBinding binding) {
-		String qualName;
-		
-		if (binding.getDeclaringMethod() != null)
-			qualName = resolveMethodBinding(binding.getDeclaringMethod());
-		else
-			qualName = binding.getDeclaringClass().getQualifiedName();
-		qualName += "." + binding.getVariableId();
-		
-		return qualName;
-	}
-	
-
-	private static String getFunctionName(IMethodBinding bind) {
-		return bind.getDeclaringClass().getQualifiedName() + "." + bind.getName();
-	}
-	
-	private static String getTypes(IMethodBinding bind) {
-		ITypeBinding[] types = bind.getParameterTypes();
-		String typesStr = "";
-		
-		for (int ndx = 0; ndx < types.length; ndx++)
-			typesStr += types[ndx].getName();
-		
-		return typesStr;
 	}
 }
