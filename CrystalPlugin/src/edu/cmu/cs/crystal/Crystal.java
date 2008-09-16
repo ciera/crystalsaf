@@ -54,6 +54,7 @@ import edu.cmu.cs.crystal.internal.Option;
 import edu.cmu.cs.crystal.internal.UserConsoleView;
 import edu.cmu.cs.crystal.internal.Utilities;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
+import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 
 /**
  * Provides the ability to run the analyses.
@@ -240,10 +241,15 @@ public class Crystal {
 							(CompilationUnit)WorkspaceUtilities.getASTNodeFromCompilationUnit(cu);
 
 						// Here, create one TAC cache per compilation unit.
+						final CompilationUnitTACs compUnitTacs = new CompilationUnitTACs();
 						
 						for( ICrystalAnalysis analysis : analyses_to_use ) {
 							IAnalysisInput input = new IAnalysisInput() {
 								public AnnotationDatabase getAnnoDB() {	return annoDB; }
+
+								public Option<CompilationUnitTACs> getComUnitTACs() {
+									return Option.some(compUnitTacs);
+								}
 							};
 
 							// Run the analysis
@@ -312,6 +318,9 @@ public class Crystal {
 					IAnalysisInput input = new IAnalysisInput() {
 						AnnotationDatabase annoDB = new AnnotationDatabase();
 						public AnnotationDatabase getAnnoDB() {	return annoDB; }
+						public Option<CompilationUnitTACs> getComUnitTACs() {
+							return Option.none();
+						}
 					};
 					
 					// Run annotation finder

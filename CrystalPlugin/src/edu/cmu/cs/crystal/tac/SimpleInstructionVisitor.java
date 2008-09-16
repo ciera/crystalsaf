@@ -58,7 +58,8 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 	}
 
 	public final void doAccept(MethodDeclaration d) {
-		new TACFlowAnalysis<SingletonLatticeElement>(new TransferVisitor())
+		new TACFlowAnalysis<SingletonLatticeElement>(new TransferVisitor(), 
+				this.analysisInput.getComUnitTACs().unwrap())
 				.getResultsAfter(d);
 	}
 

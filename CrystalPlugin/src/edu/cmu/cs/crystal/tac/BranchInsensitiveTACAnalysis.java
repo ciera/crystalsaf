@@ -21,6 +21,7 @@ package edu.cmu.cs.crystal.tac;
 
 import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.flow.LatticeElement;
+import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 /**
  * This class implements a standard flow analysis over 3-address code instructions
  * ({@link TACInstruction}).  Implement {@link ITACTransferFunction} to
@@ -42,7 +43,8 @@ public class BranchInsensitiveTACAnalysis<LE extends LatticeElement<LE>>
 	 * @param crystal
 	 * @param tf
 	 */
-	public BranchInsensitiveTACAnalysis(Crystal crystal, ITACTransferFunction<LE> tf) {
-		super(crystal, tf);
+	public BranchInsensitiveTACAnalysis(Crystal crystal, ITACTransferFunction<LE> tf,
+			CompilationUnitTACs compUnitTacs) {
+		super(crystal, tf, compUnitTacs);
 	}
 }
