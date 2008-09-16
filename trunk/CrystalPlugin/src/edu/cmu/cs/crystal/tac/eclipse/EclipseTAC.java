@@ -126,7 +126,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * This class converts AST nodes from a single method to TAC instructions.
  * A separate instance of this class is required for each method.
  * @author Kevin Bierhoff
- * @see #getInstance(MethodDeclaration)
+ * @see #getMethodTAC(MethodDeclaration)
  */
 public class EclipseTAC implements IEclipseVariableQuery {
 	
@@ -136,25 +136,25 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	 * 
 	 * TODO It's possible that the key ends up preventing ASTs from being garbage-collected. 
 	 */
-	private static final WeakHashMap<IMethodBinding, EclipseTAC> tacCache =
-		new WeakHashMap<IMethodBinding, EclipseTAC>();
+//	private static final WeakHashMap<IMethodBinding, EclipseTAC> tacCache =
+//		new WeakHashMap<IMethodBinding, EclipseTAC>();
 
 	/**
 	 * Returns the singleton TAC object for the given method.
 	 * @param methodDecl
 	 * @return the singleton TAC object for the given method.
 	 */
-	public static synchronized EclipseTAC getInstance(MethodDeclaration methodDecl) {
-		EclipseTAC tac;
-		IMethodBinding methodBinding = methodDecl.resolveBinding();
-		// try to reuse existing TAC instructions for this method
-		tac = tacCache.get(methodBinding);
-		if(tac == null) {
-			tac = new EclipseTAC(methodBinding);
-			tacCache.put(methodBinding, tac);
-		}
-		return tac;
-	}
+//	public static synchronized EclipseTAC getInstance(MethodDeclaration methodDecl) {
+//		EclipseTAC tac;
+//		IMethodBinding methodBinding = methodDecl.resolveBinding();
+//		// try to reuse existing TAC instructions for this method
+//		tac = tacCache.get(methodBinding);
+//		if(tac == null) {
+//			tac = new EclipseTAC(methodBinding);
+//			tacCache.put(methodBinding, tac);
+//		}
+//		return tac;
+//	}
 	
 	/** The method represented with this TAC object. */
 	private IMethodBinding method;

@@ -17,28 +17,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal;
+package edu.cmu.cs.crystal.tac.eclipse;
 
-import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
-import edu.cmu.cs.crystal.internal.Option;
-import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 /**
- * This interface holds the input to an analysis.
- * 
- * @author Nels E. Beckman
+ * @author nbeckman
+ * @since 3.3.1
  */
-public interface IAnalysisInput {
+public class CompilationUnitTACs {
 
-	/**
-	 * Every analysis is given an annotation database! Calling this method
-	 * returns that annotation database.
-	 */
-	public AnnotationDatabase getAnnoDB();
+	private final Map<IMethodBinding, EclipseTAC> tacs;
 	
-	/**
-	 * If this analysis was given a CompilationUnitTACs cache
-	 * as input, return it.
-	 */
-	public Option<CompilationUnitTACs> getComUnitTACs();
+	public CompilationUnitTACs() {
+		this.tacs = new HashMap<IMethodBinding, EclipseTAC>();
+	}
+	
+	public synchronized EclipseTAC getMethodTAC(MethodDeclaration methodDecl) {
+		EclipseTAC tac;
+		IMethodBinding methodBinding = methodDecl.resolveBinding();
+		// try to reuse existing TAC instructions for this method
+		tac = tacs.get(methodBinding);
+		if(tac == null) {
+			tac = new EclipseTAC(methodBinding);
+			tacs.put(methodBinding, tac);
+		}
+		return tac;
+	}
+	
 }

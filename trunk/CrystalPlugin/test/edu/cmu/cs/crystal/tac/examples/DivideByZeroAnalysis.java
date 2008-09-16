@@ -53,11 +53,16 @@ public class DivideByZeroAnalysis extends AbstractCrystalMethodAnalysis {
 
 	protected TACFlowAnalysis<TupleLatticeElement<Variable, DivideByZeroLatticeElement>> fa;
 
+	public DivideByZeroAnalysis() {
+		super();
+	}
+
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		// create a transfer function object and pass it to a new FlowAnalysis
 		DBZTransferMethods tf = new DBZTransferMethods();
-		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, DivideByZeroLatticeElement>>(tf);
+		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, DivideByZeroLatticeElement>>(tf, 
+				this.analysisInput.getComUnitTACs().unwrap());
 		
 		// must call getResultsAfter at least once on this method,
 		// or the analysis won't be run on this method

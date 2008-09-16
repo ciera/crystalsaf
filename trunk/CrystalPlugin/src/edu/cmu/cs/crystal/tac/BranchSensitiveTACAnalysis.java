@@ -19,8 +19,8 @@
  */
 package edu.cmu.cs.crystal.tac;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.flow.LatticeElement;
+import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 
 /**
  * This class implements a branch-sensitive flow analysis over 3-address code instructions
@@ -43,7 +43,8 @@ public class BranchSensitiveTACAnalysis<LE extends LatticeElement<LE>>
 	 * @param crystal
 	 * @param tf
 	 */
-	public BranchSensitiveTACAnalysis(ITACBranchSensitiveTransferFunction<LE> tf) {
-		super(tf);
+	public BranchSensitiveTACAnalysis(ITACBranchSensitiveTransferFunction<LE> tf,
+			CompilationUnitTACs compUnitTacs) {
+		super(tf, compUnitTacs);
 	}
 }

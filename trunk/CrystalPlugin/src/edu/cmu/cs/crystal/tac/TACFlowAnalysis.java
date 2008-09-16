@@ -41,6 +41,7 @@ import edu.cmu.cs.crystal.flow.Lattice;
 import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
 import edu.cmu.cs.crystal.flow.SingleResult;
+import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseInstructionSequence;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseTAC;
 
@@ -63,9 +64,9 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	 * Creates a branch insensitive flow analysis object.
 	 * @param transferFunction
 	 */
-	public TACFlowAnalysis(ITACTransferFunction<LE> transferFunction) {
+	public TACFlowAnalysis(ITACTransferFunction<LE> transferFunction, CompilationUnitTACs eclipseTAC) {
 		super();
-		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction);
+		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
 		// TODO use the driver as the analysis context
 		transferFunction.setAnalysisContext(this);
 	}
@@ -74,9 +75,10 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	 * Creates a branch sensitive flow analysis object.
 	 * @param transferFunction
 	 */
-	public TACFlowAnalysis(ITACBranchSensitiveTransferFunction<LE> transferFunction) {
+	public TACFlowAnalysis(ITACBranchSensitiveTransferFunction<LE> transferFunction,
+			CompilationUnitTACs eclipseTAC) {
 		super();
-		this.driver = new BranchSensitiveTACAnalysisDriver<LE>(transferFunction);
+		this.driver = new BranchSensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
 		// TODO use the driver as the analysis context
 		transferFunction.setAnalysisContext(this);
 	}
@@ -87,9 +89,10 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	 * @deprecated Use constructor that only takes transfer function.
 	 */
 	@Deprecated
-	public TACFlowAnalysis(Crystal crystal, ITACTransferFunction<LE> transferFunction) {
+	public TACFlowAnalysis(Crystal crystal, ITACTransferFunction<LE> transferFunction,
+			CompilationUnitTACs eclipseTAC) {
 		super(crystal);
-		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction);
+		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
 		// TODO use the driver as the analysis context
 		transferFunction.setAnalysisContext(this);
 	}
@@ -100,9 +103,10 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	 * @deprecated Use constructor that only takes transfer function.
 	 */
 	@Deprecated
-	public TACFlowAnalysis(Crystal crystal, ITACBranchSensitiveTransferFunction<LE> transferFunction) {
+	public TACFlowAnalysis(Crystal crystal, ITACBranchSensitiveTransferFunction<LE> transferFunction,
+			CompilationUnitTACs eclipseTAC) {
 		super(crystal);
-		this.driver = new BranchSensitiveTACAnalysisDriver<LE>(transferFunction);
+		this.driver = new BranchSensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
 		// TODO use the driver as the analysis context
 		transferFunction.setAnalysisContext(this);
 	}
@@ -243,17 +247,19 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 
 		protected TF tf;
 		protected EclipseTAC tac;
+		protected final CompilationUnitTACs compUnitTacs;
 		
-		public AbstractTACAnalysisDriver(TF tf) {
+		public AbstractTACAnalysisDriver(TF tf, CompilationUnitTACs compUnitTacs) {
 			super();
 			this.tf = tf;
+			this.compUnitTacs = compUnitTacs;
 		}
 		
 		/**
 		 * @param methodDecl
 		 */
 		public void switchToMethod(MethodDeclaration methodDecl) {
-			this.tac = EclipseTAC.getInstance(methodDecl);
+			this.tac = this.compUnitTacs.getMethodTAC(methodDecl);
 		}
 		
 		public AnalysisDirection getAnalysisDirection() {
@@ -271,8 +277,9 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	extends AbstractTACAnalysisDriver<LE, ITACTransferFunction<LE>> 
 	implements ITransferFunction<LE> {
 		
-		public BranchInsensitiveTACAnalysisDriver(ITACTransferFunction<LE> tf) {
-			super(tf);
+		public BranchInsensitiveTACAnalysisDriver(ITACTransferFunction<LE> tf,
+				CompilationUnitTACs compUnitTacs) {
+			super(tf, compUnitTacs);
 		}
 		
 		public LE transfer(ASTNode astNode, LE incoming) {
@@ -293,8 +300,9 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	extends AbstractTACAnalysisDriver<LE, ITACBranchSensitiveTransferFunction<LE>> 
 	implements IBranchSensitiveTransferFunction<LE> {
 		
-		public BranchSensitiveTACAnalysisDriver(ITACBranchSensitiveTransferFunction<LE> tf) {
-			super(tf);
+		public BranchSensitiveTACAnalysisDriver(ITACBranchSensitiveTransferFunction<LE> tf,
+				CompilationUnitTACs compUnitTacs) {
+			super(tf, compUnitTacs);
 		}
 
 		public IResult<LE> transfer(ASTNode astNode, List<ILabel> labels, LE value) {

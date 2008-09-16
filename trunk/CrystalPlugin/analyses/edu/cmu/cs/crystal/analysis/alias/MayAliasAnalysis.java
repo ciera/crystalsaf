@@ -168,7 +168,9 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		MayAliasTransferFunction tf = new MayAliasTransferFunction(this);
-		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, AliasLE>>(tf);
+		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, AliasLE>>(tf, 
+				this.analysisInput.getComUnitTACs().unwrap());
+		
 		// must call getResultsAfter at least once on this method,
 		// or the analysis won't be run on this method
 		TupleLatticeElement<Variable, AliasLE> finalLattice = fa.getResultsAfter(d);

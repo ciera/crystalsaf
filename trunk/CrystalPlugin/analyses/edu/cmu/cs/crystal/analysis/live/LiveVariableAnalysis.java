@@ -54,7 +54,8 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		ITACTransferFunction<TupleLatticeElement<Variable, LiveVariableLE>> tf = new LiveVariableTransferFunction();
-		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, LiveVariableLE>>(tf);
+		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, LiveVariableLE>>(tf,
+				this.analysisInput.getComUnitTACs().unwrap());
 	
 		// must call getResultsAfter at least once on this method, or the analysis won't be run on this method			
 		TupleLatticeElement<Variable, LiveVariableLE> finalLattice = fa.getResultsBefore(d);	
