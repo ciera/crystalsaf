@@ -37,6 +37,7 @@ import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.IResult;
+import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.Lattice;
 import edu.cmu.cs.crystal.flow.LatticeElement;
 
@@ -88,6 +89,13 @@ public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
 	protected IResult<LE> transferNode(ICFGNode<?> cfgNode, LE incoming,
 			ILabel transferLabel) {
 		final ASTNode astNode = cfgNode.getASTNode();
+		if(astNode == null) {
+			// dummy node
+			// return immediately using the incoming result for all outgoing edges
+			return LabeledSingleResult.createResult(incoming, getLabels(cfgNode));
+		}
+		
+		// this is a "real" node
 		checkBreakpoint(astNode);
 		if(transferLabel instanceof BooleanLabel) {
 			if(astNode instanceof InfixExpression) {
