@@ -35,9 +35,6 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  * 
  * @author Kevin Bierhoff
  *
- * @param <E> Parameter used internally to precisely type underlying AST node.
- * <i>This parameter has no effect on TACInstruction clients</i>.
- * 
  * @see ITACTransferFunction
  */
 public interface TACInstruction {
