@@ -130,8 +130,6 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 					LE beforeFromLatticeCopy = checkNull(beforeFromLattice.get(transferLabel).copy());
 					
 					// Carry out the associated flow function with the copy lattice
-					//notice that there might not be an ASTNode, in which case, just
-					//pass the before lattice on through.
 					IResult<LE> transferResults = 
 						checkNull(transferNode(fromNode, beforeFromLatticeCopy, transferLabel));
 							
