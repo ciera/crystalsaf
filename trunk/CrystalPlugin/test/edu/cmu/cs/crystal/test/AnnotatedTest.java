@@ -192,7 +192,7 @@ public class AnnotatedTest {
 		comp_unit.accept(annotation_visitor);
 		
 		if( is_a_test.getValue() && analyses.isEmpty() ) {
-			throw new RuntimeException("No analyses specified.");
+			throw new RuntimeException("No analyses specified: " + comp_unit.getJavaElement().getElementName());
 		}
 		
 		if( is_a_test.getValue() )
