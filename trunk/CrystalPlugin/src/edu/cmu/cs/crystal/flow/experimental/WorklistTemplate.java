@@ -132,9 +132,8 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 					// Carry out the associated flow function with the copy lattice
 					//notice that there might not be an ASTNode, in which case, just
 					//pass the before lattice on through.
-					IResult<LE> transferResults = (fromNode.getASTNode() != null) ?
-							checkNull(transferNode(fromNode, beforeFromLatticeCopy, transferLabel)) :
-								LabeledSingleResult.createResult(beforeFromLatticeCopy, transferLabel);
+					IResult<LE> transferResults = 
+						checkNull(transferNode(fromNode, beforeFromLatticeCopy, transferLabel));
 							
 					if (afterResults == null)
 						afterResults = transferResults;
@@ -259,7 +258,8 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 	 * treat nodes for &&, ||, and ! specially based on the <code>transferLabel</code>:
 	 * && and || should only return a result for a given {@link edu.cmu.cs.crystal.BooleanLabel};
 	 * ! should only return a result for the opposite {@link edu.cmu.cs.crystal.BooleanLabel}.
-	 * @param cfgNode The CFG node to transfer over.
+	 * @param cfgNode The CFG node to transfer over.  Notice that, in the case of a dummy node,
+	 * there may not be an AST node associated with the CFG node. 
 	 * @param incoming The incoming lattice element (relative to the analysis direction).
 	 * @param transferLabel Label to distinguish analysis results along different
 	 * kinds of edges.

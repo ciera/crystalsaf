@@ -53,32 +53,30 @@ public class BranchInsensitiveWorklist<LE extends LatticeElement<LE>> extends Ab
 		this.transferFunction = def;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#getAnalysisDirection()
-	 */
 	@Override
 	protected AnalysisDirection getAnalysisDirection() {
 		return transferFunction.getAnalysisDirection();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#getLattice()
-	 */
 	@Override
 	protected Lattice<LE> getLattice() {
 		return transferFunction.getLattice(getMethod());
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#transferNode(edu.cmu.cs.crystal.cfg.ICFGNode, edu.cmu.cs.crystal.flow.LatticeElement, edu.cmu.cs.crystal.ILabel)
-	 */
 	@Override
 	protected IResult<LE> transferNode(ICFGNode<?> cfgNode, LE incoming,
 			ILabel transferLabel) {
 		final ASTNode astNode = cfgNode.getASTNode();
+		if(astNode == null) {
+			// dummy node
+			// return immediately using the incoming result 
+			return new SingleResult<LE>(incoming);
+		}
+
+		// this is a "real" node
 		checkBreakpoint(astNode);
 		// TODO take advantage of transferLabel for &&, ||, and ! nodes
-		return new SingleResult<LE>(transferFunction.transfer(cfgNode.getASTNode(), incoming));
+		return new SingleResult<LE>(transferFunction.transfer(astNode, incoming));
 	}
 
 }
