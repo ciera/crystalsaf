@@ -1,23 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!--
-Copyright (c) 2006, 2007, 2008 Jonathan Aldrich, Nels E. Beckman,    
-Kevin Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa.
-
-This file is part of Crystal.
-
-Crystal is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Crystal is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
--->
 <!-- Schema file written by PDE -->
 <schema targetNamespace="edu.cmu.cs.crystal">
 <annotation>
@@ -121,6 +102,13 @@ along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="parseFromMeta" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  If this is true, then the annotation class is actually a meta annotation. Parse any annotation which has this class as a meta annotation.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -142,27 +130,27 @@ along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
 
 &lt;pre&gt;
 public class IntRangeAnnotation 
-	extends CrystalAnnotation 
-	implements ICrystalAnnotation {
-	// inherit getName, setName, getObject, setObject
-	Integer min, max;
-	public int getMinInclusive() {
-		if(min == null || max == null) {
-			parseString();
-		}
-		return min;
-	}
-	public int getMaxInclusive() {
-		if(min == null || max == null) {
-			parseString();
-		}
-		return max;
-	}
-	private void parseString() {
-		// get raw annotation parameter from inherited method
-		String value = getObject(&quot;value&quot;);
-		// ... parse min and max from value
-	}
+ extends CrystalAnnotation 
+ implements ICrystalAnnotation {
+ // inherit getName, setName, getObject, setObject
+ Integer min, max;
+ public int getMinInclusive() {
+  if(min == null || max == null) {
+   parseString();
+  }
+  return min;
+ }
+ public int getMaxInclusive() {
+  if(min == null || max == null) {
+   parseString();
+  }
+  return max;
+ }
+ private void parseString() {
+  // get raw annotation parameter from inherited method
+  String value = getObject(&quot;value&quot;);
+  // ... parse min and max from value
+ }
 }
 &lt;/pre&gt;
       </documentation>
