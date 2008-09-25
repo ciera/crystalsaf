@@ -45,6 +45,7 @@ import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
 import edu.cmu.cs.crystal.tac.MethodCallInstruction;
 import edu.cmu.cs.crystal.tac.NewArrayInstruction;
 import edu.cmu.cs.crystal.tac.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.ReturnInstruction;
 import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
 import edu.cmu.cs.crystal.tac.SourceVariableRead;
 import edu.cmu.cs.crystal.tac.StoreArrayInstruction;
@@ -210,6 +211,15 @@ public class LiveVariableTransferFunction extends AbstractingTransferFunction<Tu
 		
 		for (Variable var : (List<Variable>) instr.getArgOperands())
 			value.put(var, LiveVariableLE.LIVE);
+		return value;
+	}
+
+	@Override
+	public TupleLatticeElement<Variable, LiveVariableLE> transfer(
+			ReturnInstruction instr,
+			TupleLatticeElement<Variable, LiveVariableLE> value) {
+		log(instr, value);
+		value.put(instr.getReturnedVariable(), LiveVariableLE.LIVE);
 		return value;
 	}
 

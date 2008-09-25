@@ -23,12 +23,14 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.junit.Assert;
 import org.junit.Test;
 
 import edu.cmu.cs.crystal.tac.BinaryOperation;
 import edu.cmu.cs.crystal.tac.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.ReturnInstruction;
 import edu.cmu.cs.crystal.tac.SourceVariable;
 import edu.cmu.cs.crystal.tac.TACInstruction;
 import edu.cmu.cs.crystal.tac.ThisVariable;
@@ -109,6 +111,27 @@ public class EclipseTACSimpleTest {
 		"public class StaticCall {" +
 		"    public static int infinite(int x) {" +
 		"        return infinite(x);" +
+		"    }" +
+		"}";
+	
+	@Test
+	public void testSimpleReturn() throws Exception {
+		CompilationUnit simple = EclipseTACSimpleTestDriver.parseCode("SimpleReturn", SIMPLE_RETURN);
+		MethodDeclaration m = EclipseTACSimpleTestDriver.getFirstMethod(simple);
+		EclipseTAC tac = new EclipseTAC(m.resolveBinding());
+		ReturnStatement ret = (ReturnStatement) EclipseTACSimpleTestDriver.getLastStatementReturn(m);
+		Assert.assertTrue(ret.getExpression() != null);
+		TACInstruction instr = tac.instruction(ret);
+		Assert.assertTrue(instr != null);
+		Assert.assertTrue(instr instanceof ReturnInstruction);
+		ReturnInstruction binop = (ReturnInstruction) instr;
+		Assert.assertEquals(tac.variable(ret.getExpression()), binop.getReturnedVariable());
+	}
+	
+	private static final String SIMPLE_RETURN = 
+		"public class SimpleReturn {" +
+		"    public int one() {" +
+		"        return 1;" +
 		"    }" +
 		"}";
 	

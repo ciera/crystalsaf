@@ -77,6 +77,8 @@ public interface ITACTransferFunction<LE extends LatticeElement<LE>> extends IFl
 
 	public LE transfer(NewObjectInstruction instr, LE value);
 
+	public LE transfer(ReturnInstruction instr, LE value);
+
 	public LE transfer(StoreArrayInstruction instr, LE value);
 
 	public LE transfer(StoreFieldInstruction instr, LE value);

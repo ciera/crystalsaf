@@ -847,7 +847,7 @@ public class EclipseTAC implements IEclipseVariableQuery {
 
 		@Override
 		public boolean visit(ReturnStatement node) {
-			noResult();  // not an expression; will visit the returned expression
+			setResult(factory.create(node, EclipseTAC.this));
 			return false;
 		}
 

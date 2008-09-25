@@ -49,6 +49,7 @@ import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.eclipse.jdt.core.dom.PostfixExpression;
 import org.eclipse.jdt.core.dom.PrefixExpression;
 import org.eclipse.jdt.core.dom.QualifiedName;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
@@ -248,6 +249,11 @@ public class EclipseTACInstructionFactory {
 			ConstructorInvocation node,
 			IEclipseVariableQuery eclipseVariableQuery) {
 		return new EclipseThisConstructorCallInstruction(node, eclipseVariableQuery);
+	}
+
+	public TACInstruction create(EnhancedForStatement node,
+			EclipseTAC eclipseVariableQuery) {
+		return new EnhancedForConditionInstructionImpl(node, eclipseVariableQuery);
 	}
 
 	/**
@@ -458,6 +464,13 @@ public class EclipseTACInstructionFactory {
 		return null;
 	}
 
+	public TACInstruction create(ReturnStatement node,
+			EclipseTAC eclipseVariableQuery) {
+		if(node.getExpression() == null)
+			return null;
+		return new ReturnInstructionImpl(node, eclipseVariableQuery);
+	}
+
 	public TACInstruction create(SimpleName node,
 			IEclipseVariableQuery eclipseVariableQuery) {
 		// careful with the disambiguation of field accesses
@@ -590,11 +603,6 @@ public class EclipseTACInstructionFactory {
 					new TACInstruction[] { decl, init },
 					eclipseVariableQuery);
 		}
-	}
-
-	public TACInstruction create(EnhancedForStatement node,
-			EclipseTAC eclipseVariableQuery) {
-		return new EnhancedForConditionInstructionImpl(node, eclipseVariableQuery);
 	}
 
 }

@@ -106,6 +106,14 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 			log.log(Level.SEVERE, "Exception during test: StaticCall", t);
 		}
 
+		try {
+			simple.testSimpleReturn();
+			log.info("Passed test: SimpleReturn");
+		}
+		catch(Throwable t) {
+			log.log(Level.SEVERE, "Exception during test: SimpleReturn", t);
+		}
+
 	}
 	
 	private void runTargetSelectionTests() {

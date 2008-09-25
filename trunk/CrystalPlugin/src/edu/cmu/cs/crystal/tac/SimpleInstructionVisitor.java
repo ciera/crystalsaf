@@ -102,6 +102,12 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 	/**
 	 * @param instr
 	 */
+	public void visit(ReturnInstruction instr) {
+	}
+
+	/**
+	 * @param instr
+	 */
 	public void visit(NewObjectInstruction instr) {
 	}
 
@@ -270,6 +276,12 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 				SingletonLatticeElement value) {
 			visit(instr);
 			return value;
+		}
+
+		public SingletonLatticeElement transfer(ReturnInstruction instr,
+				SingletonLatticeElement value) {
+			visit(instr);
+			return null;
 		}
 
 		public SingletonLatticeElement transfer(StoreArrayInstruction instr,
