@@ -65,153 +65,101 @@ public abstract class AbstractTACBranchSensitiveTransferFunction<LE extends Latt
 		this.analysisContext = analysisContext;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.ArrayInitInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(ArrayInitInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.BinaryOperation, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(BinaryOperation binop, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.CastInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(CastInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.DotClassInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(DotClassInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.ConstructorCallInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(ConstructorCallInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.CopyInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(CopyInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.EnhancedForConditionInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(EnhancedForConditionInstruction instr,
 			List<ILabel> labels, LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.InstanceofInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(InstanceofInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.LoadLiteralInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(LoadLiteralInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.LoadArrayInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(LoadArrayInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.LoadFieldInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(LoadFieldInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.MethodCallInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(MethodCallInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.NewArrayInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(NewArrayInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.NewObjectInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(NewObjectInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.StoreArrayInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
+	public IResult<LE> transfer(ReturnInstruction instr, List<ILabel> labels,
+			LE value) {
+		return LabeledSingleResult.createResult(value, labels);
+	}
+
 	public IResult<LE> transfer(StoreArrayInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.StoreFieldInstruction, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(StoreFieldInstruction instr, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.SourceVariableDeclaration, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(SourceVariableDeclaration instr,
 			List<ILabel> labels, LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.SourceVariableDeclaration, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(SourceVariableRead instr,
 			List<ILabel> labels, LE value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.eclipse.ITACBranchSensitiveTransferFunction#transfer(edu.cmu.cs.crystal.tac.eclipse.UnaryOperation, java.util.List, edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
 	public IResult<LE> transfer(UnaryOperation unop, List<ILabel> labels,
 			LE value) {
 		return LabeledSingleResult.createResult(value, labels);

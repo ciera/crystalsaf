@@ -116,6 +116,10 @@ public abstract class AbstractTransferFunction<LE extends LatticeElement<LE>> im
 		return value;
 	}
 
+	public LE transfer(ReturnInstruction instr, LE value) {
+		return value;
+	}
+
 	public LE transfer(StoreArrayInstruction instr, LE value) {
 		return value;
 	}

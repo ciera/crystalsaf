@@ -81,6 +81,8 @@ public interface ITACBranchSensitiveTransferFunction<LE extends LatticeElement<L
 
 	public IResult<LE> transfer(NewObjectInstruction instr, List<ILabel> labels, LE value);
 
+	public IResult<LE> transfer(ReturnInstruction instr, List<ILabel> labels, LE value);
+
 	public IResult<LE> transfer(StoreArrayInstruction instr, List<ILabel> labels, LE value);
 
 	public IResult<LE> transfer(StoreFieldInstruction instr, List<ILabel> labels, LE value);

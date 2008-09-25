@@ -51,6 +51,7 @@ import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
 import edu.cmu.cs.crystal.tac.MethodCallInstruction;
 import edu.cmu.cs.crystal.tac.NewArrayInstruction;
 import edu.cmu.cs.crystal.tac.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.ReturnInstruction;
 import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
 import edu.cmu.cs.crystal.tac.SourceVariableRead;
 import edu.cmu.cs.crystal.tac.StoreArrayInstruction;
@@ -248,6 +249,12 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			EnhancedForConditionInstruction instr, List<ILabel> labels,
+			TupleLatticeElement<Variable, BooleanConstantLE> value) {
+		return LabeledSingleResult.createResult(value, labels);
+	}
+
+	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
+			ReturnInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}

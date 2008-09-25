@@ -126,20 +126,24 @@ public abstract class AbstractingTransferFunction<LE extends LatticeElement<LE>>
 		return transfer((InvocationInstruction) instr, value);
 	}
 
+	public LE transfer(ReturnInstruction instr, LE value) {
+		return transfer((TACInstruction) instr, value);
+	}
+
 	public LE transfer(StoreArrayInstruction instr, LE value) {
-		return transfer((StoreInstruction)instr, value);
+		return transfer((StoreInstruction) instr, value);
 	}
 
 	public LE transfer(StoreFieldInstruction instr, LE value) {
-		return transfer((StoreInstruction)instr, value);
+		return transfer((StoreInstruction) instr, value);
 	}
 
 	public LE transfer(SourceVariableDeclaration instr, LE value) {
-		return transfer((TACInstruction)instr, value);
+		return transfer((TACInstruction) instr, value);
 	}
 
 	public LE transfer(SourceVariableRead instr, LE value) {
-		return transfer((TACInstruction)instr, value);
+		return transfer((TACInstruction) instr, value);
 	}
 
 	public LE transfer(UnaryOperation unop, LE value) {
