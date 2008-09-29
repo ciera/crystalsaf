@@ -327,6 +327,22 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 			put(label, result);
 		}
 
+		/**
+		 * This constructor is to be <b>only used internally by {@link #join(IResult)}</b>.
+		 * It sets the three lattice elements tracked by this result to the given values.
+		 * At least one of the parameters must be non-<code>null</code>.
+		 * @param normalResult
+		 * @param falseResult
+		 * @param trueResult
+		 */
+		protected IncomingResult(LE normalResult, LE falseResult, LE trueResult) {
+			if(normalResult == null && falseResult == null && trueResult == null)
+				throw new NullPointerException("Only null results provided");
+			this.normalResult = normalResult;
+			this.falseResult = falseResult;
+			this.trueResult = trueResult;
+		}
+
 		public LE get(ILabel label) {
 			if(NormalLabel.getNormalLabel().equals(label))
 				return checkNull(normalResult);
@@ -366,7 +382,22 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 		}
 
 		public IResult<LE> join(IResult<LE> otherResult) {
-			throw new IllegalStateException("Internal results should never be joined.");
+			if(otherResult == null)
+				return this;
+			if(otherResult instanceof IncomingResult) {
+				IncomingResult<LE> other = (IncomingResult<LE>) otherResult;
+				LE nrm = this.normalResult;
+				if(other.normalResult != null)
+					nrm = (nrm == null) ? other.normalResult : nrm.join(other.normalResult, null);
+				LE tru = this.trueResult;
+				if(other.trueResult != null)
+					tru = (tru == null) ? other.trueResult : tru.join(other.trueResult, null);
+				LE fls = this.falseResult;
+				if(other.falseResult != null)
+					fls = (fls == null) ? other.falseResult : fls.join(other.falseResult, null);
+				return new IncomingResult<LE>(normalResult, falseResult, trueResult);
+			}
+			throw new IllegalStateException("Internal results should never be joined with results of type: " + otherResult.getClass());
 		}
 		
 	}

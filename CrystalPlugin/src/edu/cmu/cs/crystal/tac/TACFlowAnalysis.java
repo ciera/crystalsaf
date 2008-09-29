@@ -153,6 +153,48 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
 	}
 
+	public IResult<LE> getLabeledResultsAfter(TACInstruction instr) {
+		ASTNode node = instr.getNode();
+		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		if(rootInstr == instr) {
+			return getLabeledResultsAfter(node);
+		}
+		else if(rootInstr instanceof EclipseInstructionSequence) {
+			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
+			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
+					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			if(incoming == null) 
+				// no result available -> return bottom
+				return getLabeledResultsAfter(node);
+			else
+				// derive result for needed instruction in sequence
+				return this.driver.deriveResult(seq, incoming, instr, true);
+		}
+		else
+			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
+	}
+
+	public IResult<LE> getLabeledResultsBefore(TACInstruction instr) {
+		ASTNode node = instr.getNode();
+		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		if(rootInstr == instr) {
+			return getLabeledResultsBefore(node);
+		}
+		else if(rootInstr instanceof EclipseInstructionSequence) {
+			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
+			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
+					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			if(incoming == null) 
+				// no result available -> return bottom
+				return getLabeledResultsBefore(node);
+			else
+				// derive result for needed instruction in sequence
+				return this.driver.deriveResult(seq, incoming, instr, false);
+		}
+		else
+			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
+	}
+
 	public ASTNode getNode(Variable x, TACInstruction instruction) {
 		if(x instanceof TempVariable) {
 			return ((TempVariable) x).getNode();

@@ -324,10 +324,23 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 		return result == null ? new SingleResult<LE>(currentLattice.bottom()) : result; 
 	}
     
+	/**
+	 * Merges the given results into one, possibly <code>null</code>, result.
+	 * This method uses {@link IResult#join(IResult)}.
+	 * @param results The results to be merged.
+	 * @return The result of merging the given results into one, or <code>null</code>
+	 * if <code>results</code> is empty or only contains <code>null</code> values.
+	 */
 	protected IResult<LE> mergeLabeledResults(
 			HashMap<ICFGNode<?>, IResult<LE>> results) {
-		throw new UnsupportedOperationException(
-				"Please implement merging of labeled results");
+		IResult<LE> result = null;
+		for(IResult<LE> r : results.values()) {
+			if(result == null)
+				result = r;
+			else if(r != null)
+				result = result.join(r);
+		}
+		return result;
 	}
 
 	/**
