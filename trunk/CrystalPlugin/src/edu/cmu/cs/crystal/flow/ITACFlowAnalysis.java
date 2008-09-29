@@ -69,6 +69,30 @@ public interface ITACFlowAnalysis<LE extends LatticeElement<LE>> extends IFlowAn
 	public LE getResultsAfter(TACInstruction instr);
 
 	/**
+	 * Retrieves the analysis state that exists <b>before</b> analyzing the instruction.
+	 * 
+	 * Before is respective to normal program flow and not the direction of the analysis.
+	 * 
+	 * @param node		the {@link TACInstruction} of interest 
+	 * @return			the lattice that represents the analysis state 
+	 * 					after analyzing the instruction.  Or null if the node doesn't
+	 * 					have a corresponding control flow node.
+	 */
+	public IResult<LE> getLabeledResultsBefore(TACInstruction instr);
+
+	/**
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the instruction.
+	 * 
+	 * After is respective to normal program flow and not the direction of the analysis.
+	 * 
+	 * @param node		the {@link TACInstruction} of interest 
+	 * @return			the lattice that represents the analysis state 
+	 * 					after analyzing the instruction.  Or null if the node doesn't
+	 * 					have a corresponding control flow node.
+	 */
+	public IResult<LE> getLabeledResultsAfter(TACInstruction instr);
+
+	/**
 	 * Returns the TAC variable for a given ASTNode.
 	 * It is the caller's responsibility to make sure to call this
 	 * method only while the method surrounding the given node is analyzed.
