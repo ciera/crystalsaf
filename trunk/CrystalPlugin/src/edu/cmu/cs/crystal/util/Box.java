@@ -17,43 +17,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.internal;
+package edu.cmu.cs.crystal.util;
 
 /**
+ * Holds a boxed value. A boxed value is one that can be changed and
+ * read.
+ * 
  * @author Nels E. Beckman
  */
-public abstract class Option<T> {
+public class Box<T> {
 
+	private T t;
 	
-	@SuppressWarnings("unchecked")
-	private static final Option<?> NONE = new Option() {
-		@Override public boolean isNone() { return true; }
-		@Override public boolean isSome() {	return false; }
-		@Override
-		public Object unwrap() { throw new IllegalStateException("Unwrapped None."); }
-		@Override public String toString() { return "NONE"; }
-	};
-	
-	
-	@SuppressWarnings("unchecked")
-	public static <T> Option<T> none() {
-		return (Option<T>)NONE;
+	public Box(T t) {
+		this.t = t;
 	}
 	
-	public static <T> Option<T> some(final T t) {
-		return new Option<T>(){
-			@Override public boolean isNone() { return false;	}
-			@Override public boolean isSome() { return true; }
-			@Override public T unwrap() { return t; }
-			@Override public String toString() { return "SOME(" + t.toString() + ")"; }
-	    };
+	public static <T> Box<T> box(T t) {
+		return new Box<T>(t);
 	}
 	
-	public abstract T unwrap();
+	public T getValue() {
+		return t;
+	}
 	
-	public abstract boolean isSome();
-	
-	public abstract boolean isNone();
-	
-	
+	public void setValue(T t) {
+		this.t = t;
+	}
 }

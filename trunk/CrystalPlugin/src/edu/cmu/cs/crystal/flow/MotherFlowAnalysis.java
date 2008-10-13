@@ -34,7 +34,7 @@ import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.flow.experimental.AnalysisResult;
 import edu.cmu.cs.crystal.flow.experimental.WorklistFactory;
 import edu.cmu.cs.crystal.flow.experimental.WorklistTemplate;
-import edu.cmu.cs.crystal.internal.Utilities;
+import edu.cmu.cs.crystal.util.Utilities;
 
 /**
  * Abstract base class for flow analyses that implements a worklist algorithm

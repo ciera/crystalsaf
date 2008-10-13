@@ -17,30 +17,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.internal;
+package edu.cmu.cs.crystal.util;
 
 /**
- * An interface for mutable objects that can be made immutable by freezing them.
+ * That's right, a really simple map interface. The only thing you can do with
+ * it is get things. Check out getInvariantPermissions in PluralTupleLatticeElement
+ * to see how I use this to create a lazy map. Note that there is no real good reason
+ * to have this interface now that we have Lambda, except for the possibly more
+ * precise implication.
  * 
  * @author Nels Beckman
- * @date Feb 20, 2008
+ * @date Mar 26, 2008
  *
+ * @param <K>
+ * @param <V>
  */
-public interface Freezable<T> {
-
-	/**
-	 * Create a copy of this object that can be modified.
-	 * 
-	 * @return A mutable copy of this object.
-	 */
-	public T mutableCopy();
-	
-	/**
-	 * Freeze the state of this object so that future modifying calls are
-	 * disallowed.
-	 * 
-	 * @return This newly frozen object.
-	 */
-	public T freeze();
-	
+public interface SimpleMap<K, V> {
+	public V get(K key);
 }

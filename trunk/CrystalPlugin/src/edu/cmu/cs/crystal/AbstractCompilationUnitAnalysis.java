@@ -32,7 +32,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
-import edu.cmu.cs.crystal.internal.Option;
+import edu.cmu.cs.crystal.util.Option;
 
 /**
  * Carries out an analysis on each CompilationUnit.

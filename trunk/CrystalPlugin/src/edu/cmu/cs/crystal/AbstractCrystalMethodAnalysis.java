@@ -29,8 +29,8 @@ import org.eclipse.jdt.core.dom.*;
 
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
-import edu.cmu.cs.crystal.internal.Option;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
+import edu.cmu.cs.crystal.util.Option;
 
 /**
  * Responsible for carrying out the analysis logic on the methods of the target

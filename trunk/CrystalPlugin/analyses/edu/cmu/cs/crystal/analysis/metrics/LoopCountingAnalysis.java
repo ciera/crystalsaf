@@ -34,7 +34,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.internal.Utilities;
+import edu.cmu.cs.crystal.util.Utilities;
 
 public class LoopCountingAnalysis extends AbstractCrystalMethodAnalysis {
 	private Map<ASTNode, Integer> loopDepth = Collections.emptyMap();

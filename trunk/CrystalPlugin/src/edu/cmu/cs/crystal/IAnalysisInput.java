@@ -20,8 +20,8 @@
 package edu.cmu.cs.crystal;
 
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
-import edu.cmu.cs.crystal.internal.Option;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
+import edu.cmu.cs.crystal.util.Option;
 
 /**
  * This interface holds the input to an analysis.

@@ -40,7 +40,7 @@ import edu.cmu.cs.crystal.flow.IFlowAnalysis;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
 import edu.cmu.cs.crystal.flow.LatticeElement;
-import edu.cmu.cs.crystal.internal.Utilities;
+import edu.cmu.cs.crystal.util.Utilities;
 
 /**
  * An implementation of IFlowAnalysis that analyzes methods in
