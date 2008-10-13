@@ -50,10 +50,10 @@ import edu.cmu.cs.crystal.annotations.FailingTest;
 import edu.cmu.cs.crystal.annotations.PassingTest;
 import edu.cmu.cs.crystal.annotations.UseAnalyses;
 import edu.cmu.cs.crystal.internal.AbstractCrystalPlugin;
-import edu.cmu.cs.crystal.internal.Box;
 import edu.cmu.cs.crystal.internal.NullPrintWriter;
-import edu.cmu.cs.crystal.internal.Option;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
+import edu.cmu.cs.crystal.util.Box;
+import edu.cmu.cs.crystal.util.Option;
 
 /**
  * An analysis test that uses test annotations (

@@ -41,10 +41,10 @@ import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 import edu.cmu.cs.crystal.internal.ICrystalJob;
 import edu.cmu.cs.crystal.internal.ISingleCrystalJob;
-import edu.cmu.cs.crystal.internal.Option;
-import edu.cmu.cs.crystal.internal.Utilities;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
+import edu.cmu.cs.crystal.util.Option;
+import edu.cmu.cs.crystal.util.Utilities;
 
 /**
  * Provides the ability to run the analyses. Provides output mechanisms for both the Static Analysis
@@ -203,6 +203,8 @@ public class Crystal {
 	 * those analyses. This method does many of the things that runAnalysisOnMultiUnit and
 	 * runAnalysisOnSingleUnit used to do, but now those activities are packaged up as
 	 * ISingleCrystalJobs and in an ICrystalJob.
+	 * 
+	 * @throws IllegalArgumentException If any analysis name given doesn't exist!
 	 */
 	private ICrystalJob createJobFromCommand(final IRunCrystalCommand command,
 	    final IProgressMonitor monitor) {
@@ -216,6 +218,10 @@ public class Crystal {
 			Option<ICrystalAnalysis> analysis_ = findAnalysisWithName(analysis_name);
 			if (analysis_.isSome()) {
 				analyses_to_use.add(analysis_.unwrap());
+			}
+			else {
+				throw new IllegalArgumentException("Analysis with name \"" + analysis_name +
+						"\" does not exist!");
 			}
 		}
 

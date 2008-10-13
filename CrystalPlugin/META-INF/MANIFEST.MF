@@ -35,6 +35,7 @@ Export-Package: att.grappa,
  edu.cmu.cs.crystal.tac.eclipse,
  edu.cmu.cs.crystal.tac.examples,
  edu.cmu.cs.crystal.test,
+ edu.cmu.cs.crystal.util,
  java_cup.runtime
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Eclipse-BuddyPolicy: registered

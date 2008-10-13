@@ -29,7 +29,7 @@ import org.eclipse.jdt.core.dom.SimpleName;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.flow.FlowAnalysis;
-import edu.cmu.cs.crystal.internal.Utilities;
+import edu.cmu.cs.crystal.util.Utilities;
 
 
 /**
