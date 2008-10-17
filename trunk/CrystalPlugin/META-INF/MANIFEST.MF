@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.debug.core,
  org.junit4
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: att.grappa,
  edu.cmu.cs.crystal,
  edu.cmu.cs.crystal.analysis,
