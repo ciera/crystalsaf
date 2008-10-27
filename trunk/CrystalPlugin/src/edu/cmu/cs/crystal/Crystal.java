@@ -238,6 +238,8 @@ public class Crystal {
 							logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
 					}
 					else {
+						monitor.subTask(cu.getElementName());
+						
 						// Run each analysis on the current compilation unit.
 						CompilationUnit ast_comp_unit =
 						    (CompilationUnit) WorkspaceUtilities.getASTNodeFromCompilationUnit(cu);
@@ -279,7 +281,8 @@ public class Crystal {
 
 			public void runJobs() {
 				if (monitor != null) {
-					String task = "Running " + num_jobs + " total analyses.";
+					String task = "Running Cystal on " + 
+						num_jobs + " total compilation units.";
 					monitor.beginTask(task, num_jobs);
 				}
 
