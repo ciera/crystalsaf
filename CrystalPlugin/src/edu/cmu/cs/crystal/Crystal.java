@@ -230,15 +230,16 @@ public class Crystal {
 
 			jobs.add(new ISingleCrystalJob() {
 				public void run(final AnnotationDatabase annoDB) {
-					if (monitor != null && monitor.isCanceled())
-						return;
-
 					if (cu == null) {
 						if (logger.isLoggable(Level.WARNING))
 							logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
 					}
 					else {
-						monitor.subTask(cu.getElementName());
+						if (monitor != null) {
+							if(monitor.isCanceled())
+								return;
+							monitor.subTask(cu.getElementName());
+						}
 						
 						// Run each analysis on the current compilation unit.
 						CompilationUnit ast_comp_unit =
@@ -261,14 +262,12 @@ public class Crystal {
 							// Run the analysis
 							analysis.runAnalysis(command.reporter(), input, cu, ast_comp_unit);
 						}
-
-						if (monitor != null && monitor.isCanceled())
+					}
+					if (monitor != null) {
+						if(monitor.isCanceled())
 							return;
-
-						if (monitor != null) {
-							// increment monitor
-							monitor.worked(1);
-						}
+						// increment monitor
+						monitor.worked(1);
 					}
 				}
 			});
