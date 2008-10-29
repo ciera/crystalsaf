@@ -232,7 +232,7 @@ public class Crystal {
 				public void run(final AnnotationDatabase annoDB) {
 					if (cu == null) {
 						if (logger.isLoggable(Level.WARNING))
-							logger.warning("AbstractCompilationUnitAnalysis: null CompilationUnit");
+							logger.warning("Skipping null CompilationUnit");
 					}
 					else {
 						if (monitor != null) {
@@ -240,6 +240,8 @@ public class Crystal {
 								return;
 							monitor.subTask(cu.getElementName());
 						}
+						if (logger.isLoggable(Level.INFO))
+							logger.info("Running Crystal on: " + cu.getResource().getLocation().toOSString());
 						
 						// Run each analysis on the current compilation unit.
 						CompilationUnit ast_comp_unit =
@@ -247,6 +249,9 @@ public class Crystal {
 
 						// Here, create one TAC cache per compilation unit.
 						final CompilationUnitTACs compUnitTacs = new CompilationUnitTACs();
+
+						// Clear any markers that may be onscreen...
+						command.reporter().clearMarkersForCompUnit(cu);
 
 						for (ICrystalAnalysis analysis : analyses_to_use) {
 							IAnalysisInput input = new IAnalysisInput() {
@@ -280,8 +285,12 @@ public class Crystal {
 
 			public void runJobs() {
 				if (monitor != null) {
-					String task = "Running Cystal on " + 
-						num_jobs + " total compilation units.";
+					String task;
+					if(num_jobs == 1)
+						task = "Running Crystal on 1 compilation unit.";
+					else
+						task = "Running Crystal on " + 
+							num_jobs + " total compilation units.";
 					monitor.beginTask(task, num_jobs);
 				}
 
@@ -309,8 +318,8 @@ public class Crystal {
 				// run the annotation finder on everything
 				if (monitor != null)
 					monitor.subTask("Scanning annotations of analyzed compilation units");
-				if (logger.isLoggable(Level.INFO))
-					logger.info("Scanning annotations of analyzed compilation units");
+				if (logger.isLoggable(Level.FINER))
+					logger.finer("Scanning annotations of analyzed compilation units");
 				for (ICompilationUnit compUnit : command.compilationUnits()) {
 					if (compUnit == null)
 						continue;
@@ -321,9 +330,7 @@ public class Crystal {
 					if (!(node instanceof CompilationUnit))
 						continue;
 
-					// Clear any markers that may be onscreen...
-					command.reporter().clearMarkersForCompUnit(compUnit);
-
+					// Dummy analysis input
 					IAnalysisInput input = new IAnalysisInput() {
 						AnnotationDatabase annoDB = new AnnotationDatabase();
 
