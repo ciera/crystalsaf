@@ -82,7 +82,7 @@ public class ThisVariable extends KeywordVariable {
 	@Override
 	public ITypeBinding resolveType() {
 		if(typeBinding != null)
-			return null;
+			return typeBinding;
 		if(getQualifier() != null)
 			return getQualifier().resolveTypeBinding();
 		return tac.resolveThisType();
