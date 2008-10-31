@@ -2,7 +2,7 @@
 <feature
       id="edu.cmu.cs.crystal.feature"
       label="Crystal"
-      version="3.3.1">
+      version="3.3.2">
 
    <description url="http://code.google.com/p/crystalsaf/">
       Crystal is a framework for facilitating static Java source code
@@ -48,6 +48,6 @@ License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
          id="edu.cmu.cs.crystal"
          download-size="0"
          install-size="0"
-         version="3.3.1"/>
+         version="3.3.2"/>
 
 </feature>
