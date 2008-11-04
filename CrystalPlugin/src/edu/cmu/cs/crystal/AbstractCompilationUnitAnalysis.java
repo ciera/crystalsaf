@@ -71,6 +71,17 @@ public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysi
 		analyzeCompilationUnit(rootNode);
 	}
 
+	
+	public void afterAllCompilationUnits() {
+		// default does nothing
+	}
+
+	
+	
+	public void beforeAllCompilationUnits() {
+		// default does nothing
+	}
+
 	public Map<String, Class<? extends CrystalAnnotation>> getAnnotationClasses() {
 		return null;
 	}

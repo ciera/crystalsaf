@@ -59,4 +59,14 @@ public interface ICrystalAnalysis {
 	 * @deprecated Use CrystalAnnotation extension point instead.
 	 */
 	public Map<String, Class<? extends CrystalAnnotation>> getAnnotationClasses();
+
+	/**
+	 * Inform the analysis that all compilation units have been analyzed.
+	 */
+	public void afterAllCompilationUnits();
+
+	/**
+	 * Inform the analysis that the analysis process is about to begin.
+	 */
+	public void beforeAllCompilationUnits();
 }
