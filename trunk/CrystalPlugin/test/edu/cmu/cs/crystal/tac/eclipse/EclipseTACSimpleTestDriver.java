@@ -308,4 +308,7 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 		return null;
 	}
 
+	public void afterAllCompilationUnits() {}
+
+	public void beforeAllCompilationUnits() {}
 }

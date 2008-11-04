@@ -225,6 +225,11 @@ public class Crystal {
 			}
 		}
 
+		// tell analyses that the analysis is about to begin!
+		for (ICrystalAnalysis analysis : analyses_to_use ) {
+			analysis.beforeAllCompilationUnits();
+		}
+		
 		// Now, create one job per compilation unit
 		for (final ICompilationUnit cu : command.compilationUnits()) {
 
@@ -278,6 +283,23 @@ public class Crystal {
 			});
 		}
 
+		return createCrystalJobFromSingleJobs(command, 
+				monitor, num_jobs, jobs, analyses_to_use);
+	}
+
+	/**
+	 * Given all of the single jobs, create the one analysis job.
+	 * 
+	 * This basically packages the jobs into an interface, but it also runs
+	 * the annotation finder. We may be getting rid of this pre-emptive
+	 * annotation finder run soon.
+	 */
+	private ICrystalJob createCrystalJobFromSingleJobs(
+			final IRunCrystalCommand command, final IProgressMonitor monitor,
+			final int num_jobs, final List<ISingleCrystalJob> jobs,
+			final List<ICrystalAnalysis> analyses_to_use) {
+		
+		// Just return an implementation of the ICrystalJob interface
 		return new ICrystalJob() {
 			public List<ISingleCrystalJob> analysisJobs() {
 				return Collections.unmodifiableList(jobs);
@@ -350,6 +372,10 @@ public class Crystal {
 				// Now, run every single job
 				for (ISingleCrystalJob job : analysisJobs()) {
 					job.run(annoDB);
+				}
+				// Tell all analyses, we are done.
+				for (ICrystalAnalysis analysis : analyses_to_use) {
+					analysis.afterAllCompilationUnits();
 				}
 			}
 		};

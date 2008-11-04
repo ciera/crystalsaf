@@ -86,6 +86,16 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	}
 
 	
+	public void afterAllCompilationUnits() {
+		// default does nothing
+	}
+
+	
+	
+	public void beforeAllCompilationUnits() {
+		// default does nothing
+	}
+
 	/**
 	 * This method is invoked once before any methods are analyzed. 
 	 * It can be used to perform pre-analysis functionality, if needed.
