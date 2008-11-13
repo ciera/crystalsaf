@@ -42,7 +42,6 @@ public interface IFlowAnalysisDefinition<LE extends LatticeElement<LE>> {
 	 * Default is a Forward analysis.
 	 * <p>
 	 * Use AnalysisDirection enumeration. 
-	 * Currently BACKWARD_ANALYSIS doesn't work. 
 	 * 
 	 * @return	the direction of the analysis
 	 */
