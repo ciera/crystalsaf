@@ -21,6 +21,7 @@ package edu.cmu.cs.crystal.tac;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.Modifier;
 
 /**
  * A source variable is a variable in three address code that actually existed in
@@ -40,16 +41,24 @@ public class SourceVariable extends Variable {
 
 	private IVariableBinding binding;
 	private String id;
+	private boolean isLocal;
 
 	/**
-	 * 
+	 * Creates a new source variable object for a local with the given name and binding.
+	 * @param id
+	 * @param binding
+	 * @param isLocallyDeclared pass <code>true</code> for locally declared variables, 
+	 * including formal parameters, <code>false</code> for variables captured from an outer scope.
 	 */
-	public SourceVariable(String id, IVariableBinding binding) {
+	public SourceVariable(String id, IVariableBinding binding, boolean isLocallyDeclared) {
 		super();
 		if(id == null || binding == null || binding.isEnumConstant() || binding.isField())
 			throw new IllegalArgumentException("Illegal source variable initialization args.");
+		if(isLocallyDeclared == false && Modifier.isFinal(binding.getModifiers()) == false)
+			throw new IllegalArgumentException("Non-final variables must be declared locally: " + binding);
 		this.id = id;
 		this.binding = binding;
+		this.isLocal = isLocallyDeclared;
 	}
 
 	/**
@@ -59,6 +68,15 @@ public class SourceVariable extends Variable {
 	 */
 	public IVariableBinding getBinding() {
 		return binding;
+	}
+	
+	/**
+	 * Indicates whether this source variable is captured from an outer scope.
+	 * @return <code>true</code> if this source variable is captured from an outer scope,
+	 * <code>false</code> otherwise.
+	 */
+	public boolean isCapturedFromOuterScope() {
+		return isLocal == false;
 	}
 
 	@Override

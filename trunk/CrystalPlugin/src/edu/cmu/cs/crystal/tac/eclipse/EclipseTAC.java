@@ -19,9 +19,7 @@
  */
 package edu.cmu.cs.crystal.tac.eclipse;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.WeakHashMap;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -410,13 +408,19 @@ public class EclipseTAC implements IEclipseVariableQuery {
 				IVariableBinding vb = (IVariableBinding) binding;
 				if(vb.isEnumConstant() || vb.isField()) 
 					throw new IllegalArgumentException("Not a local: " + binding);
-				result = new SourceVariable(vb.getName(), vb);
+				// figure out whether it's declared locally
+				IMethodBinding declaredIn = vb.getDeclaringMethod();
+				while(declaredIn != null && declaredIn != declaredIn.getMethodDeclaration()) {
+					declaredIn = declaredIn.getMethodDeclaration();
+				}
+				result = new SourceVariable(vb.getName(), vb, method.equals(declaredIn));
 			}
 			else if(binding instanceof ITypeBinding) {
 				ITypeBinding tb = (ITypeBinding) binding;
 				result = new TypeVariable(tb);
 			}
-			else throw new IllegalArgumentException("Not a variable: " + binding);
+			else 
+				throw new IllegalArgumentException("Not a variable: " + binding);
 			variables.put(binding, result);
 		}
 		return result;
