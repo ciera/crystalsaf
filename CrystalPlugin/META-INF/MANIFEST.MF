@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Crystal Plug-in
 Bundle-SymbolicName: edu.cmu.cs.crystal;singleton:=true
-Bundle-Version: 3.3.3
+Bundle-Version: 3.3.4
 Bundle-ClassPath: edu.cmu.cs.crystal/,
  grappa1_2.jar
 Bundle-Activator: edu.cmu.cs.crystal.CrystalPlugin
