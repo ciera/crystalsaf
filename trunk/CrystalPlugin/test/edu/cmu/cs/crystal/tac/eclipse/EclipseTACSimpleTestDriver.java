@@ -186,6 +186,22 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 			log.log(Level.SEVERE, "Exception during test: NestedFieldWrite", t);
 		}
 		
+		try {
+			fieldTests.testPrivateOuterField();
+			log.info("Passed test: PrivateOuterField");
+		}
+		catch(Throwable t) {
+			log.log(Level.SEVERE, "Exception during test: PrivateOuterField", t);
+		}
+		
+		try {
+			fieldTests.testVisibleOuterField();
+			log.info("Passed test: VisibleOuterField");
+		}
+		catch(Throwable t) {
+			log.log(Level.SEVERE, "Exception during test: VisibleOuterField", t);
+		}
+		
 	}
 	
 	private void runArrayTests() {
