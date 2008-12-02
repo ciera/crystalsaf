@@ -62,6 +62,8 @@ public class EclipseTACFieldTest {
 		Assert.assertTrue(instr instanceof LoadFieldInstruction);
 		LoadFieldInstruction load = (LoadFieldInstruction) instr;
 		Assert.assertTrue(load.getSourceObject() instanceof ThisVariable);
+		Assert.assertTrue(load.getSourceObject().isUnqualifiedThis());
+		Assert.assertNull(((ThisVariable) load.getSourceObject()).getQualifier());
 		Assert.assertEquals("f", load.getFieldName());
 	}
 	
@@ -84,6 +86,8 @@ public class EclipseTACFieldTest {
 		Assert.assertTrue(instr instanceof LoadFieldInstruction);
 		LoadFieldInstruction load = (LoadFieldInstruction) instr;
 		Assert.assertTrue(load.getSourceObject() instanceof ThisVariable);
+		Assert.assertTrue(load.getSourceObject().isUnqualifiedThis());
+		Assert.assertNull(((ThisVariable) load.getSourceObject()).getQualifier());
 		Assert.assertEquals(tac.variable(read.getExpression()), load.getSourceObject());
 		Assert.assertEquals("f", load.getFieldName());
 	}
@@ -132,6 +136,7 @@ public class EclipseTACFieldTest {
 		
 		StoreFieldInstruction store = (StoreFieldInstruction) instr;
 		Assert.assertTrue(store.getDestinationObject() instanceof ThisVariable);
+		Assert.assertTrue(store.getDestinationObject().isUnqualifiedThis());
 		Assert.assertEquals(
 				tac.sourceVariable(((SingleVariableDeclaration) m.parameters().get(0)).resolveBinding()),
 				store.getSourceOperand());
@@ -241,6 +246,53 @@ public class EclipseTACFieldTest {
 		"    }" +
 		"    private void foo(Object o) { }" +
 		"    public Object getO() { return o; }" +
+		"}";
+	
+	@Test
+	public void testPrivateOuterField() throws Exception {
+		CompilationUnit cu = EclipseTACSimpleTestDriver.parseCode("PrivateOuterField", PRIVATE_OUTER_FIELD);
+		MethodDeclaration m = EclipseTACSimpleTestDriver.getFirstMethod(cu); // method in inner class
+		EclipseTAC tac = new EclipseTAC(m.resolveBinding());
+		Expression read = (Expression) EclipseTACSimpleTestDriver.getLastStatementReturn(m).getExpression();
+		TACInstruction instr = tac.instruction(read);
+		Assert.assertTrue(instr != null);
+		Assert.assertTrue(instr instanceof LoadFieldInstruction);
+		LoadFieldInstruction load = (LoadFieldInstruction) instr;
+		Assert.assertTrue(load.getSourceObject() instanceof ThisVariable);
+		Assert.assertFalse(load.getSourceObject().isUnqualifiedThis());
+		Assert.assertEquals("f", load.getFieldName());
+	}
+	
+	private static final String PRIVATE_OUTER_FIELD = 
+		"public class PrivateOuterField {" +
+		"    private int f;" + 
+		"    public class ReadsOuter extends PrivateOuterField {" +
+		"        public int getF() { return f; }" +
+		"    }" +
+		"}";
+	
+	@Test
+	public void testVisibleOuterField() throws Exception {
+		CompilationUnit cu = EclipseTACSimpleTestDriver.parseCode("VisibleOuterField", VISIBLE_OUTER_FIELD);
+		MethodDeclaration m = EclipseTACSimpleTestDriver.getFirstMethod(cu); // method in inner class
+		EclipseTAC tac = new EclipseTAC(m.resolveBinding());
+		Expression read = (Expression) EclipseTACSimpleTestDriver.getLastStatementReturn(m).getExpression();
+		TACInstruction instr = tac.instruction(read);
+		Assert.assertTrue(instr != null);
+		Assert.assertTrue(instr instanceof LoadFieldInstruction);
+		LoadFieldInstruction load = (LoadFieldInstruction) instr;
+		Assert.assertTrue(load.getSourceObject() instanceof ThisVariable);
+		Assert.assertTrue(load.getSourceObject().isUnqualifiedThis());
+		Assert.assertNull(((ThisVariable) load.getSourceObject()).getQualifier());
+		Assert.assertEquals("f", load.getFieldName());
+	}
+	
+	private static final String VISIBLE_OUTER_FIELD = 
+		"public class VisibleOuterField {" +
+		"    protected int f;" + 
+		"    public class ReadsInner extends VisibleOuterField {" +
+		"        public int getF() { return f; }" +
+		"    }" +
 		"}";
 	
 }

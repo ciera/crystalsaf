@@ -303,27 +303,45 @@ public class EclipseTAC implements IEclipseVariableQuery {
 		return (binding.getModifiers() & Modifier.STATIC) == Modifier.STATIC;
 	}
 	
+	public static boolean isDefaultBinding(IBinding binding) {
+		return (binding.getModifiers() & (Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC)) == 0;
+	}
+	
 	/**
 	 * Determines the binding for the implicit <code>this</code>
 	 * variable of the given accessed element (method or field).
 	 * See the Java language specification for the definition of this
-	 * algorithm.
+	 * algorithm 
+	 * (<a href="http://java.sun.com/docs/books/jls/third_edition/html/expressions.html#15.12.1">
+	 * JLS $15.12.1</a>).  
+	 * We use (generic) eclipse bindings instead
+	 * of field/method names (as described in the JLS) to avoid having
+	 * to worry about visibility issues.  
+	 * In particular, an invisible
+	 * method or field with the same name as <code>accessedElement</code>
+	 * must not be considered per JLS.  
+	 * (Hopefully) the eclipse binding
+	 * mechanism already takes that into account, and we can find the 
+	 * right visible binding by comparing eclipse bindings instead of names.
 	 * @param accessedElement A method or field binding.
 	 * @return the binding for the implicit <code>this</code>
 	 * variable of the given accessed element (method or field).
 	 */
 	private ITypeBinding implicitThisBinding(IBinding accessedElement) {
 		boolean isMethod;
+		IBinding genericBinding; // generic version of accessedElement to simplify comparison
 		if(accessedElement instanceof IMethodBinding) {
 			if(((IMethodBinding) accessedElement).isConstructor())
 				// constructor is easy because statically bound
 				return ((IMethodBinding) accessedElement).getDeclaringClass();
+			genericBinding = ((IMethodBinding) accessedElement).getMethodDeclaration();
 			isMethod = true;
 		}
 		else {
 			// must be a field...
 			if(((IVariableBinding) accessedElement).isField() == false)
 				throw new IllegalArgumentException("Invalid element for implicit this: " + accessedElement);
+			genericBinding = ((IVariableBinding) accessedElement).getVariableDeclaration();
 			isMethod = false;
 		}
 		
@@ -332,9 +350,8 @@ public class EclipseTAC implements IEclipseVariableQuery {
 			// easy: we're in a top-level class
 			// this must bind to that class (no lexically enclosing classes exist)
 			return scope;
-		String lookupName = accessedElement.getName();
 		while(scope != null) {
-			if(findElementDeclarationByName(lookupName, isMethod, scope) != null)
+			if(findElementDeclarationByName(genericBinding, isMethod, scope, false, false) != null)
 				return scope;
 			scope = scope.getDeclaringClass();
 		}
@@ -342,38 +359,61 @@ public class EclipseTAC implements IEclipseVariableQuery {
 	}
 
 	/**
-	 * Depth-first search in class and interface hierarchy to find a method or field <i>by name</i>.
-	 * @param name
-	 * @param isMethod <code>true</code> to resolve a method, <code>false</code> to resolve a field.
-	 * @param type
-	 * @return First type found in the hierarchy that declares a method or field of the specified name.
+	 * Depth-first search in class and interface hierarchy to find a method or field.
+	 * @tag usage.parameter: Clients will usually want to pass <code>false</code> for both flags; they will be used in recursive calls.
+	 * @param genericAccessedElement Most generic version of the binding to be searched for.
+	 * @param isMethod This must match the type of <code>genericAccessedElement</code>:
+	 * <code>true</code> to resolve a method, <code>false</code> to resolve a field.
+	 * @param type Type to search.
+	 * @param skipPrivate If <code>true</code>, private declarations are ignored.
+	 * @param skipPackagePrivate If <code>true</code>, package-private declarations are ignored.
+	 * @return First type found in the hierarchy that declares the given method or field.
 	 */
 	private ITypeBinding findElementDeclarationByName(
-			String name,
+			IBinding genericAccessedElement,
 			boolean isMethod,
-			ITypeBinding type) {
+			ITypeBinding type,
+			boolean skipPrivate,
+			boolean skipPackagePrivate) {
 		if(isMethod) {
 			for(IMethodBinding b : type.getDeclaredMethods()) {
-				if(name.equals(b.getName()))
+				if(skipPrivate && Modifier.isPrivate(b.getModifiers()))
+					continue; // skip private method
+				if(skipPackagePrivate && isDefaultBinding(b))
+					continue; // skip package-private method
+				if(genericAccessedElement.equals(b.getMethodDeclaration() /* use generic method */)) {
 					return type;
+				}
 			}
 		}
 		else {
 			for(IVariableBinding b : type.getDeclaredFields()) {
-				if(name.equals(b.getName()))
+				if(skipPrivate && Modifier.isPrivate(b.getModifiers()))
+					continue; // skip private field
+				if(skipPackagePrivate && isDefaultBinding(b))
+					continue; // skip package-private field
+				if(genericAccessedElement.equals(b.getVariableDeclaration() /* use generic field */))
 					return type;
 			}
 		}
 		
 		ITypeBinding result = null;
 		if(type.getSuperclass() != null) {
-			result = findElementDeclarationByName(name, isMethod, type.getSuperclass());
+			ITypeBinding t = type.getSuperclass();
+			result = findElementDeclarationByName(
+					genericAccessedElement, isMethod, t, 
+					true /* always skip private declarations in supertypes */,
+					! t.getPackage().equals(type.getPackage()) /* skip package-private when leaving current package */);
 			if(result != null)
 				return result;
 		}
 		// go though interfaces as well
 		for(ITypeBinding i : type.getInterfaces()) {
-			result = findElementDeclarationByName(name, isMethod, i);
+			// keep going for fields: could be static
+			result = findElementDeclarationByName(
+					genericAccessedElement, isMethod, i, 
+					true /* always skip private declarations in supertypes */,
+					! i.getPackage().equals(type.getPackage()) /* skip package-private when leaving current package */);
 			if(result != null)
 				return result;
 		}
