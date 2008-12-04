@@ -25,6 +25,8 @@ import org.eclipse.core.resources.*;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.core.dom.*;
 
+import edu.cmu.cs.crystal.util.Box;
+
 /**
  * A collection of methods used to extract useful data from the workspace.
  * These methods are used by the framework and should not be used by users
@@ -290,6 +292,35 @@ public class WorkspaceUtilities {
 		return parser.createAST(/* passing in monitor messes up previous monitor state */ null);
 	}
 
+	/**
+	 * Given an IType from the model, this method will return the type binding
+	 * associated with that type. I hope this method will not exist for long (NEB),
+	 * but it's hear until I can figure out how to get the Java model to do
+	 * what I need with annotations. 
+	 */
+	public static ITypeBinding getDeclNodeFromType(IType type) {
+		ASTNode node = getASTNodeFromCompilationUnit(type.getCompilationUnit());
+		
+		// Now, find the corresponding type node 
+		final String qual_name = type.getFullyQualifiedName('.');
+		final Box<ITypeBinding> result = new Box<ITypeBinding>(null);
+		node.accept(new ASTVisitor() {
+
+			@Override
+			public void endVisit(TypeDeclaration node) {
+				String node_qual_name = node.resolveBinding().getQualifiedName();
+				if( node_qual_name.equals(qual_name) )
+					result.setValue(node.resolveBinding());
+			}
+			
+		});
+		
+		if( result.getValue() == null )
+			throw new RuntimeException("I think the type you gave me was anonymus or somehow I missed it.");
+		
+		return result.getValue();
+	}
+	
 }
 
 class BindingsCollectorVisitor extends ASTVisitor {
