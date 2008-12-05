@@ -319,11 +319,8 @@ public class Crystal {
 				AnnotationDatabase annoDB = new AnnotationDatabase();
 				AnnotationFinder finder = new AnnotationFinder(annoDB);
 
-				// register annotation parsers from registry
-				for (Map.Entry<AnnoRegister, Class<? extends ICrystalAnnotation>> entry : annotationRegistry
-				    .entrySet()) {
-					annoDB.register(entry.getKey().name, entry.getValue(), entry.getKey().isMeta);
-				}
+				// register annotations with database
+				registerAnnotationsWithDatabase(annoDB);
 
 				// register any special classes for the annotation database
 				// TODO remove getAnnotationClasses() from ICrystalAnalysis
@@ -379,6 +376,20 @@ public class Crystal {
 				}
 			}
 		};
+	}
+
+	/**
+	 * Register all of the annotations in the given annotation registry with the
+	 * given annotation database.
+	 * @param annotationRegistry
+	 * @param annoDB
+	 */
+	public void registerAnnotationsWithDatabase(AnnotationDatabase annoDB) {
+		// register annotation parsers from registry
+		for (Map.Entry<AnnoRegister, Class<? extends ICrystalAnnotation>> entry : annotationRegistry
+		    .entrySet()) {
+			annoDB.register(entry.getKey().name, entry.getValue(), entry.getKey().isMeta);
+		}
 	}
 
 	/**

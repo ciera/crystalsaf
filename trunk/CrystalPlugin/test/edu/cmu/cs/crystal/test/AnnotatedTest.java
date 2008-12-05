@@ -210,6 +210,9 @@ public class AnnotatedTest {
 
 		List<ICompilationUnit> allCompUnits = WorkspaceUtilities.scanForCompilationUnits();
 
+		if( allCompUnits == null )
+			throw new RuntimeException("scanForCompilationUnits() returned null. You may have chosen a workspace that doesn't exist.");
+		
 		// Not all compilation units are tests...
 		for (ICompilationUnit icu : allCompUnits) {
 			CompilationUnit cu =
