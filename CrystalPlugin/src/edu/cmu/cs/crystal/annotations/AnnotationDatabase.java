@@ -26,6 +26,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMemberValuePair;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
@@ -37,6 +42,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
+import edu.cmu.cs.crystal.util.Pair;
 
 /**
  * This class is a database for annotations. It can store annotations of methods we have analyzed or
@@ -127,6 +133,24 @@ public class AnnotationDatabase {
 		return result;
 	}
 
+	/**
+	 * This method will return the list of annotations associated with the
+	 * given type. It's very similar in functionality to 
+	 * {@link #getAnnosForType(ITypeBinding)} except that it works on the
+	 * Java model element, so it does not require a parse.
+	 * @throws JavaModelException 
+	 */
+	public List<ICrystalAnnotation>  getAnnosForType(IType type) throws JavaModelException {
+		String name = type.getKey();
+
+		List<ICrystalAnnotation> result = classes.get(name);
+		if (result == null) {
+			result = createAnnotations(type.getAnnotations(), type);
+			classes.put(name, result);
+		}
+		return result;
+	}
+	
 	public List<ICrystalAnnotation> getAnnosForType(ITypeBinding type) {
 		while (type != type.getTypeDeclaration())
 			type = type.getTypeDeclaration();
@@ -167,6 +191,55 @@ public class AnnotationDatabase {
 		return Collections.unmodifiableList(result);
 	}
 
+	/**
+	 * See {@link #createAnnotations(IAnnotationBinding[])}.
+	 * @throws JavaModelException 
+	 */
+	protected List<ICrystalAnnotation> createAnnotations(IAnnotation[] annotations, IType relative_type) throws JavaModelException {
+		List<ICrystalAnnotation> result = new ArrayList<ICrystalAnnotation>(annotations.length);
+		for (IAnnotation anno : annotations) {
+			result.addAll(createAnnotations(anno, relative_type));
+		}
+		return Collections.unmodifiableList(result);
+	}
+	
+	/**
+	 * See {@link #createAnnotations(IAnnotationBinding)}.
+	 * @throws JavaModelException 
+	 */
+	protected List<ICrystalAnnotation> createAnnotations(IAnnotation anno, IType relative_type) throws JavaModelException {
+		if (isMulti(anno, relative_type)) {
+			for (IMemberValuePair pair : anno.getMemberValuePairs()) {
+				Object value;
+				if ("value".equals(pair.getMemberName()))
+					value = pair.getValue();
+				else if ("annos".equals(pair.getMemberName()))
+					value = pair.getValue();
+				else {
+					log.warning("Ignore extra attribute in multi-annotation " + anno.getElementName()
+					    + ": " + pair.toString());
+					continue;
+				}
+				if (value instanceof Object[]) {
+					Object[] array = (Object[]) value;
+					List<ICrystalAnnotation> result =
+					    new ArrayList<ICrystalAnnotation>(array.length);
+					for (Object o : array) {
+						result.add(createAnnotation((IAnnotationBinding) o));
+					}
+					return Collections.unmodifiableList(result);
+				}
+				else {
+					// Eclipse doesn't desugar single-element arrays with omitted braces as arrays
+					// https://bugs.eclipse.org/bugs/show_bug.cgi?id=223225
+					return Collections.singletonList(createAnnotation((IAnnotationBinding) value));
+				}
+			}
+			log.warning("Couldn't find annotation array in: " + anno);
+		}
+		return Collections.singletonList(createAnnotation(anno, relative_type));
+	}
+	
 	protected List<ICrystalAnnotation> createAnnotations(IAnnotationBinding binding) {
 		if (isMulti(binding)) {
 			for (IMemberValuePairBinding pair : binding.getAllMemberValuePairs()) {
@@ -222,6 +295,62 @@ public class AnnotationDatabase {
 		return crystalAnno;
 	}
 
+	
+	
+	/**
+	 * Find the type of the given annotation.
+	 * @param anno The annotation whose type you need.
+	 * @param relative_type The relative type that we want to use to look up this annotation's type. In the
+	 * Java model, you can only look up a type wrt another type.
+	 * @return The type of the given annotation.
+	 * @throws JavaModelException
+	 */
+	protected IType getTypeOfAnnotation(IAnnotation anno, IType relative_type) throws JavaModelException {
+		IJavaProject project = anno.getJavaProject();
+		Pair<String,String> name = getQualifiedAnnoType(anno, relative_type);
+		IType anno_type = project.findType(name.fst(), name.snd());
+		return anno_type;
+	}
+	
+	/**
+	 * Returns the fully qualified type name, as a package/type pair, for the given annotation relative
+	 * to the relative type.
+	 */
+	protected Pair<String,String> getQualifiedAnnoType(IAnnotation anno, IType relative_type) throws JavaModelException {
+		String[][] names = relative_type.resolveType(anno.getElementName());
+		
+		if( names.length > 1 ) throw new RuntimeException("Not yet implemented.");
+		
+		String pack = names[0][0];
+		String clazz = names[0][1];
+		return Pair.create(pack, clazz);
+	}
+	
+	/**
+	 * See {@link #createAnnotation(IAnnotationBinding)}.
+	 * @throws JavaModelException 
+	 */
+	protected ICrystalAnnotation createAnnotation(IAnnotation anno, IType relative_type) throws JavaModelException {
+		String qualName;
+		ICrystalAnnotation crystalAnno;
+
+		Pair<String,String> qual_name_ = getQualifiedAnnoType(anno, relative_type);
+		qualName = "".equals(qual_name_.fst()) ? qual_name_.snd() : qual_name_.fst() + "." + qual_name_.snd();
+
+		crystalAnno = createCrystalAnnotation(getTypeOfAnnotation(anno, relative_type));
+		crystalAnno.setName(qualName);
+
+		for (IMemberValuePair pair : anno.getMemberValuePairs()) {
+			boolean val_is_array = pair.getValue() instanceof Object[];
+			
+			crystalAnno.setObject(pair.getMemberName(), 
+					getAnnotationValue(pair.getValue(), val_is_array));
+		}
+		return crystalAnno;
+	}
+	
+
+
 	/**
 	 * Checks whether this annotation is marked as a multi annotation, as described by
 	 * MultiAnnotation
@@ -239,6 +368,23 @@ public class AnnotationDatabase {
 		return false;
 	}
 
+	/**
+	 * See {@link #isMulti(IAnnotationBinding)}.
+	 * @throws JavaModelException 
+	 */
+	public boolean isMulti(IAnnotation anno, IType relative_type) throws JavaModelException {
+		// First we have to go from this particular annotation, to its declaration...
+		IType anno_type = getTypeOfAnnotation(anno, relative_type);
+
+		for (IAnnotation meta : anno_type.getAnnotations()) {
+			Pair<String,String> qual_name_ = getQualifiedAnnoType(meta, relative_type);
+			String qual_name = "".equals(qual_name_.fst()) ? qual_name_.snd() : qual_name_.fst() + "." + qual_name_.snd();
+			if (qual_name.equals(MultiAnnotation.class.getName()))
+				return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * @param value
 	 * @return
@@ -264,6 +410,48 @@ public class AnnotationDatabase {
 		return rawValue;
 	}
 
+	/**
+	 * See {@link #createCrystalAnnotation(ITypeBinding)}.
+	 * @throws JavaModelException 
+	 */
+	public ICrystalAnnotation createCrystalAnnotation(IType typeOfAnnotation) throws JavaModelException {
+		Class<? extends ICrystalAnnotation> annoClass =
+		    qualNames.get(typeOfAnnotation.getFullyQualifiedName('.'));
+		
+		if (annoClass == null) {
+			IAnnotation[] metas = typeOfAnnotation.getAnnotations();
+			// might still be a meta annotation. Check for this.
+			for (int ndx = 0; ndx < metas.length && annoClass == null; ndx++) {
+				IAnnotation meta = metas[ndx];
+				
+				Pair<String,String> meta_name = getQualifiedAnnoType(meta, typeOfAnnotation);
+				String meta_name_ = meta_name.fst() + "." + meta_name.snd();
+				
+				annoClass = metaQualNames.get(meta_name_);
+			}
+		}
+
+		if (annoClass == null)
+			return new CrystalAnnotation();
+
+		try {
+			// this annotation is registered directly
+			return annoClass.newInstance();
+		}
+		catch (InstantiationException e) {
+			log.log(
+			    Level.WARNING,
+			    "Error instantiating custom annotation parser.  Using default representation.", e);
+			return new CrystalAnnotation();
+		}
+		catch (IllegalAccessException e) {
+			log.log(
+			    Level.WARNING,
+			    "Error accessing custom annotation parser.  Using default representation.", e);
+			return new CrystalAnnotation();
+		}
+	}
+	
 	public ICrystalAnnotation createCrystalAnnotation(ITypeBinding typeBinding) {
 		Class<? extends ICrystalAnnotation> annoClass =
 		    qualNames.get(typeBinding.getQualifiedName());
