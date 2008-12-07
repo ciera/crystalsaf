@@ -19,11 +19,42 @@
  */
 package edu.cmu.cs.crystal.internal;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.core.resources.*;
-import org.eclipse.jdt.core.*;
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IParent;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
+import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.ImportDeclaration;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclarationStatement;
+import org.eclipse.jdt.core.dom.VariableDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import edu.cmu.cs.crystal.util.Box;
 
@@ -294,29 +325,23 @@ public class WorkspaceUtilities {
 
 	/**
 	 * Given an IType from the model, this method will return the type binding
-	 * associated with that type. I hope this method will not exist for long (NEB),
-	 * but it's hear until I can figure out how to get the Java model to do
-	 * what I need with annotations. 
+	 * associated with that type.
 	 */
-	public static ITypeBinding getDeclNodeFromType(IType type) {
+	public static ITypeBinding getDeclNodeFromType(final IType type) {
 		ASTNode node = getASTNodeFromCompilationUnit(type.getCompilationUnit());
 		
 		// Now, find the corresponding type node 
-		final String qual_name = type.getFullyQualifiedName('.');
 		final Box<ITypeBinding> result = new Box<ITypeBinding>(null);
 		node.accept(new ASTVisitor() {
-
 			@Override
 			public void endVisit(TypeDeclaration node) {
-				String node_qual_name = node.resolveBinding().getQualifiedName();
-				if( node_qual_name.equals(qual_name) )
+				if( node.resolveBinding().getJavaElement().equals(type) )
 					result.setValue(node.resolveBinding());
 			}
-			
 		});
 		
 		if( result.getValue() == null )
-			throw new RuntimeException("I think the type you gave me was anonymus or somehow I missed it.");
+			throw new RuntimeException("This should not happen.");
 		
 		return result.getValue();
 	}
