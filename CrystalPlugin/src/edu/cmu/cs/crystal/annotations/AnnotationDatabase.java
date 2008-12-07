@@ -225,7 +225,7 @@ public class AnnotationDatabase {
 					List<ICrystalAnnotation> result =
 					    new ArrayList<ICrystalAnnotation>(array.length);
 					for (Object o : array) {
-						result.add(createAnnotation((IAnnotationBinding) o));
+						result.add(createAnnotation((IAnnotation) o, relative_type));
 					}
 					return Collections.unmodifiableList(result);
 				}
@@ -377,7 +377,7 @@ public class AnnotationDatabase {
 		IType anno_type = getTypeOfAnnotation(anno, relative_type);
 
 		for (IAnnotation meta : anno_type.getAnnotations()) {
-			Pair<String,String> qual_name_ = getQualifiedAnnoType(meta, relative_type);
+			Pair<String,String> qual_name_ = getQualifiedAnnoType(meta, anno_type);
 			String qual_name = "".equals(qual_name_.fst()) ? qual_name_.snd() : qual_name_.fst() + "." + qual_name_.snd();
 			if (qual_name.equals(MultiAnnotation.class.getName()))
 				return true;
