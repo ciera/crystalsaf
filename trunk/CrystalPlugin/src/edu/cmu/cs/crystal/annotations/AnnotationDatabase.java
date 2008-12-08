@@ -20,15 +20,18 @@ package edu.cmu.cs.crystal.annotations;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
@@ -59,6 +62,7 @@ import edu.cmu.cs.crystal.util.Pair;
  * running.
  * 
  * @author cchristo
+ * @author Nels Beckman
  * 
  */
 public class AnnotationDatabase {
@@ -337,19 +341,51 @@ public class AnnotationDatabase {
 		Pair<String,String> qual_name_ = getQualifiedAnnoType(anno, relative_type);
 		qualName = "".equals(qual_name_.fst()) ? qual_name_.snd() : qual_name_.fst() + "." + qual_name_.snd();
 
-		crystalAnno = createCrystalAnnotation(getTypeOfAnnotation(anno, relative_type));
+		IType anno_type = getTypeOfAnnotation(anno, relative_type);
+		crystalAnno = createCrystalAnnotation(anno_type);
 		crystalAnno.setName(qualName);
 
+		// These members have a value that is not default.
+		Set<String> has_non_default_value = new HashSet<String>();
+		
 		for (IMemberValuePair pair : anno.getMemberValuePairs()) {
 			boolean val_is_array = pair.getValue() instanceof Object[];
 			
+			has_non_default_value.add(pair.getMemberName());
 			crystalAnno.setObject(pair.getMemberName(), 
 					getAnnotationValue(pair.getValue(), val_is_array));
 		}
+		
+		// Now, for every default that we have not already seen a value for
+		// put the default value in.
+		for( IMemberValuePair pair : findAnnotationDefaults(anno_type) ) {
+			boolean val_is_array = pair.getValue() instanceof Object[];
+			
+			if( !has_non_default_value.contains(pair.getMemberName()) ) {
+				crystalAnno.setObject(pair.getMemberName(), 
+						getAnnotationValue(pair.getValue(), val_is_array));
+			}
+		}
+		
 		return crystalAnno;
 	}
 	
-
+	/**
+	 * Returns the default annotation values for the given annotation. 
+	 * @throws JavaModelException 
+	 */
+	private List<IMemberValuePair> findAnnotationDefaults(IType anno_type) throws JavaModelException {
+		IMethod[] properties = anno_type.getMethods();
+		List<IMemberValuePair> result = new ArrayList<IMemberValuePair>();
+		
+		for( IMethod property : properties ) {
+			IMemberValuePair default_val_ = property.getDefaultValue();
+			if( default_val_ != null )
+				result.add(default_val_);
+		}
+		
+		return result;
+	}
 
 	/**
 	 * Checks whether this annotation is marked as a multi annotation, as described by
