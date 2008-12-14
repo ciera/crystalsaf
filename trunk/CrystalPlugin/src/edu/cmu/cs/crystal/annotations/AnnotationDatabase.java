@@ -29,6 +29,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IInitializer;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
@@ -313,6 +317,14 @@ public class AnnotationDatabase {
 		IJavaProject project = anno.getJavaProject();
 		Pair<String,String> name = getQualifiedAnnoType(anno, relative_type);
 		IType anno_type = project.findType(name.fst(), name.snd());
+		
+		IField[] anno_fields = anno_type.getFields();
+		IInitializer[] inits = anno_type.getInitializers();
+		
+		IType lm = (IType)anno_type.getPrimaryElement();
+		IField[] fields = lm.getFields(); // Here's how you do it. I don't think you need the 'primary element.'
+		IMethod[] methods = lm.getMethods();
+		IMemberValuePair val = methods[0].getDefaultValue();
 		return anno_type;
 	}
 	
