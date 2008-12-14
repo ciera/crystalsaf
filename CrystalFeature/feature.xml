@@ -2,7 +2,8 @@
 <feature
       id="edu.cmu.cs.crystal.feature"
       label="Crystal"
-      version="3.3.5">
+      version="3.3.6"
+      provider-name="Carnegie Mellon University">
 
    <description url="http://code.google.com/p/crystalsaf/">
       Crystal is a framework for facilitating static Java source code
@@ -33,6 +34,12 @@ License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <update label="Crystal Update Site" url="http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/"/>
    </url>
 
+   <includes
+         id="PlaidAnnotations"
+         version="1.0.1"
+         name="PLAID Annotations"
+         search-location="self"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -42,12 +49,13 @@ License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.junit4"/>
+      <import feature="PlaidAnnotations" version="1.0.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="edu.cmu.cs.crystal"
          download-size="0"
          install-size="0"
-         version="3.3.4"/>
+         version="0.0.0"/>
 
 </feature>
