@@ -4,9 +4,9 @@
       The update site for the Crystal Static Analysis Framework.
    </description>
    <feature url="features/edu.cmu.cs.crystal.feature_3.3.6.jar" id="edu.cmu.cs.crystal.feature" version="3.3.6">
-      <category name="Crystal Core (required)"/>
+      <category name="Crystal Core"/>
    </feature>
-   <category-def name="Crystal Core (required)" label="Core">
+   <category-def name="Crystal Core" label="Crystal Core">
       <description>
          Crystal core component.
       </description>
