@@ -7,7 +7,7 @@ The easiest way to install Crystal is to update your existing Eclipse installati
 
 [http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/]
 
-The Crystal plugin also requires the Plaid Annotations plugin, available at the following update site:
+The Crystal plugin also *requires* the Plaid Annotations plugin, available at the following update site:
 
 [http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/] 
 
