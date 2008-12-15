@@ -31,6 +31,7 @@ License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
    <url>
       <update label="Crystal Update Site" url="http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/"/>
+      <discovery label="PLAID Annotations Site" url="http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/"/>
    </url>
 
    <requires>

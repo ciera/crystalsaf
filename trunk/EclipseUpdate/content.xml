@@ -3,7 +3,7 @@
 <repository name='Crystal Static Analysis Framework' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1229301197510'/>
+    <property name='p2.timestamp' value='1229302021558'/>
   </properties>
   <references size='4'>
     <repository url='http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/' type='1' options='0'/>
