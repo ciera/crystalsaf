@@ -7,7 +7,9 @@ The easiest way to install Crystal is to update your existing Eclipse installati
 
 [http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/]
 
-Crystal provides a number of [CrystalAnnotations Java annotation classes].  You can download a Jar file will all of these annotations in it from the "Downloads" area.  
+The Crystal plugin also requires the Plaid Annotations plugin, available at the following update site:
+
+[http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/] 
 
 == Eclipse 3.4 ==
 
