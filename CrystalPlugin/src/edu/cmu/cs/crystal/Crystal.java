@@ -56,6 +56,7 @@ import edu.cmu.cs.crystal.util.Utilities;
  * @author David Dickey
  * @author Jonathan Aldrich
  * @author cchristo
+ * @author Nels E. Beckman
  */
 public class Crystal {
 	static private class AnnoRegister {
