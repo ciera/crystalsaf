@@ -28,6 +28,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -67,6 +68,8 @@ import edu.cmu.cs.crystal.util.Option;
  */
 @RunWith(Parameterized.class)
 public class AnnotatedTest {
+	
+	private static final Logger log = Logger.getLogger(AnnotatedTest.class.getName());
 
 	private static class TestType {
 		final boolean passingTest;
@@ -214,6 +217,7 @@ public class AnnotatedTest {
 			throw new RuntimeException("scanForCompilationUnits() returned null. You may have chosen a workspace that doesn't exist.");
 		
 		// Not all compilation units are tests...
+		int cur = 0;
 		for (ICompilationUnit icu : allCompUnits) {
 			CompilationUnit cu =
 			    (CompilationUnit) WorkspaceUtilities.getASTNodeFromCompilationUnit(icu);
@@ -222,7 +226,7 @@ public class AnnotatedTest {
 			if (tt_.isSome()) {
 				// These two array elements correspond to the two parameters
 				// accepted by AnnotatedTest's constructor.
-				result.add(new Object[] { icu, tt_.unwrap() });
+				result.add(new Object[] { icu, tt_.unwrap(), cur++ });
 			}
 		}
 
@@ -231,10 +235,12 @@ public class AnnotatedTest {
 
 	private final ICompilationUnit icu;
 	private final TestType test;
+	private final int testIndex;
 
-	public AnnotatedTest(ICompilationUnit icu, TestType test) {
+	public AnnotatedTest(ICompilationUnit icu, TestType test, Integer index) {
 		this.icu = icu;
 		this.test = test;
+		this.testIndex = index != null ? index.intValue() : -1;
 	}
 
 	private String fileName() {
@@ -283,6 +289,8 @@ public class AnnotatedTest {
 
 		// Run analysis
 		Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
+		if(testIndex >= 0)
+			log.info("[" + testIndex + "] is next");
 		crystal.runAnalyses(run_command, null);
 
 		// assert success/failure
