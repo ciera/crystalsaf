@@ -395,7 +395,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 				LE fls = this.falseResult;
 				if(other.falseResult != null)
 					fls = (fls == null) ? other.falseResult : fls.join(other.falseResult, null);
-				return new IncomingResult<LE>(normalResult, falseResult, trueResult);
+				return new IncomingResult<LE>(nrm, fls, tru);
 			}
 			throw new IllegalStateException("Internal results should never be joined with results of type: " + otherResult.getClass());
 		}
