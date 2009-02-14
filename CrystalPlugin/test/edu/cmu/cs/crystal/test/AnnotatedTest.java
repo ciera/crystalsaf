@@ -33,12 +33,18 @@ import java.util.logging.Logger;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
+import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
+import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -187,6 +193,36 @@ public class AnnotatedTest {
 				}
 
 				return true;
+			}
+
+			@Override
+			public boolean visit(AnnotationTypeDeclaration node) {
+				visitAnnotations(node);
+				// visit only top-level types
+				return false;
+			}
+
+			@Override
+			public boolean visit(EnumDeclaration node) {
+				visitAnnotations(node);
+				// visit only top-level types
+				return false;
+			}
+
+			@Override
+			public boolean visit(TypeDeclaration node) {
+				visitAnnotations(node);
+				// visit only top-level types
+				return false;
+			}
+
+			public void visitAnnotations(AbstractTypeDeclaration node) {
+				// manually visit annotations
+				for(IExtendedModifier m : (List<IExtendedModifier>) node.modifiers()) {
+					if(m instanceof Annotation) {
+						((Annotation) m).accept(this);
+					}
+				}
 			}
 		};
 
