@@ -19,20 +19,8 @@
  */
 package edu.cmu.cs.crystal;
 
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-
-import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
-import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
-import edu.cmu.cs.crystal.util.Option;
 
 /**
  * Carries out an analysis on each CompilationUnit.
@@ -71,21 +59,14 @@ public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysi
 		analyzeCompilationUnit(rootNode);
 	}
 
-	
 	public void afterAllCompilationUnits() {
 		// default does nothing
 	}
 
-	
-	
 	public void beforeAllCompilationUnits() {
 		// default does nothing
 	}
 
-	public Map<String, Class<? extends CrystalAnnotation>> getAnnotationClasses() {
-		return null;
-	}
-	
 	/**
 	 * Invoked once for each compilation unit.
 	 */
