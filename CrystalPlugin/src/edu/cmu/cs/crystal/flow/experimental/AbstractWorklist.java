@@ -19,12 +19,14 @@
  */
 package edu.cmu.cs.crystal.flow.experimental;
 
+import java.util.concurrent.CancellationException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -43,28 +45,18 @@ public abstract class AbstractWorklist<LE extends LatticeElement<LE>> extends Wo
 	private static final Logger log = Logger.getLogger(AbstractWorklist.class.getName());
 	
 	private final MethodDeclaration method;
+	private final IProgressMonitor monitor;
 	private int lastLine = -1;
 	
 	public AbstractWorklist(MethodDeclaration method) {
 		this.method = method;
+		this.monitor = null;
 	}
 	
-	/*
-	private void printBreakpoints() {
-		IBreakpointManager bm = DebugPlugin.getDefault().getBreakpointManager();
-		try {
-			for(IBreakpoint bp : bm.getBreakpoints()) {
-				IMarker m = bp.getMarker();
-				System.out.println("Marker " + m + 
-						" line " + m.getAttribute(IMarker.LINE_NUMBER) + 
-						" char " + m.getAttribute(IMarker.CHAR_START) + 
-						"-" + m.getAttribute(IMarker.CHAR_END) );
-			}
-		} 
-		catch (CoreException e) {
-			e.printStackTrace();
-		}
-	} */
+	public AbstractWorklist(MethodDeclaration method, IProgressMonitor monitor) {
+		this.method = method;
+		this.monitor = monitor;
+	}
 	
 	@Override
 	protected IControlFlowGraph getControlFlowGraph() {
@@ -118,6 +110,17 @@ public abstract class AbstractWorklist<LE extends LatticeElement<LE>> extends Wo
 			log.log(Level.WARNING, "Exception checking breakpoints for node " + node, e);
 		}
 		return false;
+	}
+	
+	/**
+	 * Call this method to check if the progress monitor was canceled.
+	 * This method throws an exception if the monitor was canceled and
+	 * returns normally otherwise.
+	 * @throws CancellationException If progress monitor was canceled.
+	 */
+	protected final void checkCancel() {
+		if(monitor != null && monitor.isCanceled())
+			throw new CancellationException("Crystal flow analysis was canceled");
 	}
 
 }

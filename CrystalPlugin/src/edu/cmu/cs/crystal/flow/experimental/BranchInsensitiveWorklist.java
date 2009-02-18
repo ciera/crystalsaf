@@ -19,6 +19,9 @@
  */
 package edu.cmu.cs.crystal.flow.experimental;
 
+import java.util.concurrent.CancellationException;
+
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
@@ -53,6 +56,19 @@ public class BranchInsensitiveWorklist<LE extends LatticeElement<LE>> extends Ab
 		this.transferFunction = def;
 	}
 
+	/**
+	 * Creates a worklist instance for the given method and transfer function.
+	 * @param method
+	 * @param monitor Monitor that will be checked for cancellation
+	 * @param def
+	 */
+	public BranchInsensitiveWorklist(MethodDeclaration method, 
+			IProgressMonitor monitor,
+			ITransferFunction<LE> def) {
+		super(method);
+		this.transferFunction = def;
+	}
+
 	@Override
 	protected AnalysisDirection getAnalysisDirection() {
 		return transferFunction.getAnalysisDirection();
@@ -65,7 +81,10 @@ public class BranchInsensitiveWorklist<LE extends LatticeElement<LE>> extends Ab
 
 	@Override
 	protected IResult<LE> transferNode(ICFGNode<?> cfgNode, LE incoming,
-			ILabel transferLabel) {
+			ILabel transferLabel) throws CancellationException {
+		// are we canceled?
+		checkCancel();
+
 		final ASTNode astNode = cfgNode.getASTNode();
 		if(astNode == null) {
 			// dummy node

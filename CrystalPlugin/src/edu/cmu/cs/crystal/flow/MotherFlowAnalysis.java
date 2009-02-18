@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
@@ -34,6 +35,7 @@ import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.flow.experimental.AnalysisResult;
 import edu.cmu.cs.crystal.flow.experimental.WorklistFactory;
 import edu.cmu.cs.crystal.flow.experimental.WorklistTemplate;
+import edu.cmu.cs.crystal.util.Option;
 import edu.cmu.cs.crystal.util.Utilities;
 
 /**
@@ -72,7 +74,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 */
 	private Map<ASTNode, Set<ICFGNode<?>>> nodeMap = new HashMap<ASTNode, Set<ICFGNode<?>>>();
 
-	private WorklistFactory factory = new WorklistFactory();
+	private final WorklistFactory factory;
 
 	private ICFGNode<?> cfgStartNode;
 
@@ -82,6 +84,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * Initializes a fresh flow analysis object.
 	 */
 	public MotherFlowAnalysis() {
+		this.factory = new WorklistFactory();
 	}
 	
 	/**
@@ -90,6 +93,20 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 */
 	@Deprecated
 	public MotherFlowAnalysis(Crystal crystal) {
+		this();
+	}
+	
+	/**
+	 * Use the given progress monitor to cancel subsequent flow analysis runs.
+	 * Previously computed results may still be available.
+	 * <i>If</i> a monitor is set then subsequent accesses to analysis results 
+	 * may through a {@link java.util.concurrent.CancellationException} which, 
+	 * if not caught, will abort the current overall Crystal analysis job.
+	 * @param monitor Monitor to listen for cancellation or {@link Option#none()}
+	 * if worklist runs should not be canceled.
+	 */
+	public void setMonitor(Option<IProgressMonitor> monitor) {
+		this.factory.setMonitor(monitor.isNone() ? null : monitor.unwrap());
 	}
 	
 	/**

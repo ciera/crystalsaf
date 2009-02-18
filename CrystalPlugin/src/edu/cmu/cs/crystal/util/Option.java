@@ -49,6 +49,13 @@ public abstract class Option<T> {
 	    };
 	}
 	
+	public static <T> Option<T> wrap(final T t) {
+		if(t == null)
+			return none();
+		else
+			return some(t);
+	}
+	
 	public abstract T unwrap();
 	
 	public abstract boolean isSome();

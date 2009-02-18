@@ -38,7 +38,6 @@ import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.Lattice;
 import edu.cmu.cs.crystal.flow.LatticeElement;
 
@@ -191,7 +190,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 			}
 			catch(RuntimeException e) {
 				// for debugging purposes, catch and rethrow exceptions to print out source AST node where it happened
-				log.log(Level.SEVERE, "Runtime exception processing node: " + fromNode + " with code " + fromNode.getASTNode(), e);
+				log.log(Level.WARNING, "Runtime exception processing node: " + fromNode + " with code " + fromNode.getASTNode(), e);
 				throw e;
 			}
 		}

@@ -24,7 +24,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.concurrent.CancellationException;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -66,6 +68,19 @@ public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
 		this.transferFunction = transfer;
 	}
 
+	/**
+	 * Creates a worklist instance for the given method and transfer function.
+	 * @param method
+	 * @param monitor Progress monitor that will be checked for cancellation.
+	 * @param transfer
+	 */
+	public BranchSensitiveWorklist(MethodDeclaration method,
+			IProgressMonitor monitor,
+			IBranchSensitiveTransferFunction<LE> transfer) {
+		super(method, monitor);
+		this.transferFunction = transfer;
+	}
+
 	/* (non-Javadoc)
 	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#getAnalysisDirection()
 	 */
@@ -87,7 +102,10 @@ public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
 	 */
 	@Override
 	protected IResult<LE> transferNode(ICFGNode<?> cfgNode, LE incoming,
-			ILabel transferLabel) {
+			ILabel transferLabel) throws CancellationException {
+		// are we canceled?
+		checkCancel(); // FIXME hook up cancel support all the way (FlowAnalysis, branch-insensitive)
+		
 		final ASTNode astNode = cfgNode.getASTNode();
 		if(astNode == null) {
 			// dummy node

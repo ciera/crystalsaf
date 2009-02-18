@@ -20,9 +20,7 @@
 package edu.cmu.cs.crystal.internal;
 
 import java.util.List;
-import java.util.Set;
-
-import org.eclipse.jdt.core.ICompilationUnit;
+import java.util.concurrent.CancellationException;
 
 /**
  * A Crystal job is an abstraction of an analysis or analyses that we want to
@@ -34,7 +32,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
  */
 public interface ICrystalJob {
 
-	public void runJobs();
+	public void runJobs() throws CancellationException;
 	
 	public List<ISingleCrystalJob> analysisJobs();
 }

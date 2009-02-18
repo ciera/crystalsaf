@@ -21,11 +21,11 @@ package edu.cmu.cs.crystal.flow;
 
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.Crystal;
 /**
- * This class implements a standard flow analysis.  Implement {@link ITransferFunction}
- * to define a specific analysis.  For branch-sensitivity,
- * use {@link BranchSensitiveFlowAnalysis}.  
+ * This class implements a standard flow analysis.  
+ * Implement {@link ITransferFunction} or {@link IBranchSensitiveTransferFunction}
+ * and pass an instance to the respective constructor to create a specific
+ * flow analysis.
  * 
  * @author Kevin Bierhoff
  *
