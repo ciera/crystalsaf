@@ -38,7 +38,6 @@ import org.eclipse.jdt.core.dom.IBinding;
 
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.AnnotationFinder;
-import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 import edu.cmu.cs.crystal.internal.ICrystalJob;
 import edu.cmu.cs.crystal.internal.ISingleCrystalJob;
@@ -96,8 +95,6 @@ public class Crystal {
 	public static final String MARKER_ATTR_ANALYSIS = "analysis";
 
 	private static final Logger logger = Logger.getLogger(Crystal.class.getName());
-
-	private static Logger regressionLogger = Logger.getLogger(REGRESSION_LOGGER);
 
 	// TODO: Make these data structures are immutable (ie unchangable)
 	/**
@@ -340,18 +337,6 @@ public class Crystal {
 				// register annotations with database
 				registerAnnotationsWithDatabase(annoDB);
 
-				// register any special classes for the annotation database
-				// TODO remove getAnnotationClasses() from ICrystalAnalysis
-				for (ICrystalAnalysis crystalAnalysis : analyses_to_use) {
-					Map<String, Class<? extends CrystalAnnotation>> map =
-					    crystalAnalysis.getAnnotationClasses();
-					if (map == null)
-						continue;
-					for (Map.Entry<String, Class<? extends CrystalAnnotation>> entry : map
-					    .entrySet())
-						annoDB.register(entry.getKey(), entry.getValue(), false);
-				}
-
 				// run the annotation finder on everything
 				if (monitor != null)
 					monitor.subTask("Scanning annotations of analyzed compilation units");
@@ -425,18 +410,6 @@ public class Crystal {
 				return Option.some(analysis);
 		}
 		return Option.none();
-	}
-
-	/**
-	 * Gets the root ASTNode for a compilation unit, with bindings on.
-	 * 
-	 * @param compUnit
-	 * @return the root ASTNode for a compilation unit, with bindings on.
-	 * @deprecated Use {@link WorkspaceUtilities#getASTNodeFromCompilationUnit(ICompilationUnit)}
-	 *             instead
-	 */
-	private static ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
-		return WorkspaceUtilities.getASTNodeFromCompilationUnit(compUnit);
 	}
 
 	public void registerAnnotation(String annotationName,

@@ -20,13 +20,11 @@
 package edu.cmu.cs.crystal;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 
 /**
@@ -79,17 +77,10 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 		afterAllMethods(compUnit, rootNode);
 	}
 
-	public Map<String, Class<? extends CrystalAnnotation>> getAnnotationClasses() {
-		return null;
-	}
-
-	
 	public void afterAllCompilationUnits() {
 		// default does nothing
 	}
 
-	
-	
 	public void beforeAllCompilationUnits() {
 		// default does nothing
 	}

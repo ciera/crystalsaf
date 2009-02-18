@@ -53,14 +53,6 @@ public interface ICrystalAnalysis {
 	public String getName();
 	
 	/**
-	 * Get any annotations to register
-	 * @return A map of fully qualified names for annotations to the class which should
-	 * be instantiated when we find this annotation.
-	 * @deprecated Use CrystalAnnotation extension point instead.
-	 */
-	public Map<String, Class<? extends CrystalAnnotation>> getAnnotationClasses();
-
-	/**
 	 * Inform the analysis that all compilation units have been analyzed.
 	 */
 	public void afterAllCompilationUnits();

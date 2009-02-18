@@ -20,7 +20,6 @@
 package edu.cmu.cs.crystal.tac.eclipse;
 
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +47,6 @@ import org.junit.Assert;
 import edu.cmu.cs.crystal.IAnalysisInput;
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.ICrystalAnalysis;
-import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 import edu.cmu.cs.crystal.tac.SourceVariable;
 import edu.cmu.cs.crystal.tac.Variable;
@@ -318,10 +316,6 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 	 */
 	public String getName() {
 		return getClass().getName();
-	}
-
-	public Map<String, Class<? extends CrystalAnnotation>> getAnnotationClasses() {
-		return null;
 	}
 
 	public void afterAllCompilationUnits() {}
