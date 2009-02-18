@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CancellationException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -196,7 +197,17 @@ public class Crystal {
 	 * job parameter, but reserves the right to run many jobs in parallel.
 	 */
 	private void runCrystalJob(ICrystalJob job) {
-		job.runJobs();
+		try {
+			job.runJobs();
+		}
+		catch(CancellationException e) {
+			if(logger.isLoggable(Level.FINE)) {
+				logger.log(Level.FINE, "Ongoing Crystal analysis job canceled", e);
+			}
+			else if(logger.isLoggable(Level.INFO)) {
+				logger.info("Ongoing Crystal analysis job canceled");
+			}
+		}
 	}
 
 	/**
@@ -261,12 +272,18 @@ public class Crystal {
 
 						for (ICrystalAnalysis analysis : analyses_to_use) {
 							IAnalysisInput input = new IAnalysisInput() {
+								private Option<IProgressMonitor> mon = 
+									Option.wrap(monitor);
 								public AnnotationDatabase getAnnoDB() {
 									return annoDB;
 								}
 
 								public Option<CompilationUnitTACs> getComUnitTACs() {
 									return Option.some(compUnitTacs);
+								}
+								
+								public Option<IProgressMonitor> getProgressMonitor() {
+									return mon;
 								}
 							};
 
@@ -352,10 +369,15 @@ public class Crystal {
 
 					// Dummy analysis input
 					IAnalysisInput input = new IAnalysisInput() {
-						AnnotationDatabase annoDB = new AnnotationDatabase();
+						private AnnotationDatabase annoDB = new AnnotationDatabase();
+						private Option<IProgressMonitor> mon = Option.wrap(monitor);
 
 						public AnnotationDatabase getAnnoDB() {
 							return annoDB;
+						}
+						
+						public Option<IProgressMonitor> getProgressMonitor() {
+							return mon;
 						}
 
 						public Option<CompilationUnitTACs> getComUnitTACs() {

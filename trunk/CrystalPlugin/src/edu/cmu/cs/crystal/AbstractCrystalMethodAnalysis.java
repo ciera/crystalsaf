@@ -19,18 +19,15 @@
  */
 package edu.cmu.cs.crystal;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
-import edu.cmu.cs.crystal.util.Option;
 
 /**
  * Responsible for carrying out the analysis logic on the methods of the target
@@ -75,6 +72,7 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 		
 		List<MethodDeclaration> methods = WorkspaceUtilities.scanForMethodDeclarationsFromAST(rootNode);
 		for (MethodDeclaration md : methods) {
+			// TODO automatically poll for cancel here?  call afterAllMethods or not?
 			analyzeMethod(md);
 		}
 		

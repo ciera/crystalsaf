@@ -41,7 +41,6 @@ import edu.cmu.cs.crystal.cfg.eclipse.EclipseCFG;
 /**
  * This class implements a branch-sensitive flow analysis.  Implement 
  * {@link IBranchSensitiveTransferFunction} to define a specific analysis.  
- * For branch-sensitivity, use {@link BranchSensitiveFlowAnalysis}.
  * 
  * @author Kevin Bierhoff
  *
@@ -53,7 +52,6 @@ import edu.cmu.cs.crystal.cfg.eclipse.EclipseCFG;
 public class BranchSensitiveFlowAnalysis<LE extends LatticeElement<LE>> extends MotherFlowAnalysis<LE> {
 	
 	protected IBranchSensitiveTransferFunction<LE> transferFunction;
-	private WeakHashMap<ICFGNode, List<ILabel>> labelMap = new WeakHashMap<ICFGNode, List<ILabel>>();
 
 	public BranchSensitiveFlowAnalysis(Crystal crystal, IBranchSensitiveTransferFunction<LE> transferFunction) {
 		super(crystal);

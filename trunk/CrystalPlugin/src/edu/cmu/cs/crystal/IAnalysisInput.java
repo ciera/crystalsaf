@@ -19,6 +19,8 @@
  */
 package edu.cmu.cs.crystal;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.util.Option;
@@ -41,4 +43,12 @@ public interface IAnalysisInput {
 	 * as input, return it.
 	 */
 	public Option<CompilationUnitTACs> getComUnitTACs();
+
+	/**
+	 * A progress monitor for canceling the ongoing
+	 * analysis, if available.
+	 * @return A progress monitor for canceling the ongoing
+	 * analysis, or {@link Option#none()} if it cannot be canceled.
+	 */
+	public Option<IProgressMonitor> getProgressMonitor();
 }

@@ -19,11 +19,13 @@
  */
 package edu.cmu.cs.crystal.flow.experimental;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
 import edu.cmu.cs.crystal.flow.LatticeElement;
+import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
 
 /**
  * Factory for worklist objects to be used by flow analysis implementations.
@@ -34,6 +36,26 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  */
 public class WorklistFactory {
 	
+	private IProgressMonitor monitor;
+
+	/**
+	 * Default worklist factory.
+	 * @see #setMonitor(IProgressMonitor) to use a cancellation monitor.
+	 */
+	public WorklistFactory() {
+		this.monitor = null;
+	}
+	
+	/**
+	 * Use the given progress monitor to listen to cancellation in
+	 * subsequently created worklist instances.
+	 * @param monitor Monitor to listen to cancellation or <code>null</code>
+	 * if worklists should not be cancelled.
+	 */
+	public void setMonitor(IProgressMonitor monitor) {
+		this.monitor = monitor;
+	}
+
 	/**
 	 * Creates a worklist object that performs a conventional flow analysis on the given method
 	 * with the given transfer function.
@@ -47,7 +69,7 @@ public class WorklistFactory {
 	WorklistTemplate<LE> createBranchInsensitiveWorklist(
 			MethodDeclaration method,
 			ITransferFunction<LE> transferFunction) {
-		return new BranchInsensitiveWorklist<LE>(method, transferFunction);
+		return new BranchInsensitiveWorklist<LE>(method, monitor, transferFunction);
 	}
 
 	/**
@@ -64,7 +86,7 @@ public class WorklistFactory {
 	WorklistTemplate<LE> createBranchSensitiveWorklist(
 			MethodDeclaration method,
 			IBranchSensitiveTransferFunction<LE> transferFunction) {
-		return new BranchSensitiveWorklist<LE>(method, transferFunction);
+		return new BranchSensitiveWorklist<LE>(method, monitor, transferFunction);
 	}
 
 }

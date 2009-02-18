@@ -19,8 +19,6 @@
  */
 package edu.cmu.cs.crystal.flow;
 
-import edu.cmu.cs.crystal.flow.examples.*;
-
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
