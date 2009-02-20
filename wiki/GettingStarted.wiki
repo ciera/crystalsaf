@@ -1,0 +1,81 @@
+#summary Creating your first Crystal analysis.
+#labels Phase-Support,Featured
+
+= Introduction =
+
+This page gives a brief tutorial on how to create a simple Java source code analysis with Crystal.  There are basically three steps involved:
+
+  * Install Crystal into your Eclipse
+  * Create a Eclipse plugin (must depend on Crystal plugin)
+  * Create analysis class (must implement ICrystalAnalysis)
+  * Register analysis with Crystal (using extension point edu.cmu.cs.crystal.CrystalAnalysis)
+  * Running your analysis
+
+Crystal will instantiate an instance of your analysis class and call it for every compilation unit to be analyzed.
+
+= Install Crystal =
+
+Follow the Installation instructions.  We recommend you use the Crystal update site to install Crystal into your Eclipse.
+
+= Create Eclipse plug-in =
+
+Create a new "Plug-in Project".  This can for example be done with File | New | Project... and selecting "Plug-in Project" under "Plug-in Development".  (If "Plug-in Project" is not available in the list then you do not have Eclipse's plug-in development support installed.  You can either try to manually install those plug-ins into your Eclipse or download the standard Eclipse PDE distribution from http://www.eclipse.org/download/.)  For the sake of argument let's assume you give the project the name 'MyAnalysisPlugin'.  You should be able to create the plug-in using the default options in the New Plug-in Project wizard.
+
+When the new project is created, open its "plugin.xml" file (which should be in the project directory).  Go to "Dependencies" (2nd card) and add "edu.cmu.cs.crystal" and "org.eclipse.jdt.core" (the latter will let you use Eclipse's Java AST).  This will add the Crystal and JDT plug-ins to your plug-in's classpath.  You may add any other plug-ins you need here as well, but you will most certainly need Crystal and the JDT.
+
+= Create Analysis Class =
+
+Crystal's entry point into your analysis is a class implementing the 'ICrystalAnalysis' interface.  In 'MyAnalysisPlugin', create such a class, for example with the name 'MyAnalysis'.  You have three choices:
+
+  * Subclass 'AbstractCompilationUnitAnalysis' if you would like to analyze entire compilation units (aka .java files) at once.  You only have to implement the method 'analyzeCompilationUnit()' in this case, which will be called by the base class for each compilation unit to be analyzed.
+  * Subclass 'AbstractCrystalMethodAnalysis' if you want to analyze each method separately.  You only have to implement 'analyzeMethod()' in this case, which will be called by the base class for each method to be analyzed.
+  * Implement 'ICrystalAnalysis' directly (discouraged, also for analyzing entire compilation units).
+
+We recommend you subclass one of the two abstract base classes mentioned above.  This will save you from implementing all methods of 'ICrystalAnalysis'.  Whatever your analysis needs to do for analyzing a compilation unit or method should go into the 'analyzeCompilationUnit()' or ''analyzeMethod() method in 'MyAnalysis' (or runAnalysis() in case you implement ICrystalAnalysis directly).
+
+Most commonly, your analysis will want to visit the AST that is included in the analyze... call.  You can do so by subclassing 'org.eclipse.jdt.core.dom.ASTVisitor' with a class 'MyVisitor' and overriding the 'visit()' or 'endVisit()' methods for AST nodes your analysis cares about, for example, all method or constructor calls.  You can then have the AST that Crystal passed to your analysis accept your visitor.  For example, the following code lets a new instance of your visitor, 'MyVisitor', run over every compilation unit:
+
+{{{
+@Override
+public void analyzeCompilationUnit(CompilationUnit d) {
+    d.accept(new MyVisitor());
+}
+}}}
+
+Notice that both analysis classes define a number of additional methods that can be helpful at times, such as 'before/afterAllCompilationUnits()', which are called at the beginning and end of each analysis run, respectively.  The base classes also populate several fields:
+
+  * 'analysisInput' contains more information about the compilation units being analyzed and in particular gives access to Crystal's 3-address code representation of Java methods.
+  * 'reporter' lets you create warnings in Eclipse's problems view.  It also gives access to two consoles, whose use is discouraged.  For simple analyses, however, these consoles can be used for debug output and for communicating with the user, respectively.
+
+= Register Analysis with Crystal =
+
+Every Crystal analysis you write (i.e., every subclass of ICrystalAnalysis) *must* be registered with Crystal so that Crystal can find and run your analysis.  To register your analysis, open 'MyAnalysisPlugin''s "plugin.xml" file.  Go to "Extensions" and add an extension of type 'edu.cmu.cs.crystal.CrystalAnalysis'.  Create a "analysis" node in this extension (right-click on the extension and choose New | analysis).  Select 'MyAnalysis' as the "class" on the right and give your analysis a sensible name.  Once you save your changes, your analysis is registered with Crystal.  
+
+If you look at the raw plugin.xml file you will see an entry like the following for your analysis:
+
+{{{
+   <extension
+         point="edu.cmu.cs.crystal.CrystalAnalysis">
+      <analysis
+            class="MyAnalysis"
+            name="My cool analysis">
+      </analysis>
+   </extension>
+}}}
+
+= Run Your Analysis =
+
+We are almost there: now we need to run Crystal with your analysis.  To this end, you will start a second Eclipse instance inside the one in which you are developing your analysis.  We call this the "child Eclipse".  Your analysis will automatically be loaded into the child Eclipse, and running Crystal in the child Eclipse will run your analysis.  It's that easy.  You can even run the child Eclipse in debug mode to debug your analysis.
+
+In order to run the child Eclipse, you will need a "run configuration".  Go to Run | Run Configurations..., select "Eclipse Application" and hit the icon for a "new" configuration near the top of the dialog to create a new run configuration.  You should be able to just use the default settings, so simply give your run configuration a name, such as 'MyAnalysisEclipse', and hit the "Run" button.  Notice that you will only have to create this run configuration once.  You will subsequently select the existing configuration from the list and hit the "Run" button.  This should work even if you create additional plug-ins with more Crystal analyses or register additional analyses.  
+
+You will also be able to start the same configuration in Debug mode, by simply selecting it from Run | Debug Configurations...  
+
+When running 'MyAnalysisEclipse', a second Eclipse window should open.  The first time you do so, its workspace will be empty.  The child Eclipse uses a separate workspace directory, and whatever projects and files you create in the child Eclipse will be there the next time you start 'MyAnalysisEclipse' (unless you change the child's workspace directory in the run configuration dialog or check the box that tells Eclipse to erase any existing workspace data when starting the child--usually you do not want to do either of these things!).
+
+Now, click on the Crystal menu in the child Eclipse.  Your analysis should be listed there, with a checkmark next to it.  That means all is well and your analysis is ready to go.  Now you can select some Java file, right-click it to bring up the pop-up menu for that file, and select Crystal | Run Analyses.  This will run all active Crystal analyses, including yours!  If your analysis creates warnings, they should show up in the problems view.  You did it!  Your analysis is ready to save the world.
+
+Some additional remarks:
+
+  * Notice that if your analysis uses the "user output", you need to manually open the "Crystal Console" view first.  You can do so with Windows | Show View | Other... | Crystal | Crystal Console.
+  * Crystal will output some amount of logging information in the "parent" Eclipse's console.  However, if your analysis throws exceptions, they will likely not be called and instead cause the child Eclipse to open a dialog informing you of an error.  Open the child's "Error Log" view (using Windows | Show View | Error Log) to see information about the exception that was thrown.
