@@ -23,6 +23,8 @@ Create a new "Plug-in Project".  This can for example be done with File | New | 
 
 When the new project is created, open its "plugin.xml" file (which should be in the project directory).  Go to "Dependencies" (2nd card) and add "edu.cmu.cs.crystal" and "org.eclipse.jdt.core" (the latter will let you use Eclipse's Java AST).  This will add the Crystal and JDT plug-ins to your plug-in's classpath.  You may add any other plug-ins you need here as well, but you will most certainly need Crystal and the JDT.
 
+Once you save, you will be able to see Javadoc and source code of all Crystal classes.  This may be useful for understanding in more detail what is going on.
+
 = Create Analysis Class =
 
 Crystal's entry point into your analysis is a class implementing the `ICrystalAnalysis` interface.  In `MyAnalysisPlugin`, create such a class, for example with the name `MyAnalysis`.  You have three choices:
