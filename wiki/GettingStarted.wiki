@@ -1,4 +1,4 @@
-#summary Creating your first Crystal analysis.
+#summary Your first Crystal analysis.
 #labels Phase-Support,Featured
 
 = Introduction =
@@ -9,7 +9,7 @@ This page gives a brief tutorial on how to create a simple Java source code anal
   * Create a Eclipse plugin (must depend on Crystal plugin)
   * Create analysis class (must implement `ICrystalAnalysis`)
   * Register analysis with Crystal (using extension point `edu.cmu.cs.crystal.CrystalAnalysis`)
-  * Running your analysis
+  * Run your analysis
 
 Crystal will instantiate an instance of your analysis class and call it for every compilation unit to be analyzed.
 
