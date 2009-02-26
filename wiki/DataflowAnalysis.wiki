@@ -1,0 +1,31 @@
+#summary Using Crystal's dataflow analysis
+
+= Introduction =
+
+Crystal comes with a [http://en.wikipedia.org/wiki/Dataflow_analysis dataflow analysis] implementation based on an efficient "worklist" algorithm.  It requires customization with analysis-specific lattice values and transfer functions.  This page explains how to customize and use the dataflow analysis implementation.  We talk about intra-procedural analyses here; however, people have successfully implemented inter-procedural analyses with Crystal as well.  This page will usually use the shorter term "flow analysis" instead of "dataflow analysis".  This page also assumes familiarity with flow analysis concepts such as forward vs. backwards analysis.
+
+Using Crystal's dataflow analysis involves the following steps:
+
+  * Create lattice value implementation class that implements `LatticeElement`.
+  * Create transfer function implementation class (multiple options)
+  * Instantiate and query flow analysis in your Crystal Analysis (see GettingStarted).
+
+An important thing to realize when writing a flow analysis is that the flow analysis is just a means to an end: a flow analysis *computes* some information about *every node* in a control flow graph.  We typically query this information _subsequently_ to find error conditions.
+
+= Lattice Value Implementation =
+
+Lattice values represent the information tracked by your flow analysis.  For instance, in a divide-by-zero analysis, a lattice _value_ would be a particular mapping from local variables to one of "zero", "non-zero" or "maybe-zero".  
+
+For your analysis, you create a class, say, `MyLE`, that *must* implement Crystal's `LatticeElement` interface.  (You can use an *enum* class that implements this interface if your lattice has a fixed number of constant elements.)  Instances of this class will represent individual lattice values, which your transfer function will typically instantiate.  
+
+Implementing `LatticeElement` will require implementing a number of methods, some of which correspond directly to lattice theory, and others are defined for implementation reasons:
+
+  * `atLeastAsPrecise` compares two of your lattice values and determines if the information in the receiver implies the information in the argument (i.e., if the receiver is at least as precise as the argument).
+
+  * `join` returns a new value (we recommend you instantiate a new instance of `MyLE`) that approximates the receiver and argument values.
+
+  * `copy` *must* perform a "deep copy" of the receiver: *copy and original referencing the same mutable state will lead to subtle bugs* when running the flow analysis.
+
+= Transfer Function Implementation =
+
+= Using Flow Analysis Driver =
