@@ -81,3 +81,9 @@ Some additional remarks:
 
   * Notice that if your analysis uses the "user output", you need to manually open the "Crystal Console" view first.  You can do so with Windows | Show View | Other... | Crystal | Crystal Console.
   * Crystal will output some amount of logging information in the "parent" Eclipse's console.  However, if your analysis throws exceptions, they will likely not be called and instead cause the child Eclipse to open a dialog informing you of an error.  Open the child's "Error Log" view (using Windows | Show View | Error Log) to see information about the exception that was thrown.
+
+= Further Reading =
+
+  * DataflowAnalysis
+  * ThreeAddressCode
+  * TestingYourAnalysis
