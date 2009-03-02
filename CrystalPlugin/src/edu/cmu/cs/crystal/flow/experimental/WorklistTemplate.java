@@ -42,8 +42,20 @@ import edu.cmu.cs.crystal.flow.Lattice;
 import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
+ * This class encapsulates a worklist algorithm for computing fixed points
+ * over flow graphs as a <i>Template Method</i> {@link #performAnalysis()}.  
+ * Subclasses in particular need to provide 
+ * <ul>
+ * <li>a flow graph,</li>
+ * <li>a analysis direction,</li>
+ * <li>a lattice, and</li> 
+ * <li>a way of transferring over flow graph nodes.</li>
+ * </ul>
+ * While branch sensitivity is achieved in specific implementations of the transfer method,
+ * the implementation keeps incoming analysis results from different branches separate.
+ * This allows precise treatment of short-circuiting Java operators and backwards analysis results.
+ * 
  * @author Kevin Bierhoff
- *
  */
 public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 	
@@ -51,8 +63,8 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 	
 	/**
      * Carries out the worklist algorithm to discover the results
-     * of the ASTNode argument.  This method implements the Template 
-     * Method pattern: It calls abstract methods defined in this class
+     * of the ASTNode argument.  This method implements the <i>Template 
+     * Method</i> pattern: It calls abstract methods defined in this class
      * at the appropriate moments.
      * 
      * @see #getAnalysisDirection()
@@ -170,8 +182,6 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 								LE beforeToLatticeCopy = beforeToResults.get(toLabel).copy();
 								LE resultLatticeCopy = checkNull(mergeIntoNode.copy());
 								// Store the join of the resultLattice and the beforeToLattice
-	//							beforeToResults.put(toLabel, 
-	//									resultLatticeCopy.join(beforeToLatticeCopy, fromNode.getASTNode()));
 								beforeToResults.put(toLabel,
 										beforeToLatticeCopy.join(resultLatticeCopy, toNode.getASTNode()));
 							}
