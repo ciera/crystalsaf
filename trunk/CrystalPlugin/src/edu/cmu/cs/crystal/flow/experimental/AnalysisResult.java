@@ -42,9 +42,9 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  */
 public class AnalysisResult<LE extends LatticeElement<LE>> {
 
-	private final Map<ASTNode, Set<ICFGNode<?>>> nodeMap;
-	private final Map<ICFGNode<?>, IResult<LE>> labeledResultsAfter;
-	private final Map<ICFGNode<?>, IResult<LE>> labeledResultsBefore;
+	private final Map<ASTNode, Set<ICFGNode>> nodeMap;
+	private final Map<ICFGNode, IResult<LE>> labeledResultsAfter;
+	private final Map<ICFGNode, IResult<LE>> labeledResultsBefore;
 	private final Lattice<LE> lattice;
 	
 	private final ICFGNode cfgStartNode;
@@ -59,33 +59,33 @@ public class AnalysisResult<LE extends LatticeElement<LE>> {
 	 * @param _lrb
 	 * @param _l
 	 */
-	public AnalysisResult(Map<ASTNode, Set<ICFGNode<?>>> _nm,
-				Map<ICFGNode<?>, IResult<LE>> _lra,
-				Map<ICFGNode<?>, IResult<LE>> _lrb,
+	public AnalysisResult(Map<ASTNode, Set<ICFGNode>> _nm,
+				Map<ICFGNode, IResult<LE>> _lra,
+				Map<ICFGNode, IResult<LE>> _lrb,
 				Lattice<LE> _l, ICFGNode _startNode, ICFGNode _endNode) {
 		nodeMap = 
 			java.util.Collections.unmodifiableMap(
-					new java.util.HashMap<ASTNode, Set<ICFGNode<?>>>(_nm));
+					new java.util.HashMap<ASTNode, Set<ICFGNode>>(_nm));
 		labeledResultsAfter = 
 			java.util.Collections.unmodifiableMap(
-					new java.util.HashMap<ICFGNode<?>, IResult<LE>>(_lra));
+					new java.util.HashMap<ICFGNode, IResult<LE>>(_lra));
 		labeledResultsBefore =
 			java.util.Collections.unmodifiableMap(
-					new java.util.HashMap<ICFGNode<?>, IResult<LE>>(_lrb));	
+					new java.util.HashMap<ICFGNode, IResult<LE>>(_lrb));	
 		lattice = _l;
 		cfgStartNode = _startNode;
 		cfgEndNode = _endNode;
 	}
 
-	public Map<ASTNode, Set<ICFGNode<?>>> getNodeMap() {
+	public Map<ASTNode, Set<ICFGNode>> getNodeMap() {
 		return nodeMap;
 	}
 
-	public Map<ICFGNode<?>, IResult<LE>> getLabeledResultsAfter() {
+	public Map<ICFGNode, IResult<LE>> getLabeledResultsAfter() {
 		return labeledResultsAfter;
 	}
 
-	public Map<ICFGNode<?>, IResult<LE>> getLabeledResultsBefore() {
+	public Map<ICFGNode, IResult<LE>> getLabeledResultsBefore() {
 		return labeledResultsBefore;
 	}
 
@@ -93,11 +93,11 @@ public class AnalysisResult<LE extends LatticeElement<LE>> {
 		return lattice;
 	}
 
-	public ICFGNode<?> getCfgStartNode() {
+	public ICFGNode getCfgStartNode() {
 		return this.cfgStartNode;
 	}
 
-	public ICFGNode<?> getCfgEndNode() {
+	public ICFGNode getCfgEndNode() {
 		return this.cfgEndNode;
 	}
 	

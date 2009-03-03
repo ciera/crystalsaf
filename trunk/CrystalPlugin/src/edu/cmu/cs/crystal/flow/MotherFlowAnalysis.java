@@ -60,8 +60,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * results are tossed and replaced with results for the method surrounding
 	 * that node.
 	 */	 
-	protected Map<ICFGNode<?>, IResult<LE>> labeledResultsBefore = new HashMap<ICFGNode<?>, IResult<LE>>();
-	protected Map<ICFGNode<?>, IResult<LE>> labeledResultsAfter = new HashMap<ICFGNode<?>, IResult<LE>>();
+	protected Map<ICFGNode, IResult<LE>> labeledResultsBefore = new HashMap<ICFGNode, IResult<LE>>();
+	protected Map<ICFGNode, IResult<LE>> labeledResultsAfter = new HashMap<ICFGNode, IResult<LE>>();
 	
 	/**
 	 * Information about the method that was analyzed last.  
@@ -72,13 +72,13 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	/**
 	 * Map to find CFGNodes corresponding to AST nodes.
 	 */
-	private Map<ASTNode, Set<ICFGNode<?>>> nodeMap = new HashMap<ASTNode, Set<ICFGNode<?>>>();
+	private Map<ASTNode, Set<ICFGNode>> nodeMap = new HashMap<ASTNode, Set<ICFGNode>>();
 
 	private final WorklistFactory factory;
 
-	private ICFGNode<?> cfgStartNode;
+	private ICFGNode cfgStartNode;
 
-	private ICFGNode<?> cfgEndNode;
+	private ICFGNode cfgEndNode;
 	
 	/**
 	 * Initializes a fresh flow analysis object.
@@ -138,7 +138,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
 
-		Set<ICFGNode<?>> cfgnodes = nodeMap.get(node);
+		Set<ICFGNode> cfgnodes = nodeMap.get(node);
     	
 		if(cfgnodes == null || cfgnodes.isEmpty()) {
     		if(log.isLoggable(Level.FINE))
@@ -149,8 +149,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		return getResultBefore(cfgnodes.iterator().next());
     	}
     	else {
-	    	HashMap<ICFGNode<?>, LE> results = new HashMap<ICFGNode<?>, LE>();
-	    	for(ICFGNode<?> n : cfgnodes) {
+	    	HashMap<ICFGNode, LE> results = new HashMap<ICFGNode, LE>();
+	    	for(ICFGNode n : cfgnodes) {
 	    		LE result = getResultBefore(n);
 	    		if(result != null)
 	    			results.put(n, result);
@@ -188,7 +188,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
 
-		Set<ICFGNode<?>> cfgnodes = nodeMap.get(node);
+		Set<ICFGNode> cfgnodes = nodeMap.get(node);
 
     	if(cfgnodes == null || cfgnodes.isEmpty()) {
     		if(log.isLoggable(Level.FINE))
@@ -199,8 +199,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		return getResultAfter(cfgnodes.iterator().next());
     	}
     	else {
-	    	HashMap<ICFGNode<?>, LE> results = new HashMap<ICFGNode<?>, LE>();
-	    	for(ICFGNode<?> n : cfgnodes) {
+	    	HashMap<ICFGNode, LE> results = new HashMap<ICFGNode, LE>();
+	    	for(ICFGNode n : cfgnodes) {
 	    		LE result = getResultAfter(n);
 	    		if(result != null)
 	    			results.put(n, result);
@@ -234,7 +234,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     				  "");
     }
 
-    protected LE mergeResults(HashMap<ICFGNode<?>, LE> results, ASTNode node) {
+    protected LE mergeResults(HashMap<ICFGNode, LE> results, ASTNode node) {
     	if(results.isEmpty())
     		return null; // shortcut
     	LE result = null;
@@ -261,7 +261,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
 
-		Set<ICFGNode<?>> cfgnodes = nodeMap.get(node);
+		Set<ICFGNode> cfgnodes = nodeMap.get(node);
 
     	if(cfgnodes == null || cfgnodes.isEmpty()) {
     		if(log.isLoggable(Level.FINE))
@@ -274,8 +274,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		result = getLabeledResultBefore(cfgnodes.iterator().next());
     	}
     	else {
-	    	HashMap<ICFGNode<?>, IResult<LE>> results = new HashMap<ICFGNode<?>, IResult<LE>>();
-	    	for(ICFGNode<?> n : cfgnodes) {
+	    	HashMap<ICFGNode, IResult<LE>> results = new HashMap<ICFGNode, IResult<LE>>();
+	    	for(ICFGNode n : cfgnodes) {
 	    		result = getLabeledResultBefore(n);
 	    		if(result != null)
 	    			results.put(n, result);
@@ -299,7 +299,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
 
-		Set<ICFGNode<?>> cfgnodes = nodeMap.get(node);
+		Set<ICFGNode> cfgnodes = nodeMap.get(node);
 
     	if(cfgnodes == null || cfgnodes.isEmpty()) {
     		if(log.isLoggable(Level.FINE))
@@ -312,8 +312,8 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     		result = getLabeledResultAfter(cfgnodes.iterator().next());
     	}
     	else {
-	    	HashMap<ICFGNode<?>, IResult<LE>> results = new HashMap<ICFGNode<?>, IResult<LE>>();
-	    	for(ICFGNode<?> n : cfgnodes) {
+	    	HashMap<ICFGNode, IResult<LE>> results = new HashMap<ICFGNode, IResult<LE>>();
+	    	for(ICFGNode n : cfgnodes) {
 	    		result = getLabeledResultAfter(n);
 	    		if(result != null)
 	    			results.put(n, result);
@@ -349,7 +349,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * if <code>results</code> is empty or only contains <code>null</code> values.
 	 */
 	protected IResult<LE> mergeLabeledResults(
-			HashMap<ICFGNode<?>, IResult<LE>> results) {
+			HashMap<ICFGNode, IResult<LE>> results) {
 		IResult<LE> result = null;
 		for(IResult<LE> r : results.values()) {
 			if(result == null)
@@ -370,7 +370,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * 					before analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
-    protected LE getResultBefore(ICFGNode<?> node) {
+    protected LE getResultBefore(ICFGNode node) {
     	return mergeLabeledResult(getLabeledResultBefore(node), node.getASTNode());
     }
 
@@ -384,7 +384,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * 					before analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
-    protected LE getResultAfter(ICFGNode<?> node) {
+    protected LE getResultAfter(ICFGNode node) {
     	return mergeLabeledResult(getLabeledResultAfter(node), node.getASTNode());
     }
 
@@ -411,7 +411,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * 					after analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
-    protected IResult<LE> getLabeledResultBefore(ICFGNode<?> node) {
+    protected IResult<LE> getLabeledResultBefore(ICFGNode node) {
     	// Retrieve results for the ControlFlowNode
     	if(labeledResultsBefore.containsKey(node))
     		return labeledResultsBefore.get(node);
@@ -435,7 +435,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * 					after analyzing the node.  Or <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
-    protected IResult<LE> getLabeledResultAfter(ICFGNode<?> node) {
+    protected IResult<LE> getLabeledResultAfter(ICFGNode node) {
     	// Retrieve results for the ControlFlowNode
     	if(labeledResultsAfter.containsKey(node))
     		return labeledResultsAfter.get(node);

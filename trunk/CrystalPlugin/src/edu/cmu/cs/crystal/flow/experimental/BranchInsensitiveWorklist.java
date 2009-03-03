@@ -80,7 +80,7 @@ public class BranchInsensitiveWorklist<LE extends LatticeElement<LE>> extends Ab
 	}
 
 	@Override
-	protected IResult<LE> transferNode(ICFGNode<?> cfgNode, LE incoming,
+	protected IResult<LE> transferNode(ICFGNode cfgNode, LE incoming,
 			ILabel transferLabel) throws CancellationException {
 		// are we canceled?
 		checkCancel();
