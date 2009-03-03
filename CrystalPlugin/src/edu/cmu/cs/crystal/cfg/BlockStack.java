@@ -40,7 +40,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
  *
  * @param <Node>
  */
-public class BlockStack<Node extends ICFGNode<?>> implements Cloneable {
+public class BlockStack<Node extends ICFGNode> implements Cloneable {
 	public class Block {
 		Block(ASTNode owner, Node breakPoint, Node continuePoint, String label) {
 			this.owner = owner;

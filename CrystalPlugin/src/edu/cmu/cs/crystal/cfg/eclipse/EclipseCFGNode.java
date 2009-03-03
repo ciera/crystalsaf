@@ -56,7 +56,7 @@ import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
  * @author cchristo
  *
  */
-public class EclipseCFGNode implements ICFGNode<EclipseCFGEdge> {
+public class EclipseCFGNode implements ICFGNode {
     static protected int NEXT_ID;
     
 	private ASTNode node;

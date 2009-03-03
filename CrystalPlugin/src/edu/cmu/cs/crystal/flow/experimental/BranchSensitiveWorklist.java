@@ -56,7 +56,7 @@ public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
 	/** The analysis-specific transfer function. */
 	private final IBranchSensitiveTransferFunction<LE> transferFunction;
 	/** Cache of label lists for recently visited nodes. */
-	private final WeakHashMap<ICFGNode<?>, List<ILabel>> labelMap = new WeakHashMap<ICFGNode<?>, List<ILabel>>();
+	private final WeakHashMap<ICFGNode, List<ILabel>> labelMap = new WeakHashMap<ICFGNode, List<ILabel>>();
 
 	/**
 	 * Creates a worklist instance for the given method and transfer function.
@@ -101,7 +101,7 @@ public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
 	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#transferNode(edu.cmu.cs.crystal.cfg.ICFGNode, edu.cmu.cs.crystal.flow.LatticeElement, edu.cmu.cs.crystal.ILabel)
 	 */
 	@Override
-	protected IResult<LE> transferNode(ICFGNode<?> cfgNode, LE incoming,
+	protected IResult<LE> transferNode(ICFGNode cfgNode, LE incoming,
 			ILabel transferLabel) throws CancellationException {
 		// are we canceled?
 		checkCancel(); // FIXME hook up cancel support all the way (FlowAnalysis, branch-insensitive)
@@ -141,7 +141,7 @@ public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
 		if(labelMap.containsKey(cfgNode))
 			return labelMap.get(cfgNode);
 		
-		Set<ICFGEdge> edges = (AnalysisDirection.FORWARD_ANALYSIS == getAnalysisDirection() ? cfgNode.getOutputs() : cfgNode.getInputs());
+		Set<? extends ICFGEdge> edges = (AnalysisDirection.FORWARD_ANALYSIS == getAnalysisDirection() ? cfgNode.getOutputs() : cfgNode.getInputs());
 		List<ILabel> labels = new LinkedList<ILabel>();
 		for(ICFGEdge e : edges) {
 			if(labels.contains(e.getLabel()) == false)

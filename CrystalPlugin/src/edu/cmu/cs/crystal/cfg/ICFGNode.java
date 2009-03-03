@@ -30,9 +30,9 @@ import edu.cmu.cs.crystal.ILabel;
  * @author aldrich
  * @author cchristo
  */
-public interface ICFGNode<Edge extends ICFGEdge> {
-	public Set<Edge> getInputs();
-	public Set<Edge> getOutputs();
+public interface ICFGNode {
+	public Set<? extends ICFGEdge> getInputs();
+	public Set<? extends ICFGEdge> getOutputs();
 
 	/** @returns The Node from which this CFGNode was created,
 	 * may be null if this node is a dummy node. These nodes
@@ -41,8 +41,8 @@ public interface ICFGNode<Edge extends ICFGEdge> {
 	 */
 	public ASTNode getASTNode();
 	
-	public Set<Edge> getInputEdges(ILabel label);
+	public Set<? extends ICFGEdge> getInputEdges(ILabel label);
 	
-	public Set<Edge> getOutputEdges(ILabel label);
+	public Set<? extends ICFGEdge> getOutputEdges(ILabel label);
 }
 

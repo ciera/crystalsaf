@@ -42,7 +42,7 @@ import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
  * @author Kevin Bierhoff
  * @since 3.3.0
  */
-public class WorklistNodeOrderComparator implements Comparator<ICFGNode<?>> {
+public class WorklistNodeOrderComparator implements Comparator<ICFGNode> {
 	
 	/**
 	 * Builds a post-order comparator for the nodes in the given CFG, in which
@@ -61,16 +61,16 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode<?>> {
 	 */
 	public static WorklistNodeOrderComparator createPostOrderAndPopulateNodeMap(
 			final IControlFlowGraph cfg, 
-			final Map<ASTNode, Set<ICFGNode<?>>> nodeMap, 
+			final Map<ASTNode, Set<ICFGNode>> nodeMap, 
 			final boolean isForward) {
-		Map<ICFGNode<?>, Integer> order = new HashMap<ICFGNode<?>, Integer>();
+		Map<ICFGNode, Integer> order = new HashMap<ICFGNode, Integer>();
 		
 		// iterative post-order visit / depth-first search (DFS)  
 		// "visits" (numbers) nodes after all their children are 
 		// visited (ie., when nodes become "black")
 		int cur = 0;
 		LinkedList<Object> spine = new LinkedList<Object>();
-		ICFGNode<?> node = isForward ? cfg.getStartNode() : cfg.getEndNode();
+		ICFGNode node = isForward ? cfg.getStartNode() : cfg.getEndNode();
 		order.put(node, null); 
 		spine.addFirst(node);
 		spine.addFirst((isForward ? node.getOutputs() : node.getInputs()).iterator());
@@ -88,7 +88,7 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode<?>> {
 				}
 			}
 			spine.removeFirst();
-			node = (ICFGNode<?>) spine.removeFirst();
+			node = (ICFGNode) spine.removeFirst();
 			// number nodes in increasing order
 			if(order.put(node, cur++) != null)
 				throw new IllegalStateException("Node already visited: " + node);
@@ -106,21 +106,21 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode<?>> {
 	 * @param cfgNode
 	 */
 	private static void registerCfgNode(
-			Map<ASTNode, Set<ICFGNode<?>>> nodeMap,
-			ICFGNode<?> cfgNode) {
+			Map<ASTNode, Set<ICFGNode>> nodeMap,
+			ICFGNode cfgNode) {
 		ASTNode astnode = cfgNode.getASTNode();
 		if(astnode == null)
 			return;
-		Set<ICFGNode<?>> cfgnodes = nodeMap.get(astnode);
+		Set<ICFGNode> cfgnodes = nodeMap.get(astnode);
 		if (cfgnodes == null) {
-			cfgnodes = new HashSet<ICFGNode<?>>();
+			cfgnodes = new HashSet<ICFGNode>();
 			nodeMap.put(astnode, cfgnodes);
 		}
 		cfgnodes.add(cfgNode);
 	}
 
 	// recursive implementation of depth-first search for use instead of iterative implementation
-//	private static int visitPostOrder(ICFGNode<?> node, Map<ICFGNode<?>, Integer> order, int seed) {
+//	private static int visitPostOrder(ICFGNode node, Map<ICFGNode, Integer> order, int seed) {
 //		if(order.containsKey(node))
 //			return seed;
 //		order.put(node, null);
@@ -132,20 +132,20 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode<?>> {
 //	}
 	
 	/** Maps CFG nodes to a number that indicates their relative position in the order. */
-	private Map<ICFGNode<?>, Integer> order;
+	private Map<ICFGNode, Integer> order;
 	
 	/**
 	 * Create a comparator from the given ordering map.
 	 * @param order
 	 */
-	private WorklistNodeOrderComparator(Map<ICFGNode<?>, Integer> order) {
+	private WorklistNodeOrderComparator(Map<ICFGNode, Integer> order) {
 		this.order = order;
 	}
 
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(ICFGNode<?> node1, ICFGNode<?> node2) {
+	public int compare(ICFGNode node1, ICFGNode node2) {
 		return order.get(node1).compareTo(order.get(node2));
 	}
 

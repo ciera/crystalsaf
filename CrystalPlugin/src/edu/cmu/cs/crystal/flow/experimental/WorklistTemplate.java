@@ -75,9 +75,9 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
     public AnalysisResult<LE> performAnalysis() {
     	
 		// Setup result mappings
-    	HashMap<ICFGNode<?>, IResult<LE>> labeledResultsBefore = new HashMap<ICFGNode<?>, IResult<LE>>();
-    	HashMap<ICFGNode<?>, IResult<LE>> labeledResultsAfter = new HashMap<ICFGNode<?>, IResult<LE>>();
-    	HashMap<ASTNode, Set<ICFGNode<?>>> nodeMap = new HashMap<ASTNode, Set<ICFGNode<?>>>();
+    	HashMap<ICFGNode, IResult<LE>> labeledResultsBefore = new HashMap<ICFGNode, IResult<LE>>();
+    	HashMap<ICFGNode, IResult<LE>> labeledResultsAfter = new HashMap<ICFGNode, IResult<LE>>();
+    	HashMap<ASTNode, Set<ICFGNode>> nodeMap = new HashMap<ASTNode, Set<ICFGNode>>();
 		
 		// 0. Verify and Collect required data: direction, lattice, CFG
 		AnalysisDirection direction;
@@ -93,8 +93,8 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 
 		// Populate fields about the current analysis
 		boolean isForward = direction.equals(AnalysisDirection.FORWARD_ANALYSIS);
-		Map<ICFGNode<?>, IResult<LE>> resultsBeforeAnalyzing;  
-		Map<ICFGNode<?>, IResult<LE>> resultsAfterAnalyzing;
+		Map<ICFGNode, IResult<LE>> resultsBeforeAnalyzing;  
+		Map<ICFGNode, IResult<LE>> resultsAfterAnalyzing;
 		// make result mappings relative to analysis direction
 		// will use results[Before|After]Analyzing throughout the algorithm
 		if (isForward) {
@@ -107,10 +107,10 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 		}
 
 		// 1. Set up worklist with initial node.
-		SortedSet<ICFGNode<?>> worklist = new TreeSet<ICFGNode<?>>(
+		SortedSet<ICFGNode> worklist = new TreeSet<ICFGNode>(
 				WorklistNodeOrderComparator.createPostOrderAndPopulateNodeMap(cfg, nodeMap, isForward));
 
-		ICFGNode<?> initialNode = isForward ? cfg.getStartNode() : cfg.getEndNode();
+		ICFGNode initialNode = isForward ? cfg.getStartNode() : cfg.getEndNode();
 		worklist.add(initialNode);
 		resultsBeforeAnalyzing.put(initialNode, new IncomingResult<LE>(lattice.entry()));
 		
@@ -119,7 +119,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 			
 			// Pop a ControlFlowNode off the stack
 			// Pick last post-order to visit nodes in "reverse" post-order
-			ICFGNode<?> fromNode = worklist.last();
+			ICFGNode fromNode = worklist.last();
 			worklist.remove(fromNode);
 			
 			try {
@@ -159,7 +159,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 					ILabel toLabel = incomingLabel(edgeLabel);
 					
 					// 2c-i. Find node and lattice to merge
-					ICFGNode<?> toNode = isForward ? edge.getSink() : edge.getSource();
+					ICFGNode toNode = isForward ? edge.getSink() : edge.getSource();
 					LE mergeIntoNode = afterResults.get(edgeLabel);
 					
 					// 2c-ii. Update following node
@@ -216,9 +216,9 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
      * @return Analysis result object for the given result maps.
      */
 	protected AnalysisResult<LE> createAnalysisResult(
-			Map<ICFGNode<?>, IResult<LE>> labeledResultsBefore,
-			Map<ICFGNode<?>, IResult<LE>> labeledResultsAfter,
-			Map<ASTNode, Set<ICFGNode<?>>> nodeMap,
+			Map<ICFGNode, IResult<LE>> labeledResultsBefore,
+			Map<ICFGNode, IResult<LE>> labeledResultsAfter,
+			Map<ASTNode, Set<ICFGNode>> nodeMap,
 			Lattice<LE> lattice, ICFGNode _startNode, ICFGNode _endNode) {
 		// TODO maybe translate these results to not require the node map anymore, e.g. by merging results for CFG nodes
 		return new AnalysisResult<LE>(nodeMap, labeledResultsAfter, labeledResultsBefore, lattice, _startNode, _endNode);
@@ -274,7 +274,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 	 * (relative to the analysis direction).
 	 */
 	protected abstract IResult<LE> transferNode(
-			ICFGNode<?> cfgNode,
+			ICFGNode cfgNode,
 			LE incoming, ILabel transferLabel);
 	
 	/**
