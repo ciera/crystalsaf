@@ -26,6 +26,22 @@ Implementing `LatticeElement` will require implementing a number of methods, som
 
   * `copy` *must* perform a "deep copy" of the receiver: *copy and original referencing the same mutable state will lead to subtle bugs* when running the flow analysis.
 
+While the first two methods correspond to the comparison and join operators from lattice theory, `copy` is purely an implementation device.  Since Crystal needs to keep analysis information separately for every program point it will call `copy` to give you a separate copy of the analysis information to work with in transfer functions (see below).  Notice that Crystal will `copy` all the time, so if your lattice values are really big, you may want to think about some optimizations here.  We will revisit this issue later.
+
 = Transfer Function Implementation =
+
+A transfer function "transfers" your analysis information over a given program instruction.  In other words, if N is an instruction and I is a given lattice value (called the "incoming" value) then a transfer function is a function f that computes new analysis information O = f(N, I) from the incoming information and what is going on in the instruction.  For instance, if you're tracking whether variables are zero, and N is `x = 0`, then you want O to be like I, except with whatever I says about x changed to x being definitely zero.
+
+Now there are a ton of different kinds of instructions (method calls, assignments, arithmetic, etc.), and the behavior of a transfer function tends to depend greatly on the *kind of instruction* it transfers over.  So transfer functions are typically implemented with separate methods for each kind of instruction, and Crystal in fact defines interfaces for that.  But that is in a sense optional.
+
+== Analysis Direction ==
+
+A flow analysis works either _forward_ or _backwards_.  
+
+== Conventional Branch-insensitive Flow Analyses ==
+
+== Branch-sensitive Flow Analyses ==
+
+== Three-Address Code ==
 
 = Using Flow Analysis Driver =
