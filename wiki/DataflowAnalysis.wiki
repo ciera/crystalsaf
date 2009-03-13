@@ -1,4 +1,5 @@
 #summary Using Crystal's dataflow analysis
+#labels Phase-Support
 
 = Introduction =
 
@@ -7,7 +8,7 @@ Crystal comes with a [http://en.wikipedia.org/wiki/Dataflow_analysis dataflow an
 Using Crystal's dataflow analysis involves the following steps:
 
   * Create lattice value implementation class that implements `LatticeElement`.
-  * Create transfer function implementation class (multiple options)
+  * Create transfer function implementation class (multiple options; all extending `IFlowAnalysisDefinition`)
   * Instantiate and query flow analysis in your Crystal Analysis (see GettingStarted).
 
 An important thing to realize when writing a flow analysis is that the flow analysis is just a means to an end: a flow analysis *computes* some information about *every node* in a control flow graph.  We typically query this information _subsequently_ to find error conditions.
@@ -34,11 +35,17 @@ A transfer function "transfers" your analysis information over a given program i
 
 Now there are a ton of different kinds of instructions (method calls, assignments, arithmetic, etc.), and the behavior of a transfer function tends to depend greatly on the *kind of instruction* it transfers over.  So transfer functions are typically implemented with separate methods for each kind of instruction, and Crystal in fact defines interfaces for that.  But that is in a sense optional.
 
-== Analysis Direction ==
+All transfer functions in Crystal implement `IFlowAnalysisDefinition`.  This interface defines two methods, for determining the analysis direction and the lattice to be used for analyzing a given method, that are needed for running any flow analysis.  While these do not do any transferring, they are tightly related to the actual transfer function.
 
-A flow analysis works either _forward_ or _backwards_.  
+== Analysis Direction and Lattice ==
+
+A flow analysis works either _forward_ or _backwards_.  The `getAnalysisDirection` method of a transfer function implementation class defines which one it is.  Depending on what is chosen here, the lattice information passed into a transfer function call by Crystal is either the currently known information before (for forward analyses) or after (for backwards analyses) the instruction to be processed.  It is useful to keep this in mind.
+
+The `getLattice` method must return a `Lattice` instance, which gives Crystal the initial lattice value to be used for analyzing a given method.  This gives you the opportunity to pre-populate the lattice with information known at the beginning of a method, such as assumptions about the method receiver and parameters.
 
 == Conventional Branch-insensitive Flow Analyses ==
+
+Transfer functions conventionally compute outgoing analysis information O based on incoming information I, where both O and I are lattice values.  If this is what you want then 
 
 == Branch-sensitive Flow Analyses ==
 
