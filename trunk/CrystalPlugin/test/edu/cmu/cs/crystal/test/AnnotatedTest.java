@@ -30,7 +30,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
@@ -255,6 +258,24 @@ public class AnnotatedTest {
 		// Not all compilation units are tests...
 		int cur = 0;
 		for (ICompilationUnit icu : allCompUnits) {
+			// the scans the mode for @UseAnalyses
+			// this is to avoid parsing every single comp unit which is really slow
+			boolean lookCloser = false;
+			try {
+				for(IType t : icu.getAllTypes()) {
+					for(IAnnotation a : t.getAnnotations()) {
+						if(a.getElementName().contains("UseAnalyses"))
+							lookCloser = true;
+					}
+				}
+			} 
+			catch (JavaModelException e) {
+				lookCloser = true;
+			}
+			
+			if(!lookCloser)
+				continue;
+			
 			CompilationUnit cu =
 			    (CompilationUnit) WorkspaceUtilities.getASTNodeFromCompilationUnit(icu);
 			Option<TestType> tt_ = findTestType(cu);
