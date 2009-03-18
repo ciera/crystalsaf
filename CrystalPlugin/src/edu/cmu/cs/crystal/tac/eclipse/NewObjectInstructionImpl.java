@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Modifier;
 
 import edu.cmu.cs.crystal.ILabel;
@@ -69,6 +70,10 @@ implements NewObjectInstruction {
 
 	public List<Variable> getArgOperands() {
 		return variables(getNode().arguments());
+	}
+
+	public ITypeBinding resolveInstantiatedType() {
+		return getNode().resolveTypeBinding();
 	}
 
 	public boolean hasOuterObjectSpecifier() {
