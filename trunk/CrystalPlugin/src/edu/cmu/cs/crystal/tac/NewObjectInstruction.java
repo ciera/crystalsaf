@@ -20,9 +20,12 @@
 package edu.cmu.cs.crystal.tac;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 /**
- * x = new C(z1, ..., zn).
+ * x = new C(z1, ..., zn), including for anonymous inner classes.
+ * Notice that the code for anonymous inner classes does not become
+ * part of the three-address code representation of the surrounding method.
  * @author Kevin Bierhoff
  * @see org.eclipse.jdt.core.dom.ClassInstanceCreation
  */
@@ -45,6 +48,15 @@ public interface NewObjectInstruction extends InvocationInstruction {
 	 */
 	public boolean isAnonClassType();
 	
+	/**
+	 * Resolves the instantiated type, which will usually be a class.
+	 * This works even for anonymous inner classes: the resolved type will
+	 * be the anonymous class type, not the implicitly extended base type. 
+	 * @return the instantiated type.
+	 * @since Crystal 3.3.8
+	 */
+	public ITypeBinding resolveInstantiatedType();
+
 	/**
 	 * Indicates whether there is an outer object specifier <b>that is permitted
 	 * by the Java language syntax</b>.

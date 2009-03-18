@@ -29,11 +29,65 @@ import edu.cmu.cs.crystal.tac.NewObjectInstruction;
 import edu.cmu.cs.crystal.tac.TACInstruction;
 
 /**
- * @author kbierhof
- * @since 3.3.7
+ * Test cases for the handling of inner classes in {@link NewObjectInstruction}.
+ * @author Kevin Bierhoff
+ * @since 3.3.8
  */
-public class EclipseTACInnerClassTest {
+public class EclipseTACNewObjectTest {
 
+	@Test
+	public void testOuter() throws Exception {
+		CompilationUnit cu = EclipseTACSimpleTestDriver.parseCode("MainClass", MAIN);
+		MethodDeclaration m = EclipseTACSimpleTestDriver.getFirstMethod(cu);
+		EclipseTAC tac = new EclipseTAC(m.resolveBinding());
+		ClassInstanceCreation instance = (ClassInstanceCreation) EclipseTACSimpleTestDriver.getLastStatementReturn(m).getExpression();
+		TACInstruction instr = tac.instruction(instance);
+		Assert.assertTrue(instr != null);
+		Assert.assertTrue(instr instanceof NewObjectInstruction);
+		NewObjectInstruction newobj = (NewObjectInstruction) instr;
+		
+		Assert.assertFalse(newobj.isAnonClassType());
+		Assert.assertNotNull(newobj.resolveInstantiatedType());
+		Assert.assertEquals(instance.resolveTypeBinding(), newobj.resolveInstantiatedType());
+		
+		Assert.assertFalse(newobj.hasOuterObjectSpecifier());
+		Assert.assertNull(newobj.getOuterObjectSpecifierOperand());
+	}
+	
+	private static final String MAIN = 
+		"public class MainClass {" +
+		"    public Object create() {" +
+		"        return new MainClass();" +
+		"    }" +
+		"}";
+	
+	@Test
+	public void testTopLevel() throws Exception {
+		CompilationUnit cu = EclipseTACSimpleTestDriver.parseCode("TopLevel", TOP_LEVEL);
+		MethodDeclaration m = EclipseTACSimpleTestDriver.getFirstMethod(cu);
+		EclipseTAC tac = new EclipseTAC(m.resolveBinding());
+		ClassInstanceCreation instance = (ClassInstanceCreation) EclipseTACSimpleTestDriver.getLastStatementReturn(m).getExpression();
+		TACInstruction instr = tac.instruction(instance);
+		Assert.assertTrue(instr != null);
+		Assert.assertTrue(instr instanceof NewObjectInstruction);
+		NewObjectInstruction newobj = (NewObjectInstruction) instr;
+		
+		Assert.assertFalse(newobj.isAnonClassType());
+		Assert.assertNotNull(newobj.resolveInstantiatedType());
+		Assert.assertEquals(instance.resolveTypeBinding(), newobj.resolveInstantiatedType());
+		
+		Assert.assertFalse(newobj.hasOuterObjectSpecifier());
+		Assert.assertNull(newobj.getOuterObjectSpecifierOperand());
+	}
+	
+	private static final String TOP_LEVEL = 
+		"public class TopLevel {" +
+		"    public Object create() {" +
+		"        return new Outer();" +
+		"    }" +
+		"}" +
+		"class Outer { }";
+	
 	@Test
 	public void testInner() throws Exception {
 		CompilationUnit cu = EclipseTACSimpleTestDriver.parseCode("Outer", INNER);
@@ -44,6 +98,10 @@ public class EclipseTACInnerClassTest {
 		Assert.assertTrue(instr != null);
 		Assert.assertTrue(instr instanceof NewObjectInstruction);
 		NewObjectInstruction newobj = (NewObjectInstruction) instr;
+		
+		Assert.assertFalse(newobj.isAnonClassType());
+		Assert.assertNotNull(newobj.resolveInstantiatedType());
+		Assert.assertEquals(instance.resolveTypeBinding(), newobj.resolveInstantiatedType());
 		
 		Assert.assertTrue(newobj.hasOuterObjectSpecifier());
 		Assert.assertNotNull(newobj.getOuterObjectSpecifierOperand());
@@ -70,6 +128,10 @@ public class EclipseTACInnerClassTest {
 		Assert.assertTrue(instr instanceof NewObjectInstruction);
 		NewObjectInstruction newobj = (NewObjectInstruction) instr;
 		
+		Assert.assertFalse(newobj.isAnonClassType());
+		Assert.assertNotNull(newobj.resolveInstantiatedType());
+		Assert.assertEquals(instance.resolveTypeBinding(), newobj.resolveInstantiatedType());
+		
 		Assert.assertTrue(newobj.hasOuterObjectSpecifier());
 		Assert.assertNotNull(newobj.getOuterObjectSpecifierOperand());
 		Assert.assertEquals(tac.variable(instance.getExpression()), newobj.getOuterObjectSpecifierOperand());
@@ -95,6 +157,10 @@ public class EclipseTACInnerClassTest {
 		Assert.assertTrue(instr instanceof NewObjectInstruction);
 		NewObjectInstruction newobj = (NewObjectInstruction) instr;
 		
+		Assert.assertFalse(newobj.isAnonClassType());
+		Assert.assertNotNull(newobj.resolveInstantiatedType());
+		Assert.assertEquals(instance.resolveTypeBinding(), newobj.resolveInstantiatedType());
+		
 		Assert.assertFalse(newobj.hasOuterObjectSpecifier());
 		Assert.assertNull(newobj.getOuterObjectSpecifierOperand());
 	}
@@ -119,6 +185,10 @@ public class EclipseTACInnerClassTest {
 		Assert.assertTrue(instr instanceof NewObjectInstruction);
 		NewObjectInstruction newobj = (NewObjectInstruction) instr;
 		
+		Assert.assertFalse(newobj.isAnonClassType());
+		Assert.assertNotNull(newobj.resolveInstantiatedType());
+		Assert.assertEquals(instance.resolveTypeBinding(), newobj.resolveInstantiatedType());
+		
 		Assert.assertFalse(newobj.hasOuterObjectSpecifier());
 		Assert.assertNull(newobj.getOuterObjectSpecifierOperand());
 	}
@@ -142,6 +212,10 @@ public class EclipseTACInnerClassTest {
 		Assert.assertTrue(instr != null);
 		Assert.assertTrue(instr instanceof NewObjectInstruction);
 		NewObjectInstruction newobj = (NewObjectInstruction) instr;
+		
+		Assert.assertTrue(newobj.isAnonClassType());
+		Assert.assertNotNull(newobj.resolveInstantiatedType());
+		Assert.assertEquals(instance.resolveTypeBinding(), newobj.resolveInstantiatedType());
 		
 		Assert.assertFalse(newobj.hasOuterObjectSpecifier());
 		Assert.assertNull(newobj.getOuterObjectSpecifierOperand());
