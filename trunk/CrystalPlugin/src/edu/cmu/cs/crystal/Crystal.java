@@ -65,24 +65,6 @@ public class Crystal {
 	}
 
 	/**
-	 * This is the name of the regression-testing logger. The intention of the regression-testing
-	 * logger is to produce a output file that can be compared with some reference file to make sure
-	 * analysis results are stable.
-	 * 
-	 * If you want to include regular output into regression tests, you should log it into a
-	 * {@link java.util.Logger} object for the name defined here. (Such a logger can be acquired
-	 * using <code>java.util.Logger.getLogger(Crystal.REGRESSION_LOGGER)</code>). By default, a
-	 * message for each compilation unit being analyzed and for each user problem reported will be
-	 * included in the regression-testing log. Note that messages of levels
-	 * {@link java.util.Level#WARNING} and {@link java.util.Level#SEVERE} should also be included in
-	 * the regression-testing log.
-	 * 
-	 * @see #reportUserProblem(String, ASTNode, ICrystalAnalysis)
-	 * @see #regression
-	 */
-	public static final String REGRESSION_LOGGER = "edu.cmu.cs.crystal.regression";
-
-	/**
 	 * Currently unused default marker type for Crystal.
 	 * 
 	 * @see IMarker
@@ -147,42 +129,6 @@ public class Crystal {
 
 	public List<ICrystalAnalysis> getAnalyses() {
 		return Collections.unmodifiableList(analyses);
-	}
-
-	/**
-	 * Runs all of the analyses on the compilation units passed in. Will clear the console before
-	 * starting. Will clear ALL the markers for each compilation unit before starting. This will run
-	 * all the analyses on a single compilation unit at a time. After finishing a compilation unit,
-	 * we may not hold onto any ASTNodes
-	 * 
-	 * @param reanalyzeList
-	 *            The compilation units to analyze
-	 * @deprecated Use {@link #runAnalyses(List<ICompilationUnit>,IProgressMonitor)} instead
-	 */
-	@Deprecated
-	public void runAnalyses(List<ICompilationUnit> reanalyzeList) {
-		runAnalyses(reanalyzeList, null);
-	}
-
-	/**
-	 * Runs all of the analyses on the compilation units passed in. Will clear the console before
-	 * starting. Will clear ALL the markers for each compilation unit before starting. This will run
-	 * all the analyses on a single compilation unit at a time. After finishing a compilation unit,
-	 * we may not hold onto any ASTNodes
-	 * 
-	 * @param reanalyzeList
-	 *            The compilation units to analyze
-	 * @param monitor
-	 *            the progress monitor used to report progress and request cancellation, or
-	 *            <code>null</code> if none. Monitor must not be initialized with
-	 *            {@link IProgressMonitor#beginTask(String, int)}.
-	 */
-	private void runAnalyses(List<ICompilationUnit> reanalyzeList, IProgressMonitor monitor) {
-		if (analyses == null || analyses.isEmpty()) {
-			logger.warning("Crystal::runAnalyses() No analyses registered");
-			return;
-		}
-		Utilities.nyi();
 	}
 
 	public void runAnalyses(IRunCrystalCommand command, IProgressMonitor monitor) {
