@@ -194,17 +194,7 @@ public class Crystal {
 	 * job parameter, but reserves the right to run many jobs in parallel.
 	 */
 	private void runCrystalJob(ICrystalJob job) {
-		try {
-			job.runJobs();
-		}
-		catch(CancellationException e) {
-			if(logger.isLoggable(Level.FINE)) {
-				logger.log(Level.FINE, "Ongoing Crystal analysis job canceled", e);
-			}
-			else if(logger.isLoggable(Level.INFO)) {
-				logger.info("Ongoing Crystal analysis job canceled");
-			}
-		}
+		job.runJobs();
 	}
 
 	/**
@@ -234,11 +224,6 @@ public class Crystal {
 			}
 		}
 
-		// tell analyses that the analysis is about to begin!
-		for (ICrystalAnalysis analysis : analyses_to_use ) {
-			analysis.beforeAllCompilationUnits();
-		}
-		
 		// Now, create one job per compilation unit
 		for (final ICompilationUnit cu : command.compilationUnits()) {
 
@@ -265,9 +250,13 @@ public class Crystal {
 						final CompilationUnitTACs compUnitTacs = new CompilationUnitTACs();
 
 						// Clear any markers that may be onscreen...
+						if(monitor != null && monitor.isCanceled())
+							return;
 						command.reporter().clearMarkersForCompUnit(cu);
 
 						for (ICrystalAnalysis analysis : analyses_to_use) {
+							if(monitor != null && monitor.isCanceled())
+								return;
 							IAnalysisInput input = new IAnalysisInput() {
 								private Option<IProgressMonitor> mon = 
 									Option.wrap(monitor);
@@ -285,12 +274,22 @@ public class Crystal {
 							};
 
 							// Run the analysis
-							analysis.runAnalysis(command.reporter(), input, cu, ast_comp_unit);
+							try {
+								analysis.runAnalysis(command.reporter(), input, cu, ast_comp_unit);
+							}
+							catch(CancellationException e) {
+								// this is probably because the user hit cancel on the monitor
+								// in this case, subsequent jobs won't run, either
+								if(logger.isLoggable(Level.FINE)) {
+									logger.log(Level.FINE, "Ongoing Crystal analysis job canceled", e);
+								}
+								else if(logger.isLoggable(Level.INFO)) {
+									logger.info("Ongoing Crystal analysis job canceled");
+								}
+							}
 						}
 					}
-					if (monitor != null) {
-						if(monitor.isCanceled())
-							return;
+					if (monitor != null && !monitor.isCanceled()) {
 						// increment monitor
 						monitor.worked(1);
 					}
@@ -355,17 +354,18 @@ public class Crystal {
 					// Dummy analysis input
 					IAnalysisInput input = new IAnalysisInput() {
 						private AnnotationDatabase annoDB = new AnnotationDatabase();
-						private Option<IProgressMonitor> mon = Option.wrap(monitor);
 
 						public AnnotationDatabase getAnnoDB() {
 							return annoDB;
 						}
 						
 						public Option<IProgressMonitor> getProgressMonitor() {
-							return mon;
+							// don't give progress monitor to annotation finder
+							return Option.none();
 						}
 
 						public Option<CompilationUnitTACs> getComUnitTACs() {
+							// don't give 3-address code to annotation finder
 							return Option.none();
 						}
 					};
@@ -374,13 +374,26 @@ public class Crystal {
 					finder.runAnalysis(command.reporter(), input, compUnit, (CompilationUnit) node);
 				}
 
+				// tell analyses that the analysis is about to begin!
+				for (ICrystalAnalysis analysis : analyses_to_use ) {
+					analysis.beforeAllCompilationUnits();
+				}
+				
 				// Now, run every single job
 				for (ISingleCrystalJob job : analysisJobs()) {
+					if(monitor != null && monitor.isCanceled())
+						// TODO Do we run the after methods if canceled??
+						break;
 					job.run(annoDB);
 				}
 				// Tell all analyses, we are done.
 				for (ICrystalAnalysis analysis : analyses_to_use) {
 					analysis.afterAllCompilationUnits();
+				}
+				
+				if(monitor != null) {
+					// that's it folks!
+					monitor.done();
 				}
 			}
 		};
