@@ -1,0 +1,47 @@
+digraph ConstructorEmpty {
+  6 [
+    label = field,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare ConstructorEmpty",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = field,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 -> 7 [
+    label = ""
+  ];
+  9 -> 2 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  7 -> 6 [
+    label = ""
+  ];
+  6 -> 9 [
+    label = ""
+  ];
+}

@@ -1,0 +1,23 @@
+digraph abstractMethod {
+  3 [
+    label = "",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare abstractMethod",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 -> 2 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+}

@@ -1,0 +1,106 @@
+digraph infinite {
+  9 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = for,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = forBdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = EmptyStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = 0,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 -> 14 [
+    label = ""
+  ];
+  10 -> 16 [
+    label = ""
+  ];
+  9 -> 12 [
+    label = ""
+  ];
+  13 -> 16 [
+    label = ""
+  ];
+  3 -> 8 [
+    label = ""
+  ];
+  15 -> 6 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  12 -> 11 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+}

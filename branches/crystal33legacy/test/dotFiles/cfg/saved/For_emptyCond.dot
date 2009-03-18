@@ -1,0 +1,162 @@
+digraph emptyCond {
+  19 [
+    label = for,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = break,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = 0,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = forEdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = forBdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare emptyCond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  15 -> 6 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = false
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  17 -> 18 [
+    label = true
+  ];
+  13 -> 19 [
+    label = ""
+  ];
+  9 -> 12 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  3 -> 8 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  20 -> 2 [
+    label = ""
+  ];
+  19 -> 17 [
+    label = ""
+  ];
+  7 -> 20 [
+    label = ""
+  ];
+  10 -> 19 [
+    label = ""
+  ];
+  18 -> 7 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  12 -> 11 [
+    label = ""
+  ];
+  6 -> 14 [
+    label = ""
+  ];
+}

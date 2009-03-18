@@ -1,0 +1,280 @@
+digraph finallyHasTry {
+  50 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  39 [
+    label = "Call foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  38 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  36 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  35 [
+    label = try,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  34 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  33 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  32 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  31 [
+    label = false,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
+    label = "IOException io",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = "IOException io",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  49 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  48 [
+    label = false,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  47 [
+    label = "IOException io",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  46 [
+    label = io,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  45 [
+    label = IOException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  44 [
+    label = IOException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  43 [
+    label = "Call bar",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  42 [
+    label = true,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  41 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  29 [
+    label = io,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = IOException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  27 [
+    label = IOException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = "Call bar",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = true,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  53 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = io,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  52 [
+    label = try,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare finallyHasTry",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = IOException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  51 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = IOException,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 -> 24 [
+    label = ""
+  ];
+  51 -> 52 [
+    label = ""
+  ];
+  39 -> 21 [
+    label = "java.io.IOException"
+  ];
+  32 -> 2 [
+    label = ""
+  ];
+  43 -> 50 [
+    label = ""
+  ];
+  48 -> 49 [
+    label = ""
+  ];
+  27 -> 28 [
+    label = ""
+  ];
+  33 -> 34 [
+    label = ""
+  ];
+  43 -> 44 [
+    label = "java.io.IOException"
+  ];
+  22 -> 19 [
+    label = ""
+  ];
+  36 -> 2 [
+    label = ""
+  ];
+  42 -> 41 [
+    label = ""
+  ];
+  30 -> 31 [
+    label = ""
+  ];
+  46 -> 47 [
+    label = ""
+  ];
+  24 -> 26 [
+    label = ""
+  ];
+  52 -> 53 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  50 -> 51 [
+    label = ""
+  ];
+  49 -> 2 [
+    label = ""
+  ];
+  28 -> 29 [
+    label = ""
+  ];
+  39 -> 38 [
+    label = ""
+  ];
+  34 -> 35 [
+    label = ""
+  ];
+  44 -> 45 [
+    label = ""
+  ];
+  19 -> 25 [
+    label = ""
+  ];
+  31 -> 32 [
+    label = ""
+  ];
+  41 -> 43 [
+    label = ""
+  ];
+  26 -> 27 [
+    label = "java.io.IOException"
+  ];
+  47 -> 48 [
+    label = ""
+  ];
+  26 -> 33 [
+    label = ""
+  ];
+  53 -> 2 [
+    label = ""
+  ];
+  20 -> 22 [
+    label = ""
+  ];
+  35 -> 36 [
+    label = ""
+  ];
+  29 -> 30 [
+    label = ""
+  ];
+  38 -> 42 [
+    label = ""
+  ];
+  45 -> 46 [
+    label = ""
+  ];
+}

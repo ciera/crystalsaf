@@ -1,0 +1,171 @@
+digraph shortcircuit {
+  19 [
+    label = c,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = "&&",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = d,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = "boolean d",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = c,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = "boolean c",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = "boolean b",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "boolean a",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare shortcircuit",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = d,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 -> 16 [
+    label = false
+  ];
+  19 -> 16 [
+    label = false
+  ];
+  11 -> 9 [
+    label = ""
+  ];
+  20 -> 16 [
+    label = false
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  6 -> 10 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  15 -> 2 [
+    label = ""
+  ];
+  12 -> 17 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  14 -> 12 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = false
+  ];
+  13 -> 14 [
+    label = ""
+  ];
+  9 -> 13 [
+    label = ""
+  ];
+  3 -> 7 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  20 -> 16 [
+    label = true
+  ];
+  8 -> 6 [
+    label = ""
+  ];
+  17 -> 18 [
+    label = true
+  ];
+  19 -> 20 [
+    label = true
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  18 -> 19 [
+    label = true
+  ];
+}
