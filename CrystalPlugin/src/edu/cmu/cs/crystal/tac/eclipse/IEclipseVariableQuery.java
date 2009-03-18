@@ -66,6 +66,14 @@ public interface IEclipseVariableQuery {
 	 * @return Variable for the given type binding.
 	 */
 	public TypeVariable typeVariable(ITypeBinding binding);
+	
+	/**
+	 * Returns the <code>this</code> variable, if the surrounding method is an 
+	 * instance method.
+	 * @return The <code>this</code> variable, if the surrounding method is an 
+	 * instance method, <code>null</code> otherwise.
+	 */
+	public ThisVariable thisVariable();
 
 	/**
 	 * Determines the implicit <b>this</b> variable for a method call or field access.
