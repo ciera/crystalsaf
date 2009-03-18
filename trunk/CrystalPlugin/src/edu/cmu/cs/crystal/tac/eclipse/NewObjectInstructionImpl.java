@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.Modifier;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
@@ -71,14 +72,34 @@ implements NewObjectInstruction {
 	}
 
 	public boolean hasOuterObjectSpecifier() {
-		return getNode().getExpression() != null;
+		if(getNode().getExpression() != null) {
+			return true;
+		}
+		else if(getNode().resolveTypeBinding().isLocal()) {
+			// local classes cannot have outer object specifier in Java
+			// this is weird though b/c they do capture the outer "this"
+			return false; 
+		}
+		else if(getNode().resolveTypeBinding().isNested()) {
+			// non-local non-static nested classes have an explicit outer object, "this"
+			return ! Modifier.isStatic(getNode().resolveTypeBinding().getDeclaredModifiers());
+		}
+		else 
+			return false;
 	}
 	
 	public Variable getOuterObjectSpecifierOperand() {
-		if(! hasOuterObjectSpecifier())
-			// TODO what if there should be one?
+		if(getNode().getExpression() != null) {
+			// explicit qualifier -> use it
+			return variable(getNode().getExpression());
+		}
+		else if(hasOuterObjectSpecifier()) {
+			// otherwise the qualifier is implicit: "this"
+			return receiverVariable();
+		}
+		else
 			return null;
-		return variable(getNode().getExpression());
+			
 	}
 
 	@Override

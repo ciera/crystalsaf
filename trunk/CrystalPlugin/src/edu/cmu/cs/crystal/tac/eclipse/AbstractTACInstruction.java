@@ -122,6 +122,16 @@ abstract class AbstractTACInstruction<E extends ASTNode> implements TACInstructi
 	}
 	
 	/**
+	 * Returns the unqualified <code>this</code> variable for the receiver, if
+	 * the surrounding method is an instance method.
+	 * @return the unqualified <code>this</code> variable for the receiver, if
+	 * the surrounding method is an instance method; <code>null</code> otherwise.
+	 */
+	protected ThisVariable receiverVariable() {
+		return tac.thisVariable();
+	}
+	
+	/**
 	 * Helper method to access {@link IEclipseVariableQuery#implicitThisVariable(IBinding)}
 	 * to determine the implicit <b>this</b> variable for a method call or field access.
 	 * @param accessedElement The element being accessed with an implicit <b>this</b>. 

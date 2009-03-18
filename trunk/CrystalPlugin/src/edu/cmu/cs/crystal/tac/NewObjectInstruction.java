@@ -44,11 +44,19 @@ public interface NewObjectInstruction extends InvocationInstruction {
 	 * <code>false</code> otherwise.
 	 */
 	public boolean isAnonClassType();
-
+	
 	/**
-	 * Indicates whether there is an outer object specifier. If this
-	 * method returns <code>true</code> then {@link #getOuterObjectSpecifierOperand()}
+	 * Indicates whether there is an outer object specifier <b>that is permitted
+	 * by the Java language syntax</b>.
+	 * If this method returns <code>true</code> then 
+	 * {@link #getOuterObjectSpecifierOperand()}
 	 * will return a non-<code>null</code> variable.
+	 * This method returns <code>true</code> even if the outer object is
+	 * implicit in the original Java source. 
+	 * It turns out that local and anonymous inner classes cannot legally
+	 * have an explicit outer object specifier, even though they capture the
+	 * surrounding receiver, and so this method returns <code>false</code>
+	 * for those classes.
 	 * @return <code>true</code> if there is an outer object specifier, 
 	 * <code>false</code> otherwise.
 	 */
@@ -56,6 +64,9 @@ public interface NewObjectInstruction extends InvocationInstruction {
 	
 	/**
 	 * Returns the outer object specifier, if any.
+	 * A non-<code>null</code> specifier is returned even if it is implicit
+	 * in the original Java program (but see {@link #hasOuterObjectSpecifier()}
+	 * for discussion of local and anonymous inner classes).
 	 * @return the outer object specifier, or <code>null</code> if there is none.
 	 * @see #hasOuterObjectSpecifier()
 	 */
