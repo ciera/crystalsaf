@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.concur;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +39,6 @@ import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.IFlowAnalysis;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.util.Utilities;
 
 /**
@@ -61,7 +60,7 @@ import edu.cmu.cs.crystal.util.Utilities;
  *
  * @param <LE>
  */
-public class ConcurrentFlowAnalysis<LE extends LatticeElement<LE>> 
+public class ConcurrentFlowAnalysis<LE> 
 implements IFlowAnalysis<LE> {
 	
 	/**

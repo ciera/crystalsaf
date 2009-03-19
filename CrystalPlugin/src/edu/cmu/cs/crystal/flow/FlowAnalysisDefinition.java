@@ -104,10 +104,6 @@ import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
 
-import edu.cmu.cs.crystal.Crystal;
-import edu.cmu.cs.crystal.flow.AnalysisDirection;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
 
 /**
@@ -120,7 +116,7 @@ import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
  *
  * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
  */
-public abstract class FlowAnalysisDefinition<LE extends LatticeElement<LE>> 
+public abstract class FlowAnalysisDefinition<LE> 
 		implements ITransferFunction<LE> {
 	
 	
@@ -146,7 +142,7 @@ public abstract class FlowAnalysisDefinition<LE extends LatticeElement<LE>>
 	 * @param d		the method to get the entry lattice for
 	 * @return		the entry lattice for the specified method
 	 */
-	public abstract Lattice<LE> getLattice(MethodDeclaration d);
+	public abstract ILatticeOperations<LE> createLatticeOperations(MethodDeclaration d);
 	
 	    
 	/*

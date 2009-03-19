@@ -24,8 +24,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
-import edu.cmu.cs.crystal.flow.Lattice;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.SingletonLatticeElement;
+import edu.cmu.cs.crystal.util.Pair;
 
 /**
  * Extend this class to visit every 3-address code instruction in a method exactly once.
@@ -46,6 +47,11 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 		this(AnalysisDirection.FORWARD_ANALYSIS);
 	}
 
+	/**
+	 * Construct a visitor with the given direction.
+	 * @param direction To specify whether we want to visit from beginning to
+	 * end of the method, or from end to beginning.
+	 */
 	public SimpleInstructionVisitor(AnalysisDirection direction) {
 		super();
 		this.direction = direction;
@@ -185,15 +191,16 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 
 	private class TransferVisitor implements ITACTransferFunction<SingletonLatticeElement> {
 
-		public Lattice<SingletonLatticeElement> getLattice(
-				MethodDeclaration d) {
-			return new Lattice<SingletonLatticeElement>(
-					SingletonLatticeElement.INSTANCE, 
-					SingletonLatticeElement.INSTANCE);
+		public ILatticeOperations<SingletonLatticeElement> createLatticeOperations(MethodDeclaration d) {
+			return SingletonLatticeElement.SINGLETON_OPS;
 		}
-
+		
+		public SingletonLatticeElement createEntryValue(MethodDeclaration d) {
+			return SingletonLatticeElement.INSTANCE;
+		}
+		
 		public AnalysisDirection getAnalysisDirection() {
-			return SimpleInstructionVisitor.this.direction ;
+			return SimpleInstructionVisitor.this.direction;
 		}
 
 		public void setAnalysisContext(ITACAnalysisContext analysisContext) {

@@ -19,23 +19,21 @@
  */
 package edu.cmu.cs.crystal.analysis.constant;
 
-import java.util.Set;
-
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.analysis.alias.AliasLE;
-import edu.cmu.cs.crystal.analysis.alias.MayAliasTransferFunction;
-import edu.cmu.cs.crystal.flow.TupleLatticeElement;
+import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
-import edu.cmu.cs.crystal.tac.BranchSensitiveTACAnalysis;
+import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.TACFlowAnalysis;
 import edu.cmu.cs.crystal.tac.TACInstruction;
 import edu.cmu.cs.crystal.tac.Variable;
 
 
 public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
-	private BranchSensitiveTACAnalysis<TupleLatticeElement<Variable, BooleanConstantLE>> fa;
+	private ITACFlowAnalysis<TupleLatticeElement<Variable, BooleanConstantLE>> fa;
 
 	public ConstantAnalysis() {
 	}
@@ -68,7 +66,7 @@ public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		ITACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, BooleanConstantLE>> tf = new ConstantTransferFunction();
-		fa = new BranchSensitiveTACAnalysis<TupleLatticeElement<Variable, BooleanConstantLE>>(tf,
+		fa = new TACFlowAnalysis<TupleLatticeElement<Variable, BooleanConstantLE>>(tf,
 				this.analysisInput.getComUnitTACs().unwrap());
 	
 		// must call getResultsAfter at least once on this method,

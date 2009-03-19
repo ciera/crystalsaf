@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.worklist;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,9 +37,8 @@ import edu.cmu.cs.crystal.cfg.ICFGEdge;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * This class encapsulates a worklist algorithm for computing fixed points
@@ -57,7 +56,7 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  * 
  * @author Kevin Bierhoff
  */
-public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
+public abstract class WorklistTemplate<LE>  {
 	
 	private static final Logger log = Logger.getLogger(WorklistTemplate.class.getName());
 	
@@ -69,7 +68,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
      * 
      * @see #getAnalysisDirection()
      * @see #getControlFlowGraph()
-     * @see #getLattice()
+     * @see #getLatticeOperations()
      * @see #transferNode(ICFGNode, LatticeElement, ILabel)
      */
     public AnalysisResult<LE> performAnalysis() {
@@ -81,13 +80,18 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 		
 		// 0. Verify and Collect required data: direction, lattice, CFG
 		AnalysisDirection direction;
-		Lattice<LE> lattice;
 		IControlFlowGraph cfg;
+		ILatticeOperations<LE> ops;
+		LE entry;
 		
 		direction = getAnalysisDirection();
 		assert direction != null : "Cannot perform dataflow analysis without a direction";
-		lattice = getLattice();
-		assert lattice != null : "Cannot perform dataflow analysis without a lattice";
+		ops = getLatticeOperations();
+		assert ops != null : "Cannot perform analysis without lattice operations";
+		entry = getEntryValue();
+		if(entry == null)
+			// always check this one since not sure when this would fail subsequently
+			throw new NullPointerException("Cannot perform dataflow analysis without entry analysis information");
 		cfg = getControlFlowGraph();
 		assert cfg != null : "Cannot perform dataflow analysis without a CFG";
 
@@ -112,7 +116,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 
 		ICFGNode initialNode = isForward ? cfg.getStartNode() : cfg.getEndNode();
 		worklist.add(initialNode);
-		resultsBeforeAnalyzing.put(initialNode, new IncomingResult<LE>(lattice.entry()));
+		resultsBeforeAnalyzing.put(initialNode, new IncomingResult<LE>(entry));
 		
 		// 2. LOOP Until Stack is Empty
 		while (! worklist.isEmpty()) {
@@ -123,9 +127,6 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 			worklist.remove(fromNode);
 			
 			try {
-				// Add CFG node to AST node map
-//				registerCfgNode(nodeMap, fromNode);
-	
 				// 2a. Establish before-node analysis result
 				
 				// Retrieve the lattice information from the fromNode
@@ -138,7 +139,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 				
 					// Create a copy of the lattice to protect it from accidental
 					// manipulation by the transfer function.
-					LE beforeFromLatticeCopy = checkNull(beforeFromLattice.get(transferLabel).copy());
+					LE beforeFromLatticeCopy = checkNull(ops.copy(beforeFromLattice.get(transferLabel)));
 					
 					// Carry out the associated flow function with the copy lattice
 					IResult<LE> transferResults = 
@@ -147,7 +148,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 					if (afterResults == null)
 						afterResults = transferResults;
 					else
-						afterResults = checkNull(afterResults.join(transferResults));
+						afterResults = checkNull(afterResults.join(transferResults, ops));
 				}		
 						
 				// put result back in
@@ -172,18 +173,18 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 							// no previous result for this branch
 							beforeToResults.put(toLabel, checkNull(mergeIntoNode));
 						}
-						else if (! mergeIntoNode.atLeastAsPrecise(beforeToResults.get(toLabel), 
+						else if (! ops.atLeastAsPrecise(mergeIntoNode, beforeToResults.get(toLabel), 
 								toNode.getASTNode())) {
-							if(beforeToResults.get(toLabel).atLeastAsPrecise(mergeIntoNode, toNode.getASTNode()))
+							if(ops.atLeastAsPrecise(beforeToResults.get(toLabel), mergeIntoNode, toNode.getASTNode()))
 								// no need to join, just override existing result
 								beforeToResults.put(toLabel, mergeIntoNode);
 							else {
 								// Make a deep copy of the result lattice
-								LE beforeToLatticeCopy = beforeToResults.get(toLabel).copy();
-								LE resultLatticeCopy = checkNull(mergeIntoNode.copy());
+								LE beforeToLatticeCopy = checkNull(ops.copy(beforeToResults.get(toLabel)));
+								LE resultLatticeCopy = checkNull(ops.copy(mergeIntoNode));
 								// Store the join of the resultLattice and the beforeToLattice
-								beforeToResults.put(toLabel,
-										beforeToLatticeCopy.join(resultLatticeCopy, toNode.getASTNode()));
+								beforeToResults.put(toLabel, checkNull(
+										ops.join(beforeToLatticeCopy, resultLatticeCopy, toNode.getASTNode())));
 							}
 						} 
 						else
@@ -205,7 +206,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 			}
 		}
 		return createAnalysisResult(labeledResultsBefore, labeledResultsAfter, nodeMap,
-				                    lattice, cfg.getStartNode(), cfg.getEndNode());
+				                    ops, cfg.getStartNode(), cfg.getEndNode());
     }
 
     /**
@@ -219,9 +220,9 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 			Map<ICFGNode, IResult<LE>> labeledResultsBefore,
 			Map<ICFGNode, IResult<LE>> labeledResultsAfter,
 			Map<ASTNode, Set<ICFGNode>> nodeMap,
-			Lattice<LE> lattice, ICFGNode _startNode, ICFGNode _endNode) {
+			ILatticeOperations<LE> ops, ICFGNode _startNode, ICFGNode _endNode) {
 		// TODO maybe translate these results to not require the node map anymore, e.g. by merging results for CFG nodes
-		return new AnalysisResult<LE>(nodeMap, labeledResultsAfter, labeledResultsBefore, lattice, _startNode, _endNode);
+		return new AnalysisResult<LE>(nodeMap, labeledResultsAfter, labeledResultsBefore, ops, _startNode, _endNode);
 	}
 
 	/**
@@ -255,8 +256,10 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 	 * Implement this method to create the lattice to be used in the current worklist run.
 	 * @return Lattice to be used for analyzing the given method.
 	 */
-	protected abstract Lattice<LE> getLattice();
-
+	protected abstract ILatticeOperations<LE> getLatticeOperations();
+	
+	protected abstract LE getEntryValue();
+	
 	/**
 	 * Implement this method to transfer over the given CFG node based on an
 	 * incoming lattice element for a given label.  The label is determined
@@ -297,7 +300,7 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 	 *
 	 * @param <LE> Lattice element type held by the result.
 	 */
-	protected static class IncomingResult<LE extends LatticeElement<LE>> implements IResult<LE> {
+	protected static class IncomingResult<LE> implements IResult<LE> {
 		
 		private LE normalResult;
 		private LE falseResult;
@@ -390,20 +393,20 @@ public abstract class WorklistTemplate<LE extends LatticeElement<LE>>  {
 			return result;
 		}
 
-		public IResult<LE> join(IResult<LE> otherResult) {
+		public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
 			if(otherResult == null)
 				return this;
 			if(otherResult instanceof IncomingResult) {
 				IncomingResult<LE> other = (IncomingResult<LE>) otherResult;
 				LE nrm = this.normalResult;
 				if(other.normalResult != null)
-					nrm = (nrm == null) ? other.normalResult : nrm.join(other.normalResult, null);
+					nrm = (nrm == null) ? other.normalResult : op.join(op.copy(nrm), op.copy(other.normalResult), null);
 				LE tru = this.trueResult;
 				if(other.trueResult != null)
-					tru = (tru == null) ? other.trueResult : tru.join(other.trueResult, null);
+					tru = (tru == null) ? other.trueResult : op.join(op.copy(tru), op.copy(other.trueResult), null);
 				LE fls = this.falseResult;
 				if(other.falseResult != null)
-					fls = (fls == null) ? other.falseResult : fls.join(other.falseResult, null);
+					fls = (fls == null) ? other.falseResult : op.join(op.copy(fls), op.copy(other.falseResult), null);
 				return new IncomingResult<LE>(nrm, fls, tru);
 			}
 			throw new IllegalStateException("Internal results should never be joined with results of type: " + otherResult.getClass());

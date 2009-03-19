@@ -17,14 +17,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.worklist;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
 
 /**
@@ -65,8 +64,7 @@ public class WorklistFactory {
 	 * @return Worklist object that performs a conventional flow analysis.
 	 * @see {@link #createBranchSensitiveWorklist(MethodDeclaration, IBranchSensitiveTransferFunction)}
 	 */
-	public <LE extends LatticeElement<LE>> 
-	WorklistTemplate<LE> createBranchInsensitiveWorklist(
+	public <LE> WorklistTemplate<LE> createBranchInsensitiveWorklist(
 			MethodDeclaration method,
 			ITransferFunction<LE> transferFunction) {
 		return new BranchInsensitiveWorklist<LE>(method, monitor, transferFunction);
@@ -82,8 +80,7 @@ public class WorklistFactory {
 	 * @param transferFunction
 	 * @return Worklist object that performs a branch-sensitive flow analysis.
 	 */
-	public <LE extends LatticeElement<LE>> 
-	WorklistTemplate<LE> createBranchSensitiveWorklist(
+	public <LE> WorklistTemplate<LE> createBranchSensitiveWorklist(
 			MethodDeclaration method,
 			IBranchSensitiveTransferFunction<LE> transferFunction) {
 		return new BranchSensitiveWorklist<LE>(method, monitor, transferFunction);

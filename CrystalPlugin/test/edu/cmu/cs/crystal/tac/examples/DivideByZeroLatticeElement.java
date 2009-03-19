@@ -21,8 +21,7 @@ package edu.cmu.cs.crystal.tac.examples;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
+import edu.cmu.cs.crystal.simple.LatticeElement;
 
 public class DivideByZeroLatticeElement implements
 		LatticeElement<DivideByZeroLatticeElement> {
@@ -35,9 +34,6 @@ public class DivideByZeroLatticeElement implements
 	static final DivideByZeroLatticeElement NONZERO = new DivideByZeroLatticeElement("NONZERO");
 
 	static final DivideByZeroLatticeElement ZERO = new DivideByZeroLatticeElement("ZERO");
-
-	static final Lattice<DivideByZeroLatticeElement> lattice = new Lattice<DivideByZeroLatticeElement>(
-			MAYBEZERO, bottom);
 
 	private final String name;
 

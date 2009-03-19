@@ -25,13 +25,13 @@ import java.util.Map;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 import edu.cmu.cs.crystal.ILabel;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.TupleLatticeElement;
+import edu.cmu.cs.crystal.simple.LatticeElementOps;
+import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.AbstractTACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.AssignmentInstruction;
@@ -56,21 +56,26 @@ public class MayAliasTransferFunction extends
 
 	private Map<Variable, ObjectLabel> labelContext;
 	private MayAliasAnalysis mainAnalysis;
+	private final TupleLatticeElement<Variable, AliasLE> empty =
+		  new TupleLatticeElement<Variable, AliasLE>(new AliasLE(), new AliasLE());
 	
 	public MayAliasTransferFunction(MayAliasAnalysis analysis) {
 		labelContext = new HashMap<Variable, ObjectLabel>();
 		this.mainAnalysis = analysis;
 	}
 	
-	public Lattice<TupleLatticeElement<Variable, AliasLE>> getLattice(MethodDeclaration d) {
-		TupleLatticeElement<Variable, AliasLE> entry =
-			  new TupleLatticeElement<Variable, AliasLE>(new AliasLE(), new AliasLE());
+	public ILatticeOperations<TupleLatticeElement<Variable, AliasLE>> createLatticeOperations(MethodDeclaration d) {
+		return LatticeElementOps.create(empty.bottom());
+	}
+	
+	public TupleLatticeElement<Variable, AliasLE> createEntryValue(MethodDeclaration m) {
+		TupleLatticeElement<Variable, AliasLE> entry = empty.copy();
 //		Variable thisVar = mainAnalysis.getThisVar(d);
 //		AliasLE alias = new AliasLE();
 //		alias.addAlias(new ObjectLabel(thisVar.resolveType(), false));
 //		entry.put(thisVar, alias);
 		
-		return new Lattice<TupleLatticeElement<Variable, AliasLE>>(entry, entry.bottom());
+		return entry;
 	}
 
 	private ObjectLabel getLabel(Variable associatedVar, ITypeBinding binding, TACInstruction declaringInstr) {

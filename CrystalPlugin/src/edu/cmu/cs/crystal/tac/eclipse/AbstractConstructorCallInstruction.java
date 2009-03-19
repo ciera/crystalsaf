@@ -26,7 +26,6 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.tac.ConstructorCallInstruction;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ITACTransferFunction;
@@ -69,12 +68,12 @@ abstract class AbstractConstructorCallInstruction<E extends ASTNode> extends Abs
 	public abstract IMethodBinding resolveBinding();
 
 	@Override
-	public <LE extends LatticeElement<LE>> LE transfer(ITACTransferFunction<LE> tf, LE value) {
+	public <LE> LE transfer(ITACTransferFunction<LE> tf, LE value) {
 		return tf.transfer(this, value);
 	}
 	
 	@Override
-	public <LE extends LatticeElement<LE>> IResult<LE> transfer(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, LE value) {
+	public <LE> IResult<LE> transfer(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, LE value) {
 		return tf.transfer(this, labels, value);
 	}
 

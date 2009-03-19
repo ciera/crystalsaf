@@ -33,12 +33,11 @@ import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
 import edu.cmu.cs.crystal.flow.SingleResult;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
@@ -55,7 +54,7 @@ import edu.cmu.cs.crystal.tac.eclipse.EclipseTAC;
  *
  * @param <LE>	The LatticeElement subclass that represents the analysis knowledge
  */
-public class TACFlowAnalysis<LE extends LatticeElement<LE>> 
+public class TACFlowAnalysis<LE> 
 extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisContext {
 	
 	private AbstractTACAnalysisDriver<LE, ?> driver;
@@ -78,7 +77,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	public TACFlowAnalysis(ITACBranchSensitiveTransferFunction<LE> transferFunction,
 			CompilationUnitTACs eclipseTAC) {
 		super();
-		this.driver = new BranchSensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
+		this.driver = new BranchSensitiveTACAnalysisDriver(transferFunction, eclipseTAC);
 		// TODO use the driver as the analysis context
 		transferFunction.setAnalysisContext(this);
 	}
@@ -106,7 +105,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	public TACFlowAnalysis(Crystal crystal, ITACBranchSensitiveTransferFunction<LE> transferFunction,
 			CompilationUnitTACs eclipseTAC) {
 		super(crystal);
-		this.driver = new BranchSensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
+		this.driver = new BranchSensitiveTACAnalysisDriver(transferFunction, eclipseTAC);
 		// TODO use the driver as the analysis context
 		transferFunction.setAnalysisContext(this);
 	}
@@ -284,7 +283,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	}
 
 	protected abstract static class 
-	AbstractTACAnalysisDriver<LE extends LatticeElement<LE>, TF extends IFlowAnalysisDefinition<LE>> 
+	AbstractTACAnalysisDriver<LE, TF extends IFlowAnalysisDefinition<LE>> 
 	implements IFlowAnalysisDefinition<LE> {
 
 		protected TF tf;
@@ -298,6 +297,8 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		}
 		
 		/**
+		 * Switches the analysis over to the given method, which will
+		 * require changing the {@link #tac} being used.
 		 * @param methodDecl
 		 */
 		public void switchToMethod(MethodDeclaration methodDecl) {
@@ -308,14 +309,33 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			return tf.getAnalysisDirection();
 		}
 		
-		public Lattice<LE> getLattice(MethodDeclaration methodDeclaration) {
-			return tf.getLattice(methodDeclaration);
+		public ILatticeOperations<LE> createLatticeOperations(MethodDeclaration method) {
+			return tf.createLatticeOperations(method);
 		}
 		
+		public LE createEntryValue(MethodDeclaration method) {
+			return tf.createEntryValue(method);
+		}
+		
+		/**
+		 * Internal method to derive the result for a specific instruction
+		 * in an instruction sequence (which is an internal class used to
+		 * represent some eclipse AST nodes as instructions.
+		 * @param seq Instruction sequence
+		 * @param incoming Incoming analysis information
+		 * @param targetInstruction instruction within the sequence
+		 * @param afterResult <code>true</code> if the <i>after</i> result is
+		 * requested, <code>false</code> for the <i>before</i> result.
+		 * While <code>incoming</code> is relative to the analysis direction,
+		 * <code>afterResult</code> is not.
+		 * @return result before or after <code>targetInstruction</code>
+		 * @see EclipseInstructionSequence#deriveResult(ITACTransferFunction, TACInstruction, Object, boolean)
+		 * @see EclipseInstructionSequence#deriveResult(ITACBranchSensitiveTransferFunction, List, TACInstruction, Object, boolean)
+		 */
 		public abstract IResult<LE> deriveResult(EclipseInstructionSequence seq, LE incoming, TACInstruction targetInstruction, boolean afterResult);
 	}
 	
-	protected static class BranchInsensitiveTACAnalysisDriver<LE extends LatticeElement<LE>> 
+	protected static class BranchInsensitiveTACAnalysisDriver<LE> 
 	extends AbstractTACAnalysisDriver<LE, ITACTransferFunction<LE>> 
 	implements ITransferFunction<LE> {
 		
@@ -337,8 +357,10 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		public IResult<LE> deriveResult(EclipseInstructionSequence seq, LE incoming, TACInstruction targetInstruction, boolean afterResult) {
 			return SingleResult.createSingleResult(seq.deriveResult(tf, targetInstruction, incoming, afterResult));
 		}
-	}		
-	protected class BranchSensitiveTACAnalysisDriver<LE extends LatticeElement<LE>> 
+
+	}
+	
+	protected class BranchSensitiveTACAnalysisDriver 
 	extends AbstractTACAnalysisDriver<LE, ITACBranchSensitiveTransferFunction<LE>> 
 	implements IBranchSensitiveTransferFunction<LE> {
 		

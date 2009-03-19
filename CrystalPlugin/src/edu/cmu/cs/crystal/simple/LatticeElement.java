@@ -17,13 +17,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow;
+package edu.cmu.cs.crystal.simple;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
 /**
  * A LatticeElement embodies the analysis knowledge at a particular point in the
  * program.
+ * {@link LatticeElementOps} allows using classes implementing this interface
+ * in a Crystal flow analysis.  
+ * 
+ * For simple lattices, this interface may be sufficient.
+ * This interface is in particular useful for lattices which have
+ * a fixed number of elements in them.
+ * More sophisticated lattices are probably easier to implement using
+ * {@link edu.cmu.cs.flow.ILatticeOperations} directly. 
+ * Furthermore, lattices based on existing datatypes such as {@link java.util.Set}
+ * are more easily implemented with {@link edu.cmu.cs.flow.ILatticeOperations}.
  * 
  * @author David Dickey
  * @author Jonathan Aldrich

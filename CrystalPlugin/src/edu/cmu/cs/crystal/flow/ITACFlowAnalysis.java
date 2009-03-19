@@ -42,7 +42,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * @see edu.cmu.cs.crystal.tac.ITACTransferFunction
  * @see edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction
  */
-public interface ITACFlowAnalysis<LE extends LatticeElement<LE>> extends IFlowAnalysis<LE> {
+public interface ITACFlowAnalysis<LE> extends IFlowAnalysis<LE> {
 
 	/**
 	 * Retrieves the analysis state that exists <b>before</b> analyzing the instruction.

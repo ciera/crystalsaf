@@ -21,9 +21,8 @@ package edu.cmu.cs.crystal.flow;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import edu.cmu.cs.crystal.ILabel;
+import edu.cmu.cs.crystal.simple.LatticeElement;
 
 /**
  * Interface for mapping branch labels to analysis information.
@@ -34,10 +33,11 @@ import edu.cmu.cs.crystal.ILabel;
  * 
  * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
  */
-public interface IResult<LE extends LatticeElement<LE>> {
+public interface IResult<LE> {
 
 	/**
-	 * If label is null, provide a default value.
+	 * Clients should not modify the returned value.
+	 * Implementers must provide a default value if <code>label</code> is <code>null</code>.
 	 * @param label
 	 * @return A valid lattice element or <code>null</code> if the label
 	 * is unknown.
@@ -52,13 +52,16 @@ public interface IResult<LE extends LatticeElement<LE>> {
 	public Set<ILabel> keySet();
 	
 	/**
-	 * Join two results "pointwise" by joining lattice elements with 
-	 * the same label.  This method must not modify either <code>IResult</code>
+	 * Clients do not usually call this method.
+	 * Implementations join two results "pointwise" by joining lattice elements with 
+	 * the same label.  
+	 * This method must not modify either <code>IResult</code>
 	 * objects passed in.
 	 * @param otherResult <code>IResult</code> object to join this <code>IResult</code> with.
+	 * @param ops Lattice operations so we can join individual elements.
 	 * @return Pointwise joined lattice elements.
 	 * 
 	 * @see LatticeElement#join(LatticeElement)
 	 */
-	public IResult<LE> join(IResult<LE> otherResult);
+	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> ops);
 }

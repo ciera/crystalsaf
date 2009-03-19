@@ -25,7 +25,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * Abstract base class for 3-Address-Code instructions built from Eclipse AST nodes.
@@ -61,7 +60,7 @@ public interface TACInstruction {
 	 * @param value Incoming lattice value.
 	 * @return Outgoing lattice value after transferring over this instruction.
 	 */
-	public abstract <LE extends LatticeElement<LE>> LE transfer(ITACTransferFunction<LE> tf, LE value);
+	public abstract <LE> LE transfer(ITACTransferFunction<LE> tf, LE value);
 	
 	/**
 	 * Use this method to transfer over an instruction.  This method performs double-dispatch
@@ -73,7 +72,7 @@ public interface TACInstruction {
 	 * @param value Incoming lattice value.
 	 * @return Outgoing lattice values for given labels after transferring over this instruction.
 	 */
-	public abstract <LE extends LatticeElement<LE>> IResult<LE> transfer(
+	public abstract <LE> IResult<LE> transfer(
 			ITACBranchSensitiveTransferFunction<LE> tf, 
 			List<ILabel> labels, 
 			LE value);

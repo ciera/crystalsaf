@@ -21,7 +21,6 @@ package edu.cmu.cs.crystal.tac;
 
 
 import edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * Interface for defining flow analysis transfer functions based on 3-address code instructions.
@@ -34,11 +33,11 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  * 
  * @author Kevin Bierhoff
  *
- * @param <LE> LatticeElement subclass that represents the analysis knowledge.
+ * @param <LE> Type representing the analysis knowledge.
  * 
  * @see TACInstruction
  */
-public interface ITACTransferFunction<LE extends LatticeElement<LE>> extends IFlowAnalysisDefinition<LE> {
+public interface ITACTransferFunction<LE> extends IFlowAnalysisDefinition<LE> {
 	
 	/**
 	 * This method is used to pass a variable query interface to the

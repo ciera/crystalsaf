@@ -24,7 +24,6 @@ import java.util.List;
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * Interface for defining branch-sensitive 
@@ -37,12 +36,12 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  * 
  * @author Kevin Bierhoff
  *
- * @param <LE> LatticeElement subclass that represents the analysis knowledge.
+ * @param <LE> Type representing the analysis knowledge.
  * 
  * @see TACInstruction
  * @see ITACTransferFunction
  */
-public interface ITACBranchSensitiveTransferFunction<LE extends LatticeElement<LE>> extends IFlowAnalysisDefinition<LE> {
+public interface ITACBranchSensitiveTransferFunction<LE> extends IFlowAnalysisDefinition<LE> {
 	
 	/**
 	 * This method is used to pass a variable query interface to the

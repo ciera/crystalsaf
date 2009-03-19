@@ -28,29 +28,33 @@ import org.eclipse.jdt.core.dom.ASTNode;
  * @author Kevin Bierhoff
  *
  */
-public enum SingletonLatticeElement implements LatticeElement<SingletonLatticeElement> {
+public enum SingletonLatticeElement {
 	
 	INSTANCE;
+	
+	public static ILatticeOperations<SingletonLatticeElement> SINGLETON_OPS = 
+			new ILatticeOperations<SingletonLatticeElement>() {
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.LatticeElement#atLeastAsPrecise(edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
-	public boolean atLeastAsPrecise(SingletonLatticeElement other, ASTNode node) {
-		return true;
-	}
+		public boolean atLeastAsPrecise(SingletonLatticeElement info,
+				SingletonLatticeElement reference, ASTNode node) {
+			assert info != null && reference != null;
+			return info == reference;
+		}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.LatticeElement#copy()
-	 */
-	public SingletonLatticeElement copy() {
-		return INSTANCE;
-	}
+		public SingletonLatticeElement bottom() {
+			return SingletonLatticeElement.INSTANCE;
+		}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.LatticeElement#join(edu.cmu.cs.crystal.flow.LatticeElement)
-	 */
-	public SingletonLatticeElement join(SingletonLatticeElement other, ASTNode node) {
-		return INSTANCE;
-	}
+		public SingletonLatticeElement copy(SingletonLatticeElement original) {
+			assert original != null;
+			return SingletonLatticeElement.INSTANCE;
+		}
+
+		public SingletonLatticeElement join(SingletonLatticeElement someInfo,
+				SingletonLatticeElement otherInfo, ASTNode node) {
+			assert someInfo != null && otherInfo != null;
+			return SingletonLatticeElement.INSTANCE;
+		}
+	};
 
 }

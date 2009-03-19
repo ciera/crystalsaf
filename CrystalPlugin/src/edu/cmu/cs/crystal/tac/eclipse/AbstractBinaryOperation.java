@@ -25,7 +25,6 @@ import org.eclipse.jdt.core.dom.Expression;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
 import edu.cmu.cs.crystal.tac.BinaryOperator;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
@@ -73,12 +72,12 @@ implements BinaryOperation {
 	public abstract Variable getOperand2();
 	
 	@Override
-	public <LE extends LatticeElement<LE>> LE transfer(ITACTransferFunction<LE> tf, LE value) {
+	public <LE> LE transfer(ITACTransferFunction<LE> tf, LE value) {
 		return tf.transfer(this, value);
 	}
 
 	@Override
-	public <LE extends LatticeElement<LE>> IResult<LE> transfer(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, LE value) {
+	public <LE> IResult<LE> transfer(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, LE value) {
 		return tf.transfer(this, labels, value);
 	}
 

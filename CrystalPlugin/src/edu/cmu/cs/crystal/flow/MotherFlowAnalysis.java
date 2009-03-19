@@ -32,9 +32,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
-import edu.cmu.cs.crystal.flow.experimental.AnalysisResult;
-import edu.cmu.cs.crystal.flow.experimental.WorklistFactory;
-import edu.cmu.cs.crystal.flow.experimental.WorklistTemplate;
+import edu.cmu.cs.crystal.flow.worklist.AnalysisResult;
+import edu.cmu.cs.crystal.flow.worklist.WorklistFactory;
+import edu.cmu.cs.crystal.flow.worklist.WorklistTemplate;
 import edu.cmu.cs.crystal.util.Option;
 import edu.cmu.cs.crystal.util.Utilities;
 
@@ -47,9 +47,9 @@ import edu.cmu.cs.crystal.util.Utilities;
  * @author Jonathan Aldrich
  * @author Kevin Bierhoff
  * 
- * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
+ * @param <LE> the type that represents the analysis knowledge
  */
-public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implements IFlowAnalysis<LE> {
+public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 	
 	public static final Logger log = Logger.getLogger(MotherFlowAnalysis.class.getName());
 	
@@ -67,7 +67,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 	 * Information about the method that was analyzed last.  
 	 */
 	private MethodDeclaration currentMethod;
-	private Lattice<LE> currentLattice;
+	private ILatticeOperations<LE> currentLattice;
 	
 	/**
 	 * Map to find CFGNodes corresponding to AST nodes.
@@ -240,9 +240,9 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     	LE result = null;
     	for(LE r : results.values()) {
     		if(result == null)
-    			result = r.copy();
+    			result = currentLattice.copy(r);
     		else
-    			result = result.join(r.copy(), node);
+    			result = currentLattice.join(result, currentLattice.copy(r), node);
     	}
 		return result;
 	}
@@ -355,7 +355,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
 			if(result == null)
 				result = r;
 			else if(r != null)
-				result = result.join(r);
+				result = result.join(r, currentLattice);
 		}
 		return result;
 	}
@@ -394,9 +394,9 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     	LE result = null;
     	for(ILabel label : labeledResult.keySet()) {
     		if(result == null)
-    			result = checkNull(labeledResult.get(label).copy());
+    			result = checkNull(currentLattice.copy(labeledResult.get(label)));
     		else
-    			result = checkNull(result.join(checkNull(labeledResult.get(label).copy()), node));
+    			result = checkNull(currentLattice.join(result, checkNull(currentLattice.copy(labeledResult.get(label))), node));
     	}
 		return result;
 	}
@@ -484,7 +484,7 @@ public abstract class MotherFlowAnalysis<LE extends LatticeElement<LE>> implemen
     protected WorklistTemplate<LE> createWorklist(MethodDeclaration methodDecl) {
     	IFlowAnalysisDefinition<LE> transferFunction = createTransferFunction(methodDecl);
     	if(transferFunction instanceof IBranchSensitiveTransferFunction)
-    		return factory .createBranchSensitiveWorklist(methodDecl, (IBranchSensitiveTransferFunction<LE>) transferFunction);
+    		return factory.createBranchSensitiveWorklist(methodDecl, (IBranchSensitiveTransferFunction<LE>) transferFunction);
     	if(transferFunction instanceof ITransferFunction)
     		return factory.createBranchInsensitiveWorklist(methodDecl, (ITransferFunction<LE>) transferFunction);
     	throw new IllegalStateException("Unknown type of transfer function: " + transferFunction);

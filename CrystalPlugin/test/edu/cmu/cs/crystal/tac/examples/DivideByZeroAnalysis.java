@@ -24,8 +24,9 @@ import java.util.HashMap;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.TupleLatticeElement;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
+import edu.cmu.cs.crystal.simple.LatticeElementOps;
+import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.AbstractingTransferFunction;
 import edu.cmu.cs.crystal.tac.AssignmentInstruction;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
@@ -98,6 +99,10 @@ public class DivideByZeroAnalysis extends AbstractCrystalMethodAnalysis {
 		 */
 		private HashMap<TACInstruction, DivideByZeroLatticeElement> problems;
 		
+		private final TupleLatticeElement<Variable, DivideByZeroLatticeElement> entry = 
+			new TupleLatticeElement<Variable, DivideByZeroLatticeElement>(
+				DivideByZeroLatticeElement.bottom, DivideByZeroLatticeElement.MAYBEZERO);
+
 		public DBZTransferMethods() {
 			problems = new HashMap<TACInstruction, DivideByZeroLatticeElement>();
 		}
@@ -119,11 +124,13 @@ public class DivideByZeroAnalysis extends AbstractCrystalMethodAnalysis {
 		 * @param d		the method to get the entry lattice for
 		 * @return		the entry lattice for the specified method
 		 */
-		public Lattice<TupleLatticeElement<Variable, DivideByZeroLatticeElement>> getLattice(MethodDeclaration d) {
-			TupleLatticeElement<Variable, DivideByZeroLatticeElement> entry = new TupleLatticeElement<Variable, DivideByZeroLatticeElement>(
-					DivideByZeroLatticeElement.bottom, DivideByZeroLatticeElement.MAYBEZERO);
-			return new Lattice<TupleLatticeElement<Variable, DivideByZeroLatticeElement>>(entry, entry
-					.bottom());
+		public ILatticeOperations<TupleLatticeElement<Variable, DivideByZeroLatticeElement>> createLatticeOperations(MethodDeclaration d) {
+			return LatticeElementOps.create(entry.bottom());
+		}
+
+		public TupleLatticeElement<Variable, DivideByZeroLatticeElement> createEntryValue(
+				MethodDeclaration method) {
+			return entry.copy();
 		}
 
 		@Override
@@ -190,6 +197,7 @@ public class DivideByZeroAnalysis extends AbstractCrystalMethodAnalysis {
 				return super.transfer(instr, value);
 			}
 		}
+
 	}
 	
 }
