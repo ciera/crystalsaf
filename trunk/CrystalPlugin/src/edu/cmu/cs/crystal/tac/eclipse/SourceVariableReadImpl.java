@@ -25,7 +25,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.tac.AssignmentInstruction;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ITACTransferFunction;
@@ -73,13 +72,13 @@ implements SourceVariableRead {
 	}
 
 	@Override
-	public <LE extends LatticeElement<LE>> LE transfer(
+	public <LE> LE transfer(
 			ITACTransferFunction<LE> tf, LE value) {
 		return tf.transfer(this, value);
 	}
 
 	@Override
-	public <LE extends LatticeElement<LE>> IResult<LE> transfer(
+	public <LE> IResult<LE> transfer(
 			ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels,
 			LE value) {
 		return tf.transfer(this, labels, value);

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.worklist;
 
 import java.util.concurrent.CancellationException;
 import java.util.logging.Level;
@@ -34,13 +34,12 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.cfg.eclipse.EclipseNodeFirstCFG;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * @author Kevin Bierhoff
  *
  */
-public abstract class AbstractWorklist<LE extends LatticeElement<LE>> extends WorklistTemplate<LE> {
+public abstract class AbstractWorklist<LE> extends WorklistTemplate<LE> {
 	
 	private static final Logger log = Logger.getLogger(AbstractWorklist.class.getName());
 	

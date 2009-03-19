@@ -22,8 +22,6 @@ package edu.cmu.cs.crystal.flow;
 import java.util.Collections;
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.NormalLabel;
 
@@ -36,12 +34,12 @@ import edu.cmu.cs.crystal.NormalLabel;
  * 
  * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
  */
-public class SingleResult<LE extends LatticeElement<LE>> implements IResult<LE> {
+public class SingleResult<LE> implements IResult<LE> {
 	
 	private LE singleValue;
 	private static final Set<ILabel> normalLabelSet = Collections.singleton((ILabel) NormalLabel.getNormalLabel());
 
-	public static <LE extends LatticeElement<LE>> IResult<LE> createSingleResult(LE value) {
+	public static <LE> IResult<LE> createSingleResult(LE value) {
 		return new SingleResult<LE>(value);
 	}
 
@@ -67,19 +65,20 @@ public class SingleResult<LE extends LatticeElement<LE>> implements IResult<LE> 
 		return normalLabelSet;
 	}
 
-	public IResult<LE> join(IResult<LE> otherResult) {
+	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
 		if (otherResult instanceof SingleResult) {
-			return new SingleResult<LE>(singleValue.copy().join(((SingleResult<LE>) otherResult).singleValue.copy(), null));
+			return new SingleResult<LE>(
+					op.join(op.copy(singleValue), op.copy(((SingleResult<LE>) otherResult).singleValue), null));
 		}
 		LE otherLattice, mergedLattice;
 		LabeledResult<LE> mergedResult;
 		
-		otherLattice = otherResult.get(null).copy();
-		mergedResult = new LabeledResult<LE>(singleValue.copy().join(otherLattice, null));
+		otherLattice = op.copy(otherResult.get(null));
+		mergedResult = new LabeledResult<LE>(op.join(op.copy(singleValue), otherLattice, null));
 		
 		for (ILabel label : mergedResult.keySet()) {
-			otherLattice = otherResult.get(label).copy();
-			mergedLattice = singleValue.copy().join(otherLattice, null);
+			otherLattice = op.copy(otherResult.get(label));
+			mergedLattice = op.join(op.copy(singleValue), otherLattice, null);
 			mergedResult.put(label, mergedLattice);
 		}
 		

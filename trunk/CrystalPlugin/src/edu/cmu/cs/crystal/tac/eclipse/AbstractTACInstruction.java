@@ -34,7 +34,6 @@ import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ITACTransferFunction;
 import edu.cmu.cs.crystal.tac.SuperVariable;
@@ -197,7 +196,7 @@ abstract class AbstractTACInstruction<E extends ASTNode> implements TACInstructi
 	 * @param value Incoming lattice value.
 	 * @return Outgoing lattice value after transfering over this instruction.
 	 */
-	public abstract <LE extends LatticeElement<LE>> LE transfer(ITACTransferFunction<LE> tf, LE value);
+	public abstract <LE> LE transfer(ITACTransferFunction<LE> tf, LE value);
 	
 	/**
 	 * Use this method to transfer over an instruction.  This method performs double-dispatch
@@ -209,7 +208,7 @@ abstract class AbstractTACInstruction<E extends ASTNode> implements TACInstructi
 	 * @param value Incoming lattice value.
 	 * @return Outgoing lattice values for given labels after transfering over this instruction.
 	 */
-	public abstract <LE extends LatticeElement<LE>> IResult<LE> transfer(
+	public abstract <LE> IResult<LE> transfer(
 			ITACBranchSensitiveTransferFunction<LE> tf, 
 			List<ILabel> labels, 
 			LE value);

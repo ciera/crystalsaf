@@ -29,7 +29,6 @@ import edu.cmu.cs.crystal.NormalLabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ITACTransferFunction;
 import edu.cmu.cs.crystal.tac.TACInstruction;
@@ -84,7 +83,7 @@ public class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 	}
 
 	@Override
-	public <LE extends LatticeElement<LE>> LE transfer(ITACTransferFunction<LE> tf, LE value) {
+	public <LE> LE transfer(ITACTransferFunction<LE> tf, LE value) {
 		if(AnalysisDirection.FORWARD_ANALYSIS.equals(tf.getAnalysisDirection())) {
 			for(TACInstruction instr : instructions)
 				value = instr.transfer(tf, value);
@@ -97,7 +96,7 @@ public class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 	}
 	
 	@Override
-	public <LE extends LatticeElement<LE>> IResult<LE> transfer(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, LE value) {
+	public <LE> IResult<LE> transfer(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, LE value) {
 		ILabel normal = NormalLabel.getNormalLabel();
 		List<ILabel> normalOnly = Collections.singletonList(normal);
 		
@@ -122,7 +121,7 @@ public class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 		}
 	}
 
-	public <LE extends LatticeElement<LE>> LE deriveResult(ITACTransferFunction<LE> tf, TACInstruction targetInstr, LE value, boolean afterResult) {
+	public <LE> LE deriveResult(ITACTransferFunction<LE> tf, TACInstruction targetInstr, LE value, boolean afterResult) {
 		if(AnalysisDirection.FORWARD_ANALYSIS.equals(tf.getAnalysisDirection())) {
 			if(!afterResult && targetInstr == this)
 				return value;
@@ -154,7 +153,7 @@ public class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 		throw new IllegalArgumentException("Given instruction is unknown: " + targetInstr);
 	}
 
-	public <LE extends LatticeElement<LE>> IResult<LE> deriveResult(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, TACInstruction targetInstr, LE value, boolean afterResult) {
+	public <LE> IResult<LE> deriveResult(ITACBranchSensitiveTransferFunction<LE> tf, List<ILabel> labels, TACInstruction targetInstr, LE value, boolean afterResult) {
 		ILabel normal = NormalLabel.getNormalLabel();
 		List<ILabel> normalOnly = Collections.singletonList(normal);
 		

@@ -19,10 +19,14 @@
  */
 package edu.cmu.cs.crystal.flow.examples;
 
-import java.util.*;
-import org.eclipse.jdt.core.dom.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import edu.cmu.cs.crystal.flow.LatticeElement;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.IBinding;
+
+import edu.cmu.cs.crystal.simple.LatticeElement;
 /**
  * Live Variables Lattice Element Example.
  * 

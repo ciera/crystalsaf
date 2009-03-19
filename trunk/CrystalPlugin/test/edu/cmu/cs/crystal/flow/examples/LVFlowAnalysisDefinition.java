@@ -19,12 +19,19 @@
  */
 package edu.cmu.cs.crystal.flow.examples;
 
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.FlowAnalysisDefinition;
-import edu.cmu.cs.crystal.flow.Lattice;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
+import edu.cmu.cs.crystal.simple.LatticeElementOps;
 
 /**
  * Live Variable Flow Analysis Definition Example
@@ -36,6 +43,7 @@ public class LVFlowAnalysisDefinition extends FlowAnalysisDefinition<LVLatticeEl
 	
 	public LVFlowAnalysisDefinition() {
 		super();
+		
 	}
 
 	public String getName() {
@@ -46,8 +54,12 @@ public class LVFlowAnalysisDefinition extends FlowAnalysisDefinition<LVLatticeEl
 		return AnalysisDirection.BACKWARD_ANALYSIS;
 	}
 
-	public Lattice<LVLatticeElement> getLattice(MethodDeclaration d) {
-		return new Lattice<LVLatticeElement>(new LVLatticeElement(), new LVLatticeElement());
+	public ILatticeOperations<LVLatticeElement> createLatticeOperations(MethodDeclaration d) {
+		return LatticeElementOps.create(new LVLatticeElement());
+	}
+	
+	public LVLatticeElement createEntryValue(MethodDeclaration method) {
+		return new LVLatticeElement();
 	}
 	
 	/**
@@ -146,4 +158,5 @@ public class LVFlowAnalysisDefinition extends FlowAnalysisDefinition<LVLatticeEl
 			return false;
 		}
 	}
+
 }

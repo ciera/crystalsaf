@@ -33,7 +33,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
  * 
  * @see edu.cmu.cs.crystal.tac.BranchInsensitiveTACAnalysis
  */
-public class FlowAnalysis<LE extends LatticeElement<LE>> extends MotherFlowAnalysis<LE> {
+public class FlowAnalysis<LE> extends MotherFlowAnalysis<LE> {
 	
 	protected IFlowAnalysisDefinition<LE> def;
 

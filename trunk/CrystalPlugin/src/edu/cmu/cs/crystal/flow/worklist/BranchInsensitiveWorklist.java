@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.worklist;
 
 import java.util.concurrent.CancellationException;
 
@@ -28,10 +28,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 import edu.cmu.cs.crystal.flow.SingleResult;
 
 /**
@@ -41,7 +40,7 @@ import edu.cmu.cs.crystal.flow.SingleResult;
  * @see #checkBreakpoint(ASTNode) for breakpoint support
  * @see BranchSensitiveWorklist
  */
-public class BranchInsensitiveWorklist<LE extends LatticeElement<LE>> extends AbstractWorklist<LE> {
+public class BranchInsensitiveWorklist<LE> extends AbstractWorklist<LE> {
 	
 	/** The analysis-specific transfer function. */
 	private final ITransferFunction<LE> transferFunction;
@@ -75,8 +74,13 @@ public class BranchInsensitiveWorklist<LE extends LatticeElement<LE>> extends Ab
 	}
 
 	@Override
-	protected Lattice<LE> getLattice() {
-		return transferFunction.getLattice(getMethod());
+	protected ILatticeOperations<LE> getLatticeOperations() {
+		return transferFunction.createLatticeOperations(getMethod());
+	}
+
+	@Override
+	protected LE getEntryValue() {
+		return transferFunction.createEntryValue(getMethod());
 	}
 
 	@Override

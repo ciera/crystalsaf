@@ -20,7 +20,6 @@
 package edu.cmu.cs.crystal.tac;
 
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * This class implements additional transfer functions that abstract or
@@ -32,7 +31,7 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  *
  * @param <LE> LatticeElement subclass that represents the analysis knowledge.
  */
-public abstract class AbstractingTransferFunction<LE extends LatticeElement<LE>> 
+public abstract class AbstractingTransferFunction<LE> 
 		implements ITACTransferFunction<LE> {
 
 	private ITACAnalysisContext analysisContext;

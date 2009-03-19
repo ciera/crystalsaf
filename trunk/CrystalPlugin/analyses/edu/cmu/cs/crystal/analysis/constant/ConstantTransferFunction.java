@@ -19,7 +19,6 @@
  */
 package edu.cmu.cs.crystal.analysis.constant;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -29,11 +28,12 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.BooleanLabel;
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.TupleLatticeElement;
+import edu.cmu.cs.crystal.simple.LatticeElementOps;
+import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
 import edu.cmu.cs.crystal.tac.CastInstruction;
@@ -44,7 +44,6 @@ import edu.cmu.cs.crystal.tac.EnhancedForConditionInstruction;
 import edu.cmu.cs.crystal.tac.ITACAnalysisContext;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.InstanceofInstruction;
-import edu.cmu.cs.crystal.tac.KeywordVariable;
 import edu.cmu.cs.crystal.tac.LoadArrayInstruction;
 import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
 import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
@@ -56,22 +55,24 @@ import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
 import edu.cmu.cs.crystal.tac.SourceVariableRead;
 import edu.cmu.cs.crystal.tac.StoreArrayInstruction;
 import edu.cmu.cs.crystal.tac.StoreFieldInstruction;
-import edu.cmu.cs.crystal.tac.SuperVariable;
-import edu.cmu.cs.crystal.tac.TACInstruction;
-import edu.cmu.cs.crystal.tac.ThisVariable;
 import edu.cmu.cs.crystal.tac.UnaryOperation;
 import edu.cmu.cs.crystal.tac.UnaryOperator;
 import edu.cmu.cs.crystal.tac.Variable;
 
 
 public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, BooleanConstantLE>> {
+	private final TupleLatticeElement<Variable, BooleanConstantLE> entry = 
+		new TupleLatticeElement<Variable, BooleanConstantLE>(
+			BooleanConstantLE.BOTTOM, BooleanConstantLE.UNKNOWN);
 	/* (non-Javadoc)
 	 * @see edu.cmu.cs.crystal.tac.ITransferFunction#getLattice(com.surelogic.ast.java.operator.IMethodDeclarationNode)
 	 */
-	public Lattice<TupleLatticeElement<Variable, BooleanConstantLE>> getLattice(MethodDeclaration d) {
-		TupleLatticeElement<Variable, BooleanConstantLE> entry = new TupleLatticeElement<Variable, BooleanConstantLE>(
-				BooleanConstantLE.BOTTOM, BooleanConstantLE.UNKNOWN);
-		return new Lattice<TupleLatticeElement<Variable, BooleanConstantLE>>(entry, entry.bottom());
+	public ILatticeOperations<TupleLatticeElement<Variable, BooleanConstantLE>> createLatticeOperations(MethodDeclaration d) {
+		return LatticeElementOps.create(entry.bottom());
+	}
+	
+	public TupleLatticeElement<Variable, BooleanConstantLE> createEntryValue(MethodDeclaration m) {
+		return entry.copy();
 	}
 
 	public AnalysisDirection getAnalysisDirection() {

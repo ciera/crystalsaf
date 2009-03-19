@@ -20,7 +20,6 @@
 package edu.cmu.cs.crystal.tac;
 
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * Abstract base class for defining standard flow analyses based on 3-address code instructions
@@ -32,7 +31,7 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  * @author Kevin Bierhoff
  *
  */
-public abstract class AbstractTransferFunction<LE extends LatticeElement<LE>> implements ITACTransferFunction<LE> {
+public abstract class AbstractTransferFunction<LE> implements ITACTransferFunction<LE> {
 
 	private ITACAnalysisContext analysisContext;
 

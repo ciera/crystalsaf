@@ -22,8 +22,7 @@ package edu.cmu.cs.crystal.analysis.constant;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
+import edu.cmu.cs.crystal.simple.LatticeElement;
 
 public enum BooleanConstantLE implements LatticeElement<BooleanConstantLE> {
 
@@ -32,10 +31,6 @@ public enum BooleanConstantLE implements LatticeElement<BooleanConstantLE> {
 	UNKNOWN,
 	BOTTOM;     // bottom
 	
-	static final Lattice<BooleanConstantLE> lattice = new Lattice<BooleanConstantLE>(
-			UNKNOWN, BOTTOM);
-	
-
 	public BooleanConstantLE join(BooleanConstantLE other, ASTNode node)
 	{
 		if (other == this)

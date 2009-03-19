@@ -17,13 +17,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow;
+package edu.cmu.cs.crystal.simple;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+
 
 /**
  * Represents a lattice element that is a tuple of lattice elements for an underlying lattice.

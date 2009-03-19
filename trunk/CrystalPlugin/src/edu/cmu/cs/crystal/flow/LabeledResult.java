@@ -32,20 +32,9 @@ import edu.cmu.cs.crystal.ILabel;
  * @author Kevin Bierhoff
  *
  */
-public class LabeledResult<LE extends LatticeElement<LE>> implements IResult<LE> {
+public class LabeledResult<LE> implements IResult<LE> {
 	private Map<ILabel, LE> labelMap;
 	private LE defaultValue;
-	
-	/**
-	 * I, Nels Beckman, declare this method to be deprecated because it does not
-	 * leave the object in a valid state. A labeled result MUST have at least
-	 * one label, and this factory method does not do this.
-	 * @see LabeledResult#createResult(List, LatticeElement)
-	 */
-	@Deprecated
-	public static <LE extends LatticeElement<LE>> LabeledResult<LE> createResult(LE defaultValue) {
-		return new LabeledResult<LE>(defaultValue);
-	}
 	
 	/**
 	 * Create a result for the given labels with the given default value.
@@ -54,7 +43,7 @@ public class LabeledResult<LE extends LatticeElement<LE>> implements IResult<LE>
 	 * @param defaultValue
 	 * @return A new result for the given labels with the given default value.
 	 */
-	public static <LE extends LatticeElement<LE>> LabeledResult<LE> 
+	public static <LE> LabeledResult<LE> 
 	createResult(List<ILabel> labels, LE defaultValue) {
 		return new LabeledResult<LE>(labels, defaultValue);
 	}
@@ -75,10 +64,6 @@ public class LabeledResult<LE extends LatticeElement<LE>> implements IResult<LE>
 	}
 	
 	public void put(ILabel label, LE value) {
-		LE existing = labelMap.get(value);
-		// existing will always be null because we're not using the key (label) to look up
-		if (existing != null) 
-			value = existing.join(value, null);
 		labelMap.put(label, value);
 	}
 	
@@ -93,8 +78,8 @@ public class LabeledResult<LE extends LatticeElement<LE>> implements IResult<LE>
 		return Collections.unmodifiableSet(labelMap.keySet());
 	}
 
-	public IResult<LE> join(IResult<LE> otherResult) {
-		LE otherLattice, thisLattice, mergedLattice;
+	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
+		LE otherLattice, thisLattice;
 		LabeledResult<LE> mergedResult;
 		Set<ILabel> mergedLabels = new HashSet<ILabel>();
 		Set<ILabel> otherLabels = otherResult.keySet();
@@ -102,21 +87,21 @@ public class LabeledResult<LE extends LatticeElement<LE>> implements IResult<LE>
 		mergedLabels.addAll(keySet());
 		mergedLabels.addAll(otherResult.keySet());
 
-		otherLattice = otherResult.get(null).copy();
-		mergedResult = new LabeledResult<LE>(defaultValue.copy().join(otherLattice, null));
+		otherLattice = op.copy(otherResult.get(null));
+		mergedResult = new LabeledResult<LE>(op.join(op.copy(defaultValue), otherLattice, null));
 		
 		for (ILabel label : mergedLabels) {
 			if (otherLabels.contains(label) && labelMap.containsKey(label)) {
-				otherLattice = otherResult.get(label).copy();
-				thisLattice = get(label).copy();
-				mergedResult.put(label, thisLattice.join(otherLattice, null));
+				otherLattice = op.copy(otherResult.get(label));
+				thisLattice = op.copy(get(label));
+				mergedResult.put(label, op.join(thisLattice, otherLattice, null));
 			}
 			else if (otherLabels.contains(label)) {
-				otherLattice = otherResult.get(label).copy();
+				otherLattice = op.copy(otherResult.get(label));
 				mergedResult.put(label, otherLattice);
 			}
 			else {
-				thisLattice = get(label).copy();
+				thisLattice = op.copy(get(label));
 				mergedResult.put(label, thisLattice);
 			}
 		}

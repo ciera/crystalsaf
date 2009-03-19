@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.worklist;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -38,10 +38,9 @@ import edu.cmu.cs.crystal.cfg.ICFGEdge;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * This is the branch-sensitive version of the worklist algorithm.
@@ -50,7 +49,7 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  * @see #checkBreakpoint(ASTNode) for breakpoint support
  * @see BranchInsensitiveWorklist
  */
-public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
+public class BranchSensitiveWorklist<LE> extends
 		AbstractWorklist<LE> {
 	
 	/** The analysis-specific transfer function. */
@@ -81,25 +80,21 @@ public class BranchSensitiveWorklist<LE extends LatticeElement<LE>> extends
 		this.transferFunction = transfer;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#getAnalysisDirection()
-	 */
 	@Override
 	protected AnalysisDirection getAnalysisDirection() {
 		return transferFunction.getAnalysisDirection();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#getLattice()
-	 */
 	@Override
-	protected Lattice<LE> getLattice() {
-		return transferFunction.getLattice(getMethod());
+	protected ILatticeOperations<LE> getLatticeOperations() {
+		return transferFunction.createLatticeOperations(getMethod());
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.experimental.WorklistTemplate#transferNode(edu.cmu.cs.crystal.cfg.ICFGNode, edu.cmu.cs.crystal.flow.LatticeElement, edu.cmu.cs.crystal.ILabel)
-	 */
+	@Override
+	protected LE getEntryValue() {
+		return transferFunction.createEntryValue(getMethod());
+	}
+
 	@Override
 	protected IResult<LE> transferNode(ICFGNode cfgNode, LE incoming,
 			ILabel transferLabel) throws CancellationException {

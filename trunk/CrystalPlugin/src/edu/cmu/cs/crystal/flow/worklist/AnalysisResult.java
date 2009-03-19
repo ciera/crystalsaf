@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.worklist;
 
 import java.util.Map;
 import java.util.Set;
@@ -25,9 +25,8 @@ import java.util.Set;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.cfg.ICFGNode;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * Encapsulates the results of running an analysis.
@@ -40,12 +39,12 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  * @date Jan 24, 2008
  *
  */
-public class AnalysisResult<LE extends LatticeElement<LE>> {
+public class AnalysisResult<LE> {
 
 	private final Map<ASTNode, Set<ICFGNode>> nodeMap;
 	private final Map<ICFGNode, IResult<LE>> labeledResultsAfter;
 	private final Map<ICFGNode, IResult<LE>> labeledResultsBefore;
-	private final Lattice<LE> lattice;
+	private final ILatticeOperations<LE> lattice;
 	
 	private final ICFGNode cfgStartNode;
 	private final ICFGNode cfgEndNode;
@@ -62,7 +61,7 @@ public class AnalysisResult<LE extends LatticeElement<LE>> {
 	public AnalysisResult(Map<ASTNode, Set<ICFGNode>> _nm,
 				Map<ICFGNode, IResult<LE>> _lra,
 				Map<ICFGNode, IResult<LE>> _lrb,
-				Lattice<LE> _l, ICFGNode _startNode, ICFGNode _endNode) {
+				ILatticeOperations<LE> _l, ICFGNode _startNode, ICFGNode _endNode) {
 		nodeMap = 
 			java.util.Collections.unmodifiableMap(
 					new java.util.HashMap<ASTNode, Set<ICFGNode>>(_nm));
@@ -89,7 +88,7 @@ public class AnalysisResult<LE extends LatticeElement<LE>> {
 		return labeledResultsBefore;
 	}
 
-	public Lattice<LE> getLattice() {
+	public ILatticeOperations<LE> getLattice() {
 		return lattice;
 	}
 

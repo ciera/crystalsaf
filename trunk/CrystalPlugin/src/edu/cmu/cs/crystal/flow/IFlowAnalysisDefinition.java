@@ -22,28 +22,48 @@ package edu.cmu.cs.crystal.flow;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 /**
- * 
+ * This interface contains operations common to any transfer function
+ * accepted by Crystal's flow analysis framework:
+ * <ul>
+ * <li>A direction: {@link #getAnalysisDirection()}
+ * <li>Lattice operations: {@link #createLatticeOperations(MethodDeclaration)}
+ * <li>Entry lattice value: {@link #createEntryValue(MethodDeclaration)}
+ * </ul>
+ * These will be called once whenever another method needs to be analyzed.
+ * Extending interfaces will define methods for transferring over a specific
+ * kind of node, such as AST nodes. 
+ *
  * @author Kevin Bierhoff
  *
- * @param <LE>
+ * @param <LE> Analysis information being tracked as "lattice elements".
  */
-public interface IFlowAnalysisDefinition<LE extends LatticeElement<LE>> {
+public interface IFlowAnalysisDefinition<LE> {
 
 	/**
-	 * Retrieves the lattice for a method.
-	 * 
-	 * @param methodDeclaration the method to get the entry lattice for
-	 * @return the entry lattice for the specified method
+	 * Creates lattice operations for computing flow analysis
+	 * results for a given method.
+	 * Crystal uses the result of this method to compare and join intermediate
+	 * results when analyzing the given method. 
+	 * @param method the method to create the lattice operations for
+	 * @return lattice operations to be used for computing flow analysis
+	 * results for a given method.
 	 */
-	public Lattice<LE> getLattice(MethodDeclaration methodDeclaration);
+	public ILatticeOperations<LE> createLatticeOperations(MethodDeclaration method);
+	
+	/**
+	 * Creates entry analysis information for analyzing a given method.
+	 * Crystal's flow analysis uses the result of this method as the incoming
+	 * analysis information to transfer over the first (or last, for backwards
+	 * analyses) instruction in the given method.
+	 * @param method the method to create the lattice operations for
+	 * @return entry analysis information for analyzing a given method.
+	 */
+	public LE createEntryValue(MethodDeclaration method);
 
 	/**
-	 * Informs the FlowAnalysis which direction to perform the analysis.
-	 * Default is a Forward analysis.
-	 * <p>
-	 * Use AnalysisDirection enumeration. 
+	 * Informs Crystal in which direction to perform the analysis.
 	 * 
-	 * @return	the direction of the analysis
+	 * @return the direction of the analysis; never <code>null</code>.
 	 */
 	public AnalysisDirection getAnalysisDirection();
 

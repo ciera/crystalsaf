@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
  *
  * @param <LE>
  */
-public interface IFlowAnalysis<LE extends LatticeElement<LE>> {
+public interface IFlowAnalysis<LE> {
 
 	/**
 	 * Retrieves the analysis state that exists <b>before</b> analyzing the node.

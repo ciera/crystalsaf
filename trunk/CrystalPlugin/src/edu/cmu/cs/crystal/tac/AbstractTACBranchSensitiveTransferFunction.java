@@ -25,7 +25,6 @@ import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.flow.LatticeElement;
 
 /**
  * Abstract base class for defining branch-sensitive flow analyses 
@@ -37,7 +36,7 @@ import edu.cmu.cs.crystal.flow.LatticeElement;
  *
  * @param <LE> LatticeElement subclass that represents the analysis knowledge.
  */
-public abstract class AbstractTACBranchSensitiveTransferFunction<LE extends LatticeElement<LE>> 
+public abstract class AbstractTACBranchSensitiveTransferFunction<LE> 
 		implements ITACBranchSensitiveTransferFunction<LE> {
 
 	private ITACAnalysisContext analysisContext;

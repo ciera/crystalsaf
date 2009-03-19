@@ -28,10 +28,11 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.analysis.metrics.LoopCountingAnalysis;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.flow.Lattice;
-import edu.cmu.cs.crystal.flow.TupleLatticeElement;
+import edu.cmu.cs.crystal.simple.LatticeElementOps;
+import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.AbstractTACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.AssignmentInstruction;
@@ -63,6 +64,9 @@ public class LocalAliasTransfer extends
 	
 	private final LoopCountingAnalysis loopCounter;
 	private Map<Variable, ObjectLabel> labelContext;
+	private final TupleLatticeElement<Variable, AliasLE> empty = 
+		new TupleLatticeElement<Variable, AliasLE>(
+			AliasLE.bottom(), AliasLE.bottom());
 	
 	public LocalAliasTransfer() {
 		loopCounter = new LoopCountingAnalysis();
@@ -72,15 +76,19 @@ public class LocalAliasTransfer extends
 	/* (non-Javadoc)
 	 * @see edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition#getLattice(org.eclipse.jdt.core.dom.MethodDeclaration)
 	 */
-	public Lattice<TupleLatticeElement<Variable, AliasLE>> getLattice(MethodDeclaration methodDeclaration) {
+	public ILatticeOperations<TupleLatticeElement<Variable, AliasLE>> createLatticeOperations(MethodDeclaration methodDeclaration) {
+		return LatticeElementOps.create(empty.bottom());
+	}
+	
+	public TupleLatticeElement<Variable, AliasLE> createEntryValue(MethodDeclaration m) {
 		labelContext = new HashMap<Variable, ObjectLabel>();
-		TupleLatticeElement<Variable, AliasLE> entry = new TupleLatticeElement<Variable, AliasLE>(
-				AliasLE.bottom(), AliasLE.bottom());
+
+		TupleLatticeElement<Variable, AliasLE> result = empty.copy();
 		Variable thisVar = getAnalysisContext().getThisVariable();
 		ObjectLabel thisLabel = getThisLabel(thisVar);
-		entry.put(thisVar, AliasLE.create(thisLabel));
+		result.put(thisVar, AliasLE.create(thisLabel));
 		// TODO what about qualified this's and super's?
-		return new Lattice<TupleLatticeElement<Variable, AliasLE>>(entry, entry.bottom());
+		return result;
 	}
 
 	private ObjectLabel getThisLabel(final Variable thisVar) {

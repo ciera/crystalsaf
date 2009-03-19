@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.flow.experimental;
+package edu.cmu.cs.crystal.flow.worklist;
 
 import java.util.Comparator;
 import java.util.HashMap;

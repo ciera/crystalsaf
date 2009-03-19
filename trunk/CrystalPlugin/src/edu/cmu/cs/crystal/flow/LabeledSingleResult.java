@@ -25,8 +25,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import edu.cmu.cs.crystal.ILabel;
 
 /**
@@ -36,16 +34,16 @@ import edu.cmu.cs.crystal.ILabel;
  * 
  * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
  */
-public class LabeledSingleResult<LE extends LatticeElement<LE>> implements IResult<LE> {
+public class LabeledSingleResult<LE> implements IResult<LE> {
 	
 	private Set<ILabel> labels;
 	private LE singleValue;
 
-	public static <LE extends LatticeElement<LE>> IResult<LE> createResult(LE value, Collection<ILabel> labels) {
+	public static <LE> IResult<LE> createResult(LE value, Collection<ILabel> labels) {
 		return new LabeledSingleResult<LE>(value, labels);
 	}
 
-	public static <LE extends LatticeElement<LE>> IResult<LE> createResult(LE value, ILabel... labels) {
+	public static <LE> IResult<LE> createResult(LE value, ILabel... labels) {
 		return new LabeledSingleResult<LE>(value, Arrays.asList(labels));
 	}
 
@@ -69,7 +67,7 @@ public class LabeledSingleResult<LE extends LatticeElement<LE>> implements IResu
 		return singleValue;
 	}
 
-	public IResult<LE> join(IResult<LE> otherResult) {
+	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
 		LE otherLattice, thisLattice;
 		LabeledResult<LE> mergedResult;
 		Set<ILabel> mergedLabels = new HashSet<ILabel>();
@@ -78,21 +76,21 @@ public class LabeledSingleResult<LE extends LatticeElement<LE>> implements IResu
 		mergedLabels.addAll(keySet());
 		mergedLabels.addAll(otherResult.keySet());
 
-		otherLattice = otherResult.get(null).copy();
-		mergedResult = new LabeledResult<LE>(singleValue.copy().join(otherLattice, null));
+		otherLattice = op.copy(otherResult.get(null));
+		mergedResult = new LabeledResult<LE>(op.join(op.copy(singleValue), otherLattice, null));
 		
 		for (ILabel label : mergedLabels) {
 			if (otherLabels.contains(label) && labels.contains(label)) {
-				otherLattice = otherResult.get(label).copy();
-				thisLattice = get(label).copy();
-				mergedResult.put(label, thisLattice.join(otherLattice, null));
+				otherLattice = op.copy(otherResult.get(label));
+				thisLattice = op.copy(get(label));
+				mergedResult.put(label, op.join(thisLattice, otherLattice, null));
 			}
 			else if (otherLabels.contains(label)) {
-				otherLattice = otherResult.get(label).copy();
+				otherLattice = op.copy(otherResult.get(label));
 				mergedResult.put(label, otherLattice);
 			}
 			else {
-				thisLattice = get(label).copy();
+				thisLattice = op.copy(get(label));
 				mergedResult.put(label, thisLattice);
 			}
 		}

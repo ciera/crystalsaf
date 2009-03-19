@@ -29,7 +29,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
  * @author Kevin Bierhoff
  *
  */
-public interface ITransferFunction<LE extends LatticeElement<LE>> extends IFlowAnalysisDefinition<LE> {
+public interface ITransferFunction<LE> extends IFlowAnalysisDefinition<LE> {
 	
 	/**
 	 * Transfer over a given AST node.  
