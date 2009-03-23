@@ -28,6 +28,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.jdt.core.IAnnotation;
@@ -305,7 +306,7 @@ public class AnnotatedTest {
 	}
 
 	@Test
-	public void testAnalysOnFile() {
+	public void testAnalysOnFile() throws Throwable {
 
 		// Boxed integer which will be incremented every time an error is reported
 		final Box<Integer> failures_encountered = Box.box(0);
@@ -347,9 +348,19 @@ public class AnnotatedTest {
 		// Run analysis
 		Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
 		if(testIndex >= 0)
-			log.info("[" + testIndex + "] is next");
-		crystal.runAnalyses(run_command, null);
-
+			log.info("[" + testIndex + "] " + AnnotatedTest.this.icu.getElementName());
+		try {
+			crystal.runAnalyses(run_command, null);
+		}
+		catch(Throwable t) {
+			// log exception, since Eclipse's JUnit GUI doesn't tell us the file where it happened
+			log.log(Level.SEVERE, 
+					"Exception in [" + testIndex + "] " + AnnotatedTest.this.icu.getElementName(), 
+					t);
+			// rethrow so JUnit knows about the failure
+			throw t;
+		}
+		
 		// assert success/failure
 		if (this.test.passingTest) {
 			assertEquals(
