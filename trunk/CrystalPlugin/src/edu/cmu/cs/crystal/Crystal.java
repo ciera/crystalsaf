@@ -44,7 +44,6 @@ import edu.cmu.cs.crystal.internal.ISingleCrystalJob;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.util.Option;
-import edu.cmu.cs.crystal.util.Utilities;
 
 /**
  * Provides the ability to run the analyses. Provides output mechanisms for both the Static Analysis
@@ -185,8 +184,8 @@ public class Crystal {
 								return;
 							monitor.subTask(cu.getElementName());
 						}
-						if (logger.isLoggable(Level.INFO))
-							logger.info("Running Crystal on: " + cu.getResource().getLocation().toOSString());
+						if (logger.isLoggable(Level.FINE))
+							logger.fine("Running Crystal on: " + cu.getResource().getLocation().toOSString());
 						
 						// Run each analysis on the current compilation unit.
 						CompilationUnit ast_comp_unit =
