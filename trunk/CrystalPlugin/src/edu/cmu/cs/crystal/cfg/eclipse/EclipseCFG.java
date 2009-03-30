@@ -166,7 +166,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 
 	public EclipseCFG(MethodDeclaration method) {
 		nodeMap = new HashMap<ASTNode, EclipseCFGNode>();
-		blockStack = new BlockStack();
+		blockStack = new BlockStack<EclipseCFGNode>();
 		exceptionMap = new ExceptionMap<EclipseCFGNode>();
 		EclipseCFGNode.NEXT_ID = 0;
 		createGraph(method);
@@ -174,7 +174,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 
 	public EclipseCFG() {
 		nodeMap = new HashMap<ASTNode, EclipseCFGNode>();
-		blockStack = new BlockStack();
+		blockStack = new BlockStack<EclipseCFGNode>();
 		exceptionMap = new ExceptionMap<EclipseCFGNode>();
 		EclipseCFGNode.NEXT_ID = 0;
 	}
