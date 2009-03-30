@@ -149,7 +149,7 @@ public class ExceptionMap<Node extends ICFGNode> implements Cloneable {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		ExceptionMap map = (ExceptionMap) super.clone();
+		ExceptionMap<Node> map = (ExceptionMap) super.clone();
 
 		map.catchStack = (Stack) catchStack.clone();
 		map.finallyStack = (Stack) finallyStack.clone();
