@@ -47,7 +47,8 @@ import edu.cmu.cs.crystal.flow.IResult;
  * <ul>
  * <li>a flow graph,</li>
  * <li>a analysis direction,</li>
- * <li>a lattice, and</li> 
+ * <li>lattice operations,</li>
+ * <li>an initial lattice value, and</li> 
  * <li>a way of transferring over flow graph nodes.</li>
  * </ul>
  * While branch sensitivity is achieved in specific implementations of the transfer method,
@@ -69,6 +70,7 @@ public abstract class WorklistTemplate<LE>  {
      * @see #getAnalysisDirection()
      * @see #getControlFlowGraph()
      * @see #getLatticeOperations()
+     * @see #getEntryValue()
      * @see #transferNode(ICFGNode, LatticeElement, ILabel)
      */
     public AnalysisResult<LE> performAnalysis() {
@@ -118,11 +120,11 @@ public abstract class WorklistTemplate<LE>  {
 		worklist.add(initialNode);
 		resultsBeforeAnalyzing.put(initialNode, new IncomingResult<LE>(entry));
 		
-		// 2. LOOP Until Stack is Empty
+		// 2. LOOP Until Worklist is Empty
 		while (! worklist.isEmpty()) {
 			
 			// Pop a ControlFlowNode off the stack
-			// Pick last post-order to visit nodes in "reverse" post-order
+			// Pick last in post-order to visit nodes in "reverse" post-order
 			ICFGNode fromNode = worklist.last();
 			worklist.remove(fromNode);
 			
@@ -195,7 +197,7 @@ public abstract class WorklistTemplate<LE>  {
 						// no previous "before" result for toNode
 						resultsBeforeAnalyzing.put(toNode, new IncomingResult<LE>(mergeIntoNode, toLabel));
 					
-					// 2c-iii. Push on the stack for further processing
+					// 2c-iii. Add to the worklist for further processing
 					worklist.add(toNode);
 				}
 			}
@@ -214,14 +216,17 @@ public abstract class WorklistTemplate<LE>  {
      * @param labeledResultsBefore Labeled results before AST nodes (relative to normal control flow).
      * @param labeledResultsAfter Labeled results after AST nodes (relative to normal control flow).
      * @param nodeMap Map from AST to CFG nodes, to cover the case where one AST node maps to multiple CFG nodes.
-     * @return Analysis result object for the given result maps.
+     * @param ops Lattice operations used for computing results; 
+     * this is useful in particular for acquiring {@link ILatticeOperations#bottom()} later
+     * @param _startNode Start node in the control flow graph
+     * @param _endNode End node in the control flow graph
+     * @return Analysis result object holding the given parameters.
      */
 	protected AnalysisResult<LE> createAnalysisResult(
 			Map<ICFGNode, IResult<LE>> labeledResultsBefore,
 			Map<ICFGNode, IResult<LE>> labeledResultsAfter,
 			Map<ASTNode, Set<ICFGNode>> nodeMap,
 			ILatticeOperations<LE> ops, ICFGNode _startNode, ICFGNode _endNode) {
-		// TODO maybe translate these results to not require the node map anymore, e.g. by merging results for CFG nodes
 		return new AnalysisResult<LE>(nodeMap, labeledResultsAfter, labeledResultsBefore, ops, _startNode, _endNode);
 	}
 
@@ -241,23 +246,31 @@ public abstract class WorklistTemplate<LE>  {
 	}
 
 	/**
-	 * Implement this method to determine the analysis direction for the current worklist run.
-	 * @return The analysis direction
+	 * Implement this method to determine the analysis direction for this worklist run.
+	 * This method will be invoked once per worklist instance.
+	 * @return Analysis direction for this worklist run.
 	 */
 	protected abstract AnalysisDirection getAnalysisDirection();
 
 	/**
-	 * Implement this method to create a control flow graph for the current worklist run.
-	 * @return CFG for the given method.
+	 * Implement this method to create a control flow graph for this worklist run.
+	 * This method will be invoked once per worklist instance.
+	 * @return Control flow graph for this worklist run.
 	 */
 	protected abstract IControlFlowGraph getControlFlowGraph();
 
 	/**
-	 * Implement this method to create the lattice to be used in the current worklist run.
-	 * @return Lattice to be used for analyzing the given method.
+	 * Implement this method to create the lattice operations to be used in this worklist run.
+	 * This method will be invoked once per worklist instance.
+	 * @return Lattice operations to be used in this worklist run.
 	 */
 	protected abstract ILatticeOperations<LE> getLatticeOperations();
-	
+
+	/**
+	 * Implement this method to create an entry lattice value to be used in this worklist run.
+	 * This method will be invoked once per worklist instance.
+	 * @return Entry lattice value to be used in this worklist run.
+	 */
 	protected abstract LE getEntryValue();
 	
 	/**
