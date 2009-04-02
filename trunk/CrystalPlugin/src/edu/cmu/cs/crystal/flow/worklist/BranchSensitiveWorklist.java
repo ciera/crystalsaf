@@ -55,7 +55,7 @@ public class BranchSensitiveWorklist<LE> extends
 	/** The analysis-specific transfer function. */
 	private final IBranchSensitiveTransferFunction<LE> transferFunction;
 	/** Cache of label lists for recently visited nodes. */
-	private final WeakHashMap<ICFGNode, List<ILabel>> labelMap = new WeakHashMap<ICFGNode, List<ILabel>>();
+	private final WeakHashMap<ICFGNode<ASTNode>, List<ILabel>> labelMap = new WeakHashMap<ICFGNode<ASTNode>, List<ILabel>>();
 
 	/**
 	 * Creates a worklist instance for the given method and transfer function.
@@ -96,7 +96,7 @@ public class BranchSensitiveWorklist<LE> extends
 	}
 
 	@Override
-	protected IResult<LE> transferNode(ICFGNode cfgNode, LE incoming,
+	protected IResult<LE> transferNode(ICFGNode<ASTNode> cfgNode, LE incoming,
 			ILabel transferLabel) throws CancellationException {
 		// are we canceled?
 		checkCancel(); // FIXME hook up cancel support all the way (FlowAnalysis, branch-insensitive)
@@ -132,13 +132,13 @@ public class BranchSensitiveWorklist<LE> extends
 	 * @param cfgNode
 	 * @return the labels out of the given node (relative to the analysis direction).
 	 */
-	private List<ILabel> getLabels(ICFGNode cfgNode) {
+	private List<ILabel> getLabels(ICFGNode<ASTNode> cfgNode) {
 		if(labelMap.containsKey(cfgNode))
 			return labelMap.get(cfgNode);
 		
-		Set<? extends ICFGEdge> edges = (AnalysisDirection.FORWARD_ANALYSIS == getAnalysisDirection() ? cfgNode.getOutputs() : cfgNode.getInputs());
+		Set<? extends ICFGEdge<ASTNode>> edges = (AnalysisDirection.FORWARD_ANALYSIS == getAnalysisDirection() ? cfgNode.getOutputs() : cfgNode.getInputs());
 		List<ILabel> labels = new LinkedList<ILabel>();
-		for(ICFGEdge e : edges) {
+		for(ICFGEdge<ASTNode> e : edges) {
 			if(labels.contains(e.getLabel()) == false)
 				labels.add(e.getLabel());
 		}

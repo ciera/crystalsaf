@@ -65,7 +65,7 @@ public class SingleResult<LE> implements IResult<LE> {
 		return normalLabelSet;
 	}
 
-	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
+	public IResult<LE> join(IResult<LE> otherResult, IAbstractLatticeOperations<LE, ?> op) {
 		if (otherResult instanceof SingleResult) {
 			return new SingleResult<LE>(
 					op.join(op.copy(singleValue), op.copy(((SingleResult<LE>) otherResult).singleValue), null));

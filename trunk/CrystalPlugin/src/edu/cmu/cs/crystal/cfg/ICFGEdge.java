@@ -28,8 +28,8 @@ import edu.cmu.cs.crystal.ILabel;
  * @author aldrich
  *
  */
-public interface ICFGEdge {
-	ICFGNode getSource();
-	ICFGNode getSink();
+public interface ICFGEdge<N> {
+	ICFGNode<N> getSource();
+	ICFGNode<N> getSink();
 	ILabel getLabel();
 }

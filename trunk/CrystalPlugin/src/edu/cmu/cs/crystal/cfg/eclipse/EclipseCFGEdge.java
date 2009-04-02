@@ -19,13 +19,15 @@
  */
 package edu.cmu.cs.crystal.cfg.eclipse;
 
+import org.eclipse.jdt.core.dom.ASTNode;
+
 import att.grappa.Edge;
 import att.grappa.Graph;
 import att.grappa.Node;
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.cfg.ICFGEdge;
 
-public class EclipseCFGEdge implements ICFGEdge {
+public class EclipseCFGEdge implements ICFGEdge<ASTNode> {
 	EclipseCFGNode sink;
 	EclipseCFGNode source;
 	ILabel label;

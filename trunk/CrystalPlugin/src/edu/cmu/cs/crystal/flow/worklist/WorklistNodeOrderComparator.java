@@ -27,8 +27,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import edu.cmu.cs.crystal.cfg.ICFGEdge;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
@@ -42,7 +40,7 @@ import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
  * @author Kevin Bierhoff
  * @since 3.3.0
  */
-public class WorklistNodeOrderComparator implements Comparator<ICFGNode> {
+public class WorklistNodeOrderComparator implements Comparator<ICFGNode<?>> {
 	
 	/**
 	 * Builds a post-order comparator for the nodes in the given CFG, in which
@@ -59,25 +57,25 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode> {
 	 * {@link ICFGNode#getInputs() incoming edges}.
 	 * @return Post-order comparator for the nodes in the given CFG
 	 */
-	public static WorklistNodeOrderComparator createPostOrderAndPopulateNodeMap(
-			final IControlFlowGraph cfg, 
-			final Map<ASTNode, Set<ICFGNode>> nodeMap, 
+	public static <N> WorklistNodeOrderComparator createPostOrderAndPopulateNodeMap(
+			final IControlFlowGraph<N> cfg, 
+			final Map<N, Set<ICFGNode<N>>> nodeMap, 
 			final boolean isForward) {
-		Map<ICFGNode, Integer> order = new HashMap<ICFGNode, Integer>();
+		Map<ICFGNode<?>, Integer> order = new HashMap<ICFGNode<?>, Integer>();
 		
 		// iterative post-order visit / depth-first search (DFS)  
 		// "visits" (numbers) nodes after all their children are 
 		// visited (ie., when nodes become "black")
 		int cur = 0;
 		LinkedList<Object> spine = new LinkedList<Object>();
-		ICFGNode node = isForward ? cfg.getStartNode() : cfg.getEndNode();
+		ICFGNode<N> node = isForward ? cfg.getStartNode() : cfg.getEndNode();
 		order.put(node, null); 
 		spine.addFirst(node);
 		spine.addFirst((isForward ? node.getOutputs() : node.getInputs()).iterator());
 		
 		newNode:
 		while(spine.isEmpty() == false) {
-			Iterator<ICFGEdge> it = (Iterator<ICFGEdge>) spine.peek();
+			Iterator<ICFGEdge<N>> it = (Iterator<ICFGEdge<N>>) spine.peek();
 			while(it.hasNext()) {
 				node = isForward ? it.next().getSink() : it.next().getSource();
 				if(order.containsKey(node) == false) {
@@ -88,7 +86,7 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode> {
 				}
 			}
 			spine.removeFirst();
-			node = (ICFGNode) spine.removeFirst();
+			node = (ICFGNode<N>) spine.removeFirst();
 			// number nodes in increasing order
 			if(order.put(node, cur++) != null)
 				throw new IllegalStateException("Node already visited: " + node);
@@ -105,15 +103,15 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode> {
 	 * @param nodeMap
 	 * @param cfgNode
 	 */
-	private static void registerCfgNode(
-			Map<ASTNode, Set<ICFGNode>> nodeMap,
-			ICFGNode cfgNode) {
-		ASTNode astnode = cfgNode.getASTNode();
+	private static <N> void registerCfgNode(
+			Map<N, Set<ICFGNode<N>>> nodeMap,
+			ICFGNode<N> cfgNode) {
+		N astnode = cfgNode.getASTNode();
 		if(astnode == null)
 			return;
-		Set<ICFGNode> cfgnodes = nodeMap.get(astnode);
+		Set<ICFGNode<N>> cfgnodes = nodeMap.get(astnode);
 		if (cfgnodes == null) {
-			cfgnodes = new HashSet<ICFGNode>();
+			cfgnodes = new HashSet<ICFGNode<N>>();
 			nodeMap.put(astnode, cfgnodes);
 		}
 		cfgnodes.add(cfgNode);
@@ -132,20 +130,20 @@ public class WorklistNodeOrderComparator implements Comparator<ICFGNode> {
 //	}
 	
 	/** Maps CFG nodes to a number that indicates their relative position in the order. */
-	private Map<ICFGNode, Integer> order;
+	private Map<ICFGNode<?>, Integer> order;
 	
 	/**
 	 * Create a comparator from the given ordering map.
 	 * @param order
 	 */
-	private WorklistNodeOrderComparator(Map<ICFGNode, Integer> order) {
+	private WorklistNodeOrderComparator(Map<ICFGNode<?>, Integer> order) {
 		this.order = order;
 	}
 
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(ICFGNode node1, ICFGNode node2) {
+	public int compare(ICFGNode<?> node1, ICFGNode<?> node2) {
 		return order.get(node1).compareTo(order.get(node2));
 	}
 

@@ -135,7 +135,7 @@ import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
  * 
  * @author cchristo
  */
-public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneable {
+public class EclipseCFG extends ASTVisitor implements IControlFlowGraph<ASTNode>, Cloneable {
 
 	// build simple cfg first, many edges into and out of finally
 	// then traverse using a DFS. When we encounter an exception tag, track it
@@ -149,7 +149,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 
 	protected BlockStack<EclipseCFGNode> blockStack;
 
-	protected ExceptionMap<EclipseCFGNode> exceptionMap;
+	protected ExceptionMap<ASTNode, EclipseCFGNode> exceptionMap;
 
 	protected HashMap<ASTNode, EclipseCFGNode> nodeMap;
 
@@ -167,7 +167,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 	public EclipseCFG(MethodDeclaration method) {
 		nodeMap = new HashMap<ASTNode, EclipseCFGNode>();
 		blockStack = new BlockStack<EclipseCFGNode>();
-		exceptionMap = new ExceptionMap<EclipseCFGNode>();
+		exceptionMap = new ExceptionMap<ASTNode, EclipseCFGNode>();
 		EclipseCFGNode.NEXT_ID = 0;
 		createGraph(method);
 	}
@@ -175,7 +175,7 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 	public EclipseCFG() {
 		nodeMap = new HashMap<ASTNode, EclipseCFGNode>();
 		blockStack = new BlockStack<EclipseCFGNode>();
-		exceptionMap = new ExceptionMap<EclipseCFGNode>();
+		exceptionMap = new ExceptionMap<ASTNode, EclipseCFGNode>();
 		EclipseCFGNode.NEXT_ID = 0;
 	}
 
@@ -184,19 +184,19 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph, Cloneab
 		method.accept(this);
 	}
 
-	public ICFGNode getStartNode() {
+	public ICFGNode<ASTNode> getStartNode() {
 		return startNode;
 	}
 
-	public ICFGNode getEndNode() {
+	public ICFGNode<ASTNode> getEndNode() {
 		return endNode;
 	}
 
-	public ICFGNode getUberReturn() {
+	public ICFGNode<ASTNode> getUberReturn() {
 		return uberReturn;
 	}
 
-	public ICFGNode getUndeclaredExit() {
+	public ICFGNode<ASTNode> getUndeclaredExit() {
 		return undeclExit;
 	}
 

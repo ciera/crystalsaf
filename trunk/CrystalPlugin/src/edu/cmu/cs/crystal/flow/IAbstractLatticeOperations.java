@@ -19,40 +19,26 @@
  */
 package edu.cmu.cs.crystal.flow;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 /**
- * Implement this interface to provide typical lattice operations.
- * Instances of this interface are used by Crystal flow analyses to compare
- * and join analysis-specific information.
- * This interface is parameterized by the type used to represent values in
- * the lattice.
- * Notice that there are no assumptions being made about the lattice values,
- * which allows using existing types such as {@link java.util.Set}.
- * Crystal encourages including analysis-specific operations into classes
- * implementing this interfaces, but this is not required.
- * 
- * Lattices are defined with four methods:
- * <ul>
- * <li>{@link #bottom()} represents the most precise lattice value.  (There is
- * no direct way of acquiring Top.)
- * <li>{@link #atLeastAsPrecise(Object, Object, ASTNode)} compares two lattice values.
- * <li>{@link #join(Object, Object, ASTNode)} approximates two lattice values
- * by one that is less precise than both given.
- * <li>{@link #copy(Object)} duplicates a lattice value.  This is an implementation
- * device that is needed because flow analyses derive lattice values for new program
- * points from lattice values for program points that were already analyzed.
- * </ul>
- * 
- * Historical note: {@link #atLeastAsPrecise(Object, Object, ASTNode)},
- * {@link #join(Object, Object, ASTNode)}, and {@link #copy(Object)}
- * are inspired by {@link LatticeElement}.
+ * Analysis writers do not implement this interface directly; instead, they implement
+ * an extending interface that instantiates the node type parameter, <code>N</code> of
+ * this interface.
+ * This interface allows implementing a worklist algorithm independently from the type
+ * of node being transferred over.
+ * Implementers of flow analyses over concrete node types should create a sub-interface
+ * that instantiates the node type parameter.  
+ * {@link ILatticeOperations} is such a sub-interface for flow analyses over Eclise AST nodes.
+ * {@link edu.cmu.cs.crystal.flow.worklist.WorklistTemplate} can be used as the basis for 
+ * flow analyses over other kinds of nodes.
  * @param <LE> Analysis information being tracked.
+ * @param <N> Nodes our lattice information is computed over
  * @author Kevin Bierhoff
  * @since Crystal 3.4.0
+ * @see edu.cmu.cs.crystal.flow.worklist.WorklistTemplate
+ * @see ILatticeOperations
  */
-public interface ILatticeOperations<LE> extends IAbstractLatticeOperations<LE, ASTNode> {
-	
+public interface IAbstractLatticeOperations<LE, N> {
+
 	/**
 	 * Responsible for returning a lattice that represents no knowledge.
 	 * 
@@ -76,7 +62,7 @@ public interface ILatticeOperations<LE> extends IAbstractLatticeOperations<LE, A
 	 * while, try, switch, etc.) or <code>null</code> if this join occurs on a "dummy" node.
 	 * @return	the resulting LE that has the combined knowledge
 	 */
-	public LE join(LE someInfo, LE otherInfo, ASTNode node);
+	public LE join(LE someInfo, LE otherInfo, N node);
 	
 	/**
 	 * Compares analysis information for precision; more precisely,
@@ -91,7 +77,7 @@ public interface ILatticeOperations<LE> extends IAbstractLatticeOperations<LE, A
 	 * @return <code>true</code> if the first argument is at least as precise as the
 	 * second; <code>false</code> otherwise, including if the two arguments are incomparable.
 	 */
-	public boolean atLeastAsPrecise(LE info, LE reference, ASTNode node);
+	public boolean atLeastAsPrecise(LE info, LE reference, N node);
 	
 	/**
 	 * Creates a new deep copy of the given analysis information.  
