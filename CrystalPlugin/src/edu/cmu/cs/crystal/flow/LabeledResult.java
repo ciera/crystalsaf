@@ -78,7 +78,7 @@ public class LabeledResult<LE> implements IResult<LE> {
 		return Collections.unmodifiableSet(labelMap.keySet());
 	}
 
-	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
+	public IResult<LE> join(IResult<LE> otherResult, IAbstractLatticeOperations<LE, ?> op) {
 		LE otherLattice, thisLattice;
 		LabeledResult<LE> mergedResult;
 		Set<ILabel> mergedLabels = new HashSet<ILabel>();

@@ -27,10 +27,8 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import att.grappa.Graph;
 import att.grappa.Node;
-
 import edu.cmu.cs.crystal.BooleanLabel;
 import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.cfg.ICFGEdge;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
 
@@ -56,7 +54,7 @@ import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
  * @author cchristo
  *
  */
-public class EclipseCFGNode implements ICFGNode {
+public class EclipseCFGNode implements ICFGNode<ASTNode> {
     static protected int NEXT_ID;
     
 	private ASTNode node;
@@ -179,8 +177,7 @@ public class EclipseCFGNode implements ICFGNode {
 			
 			graph.addNode(thisNode);
 		
-			for (ICFGEdge edge : outputs) {
-				EclipseCFGEdge eclipseEdge = (EclipseCFGEdge)edge;
+			for (EclipseCFGEdge eclipseEdge : outputs) {
 				EclipseCFGNode eclipseNode = eclipseEdge.getSink();
 				Node source = eclipseNode.addToGraph(graph);
 				eclipseEdge.addToGraph(graph, thisNode, source);

@@ -63,5 +63,5 @@ public interface IResult<LE> {
 	 * 
 	 * @see LatticeElement#join(LatticeElement)
 	 */
-	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> ops);
+	public IResult<LE> join(IResult<LE> otherResult, IAbstractLatticeOperations<LE, ?> ops);
 }

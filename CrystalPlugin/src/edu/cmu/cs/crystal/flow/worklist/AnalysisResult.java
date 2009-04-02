@@ -22,10 +22,8 @@ package edu.cmu.cs.crystal.flow.worklist;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import edu.cmu.cs.crystal.cfg.ICFGNode;
-import edu.cmu.cs.crystal.flow.ILatticeOperations;
+import edu.cmu.cs.crystal.flow.IAbstractLatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 
 /**
@@ -39,15 +37,15 @@ import edu.cmu.cs.crystal.flow.IResult;
  * @date Jan 24, 2008
  *
  */
-public class AnalysisResult<LE> {
+public class AnalysisResult<LE, N, OP extends IAbstractLatticeOperations<LE, N>> {
 
-	private final Map<ASTNode, Set<ICFGNode>> nodeMap;
-	private final Map<ICFGNode, IResult<LE>> labeledResultsAfter;
-	private final Map<ICFGNode, IResult<LE>> labeledResultsBefore;
-	private final ILatticeOperations<LE> lattice;
+	private final Map<N, Set<ICFGNode<N>>> nodeMap;
+	private final Map<ICFGNode<N>, IResult<LE>> labeledResultsAfter;
+	private final Map<ICFGNode<N>, IResult<LE>> labeledResultsBefore;
+	private final OP lattice;
 	
-	private final ICFGNode cfgStartNode;
-	private final ICFGNode cfgEndNode;
+	private final ICFGNode<N> cfgStartNode;
+	private final ICFGNode<N> cfgEndNode;
 	
 	/**
 	 * Creates copies of the given maps to encapsulate a new, 
@@ -58,45 +56,45 @@ public class AnalysisResult<LE> {
 	 * @param _lrb
 	 * @param _l
 	 */
-	public AnalysisResult(Map<ASTNode, Set<ICFGNode>> _nm,
-				Map<ICFGNode, IResult<LE>> _lra,
-				Map<ICFGNode, IResult<LE>> _lrb,
-				ILatticeOperations<LE> _l, ICFGNode _startNode, ICFGNode _endNode) {
+	public AnalysisResult(Map<N, Set<ICFGNode<N>>> _nm,
+				Map<ICFGNode<N>, IResult<LE>> _lra,
+				Map<ICFGNode<N>, IResult<LE>> _lrb,
+				OP _l, ICFGNode<N> _startNode, ICFGNode<N> _endNode) {
 		nodeMap = 
 			java.util.Collections.unmodifiableMap(
-					new java.util.HashMap<ASTNode, Set<ICFGNode>>(_nm));
+					new java.util.HashMap<N, Set<ICFGNode<N>>>(_nm));
 		labeledResultsAfter = 
 			java.util.Collections.unmodifiableMap(
-					new java.util.HashMap<ICFGNode, IResult<LE>>(_lra));
+					new java.util.HashMap<ICFGNode<N>, IResult<LE>>(_lra));
 		labeledResultsBefore =
 			java.util.Collections.unmodifiableMap(
-					new java.util.HashMap<ICFGNode, IResult<LE>>(_lrb));	
+					new java.util.HashMap<ICFGNode<N>, IResult<LE>>(_lrb));	
 		lattice = _l;
 		cfgStartNode = _startNode;
 		cfgEndNode = _endNode;
 	}
 
-	public Map<ASTNode, Set<ICFGNode>> getNodeMap() {
+	public Map<N, Set<ICFGNode<N>>> getNodeMap() {
 		return nodeMap;
 	}
 
-	public Map<ICFGNode, IResult<LE>> getLabeledResultsAfter() {
+	public Map<ICFGNode<N>, IResult<LE>> getLabeledResultsAfter() {
 		return labeledResultsAfter;
 	}
 
-	public Map<ICFGNode, IResult<LE>> getLabeledResultsBefore() {
+	public Map<ICFGNode<N>, IResult<LE>> getLabeledResultsBefore() {
 		return labeledResultsBefore;
 	}
 
-	public ILatticeOperations<LE> getLattice() {
+	public OP getLattice() {
 		return lattice;
 	}
 
-	public ICFGNode getCfgStartNode() {
+	public ICFGNode<N> getCfgStartNode() {
 		return this.cfgStartNode;
 	}
 
-	public ICFGNode getCfgEndNode() {
+	public ICFGNode<N> getCfgEndNode() {
 		return this.cfgEndNode;
 	}
 	

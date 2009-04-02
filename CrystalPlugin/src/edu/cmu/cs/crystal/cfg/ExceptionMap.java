@@ -34,7 +34,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
  * 
  * @param <Node>
  */
-public class ExceptionMap<Node extends ICFGNode> implements Cloneable {
+public class ExceptionMap<N, Node extends ICFGNode<N>> implements Cloneable {
 	private class CatchBlock {
 		Node catchNode;
 		ITypeBinding exception;
@@ -149,7 +149,7 @@ public class ExceptionMap<Node extends ICFGNode> implements Cloneable {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		ExceptionMap<Node> map = (ExceptionMap) super.clone();
+		ExceptionMap<N, Node> map = (ExceptionMap) super.clone();
 
 		map.catchStack = (Stack) catchStack.clone();
 		map.finallyStack = (Stack) finallyStack.clone();

@@ -34,12 +34,13 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.cfg.eclipse.EclipseNodeFirstCFG;
+import edu.cmu.cs.crystal.flow.ILatticeOperations;
 
 /**
  * @author Kevin Bierhoff
  *
  */
-public abstract class AbstractWorklist<LE> extends WorklistTemplate<LE> {
+public abstract class AbstractWorklist<LE> extends WorklistTemplate<LE, ASTNode, ILatticeOperations<LE>> {
 	
 	private static final Logger log = Logger.getLogger(AbstractWorklist.class.getName());
 	
@@ -58,7 +59,7 @@ public abstract class AbstractWorklist<LE> extends WorklistTemplate<LE> {
 	}
 	
 	@Override
-	protected IControlFlowGraph getControlFlowGraph() {
+	protected IControlFlowGraph<ASTNode> getControlFlowGraph() {
 		return new EclipseNodeFirstCFG(method);
 	}
 

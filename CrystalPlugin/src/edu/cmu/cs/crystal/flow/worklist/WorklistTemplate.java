@@ -28,8 +28,6 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import edu.cmu.cs.crystal.BooleanLabel;
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.NormalLabel;
@@ -37,8 +35,10 @@ import edu.cmu.cs.crystal.cfg.ICFGEdge;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.IAbstractLatticeOperations;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
+import edu.cmu.cs.crystal.simple.LatticeElement;
 
 /**
  * This class encapsulates a worklist algorithm for computing fixed points
@@ -57,7 +57,7 @@ import edu.cmu.cs.crystal.flow.IResult;
  * 
  * @author Kevin Bierhoff
  */
-public abstract class WorklistTemplate<LE>  {
+public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperations<LE, N>>  {
 	
 	private static final Logger log = Logger.getLogger(WorklistTemplate.class.getName());
 	
@@ -73,17 +73,17 @@ public abstract class WorklistTemplate<LE>  {
      * @see #getEntryValue()
      * @see #transferNode(ICFGNode, LatticeElement, ILabel)
      */
-    public AnalysisResult<LE> performAnalysis() {
+    public AnalysisResult<LE, N, OP> performAnalysis() {
     	
 		// Setup result mappings
-    	HashMap<ICFGNode, IResult<LE>> labeledResultsBefore = new HashMap<ICFGNode, IResult<LE>>();
-    	HashMap<ICFGNode, IResult<LE>> labeledResultsAfter = new HashMap<ICFGNode, IResult<LE>>();
-    	HashMap<ASTNode, Set<ICFGNode>> nodeMap = new HashMap<ASTNode, Set<ICFGNode>>();
+    	HashMap<ICFGNode<N>, IResult<LE>> labeledResultsBefore = new HashMap<ICFGNode<N>, IResult<LE>>();
+    	HashMap<ICFGNode<N>, IResult<LE>> labeledResultsAfter = new HashMap<ICFGNode<N>, IResult<LE>>();
+    	HashMap<N, Set<ICFGNode<N>>> nodeMap = new HashMap<N, Set<ICFGNode<N>>>();
 		
 		// 0. Verify and Collect required data: direction, lattice, CFG
 		AnalysisDirection direction;
-		IControlFlowGraph cfg;
-		ILatticeOperations<LE> ops;
+		IControlFlowGraph<N> cfg;
+		OP ops;
 		LE entry;
 		
 		direction = getAnalysisDirection();
@@ -99,8 +99,8 @@ public abstract class WorklistTemplate<LE>  {
 
 		// Populate fields about the current analysis
 		boolean isForward = direction.equals(AnalysisDirection.FORWARD_ANALYSIS);
-		Map<ICFGNode, IResult<LE>> resultsBeforeAnalyzing;  
-		Map<ICFGNode, IResult<LE>> resultsAfterAnalyzing;
+		Map<ICFGNode<N>, IResult<LE>> resultsBeforeAnalyzing;  
+		Map<ICFGNode<N>, IResult<LE>> resultsAfterAnalyzing;
 		// make result mappings relative to analysis direction
 		// will use results[Before|After]Analyzing throughout the algorithm
 		if (isForward) {
@@ -113,10 +113,10 @@ public abstract class WorklistTemplate<LE>  {
 		}
 
 		// 1. Set up worklist with initial node.
-		SortedSet<ICFGNode> worklist = new TreeSet<ICFGNode>(
+		SortedSet<ICFGNode<N>> worklist = new TreeSet<ICFGNode<N>>(
 				WorklistNodeOrderComparator.createPostOrderAndPopulateNodeMap(cfg, nodeMap, isForward));
 
-		ICFGNode initialNode = isForward ? cfg.getStartNode() : cfg.getEndNode();
+		ICFGNode<N> initialNode = isForward ? cfg.getStartNode() : cfg.getEndNode();
 		worklist.add(initialNode);
 		resultsBeforeAnalyzing.put(initialNode, new IncomingResult<LE>(entry));
 		
@@ -125,7 +125,7 @@ public abstract class WorklistTemplate<LE>  {
 			
 			// Pop a ControlFlowNode off the stack
 			// Pick last in post-order to visit nodes in "reverse" post-order
-			ICFGNode fromNode = worklist.last();
+			ICFGNode<N> fromNode = worklist.last();
 			worklist.remove(fromNode);
 			
 			try {
@@ -157,12 +157,12 @@ public abstract class WorklistTemplate<LE>  {
 				resultsAfterAnalyzing.put(fromNode, checkNull(afterResults));
 							
 				// 2c. Transfer over following edges
-				for (ICFGEdge edge : (isForward ? fromNode.getOutputs() : fromNode.getInputs())) {
+				for (ICFGEdge<N> edge : (isForward ? fromNode.getOutputs() : fromNode.getInputs())) {
 					ILabel edgeLabel = edge.getLabel();
 					ILabel toLabel = incomingLabel(edgeLabel);
 					
 					// 2c-i. Find node and lattice to merge
-					ICFGNode toNode = isForward ? edge.getSink() : edge.getSource();
+					ICFGNode<N> toNode = isForward ? edge.getSink() : edge.getSource();
 					LE mergeIntoNode = afterResults.get(edgeLabel);
 					
 					// 2c-ii. Update following node
@@ -222,12 +222,12 @@ public abstract class WorklistTemplate<LE>  {
      * @param _endNode End node in the control flow graph
      * @return Analysis result object holding the given parameters.
      */
-	protected AnalysisResult<LE> createAnalysisResult(
-			Map<ICFGNode, IResult<LE>> labeledResultsBefore,
-			Map<ICFGNode, IResult<LE>> labeledResultsAfter,
-			Map<ASTNode, Set<ICFGNode>> nodeMap,
-			ILatticeOperations<LE> ops, ICFGNode _startNode, ICFGNode _endNode) {
-		return new AnalysisResult<LE>(nodeMap, labeledResultsAfter, labeledResultsBefore, ops, _startNode, _endNode);
+	protected AnalysisResult<LE, N, OP> createAnalysisResult(
+			Map<ICFGNode<N>, IResult<LE>> labeledResultsBefore,
+			Map<ICFGNode<N>, IResult<LE>> labeledResultsAfter,
+			Map<N, Set<ICFGNode<N>>> nodeMap,
+			OP ops, ICFGNode<N> _startNode, ICFGNode<N> _endNode) {
+		return new AnalysisResult<LE, N, OP>(nodeMap, labeledResultsAfter, labeledResultsBefore, ops, _startNode, _endNode);
 	}
 
 	/**
@@ -257,14 +257,14 @@ public abstract class WorklistTemplate<LE>  {
 	 * This method will be invoked once per worklist instance.
 	 * @return Control flow graph for this worklist run.
 	 */
-	protected abstract IControlFlowGraph getControlFlowGraph();
+	protected abstract IControlFlowGraph<N> getControlFlowGraph();
 
 	/**
 	 * Implement this method to create the lattice operations to be used in this worklist run.
 	 * This method will be invoked once per worklist instance.
 	 * @return Lattice operations to be used in this worklist run.
 	 */
-	protected abstract ILatticeOperations<LE> getLatticeOperations();
+	protected abstract OP getLatticeOperations();
 
 	/**
 	 * Implement this method to create an entry lattice value to be used in this worklist run.
@@ -290,7 +290,7 @@ public abstract class WorklistTemplate<LE>  {
 	 * (relative to the analysis direction).
 	 */
 	protected abstract IResult<LE> transferNode(
-			ICFGNode cfgNode,
+			ICFGNode<N> cfgNode,
 			LE incoming, ILabel transferLabel);
 	
 	/**
@@ -406,7 +406,7 @@ public abstract class WorklistTemplate<LE>  {
 			return result;
 		}
 
-		public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
+		public IResult<LE> join(IResult<LE> otherResult, IAbstractLatticeOperations<LE, ?> op) {
 			if(otherResult == null)
 				return this;
 			if(otherResult instanceof IncomingResult) {

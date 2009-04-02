@@ -67,7 +67,7 @@ public class LabeledSingleResult<LE> implements IResult<LE> {
 		return singleValue;
 	}
 
-	public IResult<LE> join(IResult<LE> otherResult, ILatticeOperations<LE> op) {
+	public IResult<LE> join(IResult<LE> otherResult, IAbstractLatticeOperations<LE, ?> op) {
 		LE otherLattice, thisLattice;
 		LabeledResult<LE> mergedResult;
 		Set<ILabel> mergedLabels = new HashSet<ILabel>();

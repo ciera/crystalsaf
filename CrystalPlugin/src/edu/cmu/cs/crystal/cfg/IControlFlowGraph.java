@@ -23,16 +23,16 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import att.grappa.Graph;
 
-public interface IControlFlowGraph {
-	public ICFGNode getStartNode();
+public interface IControlFlowGraph<N> {
+	public ICFGNode<N> getStartNode();
 
-	public ICFGNode getEndNode();
+	public ICFGNode<N> getEndNode();
 
-	public ICFGNode getUberReturn();
+	public ICFGNode<N> getUberReturn();
 
-	public ICFGNode getUndeclaredExit();
+	public ICFGNode<N> getUndeclaredExit();
 
-	public Map<ITypeBinding, ? extends ICFGNode> getExceptionalExits();
+	public Map<ITypeBinding, ? extends ICFGNode<N>> getExceptionalExits();
 
 	public Graph getDotGraph();
 }

@@ -84,7 +84,7 @@ public class BranchInsensitiveWorklist<LE> extends AbstractWorklist<LE> {
 	}
 
 	@Override
-	protected IResult<LE> transferNode(ICFGNode cfgNode, LE incoming,
+	protected IResult<LE> transferNode(ICFGNode<ASTNode> cfgNode, LE incoming,
 			ILabel transferLabel) throws CancellationException {
 		// are we canceled?
 		checkCancel();
