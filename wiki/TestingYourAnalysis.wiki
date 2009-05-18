@@ -61,8 +61,8 @@ public class XXX_DivideByZ_test1 {
 
 Now it's time to run those tests! This is pretty straightforward, but there are a few things that you need to watch out for! Here's how you do it:
   # Close any open Eclipse instances that are using your test workspace.
-  # Go to the instance of Eclipse that is using your Crystal/Analysis workspace.
-  # Select *Run* then *Open Run Dialog*
+  # Go to the instance of Eclipse where you are developing in your Crystal/Analysis workspace.
+  # Select *Run* then *Run Configurations...*
   # Create a new *JUnit Plugin Test* with the name of your choice.
   # You want to *Run a single test* in the !CrystalPlugin project with edu.cmu.cs.crystal.test.!AnnotatedTest as your *Test class*. Make sure your are using JUnit 4 as your *Test runner*.
   # Now go to the *Main* tab of the same dialog. Make sure the *Location* corresponds to your testing workspace! By default it probably will not!
