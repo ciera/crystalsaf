@@ -33,12 +33,14 @@ In order to test your analysis, you have to run what is known as a "JUnit Plugin
 
 In your testing workspace, whichever one you choose:
   * You need to have a Java project which contains the Java classes under test. You can have more than one! !AnalysisTest will look at every compilation unit in the project to see if it is a Crystal analysis test file.
-  * Inside this Java project, you need to have the test annotations on your build path! The easiest way to do this?
-    * Go to the project that contains Crystal.
+  * Inside this Java project, you need to have the test annotations on your build path! The easiest way to do this? Download it from [http://code.google.com/p/plaidannotations/ the PLAID Annotations site]. Alternately....
+
+    * Go to the PlaidAnnotations project.
     * Choose to *Export* a *JAR File*.
     * Select just the classes in the edu.cs.cmu.crystal.annotations package (although having more doesn't really hurt).
-    * Put this jar file in your testing workspace, inside the project where your test files are located.
-    * Go back to your test project, *refresh* the project and add the new jar file to your build path.
+  * Put this jar file in your testing workspace, inside the project where your test files are located.
+  * Go back to your test project, *refresh* the project and add the new jar file to your build path.
+
 
 After you have done this, annotate your test files as necessary. Here's a simple test file for the !DivideByZeroAnalysis analysis:
 
