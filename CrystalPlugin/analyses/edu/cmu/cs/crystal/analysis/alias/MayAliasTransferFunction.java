@@ -26,7 +26,9 @@ import java.util.Map;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.ILabel;
+import edu.cmu.cs.crystal.analysis.metrics.LoopCounter;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
@@ -55,12 +57,14 @@ public class MayAliasTransferFunction extends
 		AbstractTACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, AliasLE>> {
 
 	private Map<Variable, ObjectLabel> labelContext;
-	private MayAliasAnalysis mainAnalysis;
+	private ICrystalAnalysis mainAnalysis;
 	private final TupleLatticeElement<Variable, AliasLE> empty =
 		  new TupleLatticeElement<Variable, AliasLE>(new AliasLE(), new AliasLE());
+	private LoopCounter loopCounter;
 	
-	public MayAliasTransferFunction(MayAliasAnalysis analysis) {
+	public MayAliasTransferFunction(ICrystalAnalysis analysis) {
 		labelContext = new HashMap<Variable, ObjectLabel>();
+		loopCounter = new LoopCounter();
 		this.mainAnalysis = analysis;
 	}
 	
@@ -84,7 +88,7 @@ public class MayAliasTransferFunction extends
 			return labelContext.get(associatedVar);
 		}
 		else {
-			boolean isInLoop = mainAnalysis.isInLoop(declaringInstr);
+			boolean isInLoop = loopCounter.isInLoop(declaringInstr.getNode());
 			ObjectLabel label = new DefaultObjectLabel(binding, isInLoop);
 			labelContext.put(associatedVar, label);
 			return label;
