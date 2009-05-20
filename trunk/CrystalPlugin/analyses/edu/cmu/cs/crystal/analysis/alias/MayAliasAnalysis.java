@@ -31,7 +31,6 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.analysis.metrics.LoopCountingAnalysis;
 import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.SourceVariable;
@@ -44,7 +43,6 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 	private static final Logger log = Logger.getLogger(MayAliasAnalysis.class.getName());
 	
 	private ITACFlowAnalysis<TupleLatticeElement<Variable, AliasLE>> fa;
-	private LoopCountingAnalysis loopCounter;
 	
 	/**
 	 * This visitor will only be called if log level is {@link Level#FINE} or lower.
@@ -73,9 +71,10 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 		
 	};
 	
-	public MayAliasAnalysis(LoopCountingAnalysis analysis) {
-		loopCounter = analysis;
+	public MayAliasAnalysis() {
+		super();
 	}
+	
 	
 	/**
 	 * Get the aliases of a variable at a particular node. Returns the aliases
@@ -201,11 +200,6 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 		return aliases;
 	}
 
-	
-	public boolean isInLoop(TACInstruction declaringInstr) {
-		return loopCounter.isInLoop(declaringInstr.getNode());
-	}
-
 	public TupleLatticeElement<Variable, AliasLE> getResultsAfter(TACInstruction instr) {
 		return fa.getResultsAfter(instr.getNode());
 	}
@@ -232,6 +226,15 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 	
 	public Variable getThisVar(MethodDeclaration methodDecl) {
 		return fa.getThisVariable(methodDecl);
+	}
+
+	/**
+	 * @param instr
+	 * @return
+	 */
+	public TupleLatticeElement<Variable, AliasLE> getResultsBefore(
+			TACInstruction instr) {
+		return fa.getResultsBefore(instr);
 	}
 
 }

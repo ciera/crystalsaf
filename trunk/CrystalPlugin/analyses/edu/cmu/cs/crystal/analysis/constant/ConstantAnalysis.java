@@ -36,8 +36,8 @@ public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
 	private ITACFlowAnalysis<TupleLatticeElement<Variable, BooleanConstantLE>> fa;
 
 	public ConstantAnalysis() {
+		super();
 	}
-	
 	
 	public boolean hasPreciseValueAfter(Variable var, ASTNode node, boolean after) {
 		BooleanConstantLE value;	
@@ -86,5 +86,15 @@ public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
 	public TupleLatticeElement<Variable, BooleanConstantLE> getResultsBefore(
 			TACInstruction instr) {
 		return fa.getResultsBefore(instr.getNode());
+	}
+
+
+	/**
+	 * @param instr
+	 * @return
+	 */
+	public TupleLatticeElement<Variable, BooleanConstantLE> getResultsAfter(
+			TACInstruction instr) {
+		return fa.getResultsAfter(instr);
 	}
 }

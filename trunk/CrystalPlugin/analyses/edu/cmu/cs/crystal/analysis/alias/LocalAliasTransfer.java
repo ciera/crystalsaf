@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.analysis.metrics.LoopCountingAnalysis;
+import edu.cmu.cs.crystal.analysis.metrics.LoopCounter;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
@@ -62,14 +62,14 @@ public class LocalAliasTransfer extends
 		AbstractTACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, AliasLE>> implements
 		ITACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, AliasLE>> {
 	
-	private final LoopCountingAnalysis loopCounter;
+	private final LoopCounter loopCounter;
 	private Map<Variable, ObjectLabel> labelContext;
 	private final TupleLatticeElement<Variable, AliasLE> empty = 
 		new TupleLatticeElement<Variable, AliasLE>(
 			AliasLE.bottom(), AliasLE.bottom());
 	
 	public LocalAliasTransfer() {
-		loopCounter = new LoopCountingAnalysis();
+		loopCounter = new LoopCounter();
 		labelContext = new HashMap<Variable, ObjectLabel>();
 	}
 
