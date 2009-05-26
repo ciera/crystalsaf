@@ -29,11 +29,12 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.analysis.metrics.LoopCounter;
+import edu.cmu.cs.crystal.bridge.LatticeElementOps;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.simple.LatticeElementOps;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
+import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
 import edu.cmu.cs.crystal.tac.AbstractTACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.AssignmentInstruction;
@@ -57,23 +58,22 @@ public class MayAliasTransferFunction extends
 		AbstractTACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, AliasLE>> {
 
 	private Map<Variable, ObjectLabel> labelContext;
-	private ICrystalAnalysis mainAnalysis;
-	private final TupleLatticeElement<Variable, AliasLE> empty =
-		  new TupleLatticeElement<Variable, AliasLE>(new AliasLE(), new AliasLE());
+	private final TupleLatticeOperations<Variable, AliasLE> ops =
+		new TupleLatticeOperations<Variable, AliasLE>(LatticeElementOps.create(new AliasLE()),new AliasLE());
+
 	private LoopCounter loopCounter;
 	
 	public MayAliasTransferFunction(ICrystalAnalysis analysis) {
 		labelContext = new HashMap<Variable, ObjectLabel>();
 		loopCounter = new LoopCounter();
-		this.mainAnalysis = analysis;
 	}
 	
 	public ILatticeOperations<TupleLatticeElement<Variable, AliasLE>> createLatticeOperations(MethodDeclaration d) {
-		return LatticeElementOps.create(empty.bottom());
+		return ops;
 	}
 	
 	public TupleLatticeElement<Variable, AliasLE> createEntryValue(MethodDeclaration m) {
-		TupleLatticeElement<Variable, AliasLE> entry = empty.copy();
+		TupleLatticeElement<Variable, AliasLE> entry = ops.getDefault();
 //		Variable thisVar = mainAnalysis.getThisVar(d);
 //		AliasLE alias = new AliasLE();
 //		alias.addAlias(new ObjectLabel(thisVar.resolveType(), false));

@@ -32,8 +32,8 @@ import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
-import edu.cmu.cs.crystal.simple.LatticeElementOps;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
+import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
 import edu.cmu.cs.crystal.tac.CastInstruction;
@@ -61,18 +61,16 @@ import edu.cmu.cs.crystal.tac.Variable;
 
 
 public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, BooleanConstantLE>> {
-	private final TupleLatticeElement<Variable, BooleanConstantLE> entry = 
-		new TupleLatticeElement<Variable, BooleanConstantLE>(
-			BooleanConstantLE.BOTTOM, BooleanConstantLE.UNKNOWN);
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.tac.ITransferFunction#getLattice(com.surelogic.ast.java.operator.IMethodDeclarationNode)
-	 */
+	private final TupleLatticeOperations<Variable, BooleanConstantLE> ops = 
+	 new TupleLatticeOperations<Variable, BooleanConstantLE>(
+	 new BooleanConstantLatticeOps(), BooleanConstantLE.UNKNOWN);
+
 	public ILatticeOperations<TupleLatticeElement<Variable, BooleanConstantLE>> createLatticeOperations(MethodDeclaration d) {
-		return LatticeElementOps.create(entry.bottom());
+		return ops;
 	}
 	
 	public TupleLatticeElement<Variable, BooleanConstantLE> createEntryValue(MethodDeclaration m) {
-		return entry.copy();
+		return ops.getDefault();
 	}
 
 	public AnalysisDirection getAnalysisDirection() {
@@ -165,15 +163,15 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 		return handleBooleanLabels(value, labels, instr.getTarget(), instr.getNode());
 	}
 	
-	private IResult handleBooleanLabels(TupleLatticeElement<Variable, BooleanConstantLE> value,
+	private IResult<TupleLatticeElement<Variable, BooleanConstantLE>> handleBooleanLabels(TupleLatticeElement<Variable, BooleanConstantLE> value,
 			List<ILabel> labels, Variable var, ASTNode node) {
 		if (labels.contains(BooleanLabel.getBooleanLabel(true)) && labels.contains(BooleanLabel.getBooleanLabel(false)))
 		{
 			TupleLatticeElement<Variable, BooleanConstantLE> tVal, fVal;
-			LabeledResult result = new LabeledResult(value);
+			LabeledResult<TupleLatticeElement<Variable, BooleanConstantLE>> result = new LabeledResult<TupleLatticeElement<Variable, BooleanConstantLE>>(value);
 			
-			tVal = value.copy();
-			fVal = value.copy();
+			tVal = ops.copy(value);
+			fVal = ops.copy(value);
 			
 			tVal.put(var, BooleanConstantLE.TRUE);
 			fVal.put(var, BooleanConstantLE.FALSE);

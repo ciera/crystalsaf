@@ -22,7 +22,6 @@ package edu.cmu.cs.crystal.flow;
 import java.util.Set;
 
 import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.simple.LatticeElement;
 
 /**
  * Interface for mapping branch labels to analysis information.

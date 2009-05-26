@@ -72,6 +72,7 @@ public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
 		// must call getResultsAfter at least once on this method,
 		// or the analysis won't be run on this method
 		TupleLatticeElement<Variable, BooleanConstantLE> finalLattice = fa.getResultsAfter(d);
+		printLattice(finalLattice);
 	}
 
 	private void printLattice(TupleLatticeElement<Variable, BooleanConstantLE> lattice) {

@@ -58,7 +58,8 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 				this.analysisInput.getComUnitTACs().unwrap());
 	
 		// must call getResultsAfter at least once on this method, or the analysis won't be run on this method			
-		TupleLatticeElement<Variable, LiveVariableLE> finalLattice = fa.getResultsBefore(d);	
+		TupleLatticeElement<Variable, LiveVariableLE> finalLattice = fa.getResultsBefore(d);
+		printLattice(finalLattice);
 	}
 
 	public void printLattice(TupleLatticeElement<Variable, LiveVariableLE> lattice) {

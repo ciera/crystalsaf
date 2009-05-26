@@ -19,24 +19,30 @@
  */
 package edu.cmu.cs.crystal.analysis.live;
 
-import edu.cmu.cs.crystal.util.Copyable;
+import edu.cmu.cs.crystal.simple.SimpleLatticeOperations;
 
-
-public enum LiveVariableLE implements Copyable<LiveVariableLE>
+public class LiveVariableLatticeOps extends SimpleLatticeOperations<LiveVariableLE>
 {
-	LIVE,   // top
-	DEAD;   // bottom
-	
-	public LiveVariableLE copy()
-	{
-		return this;
+	@Override
+	public boolean atLeastAsPrecise(LiveVariableLE left, LiveVariableLE right) {
+		return !(left == LiveVariableLE.LIVE && right == LiveVariableLE.DEAD);
 	}
 
-	
-	public String toString() {
-		if (this == LIVE)
-			return "live";
+	@Override
+	public LiveVariableLE bottom() {
+		return LiveVariableLE.DEAD;
+	}
+
+	@Override
+	public LiveVariableLE copy(LiveVariableLE original) {
+		return original.copy();
+	}
+
+	@Override
+	public LiveVariableLE join(LiveVariableLE left, LiveVariableLE right) {
+		if (left == LiveVariableLE.LIVE || right == LiveVariableLE.LIVE)
+			return LiveVariableLE.LIVE;
 		else
-			return "dead";
+			return LiveVariableLE.DEAD;
 	}
 }

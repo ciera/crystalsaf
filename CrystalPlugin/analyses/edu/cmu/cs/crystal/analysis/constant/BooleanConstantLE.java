@@ -19,72 +19,14 @@
  */
 package edu.cmu.cs.crystal.analysis.constant;
 
+import edu.cmu.cs.crystal.util.Copyable;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
-import edu.cmu.cs.crystal.simple.LatticeElement;
-
-public enum BooleanConstantLE implements LatticeElement<BooleanConstantLE> {
+public enum BooleanConstantLE implements Copyable<BooleanConstantLE> {
 
 	TRUE,
 	FALSE,
 	UNKNOWN,
-	BOTTOM;     // bottom
-	
-	public BooleanConstantLE join(BooleanConstantLE other, ASTNode node)
-	{
-		if (other == this)
-		{
-			return this;
-		}
-		else if (other == BOTTOM)
-		{
-			return this;
-		}
-		else if (this == BOTTOM)
-		{
-			return other;
-		}
-		else
-		{
-			return UNKNOWN;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.cmu.cs.crystal.flow.LatticeElement#atLeastAsPrecise(LE)
-	 */
-	public boolean atLeastAsPrecise(BooleanConstantLE other, ASTNode node)
-	{
-		if (other == this)
-		{
-			return true;
-		}
-		else if (this == BOTTOM)
-		{
-			return true;
-		}
-		else if (other == UNKNOWN)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.cmu.cs.crystal.flow.LatticeElement#copy()
-	 */
-	public BooleanConstantLE copy()
-	{
-		return this;
-	}
+	BOTTOM;
 	
 	public String toString() {
 		if (this == BOTTOM)
@@ -97,4 +39,7 @@ public enum BooleanConstantLE implements LatticeElement<BooleanConstantLE> {
 			return "False";
 	}
 
+	public BooleanConstantLE copy() {
+		return this;
+	}
 }
