@@ -33,7 +33,6 @@ import org.eclipse.jdt.core.dom.Statement;
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
-import edu.cmu.cs.crystal.tac.SourceVariable;
 import edu.cmu.cs.crystal.tac.TACFlowAnalysis;
 import edu.cmu.cs.crystal.tac.TACInstruction;
 import edu.cmu.cs.crystal.tac.Variable;
@@ -172,16 +171,15 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 		
 		// must call getResultsAfter at least once on this method,
 		// or the analysis won't be run on this method
-		TupleLatticeElement<Variable, AliasLE> finalLattice = fa.getResultsAfter(d);
+		fa.getResultsAfter(d);
 		if(log.isLoggable(Level.FINE))
 			d.accept(checkResults);	
 	}
 	
-	private void printLattice(TupleLatticeElement<Variable, AliasLE> lattice) {
+/*	private void printLattice(TupleLatticeElement<Variable, AliasLE> lattice) {
 		for (Variable var : lattice.getKeySet()) {
 			if (!(var instanceof SourceVariable))
 				continue;
-			AliasLE aliases = lattice.get(var);
 			reporter.debugOut().println(var.getSourceString() + ":");
 			
 			for (Variable alias : getAliases(lattice, var)) {
@@ -189,7 +187,7 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 			}
 		}		
 	}
-	
+*/	
 	private Set<Variable> getAliases(TupleLatticeElement<Variable, AliasLE> tuple, Variable varToFind) {
 		Set<ObjectLabel> labels = tuple.get(varToFind).getLabels();
 		Set<Variable> aliases = new HashSet<Variable>();
@@ -213,7 +211,7 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 	}
 	
 	private Set<ObjectLabel> getAllLabels(TupleLatticeElement<Variable, AliasLE> lattice) {
-		Set allLabels = new HashSet<ObjectLabel>();
+		Set<ObjectLabel> allLabels = new HashSet<ObjectLabel>();
 		
 		for (Variable var : lattice.getKeySet()) {
 			AliasLE aliases = lattice.get(var);

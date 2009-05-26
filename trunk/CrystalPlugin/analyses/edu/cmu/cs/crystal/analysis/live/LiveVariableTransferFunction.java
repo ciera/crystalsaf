@@ -27,9 +27,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
-import edu.cmu.cs.crystal.simple.LatticeElementOps;
+import edu.cmu.cs.crystal.simple.AbstractingTransferFunction;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
-import edu.cmu.cs.crystal.tac.AbstractingTransferFunction;
+import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
 import edu.cmu.cs.crystal.tac.CastInstruction;
@@ -62,16 +62,15 @@ public class LiveVariableTransferFunction extends AbstractingTransferFunction<Tu
 {
 	private static final Logger log = Logger.getLogger(LiveVariableTransferFunction.class.getName());
 	
-	private final TupleLatticeElement<Variable, LiveVariableLE> entry = 
-			new TupleLatticeElement<Variable, LiveVariableLE>(
-				LiveVariableLE.DEAD, LiveVariableLE.DEAD);
+	private final TupleLatticeOperations<Variable, LiveVariableLE> ops = 
+			new TupleLatticeOperations<Variable, LiveVariableLE>(new LiveVariableLatticeOps(), LiveVariableLE.DEAD);
 	
 	public ILatticeOperations<TupleLatticeElement<Variable, LiveVariableLE>> createLatticeOperations(MethodDeclaration d) {
-		return LatticeElementOps.create(entry.bottom());
+		return ops;
 	}
 	
 	public TupleLatticeElement<Variable, LiveVariableLE> createEntryValue(MethodDeclaration d) {
-		return entry.copy();
+		return ops.getDefault();
 	}
 
 	public AnalysisDirection getAnalysisDirection() {

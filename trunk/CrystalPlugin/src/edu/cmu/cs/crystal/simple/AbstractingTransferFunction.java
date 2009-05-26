@@ -17,9 +17,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.tac;
+package edu.cmu.cs.crystal.simple;
 
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
+import edu.cmu.cs.crystal.tac.AssignmentInstruction;
+import edu.cmu.cs.crystal.tac.BinaryOperation;
+import edu.cmu.cs.crystal.tac.CastInstruction;
+import edu.cmu.cs.crystal.tac.ConstructorCallInstruction;
+import edu.cmu.cs.crystal.tac.CopyInstruction;
+import edu.cmu.cs.crystal.tac.DotClassInstruction;
+import edu.cmu.cs.crystal.tac.EnhancedForConditionInstruction;
+import edu.cmu.cs.crystal.tac.ITACAnalysisContext;
+import edu.cmu.cs.crystal.tac.ITACTransferFunction;
+import edu.cmu.cs.crystal.tac.InstanceofInstruction;
+import edu.cmu.cs.crystal.tac.InvocationInstruction;
+import edu.cmu.cs.crystal.tac.LoadArrayInstruction;
+import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
+import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.NewArrayInstruction;
+import edu.cmu.cs.crystal.tac.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.OneOperandInstruction;
+import edu.cmu.cs.crystal.tac.ReturnInstruction;
+import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
+import edu.cmu.cs.crystal.tac.SourceVariableRead;
+import edu.cmu.cs.crystal.tac.StoreArrayInstruction;
+import edu.cmu.cs.crystal.tac.StoreFieldInstruction;
+import edu.cmu.cs.crystal.tac.StoreInstruction;
+import edu.cmu.cs.crystal.tac.TACInstruction;
+import edu.cmu.cs.crystal.tac.UnaryOperation;
 
 /**
  * This class implements additional transfer functions that abstract or

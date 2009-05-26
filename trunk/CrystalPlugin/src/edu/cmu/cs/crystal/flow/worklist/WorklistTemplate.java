@@ -38,7 +38,6 @@ import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IAbstractLatticeOperations;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.simple.LatticeElement;
 
 /**
  * This class encapsulates a worklist algorithm for computing fixed points

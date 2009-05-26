@@ -17,11 +17,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.simple;
+package edu.cmu.cs.crystal.bridge;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
+import edu.cmu.cs.crystal.util.Copyable;
+
 /**
+ * This class is not to be used in new Crystal analyses and is kept for
+ * older projects only.
+ * 
  * A LatticeElement embodies the analysis knowledge at a particular point in the
  * program.
  * {@link LatticeElementOps} allows using classes implementing this interface
@@ -40,7 +45,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
  * 
  * @param <LE>	the LatticeElement implementation that represents the analysis knowledge
  */
-public interface LatticeElement<LE extends LatticeElement<LE>>  {
+public interface LatticeElement<LE extends LatticeElement<LE>> extends Copyable<LE> {
 	
 	/**
 	 * Carries out a join on this lattice and another lattice.  This method
@@ -68,14 +73,5 @@ public interface LatticeElement<LE extends LatticeElement<LE>>  {
 	 * while, try, switch, etc.) or <code>null</code> if this comparison occurs on a "dummy" node.
 	 * @return	true if this is at least as precise.  false if other is more precise
 	 */
-	public abstract boolean atLeastAsPrecise(LE other, ASTNode node);
-	
-	/**
-	 * Creates a new deep copy of this LE.  "Deep copy" means that all mutable (changeable)
-	 * objects referenced by the original LE, must not be referenced by the copied LE.
-	 * 
-	 * @return	a copy of the LE that contains no references to mutable objects found in the original  
-	 */
-	public abstract LE copy();
-	
+	public abstract boolean atLeastAsPrecise(LE other, ASTNode node);	
 }

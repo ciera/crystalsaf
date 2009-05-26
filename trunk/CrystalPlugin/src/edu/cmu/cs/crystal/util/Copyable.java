@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006, 2007, 2008 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman,
+ * Copyright (c) 2006-2009 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman,    
  * Kevin Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa, and others.
  *
  * This file is part of Crystal.
@@ -17,26 +17,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.analysis.live;
+package edu.cmu.cs.crystal.util;
 
-import edu.cmu.cs.crystal.util.Copyable;
-
-
-public enum LiveVariableLE implements Copyable<LiveVariableLE>
-{
-	LIVE,   // top
-	DEAD;   // bottom
-	
-	public LiveVariableLE copy()
-	{
-		return this;
-	}
-
-	
-	public String toString() {
-		if (this == LIVE)
-			return "live";
-		else
-			return "dead";
-	}
+/**
+ * @author ciera
+ * @since Crystal 3.4.0
+ */
+public interface Copyable<C extends Copyable<C>> {
+	/**
+	 * Creates a new deep copy of this C.  "Deep copy" means that all mutable (changeable)
+	 * objects referenced by the original C, must not be referenced by the copied C. Notice that
+	 * immutable references may be shallow copied, so a completely immutable type may just return this.
+	 * 
+	 * @return	a copy of this that contains no references to mutable objects found in the original  
+	 */
+	public C copy();
 }

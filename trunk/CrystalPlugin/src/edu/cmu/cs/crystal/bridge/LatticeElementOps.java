@@ -17,13 +17,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.simple;
+package edu.cmu.cs.crystal.bridge;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 
 /**
+ * This class is not to be used in new Crystal analyses and is kept for
+ * older projects only.
+ * 
  * This class provides generic lattice operations for  
  * {@link LatticeElement} implementations.
  * This facilitates using classes implementing {@link LatticeElement}
