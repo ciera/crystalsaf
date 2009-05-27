@@ -25,10 +25,12 @@ import java.util.Map;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
 import edu.cmu.cs.crystal.util.Utilities;
@@ -60,7 +62,7 @@ public class LoopCounter extends ASTVisitor {
 			else {
 				if (decl == null || !decl.equals(d))
 					reset(d);
-				d.accept(this);
+				decl.accept(this);
 			}
 		}
 		return loopDepth.get(node).intValue();
@@ -114,6 +116,18 @@ public class LoopCounter extends ASTVisitor {
 	public boolean visit(WhileStatement node) {
 		currentLoopDepth++;
 		return super.visit(node);
+	}
+
+	@Override
+	public boolean visit(AnonymousClassDeclaration node) {
+		// We don't want to descend into anonymous classes
+		return false;
+	}
+
+	@Override
+	public boolean visit(TypeDeclarationStatement node) {
+		// We don't want to descend into local classes
+		return false;
 	}
 
 	@Override
