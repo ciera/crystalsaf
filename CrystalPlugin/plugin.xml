@@ -197,11 +197,4 @@
     </menuContribution>
  </extension>
  
-    <extension
-         point="edu.cmu.cs.crystal.CrystalAnalysis">
-      <analysis
-            class="edu.cmu.cs.crystal.tac.examples.DivideByZeroAnalysis"
-            name="Divide by Zero Analysis">
-      </analysis>
-    </extension>
 </plugin>
