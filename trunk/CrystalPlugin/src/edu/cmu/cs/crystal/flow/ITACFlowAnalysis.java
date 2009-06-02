@@ -73,7 +73,7 @@ public interface ITACFlowAnalysis<LE> extends IFlowAnalysis<LE> {
 	 * 
 	 * Before is respective to normal program flow and not the direction of the analysis.
 	 * 
-	 * @param node		the {@link TACInstruction} of interest 
+	 * @param instr		the {@link TACInstruction} of interest 
 	 * @return			the lattice that represents the analysis state 
 	 * 					after analyzing the instruction.  Or null if the node doesn't
 	 * 					have a corresponding control flow node.
@@ -85,7 +85,7 @@ public interface ITACFlowAnalysis<LE> extends IFlowAnalysis<LE> {
 	 * 
 	 * After is respective to normal program flow and not the direction of the analysis.
 	 * 
-	 * @param node		the {@link TACInstruction} of interest 
+	 * @param instr		the {@link TACInstruction} of interest 
 	 * @return			the lattice that represents the analysis state 
 	 * 					after analyzing the instruction.  Or null if the node doesn't
 	 * 					have a corresponding control flow node.
@@ -118,7 +118,7 @@ public interface ITACFlowAnalysis<LE> extends IFlowAnalysis<LE> {
 	 * method only when analysis results for the method surrounding the
 	 * access are available.
 	 * @param accessedElement
-	 * @return
+	 * @return the implicit this variable of the accessed element
 	 */
 	public ThisVariable getImplicitThisVariable(IBinding accessedElement);
 

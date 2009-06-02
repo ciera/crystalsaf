@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.cs.crystal.bridge.LatticeElement;
 import edu.cmu.cs.crystal.util.Copyable;
 
 
@@ -34,7 +33,7 @@ import edu.cmu.cs.crystal.util.Copyable;
  * The representation is optimized: a default element is the assumed value for every key
  * that has not been explicitly set.
  * 
- * <b>This lattice is mutable</b>; the {@link #put(Object, LatticeElement)} operation can be used to 
+ * <b>This lattice is mutable</b>; the {@link #put(Object, Copyable)} operation can be used to 
  * change its value.
  * 
  * @author aldrich

@@ -35,10 +35,8 @@ import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.IRunCrystalCommand;
-import edu.cmu.cs.crystal.StandardAnalysisReporter;
 
 /**
  * An action that will be called when a popup menu is used to run Crystal.

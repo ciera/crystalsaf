@@ -65,7 +65,7 @@ public abstract class KeywordVariable extends Variable {
 	
 	/**
 	 * Is this a standard keyword variable, or is it qualified?
-	 * @return
+	 * @return true if the keyword is qualified, false if it is not and represents the default keyword
 	 */
 	public boolean isQualified() {
 		return getQualifier() != null;

@@ -22,16 +22,16 @@ package edu.cmu.cs.crystal.tac;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.SingletonLatticeElement;
+import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.util.Pair;
 
 /**
  * Extend this class to visit every 3-address code instruction in a method exactly once.
  * This class extends AbstractCrystalMethodAnalysis to make it easier to use as a
- * standalone analysis.  Use the method {@link #doAccept(Crystal, MethodDeclaration)}
+ * standalone analysis.  Use the method {@link #doAccept(MethodDeclaration)}
  * to visit a particular method explicitly.  
  * 
  * @author Kevin Bierhoff

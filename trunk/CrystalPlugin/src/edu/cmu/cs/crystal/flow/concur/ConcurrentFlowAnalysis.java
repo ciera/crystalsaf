@@ -33,12 +33,12 @@ import java.util.concurrent.TimeoutException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.flow.FlowAnalysis;
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.IFlowAnalysis;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
+import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.util.Utilities;
 
 /**
@@ -56,7 +56,6 @@ import edu.cmu.cs.crystal.util.Utilities;
  * that there is no memory barrier between different analyses.
  * 
  * @author Nels Beckman
- * @date Jan 24, 2008
  *
  * @param <LE>
  */
@@ -99,7 +98,7 @@ implements IFlowAnalysis<LE> {
 	/**
 	 * Creates a new concurrent flow analysis but does not analyze any methods
 	 * immediately. 
-	 * @see analyzePreemitively
+	 * @see #analyzePreemitively
 	 * @param transferFunction
 	 * @param crystal
 	 */

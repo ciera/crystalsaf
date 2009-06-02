@@ -226,10 +226,6 @@ public class MayAliasAnalysis extends AbstractCrystalMethodAnalysis {
 		return fa.getThisVariable(methodDecl);
 	}
 
-	/**
-	 * @param instr
-	 * @return
-	 */
 	public TupleLatticeElement<Variable, AliasLE> getResultsBefore(
 			TACInstruction instr) {
 		return fa.getResultsBefore(instr);

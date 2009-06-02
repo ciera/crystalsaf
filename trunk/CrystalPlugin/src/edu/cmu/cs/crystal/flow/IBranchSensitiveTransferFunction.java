@@ -23,12 +23,11 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
-import edu.cmu.cs.crystal.ILabel;
 
 /**
  * Interface for defining branch-sensitive flow analyses.
  * To create a flow analysis, pass an instance of this interface to
- * {@link BranchSensitiveFlowAnalysis}.
+ * {@link edu.cmu.cs.crystal.flow.FlowAnalysis}.
  * 
  * @author Kevin Bierhoff
  *

@@ -54,13 +54,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.IRunCrystalCommand;
 import edu.cmu.cs.crystal.annotations.FailingTest;
 import edu.cmu.cs.crystal.annotations.PassingTest;
 import edu.cmu.cs.crystal.annotations.UseAnalyses;
 import edu.cmu.cs.crystal.internal.AbstractCrystalPlugin;
+import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.internal.NullPrintWriter;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 import edu.cmu.cs.crystal.util.Box;
@@ -69,9 +69,9 @@ import edu.cmu.cs.crystal.util.Option;
 /**
  * An analysis test that uses test annotations (
  * 
- * @PassingTest,
- * @FailingTest,
- * @UseAnalyses ) to determine which analyses to run, and whether or not the given file is a test.
+ * PassingTest,
+ * FailingTest,
+ * UseAnalyses ) to determine which analyses to run, and whether or not the given file is a test.
  *              This test will examine every Java file in your test workspace!
  * 
  * @author Nels E. Beckman

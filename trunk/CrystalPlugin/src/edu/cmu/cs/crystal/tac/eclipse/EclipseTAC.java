@@ -124,7 +124,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * This class converts AST nodes from a single method to TAC instructions.
  * A separate instance of this class is required for each method.
  * @author Kevin Bierhoff
- * @see #getMethodTAC(MethodDeclaration)
+ * @see CompilationUnitTACs#getMethodTAC(MethodDeclaration)
  */
 public class EclipseTAC implements IEclipseVariableQuery {
 	

@@ -42,7 +42,7 @@ public class ThisVariable extends KeywordVariable {
 	/**
 	 * Creates an implicitly qualified <b>this</b> variable.
 	 * @param tac
-	 * @param binding 
+	 * @param typeBinding 
 	 */
 	public ThisVariable(EclipseTAC tac, ITypeBinding typeBinding) {
 		super(tac);

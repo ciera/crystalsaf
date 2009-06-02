@@ -29,12 +29,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.Crystal;
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.flow.worklist.AnalysisResult;
 import edu.cmu.cs.crystal.flow.worklist.WorklistFactory;
 import edu.cmu.cs.crystal.flow.worklist.WorklistTemplate;
+import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.util.Option;
 import edu.cmu.cs.crystal.util.Utilities;
 

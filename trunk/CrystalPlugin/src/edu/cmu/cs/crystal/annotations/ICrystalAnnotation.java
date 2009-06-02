@@ -55,10 +55,10 @@ public interface ICrystalAnnotation {
 	 * only allows single dimensional arrays in annotations)</li>
 	 * </ul>
 	 * 
-	 * @key Name of the annotation parameter, e.g., "value".
+	 * @param key Name of the annotation parameter, e.g., "value".
 	 * @return The value of an annotation parameter with the given name or <code>null</code> if
 	 *         the parameter is unknown.
-	 * @see org.eclipse.jdt.core.dom.IMemberValuePairBinding#getValue();
+	 * @see org.eclipse.jdt.core.dom.IMemberValuePairBinding#getValue()
 	 */
 	public Object getObject(String key);
 

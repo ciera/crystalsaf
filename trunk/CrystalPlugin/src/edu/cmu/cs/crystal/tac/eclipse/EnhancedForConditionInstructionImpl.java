@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 
-import edu.cmu.cs.crystal.ILabel;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.tac.EnhancedForConditionInstruction;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;

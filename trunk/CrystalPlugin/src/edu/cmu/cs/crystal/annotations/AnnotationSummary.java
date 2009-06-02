@@ -52,7 +52,7 @@ public class AnnotationSummary {
 
 	/**
 	 * Returns the (first) annotation of the given type for the given parameter, if any.
-	 * Notice that when using {@link MultiAnnotation} there can be multiple annotations
+	 * Notice that when using {@link edu.cmu.cs.crystal.annotations.MultiAnnotation} there can be multiple annotations
 	 * of one type on a given Java element, but this method returns only the first one.
 	 * @param ndx 0-based parameter index.
 	 * @param annoName The type name of the annotation.
@@ -71,7 +71,7 @@ public class AnnotationSummary {
 
 	/**
 	 * Returns the (first) return annotation of the given type, if any.
-	 * Notice that when using {@link MultiAnnotation} there can be multiple annotations
+	 * Notice that when using {@link edu.cmu.cs.crystal.annotations.MultiAnnotation} there can be multiple annotations
 	 * of one type on a given Java element, but this method returns only the first one.
 	 * @param annoName The type name of the annotation.
 	 * @return The (first) annotation of the given type or <code>null</code>.

@@ -5,7 +5,7 @@ Bundle-SymbolicName: edu.cmu.cs.crystal;singleton:=true
 Bundle-Version: 3.4.1
 Bundle-ClassPath: edu.cmu.cs.crystal/,
  grappa1_2.jar
-Bundle-Activator: edu.cmu.cs.crystal.CrystalPlugin
+Bundle-Activator: edu.cmu.cs.crystal.internal.CrystalPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

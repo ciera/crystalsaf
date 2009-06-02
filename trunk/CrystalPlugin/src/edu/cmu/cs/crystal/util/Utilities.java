@@ -33,7 +33,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
-import edu.cmu.cs.crystal.Crystal;
+import edu.cmu.cs.crystal.internal.Crystal;
 
 /**
  * Assorted utility methods

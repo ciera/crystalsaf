@@ -36,9 +36,9 @@ import edu.cmu.cs.crystal.util.Copyable;
  * This interface is in particular useful for lattices which have
  * a fixed number of elements in them.
  * More sophisticated lattices are probably easier to implement using
- * {@link edu.cmu.cs.flow.ILatticeOperations} directly. 
+ * {@link edu.cmu.cs.crystal.flow.ILatticeOperations} directly. 
  * Furthermore, lattices based on existing datatypes such as {@link java.util.Set}
- * are more easily implemented with {@link edu.cmu.cs.flow.ILatticeOperations}.
+ * are more easily implemented with {@link edu.cmu.cs.crystal.flow.ILatticeOperations}.
  * 
  * @author David Dickey
  * @author Jonathan Aldrich

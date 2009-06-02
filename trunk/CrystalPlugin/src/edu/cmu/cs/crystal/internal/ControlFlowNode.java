@@ -19,8 +19,15 @@
  */
 package edu.cmu.cs.crystal.internal;
 
-import java.util.*;
-import org.eclipse.jdt.core.dom.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.LabeledStatement;
+import org.eclipse.jdt.core.dom.SimpleName;
 
 /**
  * Represents one node in a Control Flow Graph.
@@ -199,7 +206,7 @@ public class ControlFlowNode {
 	/**
 	 * Adds an edge from this node to another. 
 	 * @param direction	the direction to add the edge to
-	 * @param to	the node to add
+	 * @param node	the node to add
 	 */
 	public void addEdge(Direction direction, ControlFlowNode node) {
 		this.addNode(direction, node);

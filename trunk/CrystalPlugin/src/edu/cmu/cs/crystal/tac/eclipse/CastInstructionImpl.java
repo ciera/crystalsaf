@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.dom.CastExpression;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Type;
 
-import edu.cmu.cs.crystal.ILabel;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.tac.CastInstruction;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;

@@ -196,5 +196,19 @@
        </toolbar>
     </menuContribution>
  </extension>
+ <extension
+       point="edu.cmu.cs.crystal.CrystalAnalysis">
+    <analysis
+          class="edu.cmu.cs.crystal.analysis.live.LiveVariableAnalysis"
+          name="Live Variable Analysis">
+    </analysis>
+ </extension>
+ <extension
+       point="edu.cmu.cs.crystal.CrystalAnalysis">
+    <analysis
+          class="edu.cmu.cs.crystal.analysis.constant.ConstantAnalysis"
+          name="Boolean Constant Analysis">
+    </analysis>
+ </extension>
  
 </plugin>

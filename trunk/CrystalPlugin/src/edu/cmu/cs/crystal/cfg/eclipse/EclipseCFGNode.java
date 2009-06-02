@@ -27,9 +27,9 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import att.grappa.Graph;
 import att.grappa.Node;
-import edu.cmu.cs.crystal.BooleanLabel;
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
+import edu.cmu.cs.crystal.flow.BooleanLabel;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
 
 /**

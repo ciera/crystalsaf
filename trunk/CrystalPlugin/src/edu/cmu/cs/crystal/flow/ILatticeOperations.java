@@ -44,9 +44,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
  * points from lattice values for program points that were already analyzed.
  * </ul>
  * 
- * Historical note: {@link #atLeastAsPrecise(Object, Object, ASTNode)},
- * {@link #join(Object, Object, ASTNode)}, and {@link #copy(Object)}
- * are inspired by {@link LatticeElement}.
  * @param <LE> Analysis information being tracked.
  * @author Kevin Bierhoff
  * @since Crystal 3.4.0

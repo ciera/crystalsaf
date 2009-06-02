@@ -55,9 +55,9 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	/**
 	 * Carries out the analysis.
 	 * <p>
-	 * {@link #beforeAllMethods()} is run before any method is analyzed.<br/>
+	 * {@link #beforeAllMethods} is run before any method is analyzed.<br/>
 	 * Then each method is analysed by {@link #analyzeMethod(MethodDeclaration)}.<br/>
-	 * Finally {@link #afterAllMethods()} is run after all methods have
+	 * Finally {@link #afterAllMethods} is run after all methods have
 	 * been analyzed.
 	 */
 	public final void runAnalysis(IAnalysisReporter reporter,

@@ -19,7 +19,7 @@
  */
 package edu.cmu.cs.crystal.cfg;
 
-import edu.cmu.cs.crystal.ILabel;
+import edu.cmu.cs.crystal.flow.ILabel;
 
 /** Abstract
  * 

@@ -21,8 +21,8 @@ package edu.cmu.cs.crystal.tac;
 
 import java.util.List;
 
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 

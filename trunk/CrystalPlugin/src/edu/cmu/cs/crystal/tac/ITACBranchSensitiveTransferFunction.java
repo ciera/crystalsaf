@@ -21,8 +21,8 @@ package edu.cmu.cs.crystal.tac;
 
 import java.util.List;
 
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
 
 /**
@@ -32,7 +32,7 @@ import edu.cmu.cs.crystal.flow.IResult;
  * for it.  
  * 
  * To create a flow analysis, pass an instance of this interface to
- * {@link BranchInsensitiveTACAnalysis}.
+ * {@link edu.cmu.cs.crystal.flow.ITACFlowAnalysis}.
  * 
  * @author Kevin Bierhoff
  *

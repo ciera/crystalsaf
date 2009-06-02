@@ -94,9 +94,6 @@ public class CollectionMethods {
 
 	/**
 	 * Creates a set from an array of elements (i.e., duplicate elements will be dropped).
-	 * @param <T>
-	 * @param elements
-	 * @return
 	 */
 	public static <T> Set<T> mutableSet(T... elements) {
 		LinkedHashSet<T> elemSet = new LinkedHashSet<T>(elements.length);

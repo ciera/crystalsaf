@@ -31,8 +31,6 @@ import java.util.logging.Logger;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IInitializer;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
@@ -404,7 +402,7 @@ public class AnnotationDatabase {
 	 * MultiAnnotation
 	 * 
 	 * @param annoBinding
-	 * @return
+	 * @return true id this is a multi annotation, and false if it is not.
 	 */
 	public boolean isMulti(IAnnotationBinding annoBinding) {
 		ITypeBinding binding = annoBinding.getAnnotationType();

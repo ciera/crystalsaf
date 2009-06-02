@@ -144,7 +144,7 @@ public class BlockStack<Node extends ICFGNode> implements Cloneable {
 	 * @param owner
 	 * @param breakPoint
 	 * @param continuePoint
-	 * @return
+	 * @return true if it was able to override the the values, false if the owner was not already on the stack
 	 */
 	public boolean overrideIfExists(ASTNode owner, Node breakPoint, Node continuePoint) {
 		if (!blockStack.isEmpty() && blockStack.peek().owner == owner) {

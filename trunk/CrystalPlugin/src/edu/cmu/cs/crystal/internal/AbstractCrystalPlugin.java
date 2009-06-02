@@ -31,7 +31,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 

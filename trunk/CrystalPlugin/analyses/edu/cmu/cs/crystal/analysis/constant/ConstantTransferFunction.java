@@ -25,9 +25,9 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.BooleanLabel;
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.BooleanLabel;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledResult;
@@ -91,8 +91,7 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			BinaryOperation binop, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(binop.getTarget(), BooleanConstantLE.BOTTOM);
-		return LabeledSingleResult.createResult(value, labels);
+		return handleBooleanLabels(value, labels, binop.getTarget(), binop.getNode());
 	}
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
@@ -112,6 +111,7 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			ConstructorCallInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
+		value.put(instr.getConstructionObject(), BooleanConstantLE.BOTTOM);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 

@@ -27,9 +27,9 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.ICrystalAnalysis;
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.analysis.metrics.LoopCounter;
 import edu.cmu.cs.crystal.bridge.LatticeElementOps;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
