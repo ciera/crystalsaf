@@ -27,7 +27,6 @@ package edu.cmu.cs.crystal.util;
  * precise implication.
  * 
  * @author Nels Beckman
- * @date Mar 26, 2008
  *
  * @param <K>
  * @param <V>

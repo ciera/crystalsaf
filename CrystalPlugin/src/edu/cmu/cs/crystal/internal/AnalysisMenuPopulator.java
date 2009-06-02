@@ -27,7 +27,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.ui.menus.CommandContributionItem;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.ICrystalAnalysis;
 
 /**

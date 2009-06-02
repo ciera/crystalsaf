@@ -64,7 +64,7 @@ public class WorklistFactory {
 	 * @param method
 	 * @param transferFunction
 	 * @return Worklist object that performs a conventional flow analysis.
-	 * @see {@link #createBranchSensitiveWorklist(MethodDeclaration, IBranchSensitiveTransferFunction)}
+	 * @see #createBranchSensitiveWorklist(MethodDeclaration, IBranchSensitiveTransferFunction)
 	 */
 	public <LE> WorklistTemplate<LE, ASTNode, ILatticeOperations<LE>> createBranchInsensitiveWorklist(
 			MethodDeclaration method,

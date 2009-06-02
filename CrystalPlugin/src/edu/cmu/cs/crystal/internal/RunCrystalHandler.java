@@ -32,10 +32,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.IRunCrystalCommand;
-import edu.cmu.cs.crystal.StandardAnalysisReporter;
 
 /**
  * A class that will handle the "CrystalPlugin.runcrystal" command. It handles

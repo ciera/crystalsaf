@@ -23,7 +23,6 @@ package edu.cmu.cs.crystal.util;
  * An interface for mutable objects that can be made immutable by freezing them.
  * 
  * @author Nels Beckman
- * @date Feb 20, 2008
  *
  */
 public interface Freezable<T> {

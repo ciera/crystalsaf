@@ -260,9 +260,9 @@ public class EclipseTACInstructionFactory {
 	 * This is not the only AST node that could represent a field access
 	 * @param node
 	 * @param eclipseVariableQuery
-	 * @return
-	 * @see create(SimpleName, IEclipseVariableQuery)
-	 * @see create(QualifiedName, IEclipseVariableQuery)
+	 * @return A TACInstruction for this node, or null if it is not a field load
+	 * @see #create(SimpleName, IEclipseVariableQuery)
+	 * @see #create(QualifiedName, IEclipseVariableQuery)
 	 */
 	public TACInstruction create(
 			FieldAccess node,

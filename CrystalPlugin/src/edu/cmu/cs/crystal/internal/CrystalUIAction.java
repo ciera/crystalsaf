@@ -32,10 +32,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import edu.cmu.cs.crystal.Crystal;
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.IRunCrystalCommand;
-import edu.cmu.cs.crystal.StandardAnalysisReporter;
 
 /**
  * Begins the execution of the Crystal framework when the corresponding

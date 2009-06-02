@@ -37,7 +37,7 @@ public abstract class Variable {
 	
 	/**
 	 * <code>null</code> or the type binding of this variable.
-	 * @see org.eclipse.jdt.core.Expression#resolveType()
+	 * @see org.eclipse.jdt.core.dom.Expression#resolveTypeBinding
 	 */
 	public abstract ITypeBinding resolveType();
 

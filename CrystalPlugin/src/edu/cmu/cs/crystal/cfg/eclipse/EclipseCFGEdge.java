@@ -24,8 +24,8 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import att.grappa.Edge;
 import att.grappa.Graph;
 import att.grappa.Node;
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.cfg.ICFGEdge;
+import edu.cmu.cs.crystal.flow.ILabel;
 
 public class EclipseCFGEdge implements ICFGEdge<ASTNode> {
 	EclipseCFGNode sink;

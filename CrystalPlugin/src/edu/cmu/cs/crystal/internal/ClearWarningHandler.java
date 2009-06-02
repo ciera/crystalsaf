@@ -12,7 +12,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
 
-import edu.cmu.cs.crystal.Crystal;
 
 /**
  * Clears all Crystal warnings from every ICompilationUnit in the workspace.

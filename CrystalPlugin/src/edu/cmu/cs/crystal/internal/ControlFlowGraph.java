@@ -19,9 +19,13 @@
  */
 package edu.cmu.cs.crystal.internal;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.ASTNode;
 
 public class ControlFlowGraph {
 	/**
@@ -53,7 +57,7 @@ public class ControlFlowGraph {
 	 * If the ASTNode does not have a direct CFN mapping, then find a
 	 * parent node that does.  Also responsible for caching.
 	 * 
-	 * @param astNode	the ASTNode
+	 * @param inNode	the ASTNode
 	 * @return	the ControlFlowNode, or null if a CFG was never created.
 	 */
 	public static ControlFlowNode getControlFlowNode(ASTNode inNode) {

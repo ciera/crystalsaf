@@ -24,7 +24,7 @@ import java.util.List;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 
-import edu.cmu.cs.crystal.ILabel;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.tac.DotClassInstruction;
 import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;

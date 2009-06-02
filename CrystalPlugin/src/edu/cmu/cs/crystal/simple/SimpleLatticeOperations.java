@@ -102,7 +102,7 @@ public abstract class SimpleLatticeOperations<LE> implements ILatticeOperations<
 	/**
 	 * More complex version of  atLeastAsPrecise. If you find you want to use this,
 	 * you should implement {@code ILatticeOperations} instead.
-	 * @see ILatticeOperations#atLeastAsPrecise(LE, LE, AstNode)
+	 * @see ILatticeOperations#atLeastAsPrecise(Object, Object, ASTNode)
 	 */
 	public boolean atLeastAsPrecise(LE info, LE reference, ASTNode node) {
 		return atLeastAsPrecise(info, reference);
@@ -111,7 +111,7 @@ public abstract class SimpleLatticeOperations<LE> implements ILatticeOperations<
 	/**
 	 * More complex version of join. If you find you want to use this,
 	 * you should implement {@code ILatticeOperations} instead.
-	 * @see ILatticeOperations#join(LE, LE, AstNode)
+	 * @see ILatticeOperations#join(Object, Object, ASTNode)
 	 */
 	public LE join(LE someInfo, LE otherInfo, ASTNode node) {
 		return join(someInfo, otherInfo);

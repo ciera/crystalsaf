@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
  *
  * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
  * 
- * @see edu.cmu.cs.crystal.tac.BranchInsensitiveTACAnalysis
+ * @see edu.cmu.cs.crystal.flow.ITransferFunction
  */
 public class FlowAnalysis<LE> extends MotherFlowAnalysis<LE> {
 	

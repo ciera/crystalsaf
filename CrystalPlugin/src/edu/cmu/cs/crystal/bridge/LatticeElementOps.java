@@ -56,7 +56,6 @@ public class LatticeElementOps<LE extends LatticeElement<LE>> implements ILattic
 	 * Use {@link LatticeElementOps#create(LatticeElement)} for more compact syntax.
 	 * Create lattice operations for a given bottom element.
 	 * @param bottom Bottom element to be returned by {@link #bottom()}.
-	 * @return lattice operations for the given bottom element.
 	 */
 	public LatticeElementOps(LE bottom) {
 		this.bottom = bottom;

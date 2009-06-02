@@ -29,7 +29,6 @@ import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.ui.commands.IElementUpdater;
 import org.eclipse.ui.menus.UIElement;
 
-import edu.cmu.cs.crystal.Crystal;
 
 /**
  * A handler for the "CrystalPlugin.enableanalysis" command. When this command is

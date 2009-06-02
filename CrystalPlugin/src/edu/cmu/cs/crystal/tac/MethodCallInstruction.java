@@ -27,7 +27,7 @@ package edu.cmu.cs.crystal.tac;
  * @author Kevin Bierhoff
  * @see #isStaticMethodCall() determine whether this is a static method call
  * @see #isSuperCall() determine whether this is a <b>super</b> call.
- * @see ContructorCallInstruction calls between constructors
+ * @see ConstructorCallInstruction calls between constructors
  */
 public interface MethodCallInstruction extends InvocationInstruction {
 	

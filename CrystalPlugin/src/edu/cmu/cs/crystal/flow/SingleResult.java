@@ -22,8 +22,6 @@ package edu.cmu.cs.crystal.flow;
 import java.util.Collections;
 import java.util.Set;
 
-import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.NormalLabel;
 
 /**
  * This is a degenerate result that maps all labels to a

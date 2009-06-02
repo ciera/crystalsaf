@@ -21,7 +21,6 @@ package edu.cmu.cs.crystal.flow;
 
 import java.util.Set;
 
-import edu.cmu.cs.crystal.ILabel;
 
 /**
  * Interface for mapping branch labels to analysis information.
@@ -60,7 +59,7 @@ public interface IResult<LE> {
 	 * @param ops Lattice operations so we can join individual elements.
 	 * @return Pointwise joined lattice elements.
 	 * 
-	 * @see LatticeElement#join(LatticeElement)
+	 * @see ILatticeOperations#join
 	 */
 	public IResult<LE> join(IResult<LE> otherResult, IAbstractLatticeOperations<LE, ?> ops);
 }

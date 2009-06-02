@@ -20,7 +20,11 @@
 package edu.cmu.cs.crystal.analysis.live;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
@@ -31,6 +35,7 @@ import edu.cmu.cs.crystal.util.Utilities;
 
 public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 {
+
 	public static LiveVariableAnalysis Instance;
 	
 	private TACFlowAnalysis<TupleLatticeElement<Variable, LiveVariableLE>> fa;
@@ -59,7 +64,7 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 	
 		// must call getResultsAfter at least once on this method, or the analysis won't be run on this method			
 		TupleLatticeElement<Variable, LiveVariableLE> finalLattice = fa.getResultsBefore(d);
-		printLattice(finalLattice);
+		d.accept(new LiveVariableVisitor());
 	}
 
 	public void printLattice(TupleLatticeElement<Variable, LiveVariableLE> lattice) {
@@ -71,5 +76,35 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 				reporter.debugOut().println(var.getSourceString() + ":" + " DEAD  ");
 		}
 		reporter.debugOut().println("\n\n");
+	}
+	
+	/**
+	 * @author ciera
+	 * @since Crystal 3.4.0
+	 */
+	public class LiveVariableVisitor extends ASTVisitor {
+
+		@Override
+		public void endVisit(Assignment node) {
+			TupleLatticeElement<Variable, LiveVariableLE> lattice = fa.getResultsAfter(node);
+			
+			IVariableBinding varBinding = (IVariableBinding) node.getLeftHandSide().resolveTypeBinding();
+			
+			if (varBinding.isField() || varBinding.isParameter())
+				return;
+			
+			if (lattice.get(fa.getSourceVariable(varBinding)) == LiveVariableLE.DEAD)
+				reporter.reportUserProblem("The variable " + node.getLeftHandSide() + " is dead and is no longer used.", node, getName());
+		}
+
+		@Override
+		public void endVisit(VariableDeclarationFragment node) {
+			TupleLatticeElement<Variable, LiveVariableLE> lattice = fa.getResultsAfter(node);
+			
+			IVariableBinding varBinding = node.resolveBinding();
+			
+			if (lattice.get(fa.getSourceVariable(varBinding)) == LiveVariableLE.DEAD)
+				reporter.reportUserProblem("The variable " + node.getName() + " is never used.", node, getName());
+		}
 	}
 }

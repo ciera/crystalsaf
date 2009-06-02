@@ -28,16 +28,16 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.cmu.cs.crystal.BooleanLabel;
-import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.NormalLabel;
 import edu.cmu.cs.crystal.cfg.ICFGEdge;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.BooleanLabel;
 import edu.cmu.cs.crystal.flow.IAbstractLatticeOperations;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
+import edu.cmu.cs.crystal.flow.NormalLabel;
 
 /**
  * This class encapsulates a worklist algorithm for computing fixed points
@@ -70,7 +70,7 @@ public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperati
      * @see #getControlFlowGraph()
      * @see #getLatticeOperations()
      * @see #getEntryValue()
-     * @see #transferNode(ICFGNode, LatticeElement, ILabel)
+     * @see #transferNode(ICFGNode, Object, ILabel)
      */
     public AnalysisResult<LE, N, OP> performAnalysis() {
     	
@@ -231,8 +231,8 @@ public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperati
 
 	/**
 	 * Turns label on edge into label for incoming analysis results.
-	 * {@link edu.cmu.cs.crystal.BooleanLabel}s will be used as-is; 
-	 * any other label is replaced by {@link edu.cmu.cs.crystal.NormalLabel}.
+	 * {@link edu.cmu.cs.crystal.flow.BooleanLabel}s will be used as-is; 
+	 * any other label is replaced by {@link edu.cmu.cs.crystal.flow.NormalLabel}.
 	 * @param edgeLabel Label retrieved from edge
 	 * @return Label for {@link IncomingResult}
 	 * 
@@ -278,8 +278,8 @@ public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperati
 	 * with {@link #incomingLabel(ILabel)} and distinguishes incoming analysis
 	 * results along different kinds of edges.  It is <i>recommended</i> to
 	 * treat nodes for &&, ||, and ! specially based on the <code>transferLabel</code>:
-	 * && and || should only return a result for a given {@link edu.cmu.cs.crystal.BooleanLabel};
-	 * ! should only return a result for the opposite {@link edu.cmu.cs.crystal.BooleanLabel}.
+	 * && and || should only return a result for a given {@link edu.cmu.cs.crystal.flow.BooleanLabel};
+	 * ! should only return a result for the opposite {@link edu.cmu.cs.crystal.flow.BooleanLabel}.
 	 * @param cfgNode The CFG node to transfer over.  Notice that, in the case of a dummy node,
 	 * there may not be an AST node associated with the CFG node. 
 	 * @param incoming The incoming lattice element (relative to the analysis direction).
@@ -321,7 +321,7 @@ public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperati
 		/**
 		 * Create new result with given lattice value as normal result
 		 * @param normalResult
-		 * @see edu.cmu.cs.crystal.NormalLabel
+		 * @see edu.cmu.cs.crystal.flow.NormalLabel
 		 */
 		public IncomingResult(LE normalResult) {
 			this.normalResult = checkNull(normalResult);
@@ -332,7 +332,7 @@ public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperati
 		 * @param branchResult
 		 * @param branchValue Determine whether <code>branchResult</code> should
 		 * be the <code>true</code> or <code>false</code> result.
-		 * @see edu.cmu.cs.crystal.BooleanLabel
+		 * @see edu.cmu.cs.crystal.flow.BooleanLabel
 		 */
 		public IncomingResult(LE branchResult, boolean branchValue) {
 			if(branchValue == true)
@@ -343,9 +343,9 @@ public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperati
 
 		/**
 		 * Create new result with given lattice value as result for given label.
-		 * @param label Label to replace value for: {@link edu.cmu.cs.crystal.NormalLabel}
-		 * or {@link edu.cmu.cs.crystal.BooleanLabel}.
-		 * @see edu.cmu.cs.crystal.NormalLabel
+		 * @param label Label to replace value for: {@link edu.cmu.cs.crystal.flow.NormalLabel}
+		 * or {@link edu.cmu.cs.crystal.flow.BooleanLabel}.
+		 * @see edu.cmu.cs.crystal.flow.NormalLabel
 		 */
 		public IncomingResult(LE result, ILabel label) {
 			put(label, result);
@@ -379,8 +379,8 @@ public abstract class WorklistTemplate<LE, N, OP extends IAbstractLatticeOperati
 		
 		/**
 		 * Replaces the lattice value for the given label with a new lattice value
-		 * @param label Label to set value for: {@link edu.cmu.cs.crystal.NormalLabel}
-		 * or {@link edu.cmu.cs.crystal.BooleanLabel}.
+		 * @param label Label to set value for: {@link edu.cmu.cs.crystal.flow.NormalLabel}
+		 * or {@link edu.cmu.cs.crystal.flow.BooleanLabel}.
 		 * @param result The new lattice value.
 		 */
 		public void put(ILabel label, LE result) {

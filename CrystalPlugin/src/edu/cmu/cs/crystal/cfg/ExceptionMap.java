@@ -91,7 +91,7 @@ public class ExceptionMap<N, Node extends ICFGNode<N>> implements Cloneable {
 	/**
 	 * Finish a catch.
 	 * 
-	 * @return
+	 * @return The last catch to be put on the ExceptionMap
 	 */
 	public Node popCatch() {
 		return catchStack.pop().catchNode;

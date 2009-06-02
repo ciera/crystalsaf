@@ -21,8 +21,7 @@ package edu.cmu.cs.crystal.cfg;
 
 import java.util.Set;
 
-import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.cfg.ICFGEdge;
+import edu.cmu.cs.crystal.flow.ILabel;
 
 /** Abstract
  * 
@@ -33,7 +32,7 @@ public interface ICFGNode<N> {
 	public Set<? extends ICFGEdge<N>> getInputs();
 	public Set<? extends ICFGEdge<N>> getOutputs();
 
-	/** @returns The Node from which this CFGNode was created,
+	/** @return The Node from which this CFGNode was created,
 	 * may be null if this node is a dummy node. These nodes
 	 * will still have input/output edges for control
 	 * flow purposes.

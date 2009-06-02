@@ -23,7 +23,7 @@ package edu.cmu.cs.crystal.util;
  * A n-tuple where n is three.
  * 
  * @author Nels Beckman
- * @date Apr 22, 2008
+
  * @see edu.cmu.cs.crystal.util.Pair
  *
  */

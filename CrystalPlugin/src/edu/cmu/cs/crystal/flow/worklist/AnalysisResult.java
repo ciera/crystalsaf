@@ -34,7 +34,6 @@ import edu.cmu.cs.crystal.flow.IResult;
  * potentially want to use this. 
  * 
  * @author Nels Beckman
- * @date Jan 24, 2008
  *
  */
 public class AnalysisResult<LE, N, OP extends IAbstractLatticeOperations<LE, N>> {

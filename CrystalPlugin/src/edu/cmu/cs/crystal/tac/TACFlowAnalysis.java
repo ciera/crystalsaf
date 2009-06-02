@@ -28,11 +28,10 @@ import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.Crystal;
-import edu.cmu.cs.crystal.ILabel;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition;
+import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
@@ -40,6 +39,7 @@ import edu.cmu.cs.crystal.flow.ITransferFunction;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
 import edu.cmu.cs.crystal.flow.SingleResult;
+import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseInstructionSequence;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseTAC;
@@ -269,7 +269,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 	 * method only when analysis results for the method surrounding the
 	 * access are available.
 	 * @param accessedElement
-	 * @return
+	 * @return the implicit this for the accessed element
 	 */
 	public ThisVariable getImplicitThisVariable(IBinding accessedElement) {
 		// TODO make sure this is only called for accesses from currently analyzed method

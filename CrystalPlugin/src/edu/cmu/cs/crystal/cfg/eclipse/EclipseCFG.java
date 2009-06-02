@@ -93,16 +93,16 @@ import org.eclipse.jdt.core.dom.WildcardType;
 import org.eclipse.jdt.core.dom.InfixExpression.Operator;
 
 import att.grappa.Graph;
-import edu.cmu.cs.crystal.BooleanLabel;
-import edu.cmu.cs.crystal.ExceptionalLabel;
-import edu.cmu.cs.crystal.ILabel;
-import edu.cmu.cs.crystal.IteratorLabel;
-import edu.cmu.cs.crystal.NormalLabel;
-import edu.cmu.cs.crystal.SwitchLabel;
 import edu.cmu.cs.crystal.cfg.BlockStack;
 import edu.cmu.cs.crystal.cfg.ExceptionMap;
 import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.cfg.IControlFlowGraph;
+import edu.cmu.cs.crystal.flow.BooleanLabel;
+import edu.cmu.cs.crystal.flow.ExceptionalLabel;
+import edu.cmu.cs.crystal.flow.ILabel;
+import edu.cmu.cs.crystal.flow.IteratorLabel;
+import edu.cmu.cs.crystal.flow.NormalLabel;
+import edu.cmu.cs.crystal.flow.SwitchLabel;
 
 /**
  * Builds a CFG on the Eclipse AST. This class has been tested at the method level only, it has not

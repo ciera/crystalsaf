@@ -22,10 +22,8 @@ package edu.cmu.cs.crystal.flow;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 /**
- * Interface for defining standard flow analyses.  Implement this interface directly
- * or use {@link FlowAnalysisDefinition}.  Use {@link IBranchSensitiveTransferFunction}
- * to define branch-sensitive analyses.  To create a flow analysis, pass an instance of this
- * interface to {@link FlowAnalysis}.
+ * Interface for defining standard flow analyses. To create a flow analysis, pass an instance of this
+ * interface to an {@link IFlowAnalysis}.
  * @author Kevin Bierhoff
  *
  */

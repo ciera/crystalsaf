@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.cs.crystal.ILabel;
 
 /**
  * This class maps a set of known labels to a single lattice element.

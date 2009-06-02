@@ -27,7 +27,6 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
  * interface.
  * 
  * @author Nels Beckman
- * @date Jan 24, 2008
  *
  * @param <LE>
  */
