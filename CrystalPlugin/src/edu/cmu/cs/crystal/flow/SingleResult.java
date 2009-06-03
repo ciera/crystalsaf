@@ -28,18 +28,16 @@ import java.util.Set;
  * single lattice element and only knows a single label,
  * {@link NormalLabel}.
  * 
+ * This is a useful class if you want to return the same lattice information no matter
+ * what label is used. It is the least expressive as it does not track labels, but simple.
+ * 
  * @author Kevin "The German" Bierhoff
  * 
- * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
+ * @param <LE>	the type that represents the analysis knowledge
  */
 public class SingleResult<LE> implements IResult<LE> {
-	
-	private LE singleValue;
+		private LE singleValue;
 	private static final Set<ILabel> normalLabelSet = Collections.singleton((ILabel) NormalLabel.getNormalLabel());
-
-	public static <LE> IResult<LE> createSingleResult(LE value) {
-		return new SingleResult<LE>(value);
-	}
 
 	/**
 	 * Create a result that maps all labels to the given lattice element.
@@ -49,15 +47,15 @@ public class SingleResult<LE> implements IResult<LE> {
 		this.singleValue = singleValue;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.IResult#getValue(edu.cmu.cs.crystal.flow.ILabel)
+	/**
+	 * @return the single value given in initially, no matter what label is requested.
 	 */
 	public LE get(ILabel label) {
 		return singleValue;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.flow.IResult#keySet()
+	/**
+	 * @return a keyset that contains only the normal label.
 	 */
 	public Set<ILabel> keySet() {
 		return normalLabelSet;
@@ -72,7 +70,7 @@ public class SingleResult<LE> implements IResult<LE> {
 		LabeledResult<LE> mergedResult;
 		
 		otherLattice = op.copy(otherResult.get(null));
-		mergedResult = new LabeledResult<LE>(op.join(op.copy(singleValue), otherLattice, null));
+		mergedResult = LabeledResult.createResult(op.join(op.copy(singleValue), otherLattice, null));
 		
 		for (ILabel label : mergedResult.keySet()) {
 			otherLattice = op.copy(otherResult.get(label));

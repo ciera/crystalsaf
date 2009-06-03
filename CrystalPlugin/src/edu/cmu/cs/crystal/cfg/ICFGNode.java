@@ -26,7 +26,7 @@ import edu.cmu.cs.crystal.flow.ILabel;
 /** Abstract
  * 
  * @author aldrich
- * @author cchristo
+ * @author ciera
  */
 public interface ICFGNode<N> {
 	public Set<? extends ICFGEdge<N>> getInputs();

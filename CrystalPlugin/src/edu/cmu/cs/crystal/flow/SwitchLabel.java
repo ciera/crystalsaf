@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.dom.Expression;
 /**
  * A switch label occurs from the switch control flow.
  * This label maintains a link to the expression which it matched for.
- * @author cchristo
+ * @author ciera
  *
  */
 public class SwitchLabel implements ILabel {
@@ -67,6 +67,9 @@ public class SwitchLabel implements ILabel {
 		return true;
 	}
 
+	/**
+	 * @return the expression which this case is matching on (not the expression it switched on)
+	 */
 	public Expression getMatchExpression() {
 		return matchExpression;
 	}
@@ -75,6 +78,9 @@ public class SwitchLabel implements ILabel {
 		this.matchExpression = matchExpression;
 	}
 
+	/**
+	 * @return a string representation of the matching case expression, or "default" for the default case.
+	 */
 	public String getLabel() {
 		if (matchExpression == null)
 			return "default";

@@ -27,9 +27,13 @@ import java.util.Set;
  * Clients do not usually have to implement this interface.  Instead, use
  * one of the pre-defined implementing classes.
  * 
+ * If you want a single lattice value regardless of labels and do not want to track labels, use @link{SingleResult}.
+ * If you want a single lattice value but do want to track labels, use @link{LabeledSingleResult}.
+ * If you want to provide different lattice values for each label, use @link{LabeledResult}.
+ * 
  * @author Kevin Bierhoff
  * 
- * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
+ * @param <LE>	the type that represents the analysis knowledge
  */
 public interface IResult<LE> {
 

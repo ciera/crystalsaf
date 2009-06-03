@@ -27,21 +27,33 @@ import java.util.Set;
 
 
 /**
- * This class maps a set of known labels to a single lattice element.
+ * This class maps a set of known labels to a single lattice element. This is different
+ * from @link{SingleResult} because it will return a keyset which may contain more labels,
+ * so it will preserve the independence of those branches.
  * 
  * @author Kevin Bierhoff
  * 
- * @param <LE>	the LatticeElement subclass that represents the analysis knowledge
+ * @param <LE>	the type that represents the lattice element
  */
 public class LabeledSingleResult<LE> implements IResult<LE> {
 	
 	private Set<ILabel> labels;
 	private LE singleValue;
 
+	/**
+	 * Creates a result that maps the given labels to the given lattice element.
+	 * @param value The lattice element all given labels will map to.
+	 * @param labels The labels known to this result.
+	 */
 	public static <LE> IResult<LE> createResult(LE value, Collection<ILabel> labels) {
 		return new LabeledSingleResult<LE>(value, labels);
 	}
 
+	/**
+	 * Creates a result that maps the given labels to the given lattice element.
+	 * @param value The lattice element all given labels will map to.
+	 * @param labels The labels known to this result.
+	 */
 	public static <LE> IResult<LE> createResult(LE value, ILabel... labels) {
 		return new LabeledSingleResult<LE>(value, Arrays.asList(labels));
 	}
@@ -62,6 +74,9 @@ public class LabeledSingleResult<LE> implements IResult<LE> {
 		return labels;
 	}
 
+	/**
+	 * @return the default value, regardless of the label requested.
+	 */
 	public LE get(ILabel label) {
 		return singleValue;
 	}
@@ -76,7 +91,7 @@ public class LabeledSingleResult<LE> implements IResult<LE> {
 		mergedLabels.addAll(otherResult.keySet());
 
 		otherLattice = op.copy(otherResult.get(null));
-		mergedResult = new LabeledResult<LE>(op.join(op.copy(singleValue), otherLattice, null));
+		mergedResult = LabeledResult.createResult(op.join(op.copy(singleValue), otherLattice, null));
 		
 		for (ILabel label : mergedLabels) {
 			if (otherLabels.contains(label) && labels.contains(label)) {

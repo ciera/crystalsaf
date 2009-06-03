@@ -36,7 +36,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
  * popBreakeable()
  * 
  *  The getContinue and getBreakPoint may be called at any time.
- * @author cchristo
+ * @author ciera
  *
  * @param <Node>
  */

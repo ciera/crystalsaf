@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 /**
  * Interface for defining standard flow analyses. To create a flow analysis, pass an instance of this
- * interface to an {@link IFlowAnalysis}.
+ * interface to a {@link FlowAnalysis}.
  * @author Kevin Bierhoff
  *
  */

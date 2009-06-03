@@ -355,7 +355,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		}
 		
 		public IResult<LE> deriveResult(EclipseInstructionSequence seq, LE incoming, TACInstruction targetInstruction, boolean afterResult) {
-			return SingleResult.createSingleResult(seq.deriveResult(tf, targetInstruction, incoming, afterResult));
+			return new SingleResult<LE>(seq.deriveResult(tf, targetInstruction, incoming, afterResult));
 		}
 
 	}

@@ -168,7 +168,7 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 		if (labels.contains(BooleanLabel.getBooleanLabel(true)) && labels.contains(BooleanLabel.getBooleanLabel(false)))
 		{
 			TupleLatticeElement<Variable, BooleanConstantLE> tVal, fVal;
-			LabeledResult<TupleLatticeElement<Variable, BooleanConstantLE>> result = new LabeledResult<TupleLatticeElement<Variable, BooleanConstantLE>>(value);
+			LabeledResult<TupleLatticeElement<Variable, BooleanConstantLE>> result = LabeledResult.createResult(value);
 			
 			tVal = ops.copy(value);
 			fVal = ops.copy(value);

@@ -20,6 +20,14 @@ package edu.cmu.cs.crystal.annotations;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The simplest kind of ICrystalAnnotation. It simply maps all parameters to an object. If
+ * you would instead like to do more advanced parsing of an annotation, you must create
+ * your own ICrystalAnnotation.
+ * 
+ * @author ciera
+ * @since Crystal 3.4.0
+ */
 public class CrystalAnnotation implements ICrystalAnnotation {
 	private String name;
 	private Map<String, Object> pairs;

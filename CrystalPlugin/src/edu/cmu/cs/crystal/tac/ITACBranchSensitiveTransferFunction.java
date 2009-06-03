@@ -32,7 +32,7 @@ import edu.cmu.cs.crystal.flow.IResult;
  * for it.  
  * 
  * To create a flow analysis, pass an instance of this interface to
- * {@link edu.cmu.cs.crystal.flow.ITACFlowAnalysis}.
+ * {@link edu.cmu.cs.crystal.flow.TACFlowAnalysis}.
  * 
  * @author Kevin Bierhoff
  *

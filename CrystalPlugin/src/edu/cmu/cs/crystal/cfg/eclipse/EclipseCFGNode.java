@@ -51,7 +51,7 @@ import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
  * breaks control flow entirely, and it can not be hooked up to another node in the normal flow. To
  * handle this, the endNode might be null.
  * 
- * @author cchristo
+ * @author ciera
  *
  */
 public class EclipseCFGNode implements ICFGNode<ASTNode> {

@@ -54,7 +54,7 @@ import edu.cmu.cs.crystal.util.Option;
  * 
  * @author David Dickey
  * @author Jonathan Aldrich
- * @author cchristo
+ * @author ciera
  * @author Nels E. Beckman
  */
 public class Crystal {
