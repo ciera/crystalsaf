@@ -21,9 +21,9 @@ package edu.cmu.cs.crystal.flow;
 
 
 /**
- * A normal label occurs from normal control flow.
+ * A normal label occurs from non-branching, non-exceptional control flow.
  * 
- * @author cchristo
+ * @author ciera
  *
  */
 public class NormalLabel implements ILabel {
@@ -31,6 +31,10 @@ public class NormalLabel implements ILabel {
 
 	private NormalLabel() {}
 	
+	/**
+	 * 
+	 * @return the singleton instance of the normal label
+	 */
 	static public NormalLabel getNormalLabel() {return NORMAL_LABEL;}
 	
 	public String getLabel() {return "";}

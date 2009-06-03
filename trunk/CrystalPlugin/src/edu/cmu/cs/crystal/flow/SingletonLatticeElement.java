@@ -23,7 +23,9 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 
 /**
- * This is a degenerate lattice element class with exactly one element in it.
+ * This is a degenerate lattice element class with exactly one element in it. The only purpose
+ * for this class is a flow analysis where we want to walk through the flow, but have no
+ * information to store.
  * 
  * @author Kevin Bierhoff
  *

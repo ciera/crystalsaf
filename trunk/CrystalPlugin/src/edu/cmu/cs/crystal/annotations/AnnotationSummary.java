@@ -22,6 +22,12 @@ package edu.cmu.cs.crystal.annotations;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the annotations for a method declaration.
+ * 
+ * @author ciera
+ * @since Crystal 3.4.0
+ */
 public class AnnotationSummary {
 	List<ICrystalAnnotation>[] annos;
 	String[] paramNames;
@@ -42,7 +48,10 @@ public class AnnotationSummary {
 		return paramNames;
 	}
 	
-
+	/**
+	 * @param ndx 0-based parameter index..
+	 * @return A list of the annotations for a given parameter.
+	 */
 	public List<ICrystalAnnotation> getParameter(int ndx) {
 		if (ndx < annos.length - 1)
 			return annos[ndx];
@@ -65,6 +74,9 @@ public class AnnotationSummary {
 			return null;
 	}
 	
+	/**
+	 * @return A list of the annotations for the return value
+	 */
 	public List<ICrystalAnnotation> getReturn() {
 		return annos[annos.length - 1];
 	}

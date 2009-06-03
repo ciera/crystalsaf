@@ -53,7 +53,7 @@ import edu.cmu.cs.crystal.util.Pair;
  * This class is a database for annotations. It can store annotations of methods we have analyzed or
  * of ones we have not. Either way, it does not store any AST information, so it returns Crystal
  * objects that represent an annotation. Those who want to use this database must register the type
- * of annotations to scan for.
+ * of annotations to scan for, @see{ICrystalAnnotation}.
  * 
  * A ICrystalAnnotation provides all the information that one needs about the annotations. An
  * AnnotationSummary is particularly useful for finding all information relating to the method,
@@ -63,7 +63,13 @@ import edu.cmu.cs.crystal.util.Pair;
  * Annotation, etc.) as the files we are analyzing aren't on the classpath of the system we are
  * running.
  * 
- * @author cchristo
+ * The annotation database currently allows clients to request annotations if they provide an ITypeBinding.
+ * However, this means that Crystal needs to have parsed and analyzed the code in question to get an ITypeBinding
+ * in the first place. Instead, we would like to retrieve annotations from unanalyzed code (for example, a library).
+ * This can currently be done with @link{#getAnnosForType(IType)}, and the plan is to eventually allow methods and
+ * fields based upon the Java Model instead of the Java ASTNodes.
+ * 
+ * @author ciera
  * @author Nels Beckman
  * 
  */
@@ -104,6 +110,10 @@ public class AnnotationDatabase {
 			qualNames.put(fullyQualifiedName, crystalAnnotationClass);
 	}
 
+	/***
+	 * Given a method binding, returns a summary that represents annotation info for that method
+	 * declaration.
+	 */
 	public AnnotationSummary getSummaryForMethod(IMethodBinding binding) {
 		while (binding != binding.getMethodDeclaration())
 			binding = binding.getMethodDeclaration();
@@ -143,10 +153,11 @@ public class AnnotationDatabase {
 	 * This method will return the list of annotations associated with the
 	 * given type. It's very similar in functionality to 
 	 * {@link #getAnnosForType(ITypeBinding)} except that it works on the
-	 * Java model element, so it does not require a parse.
+	 * Java model element, so it does not require the type to have been parsed
+	 * and analyzed by Crystal.
 	 * @throws JavaModelException 
 	 */
-	public List<ICrystalAnnotation>  getAnnosForType(IType type) throws JavaModelException {
+	public List<ICrystalAnnotation> getAnnosForType(IType type) throws JavaModelException {
 		String name = type.getKey();
 
 		List<ICrystalAnnotation> result = classes.get(name);
@@ -157,6 +168,11 @@ public class AnnotationDatabase {
 		return result;
 	}
 	
+	/**
+	 * This method will return the list of annotations associated with the
+	 * given type. To work, this binding had to be parsed by Crystal. If you do not have
+	 * a type that was parsed by Crystal, use {@link #getAnnosForType(IType)}.
+	 */
 	public List<ICrystalAnnotation> getAnnosForType(ITypeBinding type) {
 		while (type != type.getTypeDeclaration())
 			type = type.getTypeDeclaration();
@@ -176,6 +192,10 @@ public class AnnotationDatabase {
 		return result;
 	}
 
+	/**
+	 * This method will return the list of annotations associated with the
+	 * given field. 
+	 */
 	public List<ICrystalAnnotation> getAnnosForField(IVariableBinding binding) {
 		while (binding != binding.getVariableDeclaration())
 			binding = binding.getVariableDeclaration();

@@ -23,10 +23,10 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 
 /**
- * Represents a label which has an exception. This maintains
+ * A label for edges that are on exceptional control flow. This maintains
  * a link to the ITypeBinding of the exception for this label.
  * This occurs in exceptional control flow from throws, method calls,etc.
- * @author cchristo
+ * @author ciera
  *
  */
 public class ExceptionalLabel implements ILabel {
@@ -36,6 +36,10 @@ public class ExceptionalLabel implements ILabel {
 		this.exceptionType = exceptionType;
 	}
 	
+	/**
+	 * 
+	 * @return the type of the exception that is thrown on this control flow
+	 */
 	public ITypeBinding getExceptionType() {
 		return exceptionType;
 	}
@@ -44,7 +48,11 @@ public class ExceptionalLabel implements ILabel {
 		this.exceptionType = branchValue;
 	}
 	
+	/**
+	 * @return the fully qualified name for the exception type
+	 */
 	public String getLabel() {
+	
 		return exceptionType.getQualifiedName();
 	}
 

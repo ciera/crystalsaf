@@ -21,7 +21,6 @@ package edu.cmu.cs.crystal.tac;
 
 
 import edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition;
-import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
 
 /**
  * Interface for defining flow analysis transfer functions based on 3-address code instructions.
@@ -30,7 +29,7 @@ import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
  * {@link ITACBranchSensitiveTransferFunction} for branch-sensitive flow analyses.
  * 
  * To create a flow analysis, pass an instance of this interface to
- * {@link ITACFlowAnalysis}.
+ * {@link TACFlowAnalysis}.
  * 
  * @author Kevin Bierhoff
  *

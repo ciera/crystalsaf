@@ -18,9 +18,13 @@
 package edu.cmu.cs.crystal.annotations;
 
 /**
- * Interface for accessing annotations through the Crystal annotation database.
+ * Interface for accessing annotations through the Crystal annotation database. To get Crystal
+ * to recognize an annotation that an analysis is interested in, use the extension-point
+ * edu.cmu.cs.crystal.CrystalAnnotation in plugin.xml and provide an implementation of
+ * ICrystalAnnotation that will parse your annotation. The implementation @link{CrystalAnnotation} will do
+ * very simple parsing.
  * 
- * @author Ciera Christopher
+ * @author ciera
  */
 public interface ICrystalAnnotation {
 

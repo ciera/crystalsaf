@@ -23,8 +23,8 @@ package edu.cmu.cs.crystal.flow;
 /**
  * A boolean label is a label which is either true or false. The true
  * and false labels can be retrieved with getBooleanLabel(boolean).
- * It occurs from branching control flow.
- * @author cchristo
+ * It occurs branches from boolean expressions.
+ * @author ciera
  *
  */
 public class BooleanLabel implements ILabel {

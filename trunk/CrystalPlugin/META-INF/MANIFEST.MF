@@ -19,7 +19,6 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Export-Package: att.grappa,
  edu.cmu.cs.crystal,
- edu.cmu.cs.crystal.analysis,
  edu.cmu.cs.crystal.analysis.alias,
  edu.cmu.cs.crystal.analysis.constant,
  edu.cmu.cs.crystal.analysis.live,

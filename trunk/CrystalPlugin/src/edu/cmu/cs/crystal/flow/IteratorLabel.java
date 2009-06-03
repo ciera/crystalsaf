@@ -20,7 +20,14 @@
 package edu.cmu.cs.crystal.flow;
 
 
-
+/**
+ * A label for control flow where the branching flow is due to an iterator, for example,
+ * in an enhanced for loop. There are two kinds of Iterator labels; an "empty" label and a
+ * "has item" label.
+ * 
+ * @author ciera
+ * @since Crystal 3.4.0
+ */
 public class IteratorLabel implements ILabel {
 	static private IteratorLabel EMPTY_LABEL = new IteratorLabel(true);
 	static private IteratorLabel HAS_ITEM_LABEL = new IteratorLabel(false);
@@ -43,7 +50,11 @@ public class IteratorLabel implements ILabel {
 		return isEmpty ? "empty" : "has item";
 	}
 
-	public boolean getBranchValue() {
+	/**
+	 * 
+	 * @return true if this is the empty label, and false if it is the hasItem label.
+	 */
+	public boolean isEmptyLabel() {
 		return isEmpty;
 	}
 

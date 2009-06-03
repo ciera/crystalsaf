@@ -40,6 +40,12 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import edu.cmu.cs.crystal.AbstractCompilationUnitAnalysis;
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
 
+/**
+ * A pre-analysis that runs in Crystal to gather up all the annotations.
+ * 
+ * @author ciera
+ * @since Crystal 3.4.0
+ */
 public class AnnotationFinder extends AbstractCompilationUnitAnalysis {
 	AnnotationDatabase db;
 	

@@ -133,7 +133,7 @@ import edu.cmu.cs.crystal.flow.SwitchLabel;
  * children. - In the endvisit method, we put together the CFG for this node and its children (with
  * the exception of any edges that were added by children through the data structures.
  * 
- * @author cchristo
+ * @author ciera
  */
 public class EclipseCFG extends ASTVisitor implements IControlFlowGraph<ASTNode>, Cloneable {
 

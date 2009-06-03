@@ -30,7 +30,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
  * The ExceptionMap maintains links to ASTNodes and CFGNodes. It should be deleted when the CFG is
  * done with it.
  * 
- * @author cchristo
+ * @author ciera
  * 
  * @param <Node>
  */

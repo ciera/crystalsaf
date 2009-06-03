@@ -22,14 +22,20 @@ package edu.cmu.cs.crystal.flow;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 /**
- * @author Kevin Bierhoff
- *
+ * Maps each label to a unique value. This class also contains a default value, so if
+ * a label is requested which it does not know about, it returns the default.
+ * 
+ * Of all the IResults, this class provides the most expressiveness.
+ * 
+ * @author ciera
+ * @since Crystal 3.4.0
+ * @param <LE> The type which represents the lattice value
  */
 public class LabeledResult<LE> implements IResult<LE> {
 	private Map<ILabel, LE> labelMap;
@@ -38,8 +44,8 @@ public class LabeledResult<LE> implements IResult<LE> {
 	/**
 	 * Create a result for the given labels with the given default value.
 	 * @param <LE>
-	 * @param labels
-	 * @param defaultValue
+	 * @param labels The labels to create mappings for
+	 * @param defaultValue a default value for each label to map to
 	 * @return A new result for the given labels with the given default value.
 	 */
 	public static <LE> LabeledResult<LE> 
@@ -47,25 +53,38 @@ public class LabeledResult<LE> implements IResult<LE> {
 		return new LabeledResult<LE>(labels, defaultValue);
 	}
 	
-	public LabeledResult(List<ILabel> labels, LE defaultValue) {
-		this(defaultValue);
-		/*
-		 * Each label will also have defaultValue as the default value.
-		 */
+	/**
+	 * Create a result with the given default value but no labels. Labels can be added
+	 * later by calling @link{#put}.
+	 * @param <LE>
+	 * @param defaultValue a default value for each label to map to
+	 * @return A new result with the given default value.
+	 */
+	public static <LE> LabeledResult<LE> createResult(LE defaultValue) {
+		return new LabeledResult<LE>(new LinkedList<ILabel>(), defaultValue);
+	}
+	
+	private LabeledResult(List<ILabel> labels, LE defaultValue) {
+		labelMap = new HashMap<ILabel, LE>();
+		this.defaultValue = defaultValue;
 		for( ILabel lab : labels ) {
 			this.labelMap.put(lab, defaultValue);
 		}
 	}
 	
-	public LabeledResult(LE defaultValue) {
-		labelMap = new HashMap<ILabel, LE>();
-		this.defaultValue = defaultValue;
-	}
-	
+	/**
+	 * Add/Change the value of a label
+	 * @param label the label to add to this result
+	 * @param value the lattice information to map it to
+	 */
 	public void put(ILabel label, LE value) {
 		labelMap.put(label, value);
 	}
 	
+	/**
+	 * @return the value which was mapped to this label, or the default value if the label
+	 * is unknown
+	 */
 	public LE get(ILabel label) {
 		LE value = labelMap.get(label);
 		if (value == null)
@@ -73,6 +92,9 @@ public class LabeledResult<LE> implements IResult<LE> {
 		return value;
 	}
 
+	/**
+	 * @return a set of all known labels for this result.
+	 */
 	public Set<ILabel> keySet() {
 		return Collections.unmodifiableSet(labelMap.keySet());
 	}
@@ -87,7 +109,7 @@ public class LabeledResult<LE> implements IResult<LE> {
 		mergedLabels.addAll(otherResult.keySet());
 
 		otherLattice = op.copy(otherResult.get(null));
-		mergedResult = new LabeledResult<LE>(op.join(op.copy(defaultValue), otherLattice, null));
+		mergedResult = LabeledResult.createResult(op.join(op.copy(defaultValue), otherLattice, null));
 		
 		for (ILabel label : mergedLabels) {
 			if (otherLabels.contains(label) && labelMap.containsKey(label)) {
