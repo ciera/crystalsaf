@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 /**
- * Carries out an analysis on each CompilationUnit.
+ * An ICrystal analysis which analyses each compilation unit as a whole.
  * 
  * @author David Dickey
  * 
@@ -33,19 +33,13 @@ public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysi
 	protected IAnalysisReporter reporter = null;
 	protected IAnalysisInput analysisInput = null;
 	
-	/**
-	 * This method is intended to be used to simply
-	 * return an arbitrary name that can be used to
-	 * help identify this analysis.
-	 * 
-	 * @return	a name
-	 */
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
 	
 	/**
-	 * Newest version of runAnalysis to run on a single compilation unit.
+	 * This implementation of runAnalysis will set the reporter and input and then
+	 * call the abstract method $analyzeCompilationUnit.
 	 * 
 	 * @param compUnit The ICompilationUnit that represents the file we are analyzing
 	 * @param reporter The IAnalysisReport that allows an analysis to report issues.
@@ -57,6 +51,8 @@ public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysi
 		this.reporter = reporter;
 		this.analysisInput = input;
 		analyzeCompilationUnit(rootNode);
+		this.reporter = null;
+		this.analysisInput = null;
 	}
 
 	public void afterAllCompilationUnits() {
@@ -65,6 +61,14 @@ public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysi
 
 	public void beforeAllCompilationUnits() {
 		// default does nothing
+	}
+	
+	public IAnalysisReporter getReporter() {
+		return reporter;
+	}
+	
+	public IAnalysisInput getInput() {
+		return analysisInput;
 	}
 
 	/**

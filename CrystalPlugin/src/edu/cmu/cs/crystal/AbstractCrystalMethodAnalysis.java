@@ -28,8 +28,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 
 /**
- * Responsible for carrying out the analysis logic on the methods of the target
- * program.
+ * An ICrystalAnalysis which runs on each method (and constructor) of the class.
  * 
  * @author David Dickey
  * @author Jonathan Aldrich
@@ -41,20 +40,11 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	
 	protected IAnalysisInput analysisInput = null;
 	
-	/**
-	 * This method is intended to be used to simply
-	 * return an arbitrary name that can be used to
-	 * help identify this analysis.
-	 * 
-	 * @return	a name
-	 */
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
 
 	/**
-	 * Carries out the analysis.
-	 * <p>
 	 * {@link #beforeAllMethods} is run before any method is analyzed.<br/>
 	 * Then each method is analysed by {@link #analyzeMethod(MethodDeclaration)}.<br/>
 	 * Finally {@link #afterAllMethods} is run after all methods have
@@ -75,6 +65,8 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 		}
 		
 		afterAllMethods(compUnit, rootNode);
+		this.reporter = null;
+		this.analysisInput = null;
 	}
 
 	public void afterAllCompilationUnits() {
@@ -83,6 +75,14 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 
 	public void beforeAllCompilationUnits() {
 		// default does nothing
+	}
+	
+	public IAnalysisReporter getReporter() {
+		return reporter;
+	}
+	
+	public IAnalysisInput getInput() {
+		return analysisInput;
 	}
 
 	/**
@@ -93,7 +93,7 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	}
 
 	/**
-	 * Invoked for each method.
+	 * Invoked for each method or constructor in the class.
 	 */
 	public abstract void analyzeMethod(MethodDeclaration d);
 

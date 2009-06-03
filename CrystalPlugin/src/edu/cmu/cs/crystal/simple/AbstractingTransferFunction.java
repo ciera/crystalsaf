@@ -54,9 +54,13 @@ import edu.cmu.cs.crystal.tac.UnaryOperation;
  * This is convenient for analyses that want to treat many different
  * but related instructions in the same way.
  * 
+ * For example, if you want to have the same transfer function for
+ * MethodCallInstruction, ConstructorCallInstruction, and NewObjectInstruction,
+ * you can override TACInvocation.
+ * 
  * @author Jonathan Aldrich
  *
- * @param <LE> LatticeElement subclass that represents the analysis knowledge.
+ * @param <LE> the lattice being used in this analysis.
  */
 public abstract class AbstractingTransferFunction<LE> 
 		implements ITACTransferFunction<LE> {

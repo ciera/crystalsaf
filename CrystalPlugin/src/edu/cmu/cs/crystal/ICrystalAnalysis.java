@@ -19,21 +19,16 @@
  */
 package edu.cmu.cs.crystal;
 
-import java.util.Map;
-
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
-import edu.cmu.cs.crystal.annotations.CrystalAnnotation;
-import edu.cmu.cs.crystal.util.Option;
-
 /**
- * Presents the interface for an analysis.
+ * The primary interface to create a Crystal analysis. To create a Crystal plugin, implement
+ * this interface (or extend a subtype). Then register the analysis in the plugin.xml file by using
+ * the extension-point edu.cmu.cs.crystal.CrystalAnalysis.
  * 
  * @author David Dickey
  * @author Jonathan Aldrich
- * 
  */
 public interface ICrystalAnalysis {
 	/**
@@ -48,7 +43,8 @@ public interface ICrystalAnalysis {
 			CompilationUnit rootNode);
 	
 	/**
-	 * @return a unique name for this analysis
+	 * @return a unique name for this analysis. This name will be used by Crystal for menu
+	 * items, error reporting, and otherwise identifying this analysis to the user.
 	 */
 	public String getName();
 	
@@ -61,4 +57,16 @@ public interface ICrystalAnalysis {
 	 * Inform the analysis that the analysis process is about to begin.
 	 */
 	public void beforeAllCompilationUnits();
+	
+	/**
+	 * @return the IAnalysisReporter that is being used for the current run of the analysis,
+	 * or null if there is not currently an analysis being run.
+	 */
+	public IAnalysisReporter getReporter();
+	
+	/**
+	 * @return the IAnalysisInput that is being used for the current run of the analysis,
+	 * or null if there is not currently an analysis being run.
+	 */
+	public IAnalysisInput getInput();
 }

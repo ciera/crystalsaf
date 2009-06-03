@@ -23,11 +23,15 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 /**
- * An interface that analyses use for reporting problems.
+ * An interface that analyses use for reporting problems. Crystal will create an instance of this
+ * interface and provide it to analyses for reporting errors that they find.
  * 
  * @author Nels E. Beckman
  */
 public interface IAnalysisReporter {
+	/**
+	 * The severity of a user problem being reported.
+	 */
 	public enum SEVERITY {
 		ERROR, WARNING, INFO
 	};
@@ -65,7 +69,7 @@ public interface IAnalysisReporter {
 	public PrintWriter userOut();
 
 	/**
-	 * For the given compilation unit, clear its markers from the screen, if necessary. Implementers
+	 * For the given compilation unit, clear all the user problems which were reported, if necessary. Implementers
 	 * are free to implement this method as necessary, including by doing nothing at all.
 	 */
 	public void clearMarkersForCompUnit(ICompilationUnit compUnit);

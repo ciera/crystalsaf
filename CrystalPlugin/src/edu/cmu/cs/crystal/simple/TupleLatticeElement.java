@@ -29,9 +29,11 @@ import edu.cmu.cs.crystal.util.Copyable;
 /**
  * Represents a lattice element that is a tuple of lattice elements for an underlying lattice.
  * Conceptually, this is a map from keys to individual lattice elements for each key.
- * Keys can be parameterized, but common keys are AST nodes and 3-address code {@link edu.cmu.cs.crystal.tac.Variable}s. 
+ * Keys can be parameterized, but common keys are {@link org.eclipse.jdt.core.dom.ASTNode}s and 3-address code {@link edu.cmu.cs.crystal.tac.Variable}s. 
  * The representation is optimized: a default element is the assumed value for every key
  * that has not been explicitly set.
+ * 
+ * To use the TupleLatticeElement, create a TupleLatticeOperations.
  * 
  * <b>This lattice is mutable</b>; the {@link #put(Object, Copyable)} operation can be used to 
  * change its value.
@@ -63,15 +65,16 @@ public class TupleLatticeElement<K, LE extends Copyable<LE>> {
 
 	/**
 	 * Currently being used by Plural. Should not be used by anyone else
-	 * @param b
-	 * @param d
+	 * @param b The bottom value for the underlying lattice
+	 * @param d The default lattice value for the underlying lattice
 	 */
+	@Deprecated
 	public TupleLatticeElement(LE b, LE d) {
 		this(b, d, new HashMap<K,LE>());
 	}
 	
 	/**
-	 * Returns the lattice information for a given key.
+	 * Retrieves the lattice information for a given key.
 	 * @param n The key for which lattice information is requested.
 	 * @return bottom if this lattice is bottom,
 	 * theDefault if n not found in map,
