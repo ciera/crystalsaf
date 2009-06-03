@@ -29,6 +29,10 @@ import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.util.Copyable;
 
 /**
+ * Lattice operations for the TupleLatticeElement. To use TupleLatticeElement, create a
+ * TupleLatticeOperations with the appropriate lattice operations for the value lattice element
+ * and the default.
+ * 
  * @author ciera
  * @since Crystal 3.4.0
  */
@@ -36,6 +40,10 @@ public class TupleLatticeOperations<K, LE extends Copyable<LE>> implements ILatt
 	protected final LE theDefault;
 	protected final ILatticeOperations<LE> elementOps;
 
+	/**
+	 * @param operations The operations for the LE lattice
+	 * @param defaultElement The default LE, to be used when we have a 
+	 */
 	public TupleLatticeOperations(ILatticeOperations<LE> operations, LE defaultElement) {
 		theDefault = defaultElement;
 		elementOps = operations;
@@ -81,6 +89,9 @@ public class TupleLatticeOperations<K, LE extends Copyable<LE>> implements ILatt
 		return new TupleLatticeElement<K, LE>(elementOps.bottom(), elementOps.copy(theDefault), newMap);
 	}
 	
+	/**
+	 * @return a default tuple lattice element which maps every key to the default value.
+	 */
 	public TupleLatticeElement<K, LE> getDefault() {
 		return new TupleLatticeElement<K, LE>(elementOps.bottom(), elementOps.copy(theDefault), new HashMap<K, LE>());
 	}

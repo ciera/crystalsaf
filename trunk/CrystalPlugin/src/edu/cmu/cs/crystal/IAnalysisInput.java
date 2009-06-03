@@ -26,29 +26,28 @@ import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.util.Option;
 
 /**
- * This interface holds the input to an analysis.
+ * This interface holds input and data structures that the analysis may need during its run.
  * 
  * @author Nels E. Beckman
  */
 public interface IAnalysisInput {
 
 	/**
-	 * Every analysis is given an annotation database! Calling this method
-	 * returns that annotation database.
+	 * @return the AnnotationDatabase that was populated on all the compilation
+	 * units which will be analyzed.
 	 */
 	public AnnotationDatabase getAnnoDB();
 	
 	/**
-	 * If this analysis was given a CompilationUnitTACs cache
-	 * as input, return it.
+	 * @return A cache of the TACs for every method declaration, if it is available.
 	 */
 	public Option<CompilationUnitTACs> getComUnitTACs();
 
 	/**
-	 * A progress monitor for canceling the ongoing
-	 * analysis, if available.
 	 * @return A progress monitor for canceling the ongoing
 	 * analysis, or {@link Option#none()} if it cannot be canceled.
+	 * An analysis might wish to cancel the analysis if it hits an error
+	 * which will cause all further results to be invalid.
 	 */
 	public Option<IProgressMonitor> getProgressMonitor();
 }

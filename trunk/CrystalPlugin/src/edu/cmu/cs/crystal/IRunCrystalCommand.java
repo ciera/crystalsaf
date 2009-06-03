@@ -19,8 +19,8 @@
  */
 package edu.cmu.cs.crystal;
 
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 
@@ -47,7 +47,7 @@ public interface IRunCrystalCommand {
 	public List<ICompilationUnit> compilationUnits();
 	
 	/**
-	 * The reported that 
+	 * The reporter to be used.
 	 */
 	public IAnalysisReporter reporter();
 }

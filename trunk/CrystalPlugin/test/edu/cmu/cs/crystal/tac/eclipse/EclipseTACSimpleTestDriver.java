@@ -321,4 +321,14 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 	public void afterAllCompilationUnits() {}
 
 	public void beforeAllCompilationUnits() {}
+
+	public IAnalysisInput getInput() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IAnalysisReporter getReporter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
