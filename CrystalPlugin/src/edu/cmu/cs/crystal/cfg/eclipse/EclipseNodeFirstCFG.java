@@ -30,6 +30,7 @@ import org.eclipse.jdt.core.dom.WhileStatement;
 
 /**
  * A CFG which places the control flow node at the merge point.
+ * @see {EclipseCFG} for a complete analysis of where to place the control flow node.
  * 
  * @author Ciera Jaspan
  * 

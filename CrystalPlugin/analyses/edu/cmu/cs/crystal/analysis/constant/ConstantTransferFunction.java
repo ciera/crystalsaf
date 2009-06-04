@@ -63,7 +63,7 @@ import edu.cmu.cs.crystal.tac.Variable;
 public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, BooleanConstantLE>> {
 	private final TupleLatticeOperations<Variable, BooleanConstantLE> ops = 
 	 new TupleLatticeOperations<Variable, BooleanConstantLE>(
-	 new BooleanConstantLatticeOps(), BooleanConstantLE.UNKNOWN);
+	 new BooleanConstantLatticeOps(), BooleanConstantLE.BOTTOM);
 
 	public ILatticeOperations<TupleLatticeElement<Variable, BooleanConstantLE>> createLatticeOperations(MethodDeclaration d) {
 		return ops;
@@ -84,7 +84,6 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			ArrayInitInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getTarget(), BooleanConstantLE.BOTTOM);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
@@ -97,21 +96,18 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			CastInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getTarget(), BooleanConstantLE.BOTTOM);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			DotClassInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getTarget(), BooleanConstantLE.BOTTOM);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			ConstructorCallInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getConstructionObject(), BooleanConstantLE.BOTTOM);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
@@ -125,8 +121,7 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			InstanceofInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getTarget(), BooleanConstantLE.BOTTOM);
-		return LabeledSingleResult.createResult(value, labels);
+		return handleBooleanLabels(value, labels, instr.getTarget(), instr.getNode());
 	}
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
@@ -139,9 +134,7 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 			else
 				value.put(instr.getTarget(), BooleanConstantLE.FALSE);
 		}
-		else {
-			value.put(instr.getTarget(), BooleanConstantLE.BOTTOM);
-		}
+		
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
@@ -191,14 +184,12 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			NewArrayInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getTarget(), BooleanConstantLE.BOTTOM);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			NewObjectInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getTarget(), BooleanConstantLE.BOTTOM);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
@@ -237,6 +228,8 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			SourceVariableDeclaration instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
+		if (instr.getDeclaredVariable().resolveType().getName().equals("boolean"))
+			value.put(instr.getDeclaredVariable(), BooleanConstantLE.UNKNOWN);
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
