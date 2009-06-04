@@ -125,6 +125,10 @@ import edu.cmu.cs.crystal.flow.SwitchLabel;
  * flow anyway, so we can do whatever we want. Since I'm writing this and I have a nice design for
  * the third option anyway, we're going with that.
  * 
+ * Note: Since this was written someone (Thomas? Nels?) did need to transfer on the control flow. He
+ * needed it at the merge point though. The subtype @link{EclipseNodeFirstCFG} handles that, and is
+ * currently the default control flow graph used in Crystal.
+ * 
  * Algorithm description: This class visits each node of the AST. When it visits a node, it maps the
  * ASTNode to the CFGNode that it is creating. This allows a parent node to pull it out later and
  * insert it into the graph. There are several other data structures to help us with control flow.
@@ -1207,8 +1211,6 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph<ASTNode>
 
 			for (Expression opNode : operands) {
 				EclipseCFGNode operand = nodeMap.get(opNode);
-				boolean edgeType =
-				    node.getOperator().equals(InfixExpression.Operator.CONDITIONAL_OR);
 
 				if (last != null)
 					createBooleanEdge(last.getEnd(), operand.getStart(), isAnd);
