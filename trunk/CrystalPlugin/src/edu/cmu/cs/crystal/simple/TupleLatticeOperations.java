@@ -26,7 +26,6 @@ import java.util.Set;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
-import edu.cmu.cs.crystal.util.Copyable;
 
 /**
  * Lattice operations for the TupleLatticeElement. To use TupleLatticeElement, create a
@@ -36,7 +35,7 @@ import edu.cmu.cs.crystal.util.Copyable;
  * @author ciera
  * @since Crystal 3.4.0
  */
-public class TupleLatticeOperations<K, LE extends Copyable<LE>> implements ILatticeOperations<TupleLatticeElement<K, LE>> {
+public class TupleLatticeOperations<K, LE> implements ILatticeOperations<TupleLatticeElement<K, LE>> {
 	protected final LE theDefault;
 	protected final ILatticeOperations<LE> elementOps;
 
@@ -69,7 +68,15 @@ public class TupleLatticeOperations<K, LE extends Copyable<LE>> implements ILatt
 	}
 
 	public TupleLatticeElement<K, LE> copy(TupleLatticeElement<K, LE> original) {
-		return original.copy();
+		
+		if(original.elements == null)
+			return new TupleLatticeElement<K, LE>(elementOps.bottom(), elementOps.copy(theDefault), null);
+		HashMap<K, LE> elemCopy = new HashMap<K, LE>(original.elements.size());
+		for(K x : original.elements.keySet()) {
+			LE elementValue = original.elements.get(x);
+			elemCopy.put(x, elementOps.copy(elementValue));
+		}
+		return new TupleLatticeElement<K, LE>(elementOps.bottom(), elementOps.copy(theDefault), elemCopy);
 	}
 
 	public TupleLatticeElement<K, LE> join(TupleLatticeElement<K, LE> left,	TupleLatticeElement<K, LE> right, ASTNode node) {

@@ -27,10 +27,10 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
+import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.flow.ITACTransferFunction;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.NormalLabel;
-import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
-import edu.cmu.cs.crystal.tac.ITACTransferFunction;
 import edu.cmu.cs.crystal.tac.TACInstruction;
 import edu.cmu.cs.crystal.tac.Variable;
 

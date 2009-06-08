@@ -24,8 +24,10 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
+import edu.cmu.cs.crystal.flow.ITACTransferFunction;
 import edu.cmu.cs.crystal.flow.SingletonLatticeElement;
 import edu.cmu.cs.crystal.internal.Crystal;
+import edu.cmu.cs.crystal.simple.TACFlowAnalysis;
 import edu.cmu.cs.crystal.util.Pair;
 
 /**
