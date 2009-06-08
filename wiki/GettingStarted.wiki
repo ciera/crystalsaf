@@ -71,6 +71,8 @@ public void analyzeCompilationUnit(CompilationUnit d) {
 }
 }}}
 
+You may want the visitor to be an inner class, as it will need many things from your Crystal analysis in order to get information and report errors.
+
 Notice that both analysis classes define a number of additional methods that can be helpful at times, such as `before/afterAllCompilationUnits()`, which are called at the beginning and end of each analysis run, respectively.
 
 Use `ICrystalAnalysis.getReporter()` to report problems to the user.
