@@ -23,6 +23,9 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.flow.ITACTransferFunction;
+
 /**
  * This interface defines methods to map AST data structures to TAC variables.
  * These methods can for instance be used by TAC analysis transfer functions.

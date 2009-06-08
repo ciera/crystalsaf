@@ -25,6 +25,8 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
+import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.flow.ITACTransferFunction;
 
 /**
  * Abstract base class for 3-Address-Code instructions built from Eclipse AST nodes.

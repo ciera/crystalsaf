@@ -65,7 +65,7 @@ public class AnnotationSummary {
 	 * of one type on a given Java element, but this method returns only the first one.
 	 * @param ndx 0-based parameter index.
 	 * @param annoName The type name of the annotation.
-	 * @return The (first) annotation of the given type or <code>null</code>.
+	 * @return The (first) annotation of the given type or <code>null</code> if this annotation does not exist.
 	 */
 	public ICrystalAnnotation getParameter(int ndx, String annoName) {
 		if (ndx < annos.length - 1)

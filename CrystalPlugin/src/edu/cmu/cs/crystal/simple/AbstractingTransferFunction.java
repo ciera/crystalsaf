@@ -20,6 +20,7 @@
 package edu.cmu.cs.crystal.simple;
 
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
+import edu.cmu.cs.crystal.flow.ITACTransferFunction;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.AssignmentInstruction;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
@@ -29,7 +30,6 @@ import edu.cmu.cs.crystal.tac.CopyInstruction;
 import edu.cmu.cs.crystal.tac.DotClassInstruction;
 import edu.cmu.cs.crystal.tac.EnhancedForConditionInstruction;
 import edu.cmu.cs.crystal.tac.ITACAnalysisContext;
-import edu.cmu.cs.crystal.tac.ITACTransferFunction;
 import edu.cmu.cs.crystal.tac.InstanceofInstruction;
 import edu.cmu.cs.crystal.tac.InvocationInstruction;
 import edu.cmu.cs.crystal.tac.LoadArrayInstruction;

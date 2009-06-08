@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.cs.crystal.util.Copyable;
-
 
 /**
  * Represents a lattice element that is a tuple of lattice elements for an underlying lattice.
@@ -35,7 +33,7 @@ import edu.cmu.cs.crystal.util.Copyable;
  * 
  * To use the TupleLatticeElement, create a TupleLatticeOperations.
  * 
- * <b>This lattice is mutable</b>; the {@link #put(Object, Copyable)} operation can be used to 
+ * <b>This lattice is mutable</b>; the {@link #put(Object, Object)} operation can be used to 
  * change its value.
  * 
  * @author aldrich
@@ -44,7 +42,7 @@ import edu.cmu.cs.crystal.util.Copyable;
  * @param <K> The type of things that individual lattice elements are tracked for.
  * @param <LE>  The element type of the underlying lattice.
  */
-public class TupleLatticeElement<K, LE extends Copyable<LE>> {
+public class TupleLatticeElement<K, LE> {
 
 	protected final LE bot;
 	protected final LE theDefault;
@@ -150,19 +148,5 @@ public class TupleLatticeElement<K, LE extends Copyable<LE>> {
 			return new HashSet<K>();
 		else
 			return elements.keySet();
-	}
-	
-	/** 
-	 * Makes a deep copy (necessary since this lattice is mutable) of the entire tuple.
-	 */
-	public TupleLatticeElement<K, LE> copy() {
-		if(elements == null)
-			return new TupleLatticeElement<K, LE>(bot.copy(), theDefault.copy(), null);
-		HashMap<K, LE> elemCopy = new HashMap<K, LE>(elements.size());
-		for(K x : elements.keySet()) {
-			LE elementValue = elements.get(x);
-			elemCopy.put(x, elementValue.copy());
-		}
-		return new TupleLatticeElement<K, LE>(bot.copy(), theDefault.copy(), elemCopy);
 	}
 }

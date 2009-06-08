@@ -39,8 +39,8 @@ import edu.cmu.cs.crystal.tac.Variable;
  * @author Kevin Bierhoff
  * @author Nels Beckman
  * 
- * @see edu.cmu.cs.crystal.tac.ITACTransferFunction
- * @see edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction
+ * @see edu.cmu.cs.crystal.flow.ITACTransferFunction
+ * @see edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction
  */
 public interface ITACFlowAnalysis<LE> extends IFlowAnalysis<LE> {
 

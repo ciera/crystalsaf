@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.tac;
+package edu.cmu.cs.crystal.simple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +28,28 @@ import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+import edu.cmu.cs.crystal.IAnalysisInput;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.IFlowAnalysisDefinition;
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
+import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
+import edu.cmu.cs.crystal.flow.ITACTransferFunction;
 import edu.cmu.cs.crystal.flow.ITransferFunction;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
 import edu.cmu.cs.crystal.flow.SingleResult;
 import edu.cmu.cs.crystal.internal.Crystal;
+import edu.cmu.cs.crystal.tac.ITACAnalysisContext;
+import edu.cmu.cs.crystal.tac.SourceVariable;
+import edu.cmu.cs.crystal.tac.SuperVariable;
+import edu.cmu.cs.crystal.tac.TACInstruction;
+import edu.cmu.cs.crystal.tac.TempVariable;
+import edu.cmu.cs.crystal.tac.ThisVariable;
+import edu.cmu.cs.crystal.tac.Variable;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseInstructionSequence;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseTAC;
@@ -50,15 +60,28 @@ import edu.cmu.cs.crystal.tac.eclipse.EclipseTAC;
  * {@link ITACTransferFunction} for conventional or 
  * {@link ITACBranchSensitiveTransferFunction} for branch-sensitive flow analyses.
  * 
+ * 
+ * 
  * @author Kevin Bierhoff
  *
- * @param <LE>	The LatticeElement subclass that represents the analysis knowledge
+ * @param <LE>	The type that represents the analysis knowledge
  */
 public class TACFlowAnalysis<LE> 
 extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisContext {
 	
 	private AbstractTACAnalysisDriver<LE, ?> driver;
 	
+	/**
+	 * Creates a simple flow analysis
+	 * @param transferFunction
+	 */
+	public TACFlowAnalysis(ITACTransferFunction<LE> transferFunction, IAnalysisInput analysisInput) {
+		super();
+		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction, analysisInput.getComUnitTACs().unwrap());
+		// TODO use the driver as the analysis context
+		transferFunction.setAnalysisContext(this);
+	}
+
 	/**
 	 * Creates a branch insensitive flow analysis object.
 	 * @param transferFunction

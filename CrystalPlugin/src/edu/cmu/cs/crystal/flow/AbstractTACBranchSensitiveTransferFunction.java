@@ -17,14 +17,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.tac;
+package edu.cmu.cs.crystal.flow;
 
 import java.util.List;
 
-import edu.cmu.cs.crystal.flow.AnalysisDirection;
-import edu.cmu.cs.crystal.flow.ILabel;
-import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.LabeledSingleResult;
+import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
+import edu.cmu.cs.crystal.tac.BinaryOperation;
+import edu.cmu.cs.crystal.tac.CastInstruction;
+import edu.cmu.cs.crystal.tac.ConstructorCallInstruction;
+import edu.cmu.cs.crystal.tac.CopyInstruction;
+import edu.cmu.cs.crystal.tac.DotClassInstruction;
+import edu.cmu.cs.crystal.tac.EnhancedForConditionInstruction;
+import edu.cmu.cs.crystal.tac.ITACAnalysisContext;
+import edu.cmu.cs.crystal.tac.InstanceofInstruction;
+import edu.cmu.cs.crystal.tac.LoadArrayInstruction;
+import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
+import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.NewArrayInstruction;
+import edu.cmu.cs.crystal.tac.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.ReturnInstruction;
+import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
+import edu.cmu.cs.crystal.tac.SourceVariableRead;
+import edu.cmu.cs.crystal.tac.StoreArrayInstruction;
+import edu.cmu.cs.crystal.tac.StoreFieldInstruction;
+import edu.cmu.cs.crystal.tac.TACInstruction;
+import edu.cmu.cs.crystal.tac.UnaryOperation;
 
 /**
  * Abstract base class for defining branch-sensitive flow analyses 
