@@ -134,7 +134,7 @@ If you are using a Mac, make sure you are running in Java 5 rather than Java 6. 
 
 = Further Reading =
 
-  * AnnotationDatabase
+  * UsingAnnotations
   * DataflowAnalysis
   * ThreeAddressCode
   * TestingYourAnalysis
