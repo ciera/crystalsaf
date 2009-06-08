@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TutorialExamples Plug-in
+Bundle-SymbolicName: TutorialExamples;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: edu.cmu.cs.crystal;bundle-version="3.4.1",
+ org.eclipse.jdt.core;bundle-version="3.4.2"
