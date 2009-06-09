@@ -33,6 +33,6 @@ Verification: Start the child Eclipse and run your analysis.
 = Advanced topics = 
 At this point, instructors might suggest students can use other features of Crystal to make their analysis smarter. (There are plenty of possibilities for extra credit here!) Some possibilities are:
 
-[CreateAnnotations Use specifications (in form of Java annotations)]
+[CrystalAnnotations Use specifications (in form of Java annotations)]
 
 [BranchSensitivity Use a branch sensitive analysis]
