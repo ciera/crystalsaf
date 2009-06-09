@@ -37,6 +37,6 @@ Throughout this process, we suggest working on one transfer function at a time t
 = Advanced topics = 
 At this point, instructors might suggest students can use other features of Crystal to make their analysis smarter. (There are plenty of possibilities for extra credit here!) Some possibilities are:
 
-[CrystalAnnotations Use specifications (in form of Java annotations)]
+[UsingAnnotations Use specifications (in form of Java annotations)]
 
 [BranchSensitivity Use a branch sensitive analysis]
