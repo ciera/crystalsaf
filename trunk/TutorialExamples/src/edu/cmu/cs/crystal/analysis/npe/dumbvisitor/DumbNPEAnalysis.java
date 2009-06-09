@@ -62,12 +62,14 @@ public class DumbNPEAnalysis extends AbstractCompilationUnitAnalysis {
 
 		@Override
 		public void endVisit(FieldAccess node) {
-			getReporter().reportUserProblem(node.getExpression() + " may be null.", node, getName());
+			if (node.getExpression() != null)
+				getReporter().reportUserProblem(node.getExpression() + " may be null.", node, getName());
 		}
 
 		@Override
 		public void endVisit(MethodInvocation node) {
-			getReporter().reportUserProblem(node.getExpression() + " may be null.", node, getName());
+			if (node.getExpression() != null)
+				getReporter().reportUserProblem(node.getExpression() + " may be null.", node, getName());
 		}
 
 		@Override

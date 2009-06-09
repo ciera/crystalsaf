@@ -85,14 +85,14 @@ public class SimpleNPEAnalysis extends AbstractCrystalMethodAnalysis {
 		@Override
 		public void endVisit(FieldAccess node) {
 			TupleLatticeElement<Variable, NullLatticeElement> beforeTuple = flowAnalysis.getResultsBefore(node);
-			
-			checkVariable(beforeTuple, node.getExpression());
+			if (node.getExpression() != null)
+				checkVariable(beforeTuple, node.getExpression());
 		}
 
 		@Override
 		public void endVisit(MethodInvocation node) {
 			TupleLatticeElement<Variable, NullLatticeElement> beforeTuple = flowAnalysis.getResultsBefore(node);
-			
+			if (node.getExpression() != null)
 			checkVariable(beforeTuple, node.getExpression());
 		}
 

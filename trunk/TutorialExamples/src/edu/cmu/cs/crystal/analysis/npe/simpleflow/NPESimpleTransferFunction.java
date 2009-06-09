@@ -9,6 +9,7 @@ import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.CopyInstruction;
 import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.MethodCallInstruction;
 import edu.cmu.cs.crystal.tac.NewArrayInstruction;
 import edu.cmu.cs.crystal.tac.NewObjectInstruction;
 import edu.cmu.cs.crystal.tac.Variable;
@@ -65,6 +66,15 @@ public class NPESimpleTransferFunction extends AbstractingTransferFunction<Tuple
 			value.put(instr.getTarget(), NullLatticeElement.NULL);
 		else
 			value.put(instr.getTarget(), NullLatticeElement.NOT_NULL);
+		return value;
+	}
+
+	@Override
+	public TupleLatticeElement<Variable, NullLatticeElement> transfer(
+			MethodCallInstruction instr,
+			TupleLatticeElement<Variable, NullLatticeElement> value) {
+		//clearly, the receiver is not null if this method call does actually occur ;)
+		value.put(instr.getReceiverOperand(), NullLatticeElement.NOT_NULL);
 		return value;
 	}
 
