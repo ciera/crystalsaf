@@ -1,4 +1,4 @@
-package edu.cmu.cs.crystal.analysis.npe.annotations;
+package edu.cmu.cs.crystal.analysis.npe.branch;
 
 
 /**
@@ -12,4 +12,13 @@ package edu.cmu.cs.crystal.analysis.npe.annotations;
  */
 public enum NullLatticeElement {
 	BOTTOM, NULL, NOT_NULL, MAYBE_NULL;
+	
+	public NullLatticeElement  getOpposite() {
+		if (this == NULL)
+			return NOT_NULL;
+		else if (this == NOT_NULL)
+			return NULL;
+		else
+			return this;
+	}
 }

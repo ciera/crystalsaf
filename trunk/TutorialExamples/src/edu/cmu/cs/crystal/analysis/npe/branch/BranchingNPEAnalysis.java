@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Crystal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.cmu.cs.crystal.analysis.npe.annotations;
+package edu.cmu.cs.crystal.analysis.npe.branch;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.ArrayAccess;
@@ -39,26 +39,25 @@ import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.Variable;
 
 /**
- * A simple flow analysis. This analysis is almost identical to @link{edu.cmu.cs.crystal.analysis.npe.simpleflow.SimpleNPEAnalysis},
- * the only difference is it uses a transfer function that is aware of annotations, and now the visitor will check that
- * parameters to method calls are safe and it will check assignments into fields and parameters which may be non-null.
+ *  This analysis is almost identical to @link{edu.cmu.cs.crystal.analysis.npe.annotations.AnnotatedNPEAnalysis},
+ * the only difference is it uses a transfer function that is aware of branch sensitivity.
  * 
  * @author ciera
  */
-public class AnnotatedNPEAnalysis extends AbstractCrystalMethodAnalysis {
+public class BranchingNPEAnalysis extends AbstractCrystalMethodAnalysis {
 	public static final String NON_NULL_ANNO = "edu.cmu.cs.crystal.annos.NonNull";
 	
 	TACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>> flowAnalysis;
 
 	@Override
 	public String getName() {
-		return "Annotated NPE Flow";
+		return "Branching NPE Flow";
 	}
 
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
-		NPEAnnotatedTransferFunction tf = new NPEAnnotatedTransferFunction(getInput().getAnnoDB());
-		flowAnalysis = new TACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>>(tf, getInput());
+		NPEBranchingTransferFunction tf = new NPEBranchingTransferFunction(getInput().getAnnoDB());
+		flowAnalysis = new TACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>>(tf, getInput().getComUnitTACs().unwrap());
 		
 		d.accept(new NPEFlowVisitor());
 	}

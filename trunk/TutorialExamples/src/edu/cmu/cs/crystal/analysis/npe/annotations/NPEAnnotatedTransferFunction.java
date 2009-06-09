@@ -3,14 +3,17 @@ package edu.cmu.cs.crystal.analysis.npe.annotations;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 
+import edu.cmu.cs.crystal.analysis.npe.branch.BranchingNPEAnalysis;
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.AnnotationSummary;
+import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.simple.AbstractingTransferFunction;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.CopyInstruction;
+import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
 import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
 import edu.cmu.cs.crystal.tac.MethodCallInstruction;
 import edu.cmu.cs.crystal.tac.NewArrayInstruction;
@@ -77,6 +80,18 @@ public class NPEAnnotatedTransferFunction extends AbstractingTransferFunction<Tu
 		return value;
 	}
 
+	@Override
+	public TupleLatticeElement<Variable, NullLatticeElement> transfer(
+			LoadFieldInstruction instr, 
+			TupleLatticeElement<Variable, NullLatticeElement> value) {
+		
+		for (ICrystalAnnotation anno : annoDB.getAnnosForField(instr.resolveFieldBinding())) {
+			if (anno.getName().equals(BranchingNPEAnalysis.NON_NULL_ANNO))
+				value.put(instr.getTarget(), NullLatticeElement.NOT_NULL);
+		}
+		
+		return value;
+	}
 	@Override
 	public TupleLatticeElement<Variable, NullLatticeElement> transfer(
 			LoadLiteralInstruction instr,
