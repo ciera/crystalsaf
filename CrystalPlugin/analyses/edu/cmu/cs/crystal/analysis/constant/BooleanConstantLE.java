@@ -19,9 +19,8 @@
  */
 package edu.cmu.cs.crystal.analysis.constant;
 
-import edu.cmu.cs.crystal.util.Copyable;
 
-public enum BooleanConstantLE implements Copyable<BooleanConstantLE> {
+public enum BooleanConstantLE {
 
 	TRUE,
 	FALSE,
@@ -37,9 +36,5 @@ public enum BooleanConstantLE implements Copyable<BooleanConstantLE> {
 			return "True";
 		else
 			return "False";
-	}
-
-	public BooleanConstantLE copy() {
-		return this;
 	}
 }

@@ -114,8 +114,37 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
 			CopyInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
-		value.put(instr.getTarget(), value.get(instr.getOperand()));
-		return LabeledSingleResult.createResult(value, labels);
+		
+		BooleanConstantLE rValue = value.get(instr.getOperand());
+		
+		if (labels.contains(BooleanLabel.getBooleanLabel(true)) && labels.contains(BooleanLabel.getBooleanLabel(false)))
+		{
+			if (rValue == BooleanConstantLE.TRUE || rValue == BooleanConstantLE.FALSE) {
+				TupleLatticeElement<Variable, BooleanConstantLE> tVal, fVal;
+				LabeledResult<TupleLatticeElement<Variable, BooleanConstantLE>> result = LabeledResult.createResult(value);
+				boolean isTrue = rValue == BooleanConstantLE.TRUE;
+				
+				tVal = ops.copy(value);
+				fVal = ops.copy(value);
+				
+				tVal.put(instr.getTarget(), isTrue ? rValue : BooleanConstantLE.BOTTOM);
+				fVal.put(instr.getTarget(), !isTrue ? rValue : BooleanConstantLE.BOTTOM);
+				value.put(instr.getTarget(), rValue);
+				
+				result.put(BooleanLabel.getBooleanLabel(true), tVal);
+				result.put(BooleanLabel.getBooleanLabel(false), fVal);
+				return result;				
+				
+			}
+			else {
+				value.put(instr.getTarget(), rValue);
+				return LabeledSingleResult.createResult(value, labels);				
+			}
+		}
+		else {
+			value.put(instr.getTarget(), rValue);
+			return LabeledSingleResult.createResult(value, labels);
+		}
 	}
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
@@ -129,10 +158,25 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
 		if (instr.getNode() instanceof BooleanLiteral) {
 			BooleanLiteral boolNode = (BooleanLiteral)instr.getNode();
-			if (boolNode.booleanValue())
-				value.put(instr.getTarget(), BooleanConstantLE.TRUE);
+			
+			if (labels.contains(BooleanLabel.getBooleanLabel(true)) && labels.contains(BooleanLabel.getBooleanLabel(false)))
+			{
+				TupleLatticeElement<Variable, BooleanConstantLE> tVal, fVal;
+				LabeledResult<TupleLatticeElement<Variable, BooleanConstantLE>> result = LabeledResult.createResult(value);
+				
+				tVal = ops.copy(value);
+				fVal = ops.copy(value);
+				
+				tVal.put(instr.getTarget(), boolNode.booleanValue() ? BooleanConstantLE.TRUE : BooleanConstantLE.BOTTOM);
+				fVal.put(instr.getTarget(), !boolNode.booleanValue() ? BooleanConstantLE.FALSE : BooleanConstantLE.BOTTOM);
+				value.put(instr.getTarget(), boolNode.booleanValue() ? BooleanConstantLE.TRUE : BooleanConstantLE.FALSE);
+				
+				result.put(BooleanLabel.getBooleanLabel(true), tVal);
+				result.put(BooleanLabel.getBooleanLabel(false), fVal);
+				return result;				
+			}
 			else
-				value.put(instr.getTarget(), BooleanConstantLE.FALSE);
+				value.put(instr.getTarget(), boolNode.booleanValue() ? BooleanConstantLE.TRUE : BooleanConstantLE.FALSE);
 		}
 		
 		return LabeledSingleResult.createResult(value, labels);
@@ -250,5 +294,4 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}
-
 }

@@ -19,19 +19,17 @@
  */
 package edu.cmu.cs.crystal.analysis.constant;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.AssertStatement;
-import org.eclipse.jdt.core.dom.DoStatement;
-import org.eclipse.jdt.core.dom.EnhancedForStatement;
-import org.eclipse.jdt.core.dom.ForStatement;
-import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.jdt.core.dom.PrefixExpression;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.flow.BooleanLabel;
-import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
@@ -112,89 +110,44 @@ public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {
 	public class DeadBranchChecker extends ASTVisitor {
 
 		@Override
-		public void endVisit(AssertStatement node) {
-			IResult<TupleLatticeElement<Variable, BooleanConstantLE>> lattices = fa.getLabeledResultsAfter(node.getExpression());
-			
-			Variable tempVar = fa.getVariable(node.getExpression());
-			TupleLatticeElement<Variable, BooleanConstantLE> tLattice = lattices.get(BooleanLabel.getBooleanLabel(true));
-			TupleLatticeElement<Variable, BooleanConstantLE> fLattice = lattices.get(BooleanLabel.getBooleanLabel(false));
-			
-			if (tLattice.get(tempVar) == BooleanConstantLE.FALSE)
-				reporter.reportUserProblem("The assert will never be popped.", node, getName());
-			else if (fLattice.get(tempVar) == BooleanConstantLE.TRUE)
-				reporter.reportUserProblem("The assert will always be popped.", node, getName());
+		public void endVisit(InfixExpression node) {
+			if (node.getOperator() == InfixExpression.Operator.CONDITIONAL_AND || node.getOperator() == InfixExpression.Operator.CONDITIONAL_OR) {
+				boolean isAnd = node.getOperator() == InfixExpression.Operator.CONDITIONAL_AND;
+				boolean isSame = true;
+				BooleanConstantLE diffVal = isAnd ? BooleanConstantLE.FALSE : BooleanConstantLE.TRUE;
+				BooleanConstantLE sameVal = isAnd ? BooleanConstantLE.TRUE : BooleanConstantLE.FALSE;
+				
+				List<Expression> operands = new LinkedList<Expression>();
+				
+				operands.add(node.getLeftOperand());
+				operands.add(node.getRightOperand());
+				operands.addAll(node.extendedOperands());
+				
+				for (Expression exp : operands) {
+					BooleanConstantLE val = fa.getResultsAfter(exp).get(fa.getVariable(exp));
+					
+					if (val == diffVal)
+						reporter.reportUserProblem("The expression " + node + " will always be " + !isAnd + ".", node, getName());
+					isSame = isSame && val == sameVal;
+				}
+				
+				if (isSame)
+					reporter.reportUserProblem("The expression " + node + " will always be " + isAnd + ".", node, getName());
+			}
 		}
 
 		@Override
-		public void endVisit(DoStatement node) {
-			IResult<TupleLatticeElement<Variable, BooleanConstantLE>> lattices = fa.getLabeledResultsAfter(node.getExpression());
+		public void endVisit(PrefixExpression node) {
+			if (node.getOperator() == PrefixExpression.Operator.NOT) {
+				Expression sub = node.getOperand();
+				BooleanConstantLE val = fa.getResultsAfter(sub).get(fa.getVariable(sub));
+				
+				if (val == BooleanConstantLE.TRUE)
+					reporter.reportUserProblem("The expression " + node + " will always be false.", node, getName());
+				else if (val == BooleanConstantLE.FALSE)
+					reporter.reportUserProblem("The expression " + node + " will always be true.", node, getName());
 			
-			Variable tempVar = fa.getVariable(node.getExpression());
-			TupleLatticeElement<Variable, BooleanConstantLE> tLattice = lattices.get(BooleanLabel.getBooleanLabel(true));
-			TupleLatticeElement<Variable, BooleanConstantLE> fLattice = lattices.get(BooleanLabel.getBooleanLabel(false));
-			
-			if (tLattice.get(tempVar) == BooleanConstantLE.FALSE)
-				reporter.reportUserProblem("The loop will only be run once.", node, getName());
-			else if (fLattice.get(tempVar) == BooleanConstantLE.TRUE)
-				reporter.reportUserProblem("The loop is infinite.", node, getName());
+			}
 		}
-
-		@Override
-		public void endVisit(EnhancedForStatement node) {
-			IResult<TupleLatticeElement<Variable, BooleanConstantLE>> lattices = fa.getLabeledResultsAfter(node.getExpression());
-			
-			Variable tempVar = fa.getVariable(node.getExpression());
-			TupleLatticeElement<Variable, BooleanConstantLE> tLattice = lattices.get(BooleanLabel.getBooleanLabel(true));
-			TupleLatticeElement<Variable, BooleanConstantLE> fLattice = lattices.get(BooleanLabel.getBooleanLabel(false));
-			
-			if (tLattice.get(tempVar) == BooleanConstantLE.FALSE)
-				reporter.reportUserProblem("The loop will never be entered.", node, getName());
-			else if (fLattice.get(tempVar) == BooleanConstantLE.TRUE)
-				reporter.reportUserProblem("The loop is infinite.", node, getName());
-		}
-
-		@Override
-		public void endVisit(ForStatement node) {
-			IResult<TupleLatticeElement<Variable, BooleanConstantLE>> lattices = fa.getLabeledResultsAfter(node.getExpression());
-			
-			Variable tempVar = fa.getVariable(node.getExpression());
-			TupleLatticeElement<Variable, BooleanConstantLE> tLattice = lattices.get(BooleanLabel.getBooleanLabel(true));
-			TupleLatticeElement<Variable, BooleanConstantLE> fLattice = lattices.get(BooleanLabel.getBooleanLabel(false));
-			
-			if (tLattice.get(tempVar) == BooleanConstantLE.FALSE)
-				reporter.reportUserProblem("The loop will never be entered.", node, getName());
-			else if (fLattice.get(tempVar) == BooleanConstantLE.TRUE)
-				reporter.reportUserProblem("The loop is infinite.", node, getName());
-		}
-		
-		@Override
-		public void endVisit(IfStatement node) {
-			IResult<TupleLatticeElement<Variable, BooleanConstantLE>> lattices = fa.getLabeledResultsAfter(node.getExpression());
-			
-			Variable tempVar = fa.getVariable(node.getExpression());
-			TupleLatticeElement<Variable, BooleanConstantLE> tLattice = lattices.get(BooleanLabel.getBooleanLabel(true));
-			TupleLatticeElement<Variable, BooleanConstantLE> fLattice = lattices.get(BooleanLabel.getBooleanLabel(false));
-			
-			if (tLattice.get(tempVar) == BooleanConstantLE.FALSE)
-				reporter.reportUserProblem("The else branch will always be taken.", node, getName());
-			else if (fLattice.get(tempVar) == BooleanConstantLE.TRUE)
-				reporter.reportUserProblem("The then branch will always be taken.", node, getName());
-		}
-
-		@Override
-		public void endVisit(WhileStatement node) {
-			IResult<TupleLatticeElement<Variable, BooleanConstantLE>> lattices = fa.getLabeledResultsAfter(node.getExpression());
-			
-			Variable tempVar = fa.getVariable(node.getExpression());
-			TupleLatticeElement<Variable, BooleanConstantLE> tLattice = lattices.get(BooleanLabel.getBooleanLabel(true));
-			TupleLatticeElement<Variable, BooleanConstantLE> fLattice = lattices.get(BooleanLabel.getBooleanLabel(false));
-			
-			if (tLattice.get(tempVar) == BooleanConstantLE.FALSE)
-				reporter.reportUserProblem("The loop will never be entered.", node, getName());
-			else if (fLattice.get(tempVar) == BooleanConstantLE.TRUE)
-				reporter.reportUserProblem("The loop is infinite.", node, getName());
-		}
-
 	}
-
 }
