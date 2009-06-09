@@ -172,6 +172,9 @@ Notice that the visitor will need a lot of methods/fields from your Crystal anal
 =Advanced Topics=
 
 ThreeAddressCode
+
 UsingAnnotations
+
 BranchSensitivity
+
 BackwardsAnalyses
