@@ -1,0 +1,13 @@
+#summary A table of contents
+
+  * For Crystal end-users
+    * [Installation Installing and Running Crystal]
+  * For Crystal analysis developers
+    * [SuggestedSteps A step-by-step guide to writing an analysis]
+    * [GettingStarted How to write a very simple analysis]
+    * [DataflowAnalysis How to write a dataflow analysis]
+    * [UsingAnnotations How to use annotations]
+    * [BranchSensitivity How to change to a branch-sensitive analysis]
+    * [TestingYourAnalysis How to run automated tests on an analysis]
+  * For Crystal framework developers
+    * [Deployment How to deploy to the Eclipse Update Site]
