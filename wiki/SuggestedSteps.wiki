@@ -1,4 +1,4 @@
-#summary A step-by-step breakdown for using Crystal.
+#summary A step-by-step breakdown for creating an analysis in Crystal.
 #labels Phase-Support,Featured
 
 = Introduction =
