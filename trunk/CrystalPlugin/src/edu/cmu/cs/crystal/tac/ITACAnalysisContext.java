@@ -38,11 +38,13 @@ import edu.cmu.cs.crystal.flow.ITACTransferFunction;
 public interface ITACAnalysisContext {
 
 	/**
-	 * Returns the TAC variable for a given ASTNode.
+	 * Returns the TAC variable for a given ASTNode. This ASTNode must
+	 * represent something where there is a resulting variable, for example,
+	 * a SingleVariableDeclaration will not have a variable as it has no "result".
 	 * It is the caller's responsibility to make sure to call this
 	 * method only while the method surrounding the given node is analyzed.
 	 * @param node AST node in the previously analyzed method.
-	 * @return The TAC variable for a given ASTNode.
+	 * @return The TAC variable for a given ASTNode, or null if this ASTNode has no result.
 	 */
 	public Variable getVariable(ASTNode node);
 

@@ -75,6 +75,25 @@ public class AnnotationSummary {
 	}
 	
 	/**
+	 * Returns the (first) annotation of the given type for the given parameter, if any.
+	 * Notice that when using {@link edu.cmu.cs.crystal.annotations.MultiAnnotation} there can be multiple annotations
+	 * of one type on a given Java element, but this method returns only the first one.
+	 * @param name The name of the parameter
+	 * @param annoName The type name of the annotation.
+	 * @return The (first) annotation of the given type or <code>null</code> if this annotation does not exist.
+	 */
+	public ICrystalAnnotation getParameter(String name, String annoName) {
+		int ndx = 0;
+		for (String param : paramNames) {
+			if (name.equals(param))
+				break;
+			ndx++;
+		}
+		return getParameter(ndx, annoName);
+	}
+
+	
+	/**
 	 * @return A list of the annotations for the return value
 	 */
 	public List<ICrystalAnnotation> getReturn() {
@@ -117,4 +136,5 @@ public class AnnotationSummary {
 		if (ndx < annos.length - 1)
 			annos[ndx].addAll(annosToAdd);
 	}
+
 }
