@@ -9,5 +9,6 @@
     * [UsingAnnotations How to use annotations]
     * [BranchSensitivity How to change to a branch-sensitive analysis]
     * [TestingYourAnalysis How to run automated tests on an analysis]
+    * [TipsAndTricks Tips on logging, debugging, and other things]
   * For Crystal framework developers
     * [Deployment How to deploy to the Eclipse Update Site]
