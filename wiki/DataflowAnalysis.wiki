@@ -170,3 +170,8 @@ public void endVisit(MethodInvocation node) {
 Notice that the visitor will need a lot of methods/fields from your Crystal analysis, which is why we suggest making it an inner class.
 
 =Advanced Topics=
+
+ThreeAddressCode
+UsingAnnotations
+BranchSensitivity
+BackwardsAnalyses
