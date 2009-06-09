@@ -16,7 +16,9 @@ else {
 }
 }}}
 
-Crystal does *not* provide path-sensitive capabilities, however. A path-sensitive analysis can associate a single path, and know that in the code below, we never cause an null pointer exception. A branch sensitive tracks only branches, not entire paths.
+Branching is really a label on the control flow graph that tells you *why* the control flow is proceeding in this way.
+
+Notice that a branch sensitive tracks only branches, not entire paths. Crystal does *not* provide path-sensitive capabilities. A path-sensitive analysis can associate a single path, and know that in the code below, we never cause an null pointer exception. 
 
 {{{
 x = null;
@@ -27,8 +29,6 @@ if (b) {
    x = x.concat("bar");  //Crystal can't remember that these only occur on one path.
 }
 }}}
-
-Branching is really a label on the control flow graph that tells you *why* the control flow is proceeding in this way.
 
 = What kinds of branches does Crystal have? = 
 Branching is more than just true and false branches. Here's all the branches you can have in Crystal:
