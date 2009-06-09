@@ -19,19 +19,10 @@
  */
 package edu.cmu.cs.crystal.analysis.live;
 
-import edu.cmu.cs.crystal.util.Copyable;
-
-
-public enum LiveVariableLE implements Copyable<LiveVariableLE>
+public enum LiveVariableLE
 {
 	LIVE,   // top
 	DEAD;   // bottom
-	
-	public LiveVariableLE copy()
-	{
-		return this;
-	}
-
 	
 	public String toString() {
 		if (this == LIVE)
