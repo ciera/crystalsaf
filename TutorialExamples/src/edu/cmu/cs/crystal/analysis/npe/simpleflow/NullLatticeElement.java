@@ -12,8 +12,4 @@ package edu.cmu.cs.crystal.analysis.npe.simpleflow;
  */
 public enum NullLatticeElement {
 	BOTTOM, NULL, NOT_NULL, MAYBE_NULL;
-
-	public NullLatticeElement copy() {
-		return this;
-	}
 }

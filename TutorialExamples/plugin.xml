@@ -15,6 +15,10 @@
             class="edu.cmu.cs.crystal.analysis.npe.annotations.AnnotatedNPEAnalysis"
             name="NPE Flow analysis with nonnull annotations">
       </analysis>
+      <analysis
+            class="edu.cmu.cs.crystal.analysis.npe.branch.BranchingNPEAnalysis"
+            name="A branching NPE with annotations">
+      </analysis>
    </extension>
 
 </plugin>
