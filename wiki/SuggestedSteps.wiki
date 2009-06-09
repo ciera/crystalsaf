@@ -19,7 +19,8 @@ Instructors can use each step as a checkpoint to make sure that students aren't 
 
 = 3. Create a visitor = 
 *Reading and instruction:* [GettingStarted] (now make a visitor too!)
-Verification: Start the child Eclipse and run your analysis.
+
+*Verification:* Start the child Eclipse and run your analysis.
 
 = 4. Create a flow analysis = 
 *Reading and instruction:* [DataflowAnalysis] (don't override any transfer functions, but get everything put together and have the visitor call to the flow analysis.)
