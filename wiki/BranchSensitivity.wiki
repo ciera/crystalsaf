@@ -39,9 +39,10 @@ Branching is more than just true and false branches. Here's all the branches you
    * Iterator: Either "hasNext" or "empty", for iterating.
 
 Examples of branches on a node:
-  * There are two branches leaving a method call which returns a boolean, : a true branch and a false branch.
-  * There are three branches leaving a method call which throws two exceptions: a normal branch and a branch for each exception.
   * There are two branches leaving a relational operator like <: a true branch and a false branch.
+  * There are two branches leaving a method call which returns a boolean: a true branch and a false branch.
+  * There are three branches leaving a method call which throws two exceptions: a normal branch and a branch for each exception.
+  * There are two branches leaving the expression of an enhanced for loop: a "hasNext" branch and an "empty" branch.
   * There are four branches leaving a switch statement with 3 cases and a default: one for each case and one for the default.
 
 = Steps to change an existing dataflow analysis =
