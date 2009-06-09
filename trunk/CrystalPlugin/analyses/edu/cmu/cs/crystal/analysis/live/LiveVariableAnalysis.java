@@ -22,8 +22,11 @@ package edu.cmu.cs.crystal.analysis.live;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
@@ -86,14 +89,22 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 
 		@Override
 		public void endVisit(Assignment node) {
+			IVariableBinding binding = null;
+			Expression left = node.getLeftHandSide();
 			TupleLatticeElement<Variable, LiveVariableLE> lattice = fa.getResultsAfter(node);
 			
-			IVariableBinding varBinding = (IVariableBinding) node.getLeftHandSide().resolveTypeBinding();
+			if (left instanceof Name && ((Name)left).resolveBinding() instanceof IVariableBinding)
+				binding = (IVariableBinding) ((Name)left).resolveBinding();
+			else if (left instanceof FieldAccess)
+				binding = ((FieldAccess)left).resolveFieldBinding();
 			
-			if (varBinding.isField() || varBinding.isParameter())
+			if (binding == null)
 				return;
 			
-			if (lattice.get(fa.getSourceVariable(varBinding)) == LiveVariableLE.DEAD)
+			if (binding.isField() || binding.isParameter())
+				return;
+			
+			if (lattice.get(fa.getSourceVariable(binding)) == LiveVariableLE.DEAD)
 				reporter.reportUserProblem("The variable " + node.getLeftHandSide() + " is dead and is no longer used.", node, getName());
 		}
 

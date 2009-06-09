@@ -55,8 +55,6 @@ import edu.cmu.cs.crystal.tac.Variable;
 
 /* A backwards analysis, all variables begin as dead until a read changes them to live. Writes set vars back to dead.
  * 
- * This is not implemented as an AbstractingTransferFunction because we need to handle some of them differently when they have
- * different operands, which they sometimes have.
  */
 public class LiveVariableTransferFunction extends AbstractingTransferFunction<TupleLatticeElement<Variable, LiveVariableLE>>
 {

@@ -35,7 +35,7 @@ public class LiveVariableLatticeOps extends SimpleLatticeOperations<LiveVariable
 
 	@Override
 	public LiveVariableLE copy(LiveVariableLE original) {
-		return original.copy();
+		return original;
 	}
 
 	@Override
