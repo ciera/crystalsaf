@@ -28,7 +28,10 @@ Verification: Start the child Eclipse and run your analysis.
 
 = 5. Start making those transfer functions smart! =
 *Reading and instruction:* [DataflowAnalysis] (add in those transfer functions now)
+
 *Verification:* Start the child Eclipse, you should now have a smarter analysis!
+
+Throughout this process, we suggest working on one transfer function at a time to incrementally make your analysis better.
 
 = Advanced topics = 
 At this point, instructors might suggest students can use other features of Crystal to make their analysis smarter. (There are plenty of possibilities for extra credit here!) Some possibilities are:
