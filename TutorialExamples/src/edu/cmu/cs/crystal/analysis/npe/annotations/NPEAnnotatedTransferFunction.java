@@ -12,12 +12,12 @@ import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
 import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.CopyInstruction;
 import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.MethodCallInstruction;
 import edu.cmu.cs.crystal.tac.NewArrayInstruction;
 import edu.cmu.cs.crystal.tac.NewObjectInstruction;
 import edu.cmu.cs.crystal.tac.Variable;
 
 public class NPEAnnotatedTransferFunction extends AbstractingTransferFunction<TupleLatticeElement<Variable, NullLatticeElement>> {
-	private static final String NON_NULL_ANNO = "edu.cmu.cs.crystal.annos.NonNull";
 	/**
 	 * The operations for this lattice. We want to have a tuple lattice from variables to null lattice elements, so we
 	 * give it an instance of NullLatticeOperations. We also want the default value to be maybe null.
@@ -44,9 +44,9 @@ public class NPEAnnotatedTransferFunction extends AbstractingTransferFunction<Tu
 		
 		for (int ndx = 0; ndx < method.parameters().size(); ndx++) {
 			SingleVariableDeclaration decl = (SingleVariableDeclaration) method.parameters().get(ndx);
-			Variable paramVar = getAnalysisContext().getVariable(decl);
+			Variable paramVar = getAnalysisContext().getSourceVariable(decl.resolveBinding());
 			
-			if (summary.getParameter(ndx, NON_NULL_ANNO) != null) //is this parameter annotated with @Nonnull?
+			if (summary.getParameter(ndx, AnnotatedNPEAnalysis.NON_NULL_ANNO) != null) //is this parameter annotated with @Nonnull?
 				def.put(paramVar, NullLatticeElement.NOT_NULL);
 		}
 		
@@ -85,6 +85,28 @@ public class NPEAnnotatedTransferFunction extends AbstractingTransferFunction<Tu
 			value.put(instr.getTarget(), NullLatticeElement.NULL);
 		else
 			value.put(instr.getTarget(), NullLatticeElement.NOT_NULL);
+		return value;
+	}
+
+	@Override
+	public TupleLatticeElement<Variable, NullLatticeElement> transfer(
+			MethodCallInstruction instr,
+			TupleLatticeElement<Variable, NullLatticeElement> value) {
+		AnnotationSummary summary = annoDB.getSummaryForMethod(instr.resolveBinding());
+		
+		for (int ndx = 0; ndx < instr.getArgOperands().size(); ndx++) {
+			Variable paramVar = instr.getArgOperands().get(ndx);
+			
+			if (summary.getParameter(ndx, AnnotatedNPEAnalysis.NON_NULL_ANNO) != null) //is this parameter annotated with @Nonnull?
+				value.put(paramVar, NullLatticeElement.NOT_NULL);
+		}
+		
+		if (summary.getReturn(AnnotatedNPEAnalysis.NON_NULL_ANNO) != null) 
+			value.put(instr.getTarget(), NullLatticeElement.NOT_NULL);
+		
+		//clearly, the receiver is not null if this method call does actually occur ;)
+		value.put(instr.getReceiverOperand(), NullLatticeElement.NOT_NULL);
+
 		return value;
 	}
 

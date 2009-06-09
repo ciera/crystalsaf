@@ -1,6 +1,5 @@
 package edu.cmu.cs.crystal.analysis.npe.simpleflow;
 
-import edu.cmu.cs.crystal.util.Copyable;
 
 /**
  * There are only 4 possibilities for nullness:
@@ -11,7 +10,7 @@ import edu.cmu.cs.crystal.util.Copyable;
  * @author ciera
  *
  */
-public enum NullLatticeElement implements Copyable<NullLatticeElement> {
+public enum NullLatticeElement {
 	BOTTOM, NULL, NOT_NULL, MAYBE_NULL;
 
 	public NullLatticeElement copy() {

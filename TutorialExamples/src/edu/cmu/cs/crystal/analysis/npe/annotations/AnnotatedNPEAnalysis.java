@@ -21,15 +21,19 @@ package edu.cmu.cs.crystal.analysis.npe.annotations;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.ArrayAccess;
+import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.IAnalysisReporter.SEVERITY;
+import edu.cmu.cs.crystal.annotations.AnnotationSummary;
+import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 import edu.cmu.cs.crystal.simple.TACFlowAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.Variable;
@@ -42,11 +46,13 @@ import edu.cmu.cs.crystal.tac.Variable;
  * @author ciera
  */
 public class AnnotatedNPEAnalysis extends AbstractCrystalMethodAnalysis {
+	public static final String NON_NULL_ANNO = "edu.cmu.cs.crystal.annos.NonNull";
+	
 	TACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>> flowAnalysis;
 
 	@Override
 	public String getName() {
-		return "Simple NPE Flow";
+		return "Annotated NPE Flow";
 	}
 
 	@Override
@@ -70,8 +76,7 @@ public class AnnotatedNPEAnalysis extends AbstractCrystalMethodAnalysis {
 			if (element == NullLatticeElement.MAYBE_NULL)
 				getReporter().reportUserProblem("The expression " + nodeToCheck + " may be null.", nodeToCheck, getName(), SEVERITY.WARNING);		
 			else if (element == NullLatticeElement.NULL)
-				getReporter().reportUserProblem("The expression " + nodeToCheck + "is null.", nodeToCheck, getName(), SEVERITY.ERROR);		
-
+				getReporter().reportUserProblem("The expression " + nodeToCheck + " is null.", nodeToCheck, getName(), SEVERITY.ERROR);		
 		}
 
 		@Override
@@ -81,21 +86,27 @@ public class AnnotatedNPEAnalysis extends AbstractCrystalMethodAnalysis {
 			checkVariable(beforeTuple, node.getArray());
 		}
 
-
 		@Override
 		public void endVisit(FieldAccess node) {
 			TupleLatticeElement<Variable, NullLatticeElement> beforeTuple = flowAnalysis.getResultsBefore(node);
 			
-			checkVariable(beforeTuple, node.getExpression());
+			if (node.getExpression() != null)
+				checkVariable(beforeTuple, node.getExpression());
 		}
-
+		
 		@Override
 		public void endVisit(MethodInvocation node) {
 			TupleLatticeElement<Variable, NullLatticeElement> beforeTuple = flowAnalysis.getResultsBefore(node);
 			
-			checkVariable(beforeTuple, node.getExpression());
+			if (node.getExpression() != null)
+				checkVariable(beforeTuple, node.getExpression());
 			
-			//check method parameters
+			AnnotationSummary summary = getInput().getAnnoDB().getSummaryForMethod(node.resolveMethodBinding());
+			
+			for (int ndx = 0; ndx < node.arguments().size(); ndx++) {	
+				if (summary.getParameter(ndx, NON_NULL_ANNO) != null) //is this parameter annotated with @Nonnull?
+					checkVariable(beforeTuple, (Expression) node.arguments().get(ndx));
+			}
 		}
 
 		@Override
@@ -107,6 +118,34 @@ public class AnnotatedNPEAnalysis extends AbstractCrystalMethodAnalysis {
 				TupleLatticeElement<Variable, NullLatticeElement> beforeTuple = flowAnalysis.getResultsBefore(node);
 				
 				checkVariable(beforeTuple, node.getQualifier());
+			}
+		}
+		
+		@Override
+		public void endVisit(Assignment node) {
+			IVariableBinding binding = null;
+			Expression left = node.getLeftHandSide();
+			Expression right = node.getRightHandSide();
+			
+			if (left instanceof Name && ((Name)left).resolveBinding() instanceof IVariableBinding)
+				binding = (IVariableBinding) ((Name)left).resolveBinding();
+			else if (left instanceof FieldAccess)
+				binding = ((FieldAccess)left).resolveFieldBinding();
+			
+			if (binding == null)
+				return;
+			
+			if (binding.isField()) {
+				for (ICrystalAnnotation anno : getInput().getAnnoDB().getAnnosForField(binding)) {
+					if (anno.getName().equals(NON_NULL_ANNO))
+						checkVariable(flowAnalysis.getResultsBefore(left), right);
+				}
+			}
+			else if (binding.isParameter()) {
+				AnnotationSummary summary = getInput().getAnnoDB().getSummaryForMethod(flowAnalysis.getAnalyzedMethod().resolveBinding());
+			
+				if (summary.getParameter(binding.getName(), NON_NULL_ANNO) != null)
+					checkVariable(flowAnalysis.getResultsBefore(left), right);
 			}
 		}
 	}
