@@ -1,0 +1,13 @@
+#summary How to make a branch-sensitive analysis
+#labels Phase-Support
+
+= Pre-reqs = 
+This page assumes you know [DataflowAnalysis how to make a dataflow analysis].
+
+= What is branch sensitivity? = 
+
+= What kinds of branches does Crystal have? = 
+
+= Steps to change an existing dataflow analysis =
+
+= Returning different values on different branches =
