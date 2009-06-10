@@ -3,6 +3,7 @@
   * For Crystal end-users
     * [Installation Installing and Running Crystal]
   * For Crystal analysis developers
+    * [http://crystalsaf.googlecode.com/svn/trunk/CrystalPlugin/doc/index.html Javadoc]
     * [SuggestedSteps A step-by-step guide to writing an analysis]
     * [GettingStarted How to write a very simple analysis]
     * [DataflowAnalysis How to write a dataflow analysis]
