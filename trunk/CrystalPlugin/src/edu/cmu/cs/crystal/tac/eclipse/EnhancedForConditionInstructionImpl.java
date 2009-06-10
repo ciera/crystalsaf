@@ -25,11 +25,11 @@ import org.eclipse.jdt.core.dom.EnhancedForStatement;
 
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
-import edu.cmu.cs.crystal.flow.ITACTransferFunction;
-import edu.cmu.cs.crystal.tac.EnhancedForConditionInstruction;
-import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.ITACTransferFunction;
+import edu.cmu.cs.crystal.tac.model.EnhancedForConditionInstruction;
+import edu.cmu.cs.crystal.tac.model.SourceVariableDeclaration;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * <p>Instruction representing the "has next" test at the top of a Java 5 enhanced <b>for</b>

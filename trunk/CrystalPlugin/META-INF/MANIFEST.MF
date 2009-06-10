@@ -17,8 +17,7 @@ Require-Bundle: org.eclipse.ui,
  org.junit4,
  edu.cmu.cs.planno;bundle-version="1.0.1";visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Export-Package: att.grappa,
- edu.cmu.cs.crystal,
+Export-Package: edu.cmu.cs.crystal,
  edu.cmu.cs.crystal.analysis.alias,
  edu.cmu.cs.crystal.analysis.constant,
  edu.cmu.cs.crystal.analysis.live,
@@ -28,14 +27,15 @@ Export-Package: att.grappa,
  edu.cmu.cs.crystal.cfg,
  edu.cmu.cs.crystal.cfg.eclipse,
  edu.cmu.cs.crystal.flow,
+ edu.cmu.cs.crystal.flow.concur,
  edu.cmu.cs.crystal.flow.worklist,
  edu.cmu.cs.crystal.internal,
  edu.cmu.cs.crystal.simple,
  edu.cmu.cs.crystal.tac,
  edu.cmu.cs.crystal.tac.eclipse,
+ edu.cmu.cs.crystal.tac.model,
  edu.cmu.cs.crystal.test,
- edu.cmu.cs.crystal.util,
- java_cup.runtime
+ edu.cmu.cs.crystal.util
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Eclipse-BuddyPolicy: registered
 Bundle-Vendor: Carnegie Mellon University

@@ -21,7 +21,6 @@ package edu.cmu.cs.crystal.tac.eclipse;
 
 import java.util.List;
 
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
@@ -34,15 +33,15 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.junit.Assert;
 import org.junit.Test;
 
-import edu.cmu.cs.crystal.tac.BinaryOperation;
-import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
-import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
-import edu.cmu.cs.crystal.tac.MethodCallInstruction;
-import edu.cmu.cs.crystal.tac.StoreFieldInstruction;
-import edu.cmu.cs.crystal.tac.TACInstruction;
-import edu.cmu.cs.crystal.tac.ThisVariable;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.BinaryOperation;
+import edu.cmu.cs.crystal.tac.model.CopyInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.model.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.model.StoreFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.ThisVariable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 
 /**

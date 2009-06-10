@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.tac.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
 
 /**
  * @author Kevin

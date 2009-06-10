@@ -25,13 +25,13 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
-import edu.cmu.cs.crystal.flow.ITACTransferFunction;
-import edu.cmu.cs.crystal.tac.AssignmentInstruction;
-import edu.cmu.cs.crystal.tac.KeywordVariable;
-import edu.cmu.cs.crystal.tac.SourceVariable;
-import edu.cmu.cs.crystal.tac.SourceVariableRead;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.ITACTransferFunction;
+import edu.cmu.cs.crystal.tac.model.AssignmentInstruction;
+import edu.cmu.cs.crystal.tac.model.KeywordVariable;
+import edu.cmu.cs.crystal.tac.model.SourceVariable;
+import edu.cmu.cs.crystal.tac.model.SourceVariableReadInstruction;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * This instruction indicates reading a variable that appears in the source program,
@@ -45,7 +45,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * @see AssignmentInstruction#getTarget()
  */
 class SourceVariableReadImpl extends ResultfulInstruction<ASTNode> 
-implements SourceVariableRead {
+implements SourceVariableReadInstruction {
 
 	private Variable variable;
 
@@ -86,7 +86,7 @@ implements SourceVariableRead {
 
 	@Override
 	public String toString() {
-		return variable.toString();
+		return "read " + variable.toString();
 	}
 
 }

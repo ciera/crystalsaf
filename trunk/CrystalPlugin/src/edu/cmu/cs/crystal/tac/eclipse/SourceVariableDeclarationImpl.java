@@ -29,10 +29,10 @@ import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
-import edu.cmu.cs.crystal.flow.ITACTransferFunction;
-import edu.cmu.cs.crystal.tac.SourceVariable;
-import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
+import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.ITACTransferFunction;
+import edu.cmu.cs.crystal.tac.model.SourceVariable;
+import edu.cmu.cs.crystal.tac.model.SourceVariableDeclaration;
 
 /**
  * T x.  This node represents the declaration of a variable in the source, i.e. a method

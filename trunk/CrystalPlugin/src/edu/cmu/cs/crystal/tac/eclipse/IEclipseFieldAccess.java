@@ -22,7 +22,7 @@ package edu.cmu.cs.crystal.tac.eclipse;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * Interface used internally to represent field accesses, x.f.

@@ -21,7 +21,7 @@ package edu.cmu.cs.crystal.tac.eclipse;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * This is an intermediate helper class that simplifies TAC generation.

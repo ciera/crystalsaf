@@ -20,73 +20,79 @@
 package edu.cmu.cs.crystal.analysis.alias;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
-
-import org.eclipse.jdt.core.dom.ASTNode;
-
-import edu.cmu.cs.crystal.bridge.LatticeElement;
 
 /**
  * This is an immutable lattice. 
  *
  */
-public class AliasLE implements LatticeElement<AliasLE>, Aliasing {
+public class AliasLE implements Aliasing {
 
-	protected final Set<ObjectLabel> labels; // this is an immutable set
+	/** this is an immutable set. */
+	private final Set<ObjectLabel> labels; 
 	
+	/** 
+	 * Create new lattice element with the given set of labels;
+	 * <b>do not mutate the given set after this call</b>. 
+	 * @param newLabels Label set that <b>must not be mutated</b> 
+	 * after this call.
+	 * @return new lattice element with the given set of labels.
+	 */
 	public static AliasLE create(Set<ObjectLabel> newLabels) {
 		return new AliasLE(newLabels);
 	}
 	
+	/**
+	 * Create new lattice element with only the given label
+	 * in the label set.
+	 * @param label Object label.
+	 * @return new lattice element with only the given label.
+	 */
 	public static AliasLE create(ObjectLabel label) {
 		return new AliasLE(label);
 	}
 	
+	/**
+	 * Returns a bottom lattice element.
+	 * @return bottom lattice element.
+	 */
 	public static AliasLE bottom() {
 		return new AliasLE();
 	}
 	
+	/**
+	 * Creates lattice element with empty label set.
+	 */
 	protected AliasLE() {
 		this.labels = Collections.emptySet();
 	}
 	
+	/**
+	 * Creates lattice element with singleton label set.
+	 * @param label The singleton label to be placed in the set.
+	 */
 	protected AliasLE(ObjectLabel label) {
 		this.labels = Collections.singleton(label);
 	}
 
+	/**
+	 * Creates lattice element with the given set;
+	 * <b>do not mutate the given set after this call</b>.
+	 * @param labels Label set <b>not to be modified</b> after this call.
+	 */
 	protected AliasLE(Set<ObjectLabel> labels) {
 		this.labels = Collections.unmodifiableSet(labels);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.analysis.alias.Aliasing#getLabels()
-	 */
 	public Set<ObjectLabel> getLabels() {
 		return labels;
 	} 
 	
-//	public void removeAlias(ObjectLabel removeVar) {
-//		labels.remove(removeVar);
-//	}
-//
-//	public void addAlias(ObjectLabel addVar) {
-//		labels.add(addVar);
-//	}
-
-	public boolean atLeastAsPrecise(AliasLE other, ASTNode node) {
-		return other.labels.containsAll(labels);
-	}
-
-	public AliasLE copy() {
-		return this;
-	}
-
-	public AliasLE join(AliasLE other, ASTNode node) {
-		HashSet<ObjectLabel> copy;
-		copy = new HashSet<ObjectLabel>(this.labels);
-		copy.addAll(other.labels);
-		return new AliasLE(copy);
+	public boolean hasAnyLabels(Set<ObjectLabel> labelsToFind) {
+		for (ObjectLabel label : labelsToFind)
+			if (labels.contains(label))
+				return true;
+		return false;
 	}
 
 	@Override
@@ -113,16 +119,6 @@ public class AliasLE implements LatticeElement<AliasLE>, Aliasing {
 	
 	public String toString() {
 		return labels.toString();
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.cmu.cs.crystal.analysis.alias.Aliasing#hasAnyLabels(java.util.Set)
-	 */
-	public boolean hasAnyLabels(Set<ObjectLabel> labelsToFind) {
-		for (ObjectLabel label : labelsToFind)
-			if (labels.contains(label))
-				return true;
-		return false;
 	}
 
 }

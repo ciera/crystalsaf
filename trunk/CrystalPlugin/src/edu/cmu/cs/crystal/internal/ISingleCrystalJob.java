@@ -19,12 +19,6 @@
  */
 package edu.cmu.cs.crystal.internal;
 
-import java.util.Set;
-
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.dom.ASTNode;
-
-import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 
 /**

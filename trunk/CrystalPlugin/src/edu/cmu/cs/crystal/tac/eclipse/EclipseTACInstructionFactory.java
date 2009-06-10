@@ -59,14 +59,14 @@ import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
-import edu.cmu.cs.crystal.tac.BinaryOperation;
-import edu.cmu.cs.crystal.tac.BinaryOperator;
-import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.SourceVariableRead;
-import edu.cmu.cs.crystal.tac.TACInstruction;
-import edu.cmu.cs.crystal.tac.ThisVariable;
-import edu.cmu.cs.crystal.tac.UnaryOperator;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.BinaryOperation;
+import edu.cmu.cs.crystal.tac.model.BinaryOperator;
+import edu.cmu.cs.crystal.tac.model.CopyInstruction;
+import edu.cmu.cs.crystal.tac.model.SourceVariableReadInstruction;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.ThisVariable;
+import edu.cmu.cs.crystal.tac.model.UnaryOperator;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * @author Kevin Bierhoff
@@ -500,7 +500,7 @@ public class EclipseTACInstructionFactory {
 			else {
 				// local
 				if(isLoad(node)) {
-					SourceVariableRead read = new SourceVariableReadImpl(node, 
+					SourceVariableReadInstruction read = new SourceVariableReadImpl(node, 
 							eclipseVariableQuery.sourceVariable(vb), eclipseVariableQuery);
 					if(AbstractAssignmentInstruction.checkIfCopyNeeded(node) != null) {
 						// need to explicitly copy accessed variable

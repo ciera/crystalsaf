@@ -30,13 +30,13 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PrefixExpression;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
-import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
-import edu.cmu.cs.crystal.flow.ITACFlowAnalysis;
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
-import edu.cmu.cs.crystal.simple.TACFlowAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
-import edu.cmu.cs.crystal.tac.TACInstruction;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.ITACFlowAnalysis;
+import edu.cmu.cs.crystal.tac.TACFlowAnalysis;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 
 public class ConstantAnalysis extends AbstractCrystalMethodAnalysis {

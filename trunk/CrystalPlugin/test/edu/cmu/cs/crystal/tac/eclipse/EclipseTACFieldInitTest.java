@@ -28,11 +28,11 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.junit.Assert;
 import org.junit.Test;
 
-import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
-import edu.cmu.cs.crystal.tac.NewObjectInstruction;
-import edu.cmu.cs.crystal.tac.StoreFieldInstruction;
-import edu.cmu.cs.crystal.tac.TACInstruction;
-import edu.cmu.cs.crystal.tac.ThisVariable;
+import edu.cmu.cs.crystal.tac.model.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.model.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.model.StoreFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.ThisVariable;
 
 
 /**

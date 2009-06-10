@@ -31,7 +31,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import edu.cmu.cs.crystal.IAnalysisReporter;
-import edu.cmu.cs.crystal.IAnalysisReporter.SEVERITY;
 
 /**
  * An analysis reporter to be used when running analyses through Eclipse. All methods will

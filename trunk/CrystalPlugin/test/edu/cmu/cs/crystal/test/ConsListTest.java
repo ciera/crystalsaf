@@ -19,7 +19,11 @@
  */
 package edu.cmu.cs.crystal.test;
 
-import static org.junit.Assert.*;
+import static edu.cmu.cs.crystal.util.ConsList.cons;
+import static edu.cmu.cs.crystal.util.ConsList.list;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 
@@ -27,8 +31,6 @@ import org.junit.Test;
 
 import edu.cmu.cs.crystal.util.ConsList;
 import edu.cmu.cs.crystal.util.Lambda2;
-import static edu.cmu.cs.crystal.util.ConsList.cons;
-import static edu.cmu.cs.crystal.util.ConsList.list;
 
 public class ConsListTest {
 
