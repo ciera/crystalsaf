@@ -27,3 +27,5 @@ Additionally, there are no nodes in Crystal's TAC that represent control flow of
 This means that overall, there are also less types of nodes to transfer over, thus making Crystal's TAC easier to understand than most other abstract syntax trees (like Eclipse's `ASTNode` hierarchy).
 
 You will almost never need to transfer on a flow node itself, but if you do, you will need to use the transfer function interfaces `edu.cmu.cs.crystal.flow.ITransferFunction` or `edu.cmu.cs.crystal.flow.IBranchSensitiveTransferFunction`, which work on `ASTNode`s rather than `TACInstruction`s.
+
+[http://crystalsaf.googlecode.com/svn/trunk/CrystalPlugin/doc/edu/cmu/cs/crystal/tac/package-summary.html Javadoc of Crystal's TAC package]
