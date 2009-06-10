@@ -24,8 +24,8 @@ import java.util.List;
 import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
-import edu.cmu.cs.crystal.tac.KeywordVariable;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.KeywordVariable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * @author Kevin Bierhoff

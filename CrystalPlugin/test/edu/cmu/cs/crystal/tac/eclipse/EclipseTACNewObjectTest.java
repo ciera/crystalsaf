@@ -25,8 +25,8 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.junit.Assert;
 import org.junit.Test;
 
-import edu.cmu.cs.crystal.tac.NewObjectInstruction;
-import edu.cmu.cs.crystal.tac.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
 
 /**
  * Test cases for the handling of inner classes in {@link NewObjectInstruction}.

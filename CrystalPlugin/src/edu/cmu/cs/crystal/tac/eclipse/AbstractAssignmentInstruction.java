@@ -22,14 +22,12 @@ package edu.cmu.cs.crystal.tac.eclipse;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.ConditionalExpression;
-import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.ParenthesizedExpression;
-import org.eclipse.jdt.core.dom.VariableDeclaration;
 
-import edu.cmu.cs.crystal.tac.AssignmentInstruction;
-import edu.cmu.cs.crystal.tac.TempVariable;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.AssignmentInstruction;
+import edu.cmu.cs.crystal.tac.model.TempVariable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * Abstract x = ?.

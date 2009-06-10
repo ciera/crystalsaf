@@ -28,38 +28,38 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.analysis.metrics.LoopCounter;
-import edu.cmu.cs.crystal.bridge.LatticeElementOps;
-import edu.cmu.cs.crystal.flow.AbstractTACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
-import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
-import edu.cmu.cs.crystal.tac.AssignmentInstruction;
-import edu.cmu.cs.crystal.tac.BinaryOperation;
-import edu.cmu.cs.crystal.tac.CastInstruction;
-import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.DotClassInstruction;
-import edu.cmu.cs.crystal.tac.InstanceofInstruction;
-import edu.cmu.cs.crystal.tac.LoadArrayInstruction;
-import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
-import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
-import edu.cmu.cs.crystal.tac.MethodCallInstruction;
-import edu.cmu.cs.crystal.tac.NewArrayInstruction;
-import edu.cmu.cs.crystal.tac.NewObjectInstruction;
-import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
-import edu.cmu.cs.crystal.tac.TACInstruction;
-import edu.cmu.cs.crystal.tac.UnaryOperation;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.AbstractTACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.model.ArrayInitInstruction;
+import edu.cmu.cs.crystal.tac.model.AssignmentInstruction;
+import edu.cmu.cs.crystal.tac.model.BinaryOperation;
+import edu.cmu.cs.crystal.tac.model.CastInstruction;
+import edu.cmu.cs.crystal.tac.model.CopyInstruction;
+import edu.cmu.cs.crystal.tac.model.DotClassInstruction;
+import edu.cmu.cs.crystal.tac.model.InstanceofInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.model.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.model.NewArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.model.SourceVariableDeclaration;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.UnaryOperation;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 public class MayAliasTransferFunction extends
 		AbstractTACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, AliasLE>> {
 
 	private Map<Variable, ObjectLabel> labelContext;
 	private final TupleLatticeOperations<Variable, AliasLE> ops =
-		new TupleLatticeOperations<Variable, AliasLE>(LatticeElementOps.create(new AliasLE()),new AliasLE());
+		new TupleLatticeOperations<Variable, AliasLE>(
+				SingleObjectAliasOps.getAliasOps(),new AliasLE());
 
 	private LoopCounter loopCounter;
 	
@@ -124,7 +124,7 @@ public class MayAliasTransferFunction extends
 			CastInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, AliasLE> value) {
 		// TODO maybe one could use the type cased to to drop aliases of incompatible types?
-		value.put(instr.getTarget(), value.get(instr.getOperand()).copy());
+		value.put(instr.getTarget(), value.get(instr.getOperand()));
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
@@ -139,7 +139,7 @@ public class MayAliasTransferFunction extends
 			CopyInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, AliasLE> value) {
 		//if value does not contain instr, then what? will it do the put automatically?
-		value.put(instr.getTarget(), value.get(instr.getOperand()).copy());
+		value.put(instr.getTarget(), value.get(instr.getOperand()));
 		return LabeledSingleResult.createResult(value, labels);
 	}
 

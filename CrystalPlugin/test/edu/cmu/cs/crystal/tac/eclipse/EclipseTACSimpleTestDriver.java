@@ -48,8 +48,8 @@ import edu.cmu.cs.crystal.IAnalysisInput;
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
-import edu.cmu.cs.crystal.tac.SourceVariable;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.SourceVariable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * This class makes 3-address code unit tests available as a Crystal analysis.

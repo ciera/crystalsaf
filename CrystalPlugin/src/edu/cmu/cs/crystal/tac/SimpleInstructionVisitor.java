@@ -24,11 +24,27 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.flow.AnalysisDirection;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
-import edu.cmu.cs.crystal.flow.ITACTransferFunction;
 import edu.cmu.cs.crystal.flow.SingletonLatticeElement;
-import edu.cmu.cs.crystal.internal.Crystal;
-import edu.cmu.cs.crystal.simple.TACFlowAnalysis;
-import edu.cmu.cs.crystal.util.Pair;
+import edu.cmu.cs.crystal.tac.model.ArrayInitInstruction;
+import edu.cmu.cs.crystal.tac.model.BinaryOperation;
+import edu.cmu.cs.crystal.tac.model.CastInstruction;
+import edu.cmu.cs.crystal.tac.model.ConstructorCallInstruction;
+import edu.cmu.cs.crystal.tac.model.CopyInstruction;
+import edu.cmu.cs.crystal.tac.model.DotClassInstruction;
+import edu.cmu.cs.crystal.tac.model.EnhancedForConditionInstruction;
+import edu.cmu.cs.crystal.tac.model.InstanceofInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.model.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.model.NewArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.model.ReturnInstruction;
+import edu.cmu.cs.crystal.tac.model.SourceVariableDeclaration;
+import edu.cmu.cs.crystal.tac.model.SourceVariableReadInstruction;
+import edu.cmu.cs.crystal.tac.model.StoreArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.StoreFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.UnaryOperation;
 
 /**
  * Extend this class to visit every 3-address code instruction in a method exactly once.
@@ -86,7 +102,7 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 	/**
 	 * @param instr
 	 */
-	public void visit(SourceVariableRead instr) {
+	public void visit(SourceVariableReadInstruction instr) {
 	}
 
 	/**
@@ -312,7 +328,7 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 		}
 		
 		public SingletonLatticeElement transfer(
-				SourceVariableRead instr, SingletonLatticeElement value) {
+				SourceVariableReadInstruction instr, SingletonLatticeElement value) {
 			visit(instr);
 			return value;
 		}

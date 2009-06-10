@@ -113,12 +113,12 @@ import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
 
 import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
-import edu.cmu.cs.crystal.tac.SourceVariable;
-import edu.cmu.cs.crystal.tac.SuperVariable;
-import edu.cmu.cs.crystal.tac.TACInstruction;
-import edu.cmu.cs.crystal.tac.ThisVariable;
-import edu.cmu.cs.crystal.tac.TypeVariable;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.SourceVariable;
+import edu.cmu.cs.crystal.tac.model.SuperVariable;
+import edu.cmu.cs.crystal.tac.model.TACInstruction;
+import edu.cmu.cs.crystal.tac.model.ThisVariable;
+import edu.cmu.cs.crystal.tac.model.TypeVariable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * This class converts AST nodes from a single method to TAC instructions.

@@ -30,34 +30,34 @@ import edu.cmu.cs.crystal.flow.BooleanLabel;
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.flow.IResult;
-import edu.cmu.cs.crystal.flow.ITACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.LabeledResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
-import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
-import edu.cmu.cs.crystal.tac.BinaryOperation;
-import edu.cmu.cs.crystal.tac.CastInstruction;
-import edu.cmu.cs.crystal.tac.ConstructorCallInstruction;
-import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.DotClassInstruction;
-import edu.cmu.cs.crystal.tac.EnhancedForConditionInstruction;
 import edu.cmu.cs.crystal.tac.ITACAnalysisContext;
-import edu.cmu.cs.crystal.tac.InstanceofInstruction;
-import edu.cmu.cs.crystal.tac.LoadArrayInstruction;
-import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
-import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
-import edu.cmu.cs.crystal.tac.MethodCallInstruction;
-import edu.cmu.cs.crystal.tac.NewArrayInstruction;
-import edu.cmu.cs.crystal.tac.NewObjectInstruction;
-import edu.cmu.cs.crystal.tac.ReturnInstruction;
-import edu.cmu.cs.crystal.tac.SourceVariableDeclaration;
-import edu.cmu.cs.crystal.tac.SourceVariableRead;
-import edu.cmu.cs.crystal.tac.StoreArrayInstruction;
-import edu.cmu.cs.crystal.tac.StoreFieldInstruction;
-import edu.cmu.cs.crystal.tac.UnaryOperation;
-import edu.cmu.cs.crystal.tac.UnaryOperator;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.model.ArrayInitInstruction;
+import edu.cmu.cs.crystal.tac.model.BinaryOperation;
+import edu.cmu.cs.crystal.tac.model.CastInstruction;
+import edu.cmu.cs.crystal.tac.model.ConstructorCallInstruction;
+import edu.cmu.cs.crystal.tac.model.CopyInstruction;
+import edu.cmu.cs.crystal.tac.model.DotClassInstruction;
+import edu.cmu.cs.crystal.tac.model.EnhancedForConditionInstruction;
+import edu.cmu.cs.crystal.tac.model.InstanceofInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.model.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.model.NewArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.model.ReturnInstruction;
+import edu.cmu.cs.crystal.tac.model.SourceVariableDeclaration;
+import edu.cmu.cs.crystal.tac.model.SourceVariableReadInstruction;
+import edu.cmu.cs.crystal.tac.model.StoreArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.StoreFieldInstruction;
+import edu.cmu.cs.crystal.tac.model.UnaryOperation;
+import edu.cmu.cs.crystal.tac.model.UnaryOperator;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 
 public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunction<TupleLatticeElement<Variable, BooleanConstantLE>> {
@@ -278,7 +278,7 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	}
 
 	public IResult<TupleLatticeElement<Variable, BooleanConstantLE>> transfer(
-			SourceVariableRead instr, List<ILabel> labels,
+			SourceVariableReadInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, BooleanConstantLE> value) {
 		return LabeledSingleResult.createResult(value, labels);
 	}

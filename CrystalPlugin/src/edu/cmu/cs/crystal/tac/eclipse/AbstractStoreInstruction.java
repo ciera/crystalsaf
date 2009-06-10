@@ -21,8 +21,8 @@ package edu.cmu.cs.crystal.tac.eclipse;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
-import edu.cmu.cs.crystal.tac.StoreInstruction;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.StoreInstruction;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * This class extends {@link ResultfulInstruction} because assignments

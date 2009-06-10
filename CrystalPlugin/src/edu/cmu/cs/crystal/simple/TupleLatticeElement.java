@@ -27,7 +27,7 @@ import java.util.Set;
 /**
  * Represents a lattice element that is a tuple of lattice elements for an underlying lattice.
  * Conceptually, this is a map from keys to individual lattice elements for each key.
- * Keys can be parameterized, but common keys are {@link org.eclipse.jdt.core.dom.ASTNode}s and 3-address code {@link edu.cmu.cs.crystal.tac.Variable}s. 
+ * Keys can be parameterized, but common keys are {@link org.eclipse.jdt.core.dom.ASTNode}s and 3-address code {@link edu.cmu.cs.crystal.tac.model.Variable}s. 
  * The representation is optimized: a default element is the assumed value for every key
  * that has not been explicitly set.
  * 
