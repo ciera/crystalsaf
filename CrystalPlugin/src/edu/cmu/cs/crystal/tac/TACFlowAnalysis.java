@@ -39,7 +39,6 @@ import edu.cmu.cs.crystal.flow.ITransferFunction;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.flow.MotherFlowAnalysis;
 import edu.cmu.cs.crystal.flow.SingleResult;
-import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseInstructionSequence;
 import edu.cmu.cs.crystal.tac.eclipse.EclipseTAC;
@@ -56,92 +55,75 @@ import edu.cmu.cs.crystal.tac.model.Variable;
  * {@link ITACTransferFunction} for conventional or 
  * {@link ITACBranchSensitiveTransferFunction} for branch-sensitive flow analyses.
  * 
- * 
- * 
  * @author Kevin Bierhoff
- *
+ * @since Crystal 3.3
  * @param <LE>	The type that represents the analysis knowledge
  */
 public class TACFlowAnalysis<LE> 
-extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisContext {
-	
-	private AbstractTACAnalysisDriver<LE, ?> driver;
+extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 	
 	/**
-	 * Creates a simple flow analysis
+	 * Flow analysis definition for superclass that translates
+	 * AST nodes into TAC instructions and invokes the client-
+	 * defined transfer function on those instructions.
+	 * Driver object is re-used across different methods to be analyzed.
+	 */
+	private final AbstractTACAnalysisDriver<?> driver;
+	
+	/**
+	 * Creates a branch insensitive flow analysis object
 	 * @param transferFunction
+	 * @param analysisInput
 	 */
 	public TACFlowAnalysis(ITACTransferFunction<LE> transferFunction, IAnalysisInput analysisInput) {
 		super();
-		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction, analysisInput.getComUnitTACs().unwrap());
-		// TODO use the driver as the analysis context
-		transferFunction.setAnalysisContext(this);
+		this.driver = new BranchInsensitiveTACAnalysisDriver(transferFunction, analysisInput.getComUnitTACs().unwrap());
+		transferFunction.setAnalysisContext(driver);
 	}
 
 	/**
 	 * Creates a branch insensitive flow analysis object.
 	 * @param transferFunction
+	 * @param eclipseTAC
 	 */
 	public TACFlowAnalysis(ITACTransferFunction<LE> transferFunction, CompilationUnitTACs eclipseTAC) {
 		super();
-		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
-		// TODO use the driver as the analysis context
-		transferFunction.setAnalysisContext(this);
+		this.driver = new BranchInsensitiveTACAnalysisDriver(transferFunction, eclipseTAC);
+		transferFunction.setAnalysisContext(driver);
 	}
 
 	/**
 	 * Creates a branch sensitive flow analysis object.
 	 * @param transferFunction
+	 * @param eclipseTAC
 	 */
 	public TACFlowAnalysis(ITACBranchSensitiveTransferFunction<LE> transferFunction,
 			CompilationUnitTACs eclipseTAC) {
 		super();
 		this.driver = new BranchSensitiveTACAnalysisDriver(transferFunction, eclipseTAC);
-		// TODO use the driver as the analysis context
-		transferFunction.setAnalysisContext(this);
+		transferFunction.setAnalysisContext(driver);
 	}
 
-	/**
-	 * @param crystal
-	 * @param transferFunction
-	 * @deprecated Use constructor that only takes transfer function.
-	 */
-	@Deprecated
-	public TACFlowAnalysis(Crystal crystal, ITACTransferFunction<LE> transferFunction,
-			CompilationUnitTACs eclipseTAC) {
-		super(crystal);
-		this.driver = new BranchInsensitiveTACAnalysisDriver<LE>(transferFunction, eclipseTAC);
-		// TODO use the driver as the analysis context
-		transferFunction.setAnalysisContext(this);
-	}
-
-	/**
-	 * @param crystal
-	 * @param transferFunction
-	 * @deprecated Use constructor that only takes transfer function.
-	 */
-	@Deprecated
-	public TACFlowAnalysis(Crystal crystal, ITACBranchSensitiveTransferFunction<LE> transferFunction,
-			CompilationUnitTACs eclipseTAC) {
-		super(crystal);
-		this.driver = new BranchSensitiveTACAnalysisDriver(transferFunction, eclipseTAC);
-		// TODO use the driver as the analysis context
-		transferFunction.setAnalysisContext(this);
-	}
-
-	public LE getResultsAfter(TACInstruction instr) {
+	public LE getResultsAfter(final TACInstruction instr) {
 		ASTNode node = instr.getNode();
-		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		// get regular results before looking up root instruction
+		// to switch to surrounding method, if necessary 
+		// (driver.tac could be null or outdated otherwise)
+		final LE nodeResults = getResultsAfter(node);
+		final TACInstruction rootInstr = this.driver.tac.instruction(node);
 		if(rootInstr == instr) {
-			return getResultsAfter(node);
+			// usual case: only one instruction for this node
+			// return regular results
+			return nodeResults;
 		}
 		else if(rootInstr instanceof EclipseInstructionSequence) {
+			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
 			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
 					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
 			if(incoming == null) 
 				// no result available -> return bottom
-				return getResultsAfter(node);
+				return nodeResults;
 			else
 				// derive result for needed instruction in sequence
 				return mergeLabeledResult(this.driver.deriveResult(seq, incoming, instr, true), node);
@@ -150,19 +132,26 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
 	}
 
-	public LE getResultsBefore(TACInstruction instr) {
+	public LE getResultsBefore(final TACInstruction instr) {
 		ASTNode node = instr.getNode();
-		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		// get regular results before looking up root instruction
+		// to switch to surrounding method, if necessary 
+		// (driver.tac could be null or outdated otherwise)
+		final LE nodeResults = getResultsBefore(node);
+		final TACInstruction rootInstr = this.driver.tac.instruction(node);
 		if(rootInstr == instr) {
-			return getResultsBefore(node);
+			// usual case: only one instruction for this node
+			// return regular results
+			return nodeResults;
 		}
 		else if(rootInstr instanceof EclipseInstructionSequence) {
+			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
 			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
 					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
 			if(incoming == null) 
 				// no result available -> return bottom
-				return getResultsBefore(node);
+				return nodeResults;
 			else
 				// derive result for needed instruction in sequence
 				return mergeLabeledResult(this.driver.deriveResult(seq, incoming, instr, false), node);
@@ -171,19 +160,26 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
 	}
 
-	public IResult<LE> getLabeledResultsAfter(TACInstruction instr) {
+	public IResult<LE> getLabeledResultsAfter(final TACInstruction instr) {
 		ASTNode node = instr.getNode();
-		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		// get regular results before looking up root instruction
+		// to switch to surrounding method, if necessary 
+		// (driver.tac could be null or outdated otherwise)
+		final IResult<LE> nodeResults = getLabeledResultsAfter(node);
+		final TACInstruction rootInstr = this.driver.tac.instruction(node);
 		if(rootInstr == instr) {
-			return getLabeledResultsAfter(node);
+			// usual case: only one instruction for this node
+			// return regular results
+			return nodeResults;
 		}
 		else if(rootInstr instanceof EclipseInstructionSequence) {
+			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
 			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
 					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
 			if(incoming == null) 
 				// no result available -> return bottom
-				return getLabeledResultsAfter(node);
+				return nodeResults;
 			else
 				// derive result for needed instruction in sequence
 				return this.driver.deriveResult(seq, incoming, instr, true);
@@ -192,19 +188,26 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			throw new UnsupportedOperationException("Can't determine results for instruction: " + instr);
 	}
 
-	public IResult<LE> getLabeledResultsBefore(TACInstruction instr) {
+	public IResult<LE> getLabeledResultsBefore(final TACInstruction instr) {
 		ASTNode node = instr.getNode();
-		TACInstruction rootInstr = this.driver.tac.instruction(node);
+		// get regular results before looking up root instruction
+		// to switch to surrounding method, if necessary 
+		// (driver.tac could be null or outdated otherwise)
+		final IResult<LE> nodeResults = getLabeledResultsBefore(node);
+		final TACInstruction rootInstr = this.driver.tac.instruction(node);
 		if(rootInstr == instr) {
-			return getLabeledResultsBefore(node);
+			// usual case: only one instruction for this node
+			// return regular results
+			return nodeResults;
 		}
 		else if(rootInstr instanceof EclipseInstructionSequence) {
+			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
 			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
 					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
 			if(incoming == null) 
 				// no result available -> return bottom
-				return getLabeledResultsBefore(node);
+				return nodeResults;
 			else
 				// derive result for needed instruction in sequence
 				return this.driver.deriveResult(seq, incoming, instr, false);
@@ -221,75 +224,26 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		return instruction.getNode();
 	}
 
-	/**
-	 * Returns the TAC variable for a given ASTNode <i>after
-	 * previously analyzing the method surrounding the given node.</i>
-	 * It is the caller's responsibility to make sure to call this
-	 * method only when analysis results for the surrounding method
-	 * are available.
-	 * @param node AST node in the previously analyzed method.
-	 * @return The TAC variable for a given ASTNode.
-	 */
 	public Variable getVariable(ASTNode node) {
 		if(hasResults(node) || findSurroundingMethod(node) == getCurrentMethod())
 			return driver.tac.variable(node);
 		throw new IllegalArgumentException("Not currently analyzing method surrounding node: " + node);
 	}
 	
-	/**
-	 * Returns the <b>this</b> variable for a given method <i>after
-	 * previously analyzing that method.</i>
-	 * It is the caller's responsibility to make sure to call this
-	 * method only when analysis results for the given method
-	 * are available.
-	 * @param methodDecl The method for which <b>this</b> is requested.
-	 * @return The <b>this</b> variable for the given method. 
-	 */
 	public ThisVariable getThisVariable(MethodDeclaration methodDecl) {
 		if(methodDecl == null || methodDecl != getCurrentMethod())
 			throw new IllegalArgumentException("Not currently analyzing method: " + methodDecl);
 		return driver.tac.thisVariable();
 	}
 	
-	public ThisVariable getThisVariable() {
-		return driver.tac.thisVariable();
-	}
-	
-	public SuperVariable getSuperVariable() {
-		return driver.tac.superVariable(null);
-	}
-	
-	/**
-	 * Returns the variable for a given parameter or local <i>after
-	 * previously analyzing the method declaring the parameter or local.</i>
-	 * It is the caller's responsibility to make sure to call this
-	 * method only when analysis results for the declaring method 
-	 * are available.
-	 * @param varBinding Binding of a local or parameter.
-	 * @return the variable for the given parameter or local.
-	 */
 	public SourceVariable getSourceVariable(IVariableBinding varBinding) {
 		if(varBinding.getDeclaringMethod() == null)
 			throw new IllegalArgumentException("Not a local or parameter: " + varBinding);
-		if(varBinding.getDeclaringMethod().equals(getCurrentMethod().resolveBinding()) == false)
+		if(false == varBinding.getDeclaringMethod().equals(getCurrentMethod().resolveBinding()))
 			throw new IllegalArgumentException("Not currently analyzing method declaring variable: " + varBinding);
 		return driver.tac.sourceVariable(varBinding);
 	}
 	
-	public MethodDeclaration getAnalyzedMethod() {
-		return getCurrentMethod();
-	}
-
-	/**
-	 * Returns the implicit <b>this</b> variable for accessing a
-	 * given method or field  <i>after previously analyzing the method
-	 * surrounding the access.</i>
-	 * It is the caller's responsibility to make sure to call this
-	 * method only when analysis results for the method surrounding the
-	 * access are available.
-	 * @param accessedElement
-	 * @return the implicit this for the accessed element
-	 */
 	public ThisVariable getImplicitThisVariable(IBinding accessedElement) {
 		// TODO make sure this is only called for accesses from currently analyzed method
 		return driver.tac.implicitThisVariable(accessedElement);
@@ -301,9 +255,20 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		return driver;
 	}
 
-	protected abstract static class 
-	AbstractTACAnalysisDriver<LE, TF extends IFlowAnalysisDefinition<LE>> 
-	implements IFlowAnalysisDefinition<LE> {
+	/**
+	 * Subclasses of this class transfer over AST nodes by translating 
+	 * AST nodes into TAC instructions and calling a client-provided TAC-based 
+	 * transfer function.  This class implements common functionality
+	 * for querying results using TAC instructions; subclass perform
+	 * the actual translation into TAC instructions and the transfer over
+	 * the client-provided transfer function.
+	 * @author Kevin Bierhoff
+	 * @since Crystal 3.3
+	 * @param <TF> Exact type of transfer function being wrapped
+	 */
+	protected abstract class 
+	AbstractTACAnalysisDriver<TF extends IFlowAnalysisDefinition<LE>> 
+	implements IFlowAnalysisDefinition<LE>, ITACAnalysisContext {
 
 		protected TF tf;
 		protected EclipseTAC tac;
@@ -318,11 +283,17 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		/**
 		 * Switches the analysis over to the given method, which will
 		 * require changing the {@link #tac} being used.
+		 * The method being switched to <b>must be in sync</b> with 
+		 * {@link MotherFlowAnalysis#getCurrentMethod()}.
 		 * @param methodDecl
 		 */
 		public void switchToMethod(MethodDeclaration methodDecl) {
 			this.tac = this.compUnitTacs.getMethodTAC(methodDecl);
 		}
+		
+		/*
+		 * IFlowAnalysisDefinition methods
+		 */
 		
 		public AnalysisDirection getAnalysisDirection() {
 			return tf.getAnalysisDirection();
@@ -336,6 +307,35 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 			return tf.createEntryValue(method);
 		}
 		
+		/*
+		 * ITACAnalysisContext methods
+		 */
+		
+		@Override
+		public MethodDeclaration getAnalyzedMethod() {
+			return TACFlowAnalysis.this.getCurrentMethod();
+		}
+
+		@Override
+		public SourceVariable getSourceVariable(IVariableBinding varBinding) {
+			return tac.sourceVariable(varBinding);
+		}
+
+		@Override
+		public SuperVariable getSuperVariable() {
+			return tac.superVariable(null);
+		}
+
+		@Override
+		public ThisVariable getThisVariable() {
+			return tac.thisVariable();
+		}
+
+		@Override
+		public Variable getVariable(ASTNode node) {
+			return tac.variable(node);
+		}
+
 		/**
 		 * Internal method to derive the result for a specific instruction
 		 * in an instruction sequence (which is an internal class used to
@@ -354,8 +354,13 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 		public abstract IResult<LE> deriveResult(EclipseInstructionSequence seq, LE incoming, TACInstruction targetInstruction, boolean afterResult);
 	}
 	
-	protected static class BranchInsensitiveTACAnalysisDriver<LE> 
-	extends AbstractTACAnalysisDriver<LE, ITACTransferFunction<LE>> 
+	/**
+	 * Branch-insensitive version of transferring over TAC instructions.
+	 * @author Kevin Bierhoff
+	 * @since Crystal 3.3
+	 */
+	protected class BranchInsensitiveTACAnalysisDriver 
+	extends AbstractTACAnalysisDriver<ITACTransferFunction<LE>> 
 	implements ITransferFunction<LE> {
 		
 		public BranchInsensitiveTACAnalysisDriver(ITACTransferFunction<LE> tf,
@@ -379,8 +384,13 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE>, ITACAnalysisCont
 
 	}
 	
+	/**
+	 * Branch-sensitive version of transferring over TAC instructions.
+	 * @author Kevin Bierhoff
+	 * @since Crystal 3.3
+	 */
 	protected class BranchSensitiveTACAnalysisDriver 
-	extends AbstractTACAnalysisDriver<LE, ITACBranchSensitiveTransferFunction<LE>> 
+	extends AbstractTACAnalysisDriver<ITACBranchSensitiveTransferFunction<LE>> 
 	implements IBranchSensitiveTransferFunction<LE> {
 		
 		public BranchSensitiveTACAnalysisDriver(ITACBranchSensitiveTransferFunction<LE> tf,

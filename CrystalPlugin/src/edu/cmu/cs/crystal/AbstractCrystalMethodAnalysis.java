@@ -56,17 +56,21 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 		this.reporter = reporter;
 		this.analysisInput = input;
 		
-		beforeAllMethods(compUnit, rootNode);
-		
-		List<MethodDeclaration> methods = WorkspaceUtilities.scanForMethodDeclarationsFromAST(rootNode);
-		for (MethodDeclaration md : methods) {
-			// TODO automatically poll for cancel here?  call afterAllMethods or not?
-			analyzeMethod(md);
+		try {
+			beforeAllMethods(compUnit, rootNode);
+			
+			List<MethodDeclaration> methods = WorkspaceUtilities.scanForMethodDeclarationsFromAST(rootNode);
+			for (MethodDeclaration md : methods) {
+				// TODO automatically poll for cancel here?  call afterAllMethods or not?
+				analyzeMethod(md);
+			}
+			
+			afterAllMethods(compUnit, rootNode);
 		}
-		
-		afterAllMethods(compUnit, rootNode);
-		this.reporter = null;
-		this.analysisInput = null;
+		finally {
+			this.reporter = null;
+			this.analysisInput = null;
+		}
 	}
 
 	public void afterAllCompilationUnits() {

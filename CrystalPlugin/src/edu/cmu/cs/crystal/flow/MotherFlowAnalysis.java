@@ -33,7 +33,6 @@ import edu.cmu.cs.crystal.cfg.ICFGNode;
 import edu.cmu.cs.crystal.flow.worklist.AnalysisResult;
 import edu.cmu.cs.crystal.flow.worklist.WorklistFactory;
 import edu.cmu.cs.crystal.flow.worklist.WorklistTemplate;
-import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.util.Option;
 import edu.cmu.cs.crystal.util.Utilities;
 
@@ -84,15 +83,6 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 	 */
 	public MotherFlowAnalysis() {
 		this.factory = new WorklistFactory();
-	}
-	
-	/**
-	 * @param crystal
-	 * @deprecated Use parameterless constructor.
-	 */
-	@Deprecated
-	public MotherFlowAnalysis(Crystal crystal) {
-		this();
 	}
 	
 	/**

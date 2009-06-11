@@ -95,18 +95,22 @@ public interface ITACFlowAnalysis<LE> extends IFlowAnalysis<LE> {
 	public IResult<LE> getLabeledResultsAfter(TACInstruction instr);
 
 	/**
-	 * Returns the TAC variable for a given ASTNode.
+	 * Returns the TAC variable for a given ASTNode <i>after
+	 * previously analyzing the method surrounding the given node.</i>
 	 * It is the caller's responsibility to make sure to call this
-	 * method only while the method surrounding the given node is analyzed.
+	 * method only when analysis results for the surrounding method
+	 * are available.
 	 * @param node AST node in the previously analyzed method.
 	 * @return The TAC variable for a given ASTNode.
 	 */
 	public Variable getVariable(ASTNode node);
 
 	/**
-	 * Returns the <b>this</b> variable for a given method.
+	 * Returns the <b>this</b> variable for a given method <i>after
+	 * previously analyzing that method.</i>
 	 * It is the caller's responsibility to make sure to call this
-	 * method only while the given method is analyzed.
+	 * method only when analysis results for the given method
+	 * are available.
 	 * @param methodDecl The method for which <b>this</b> is requested.
 	 * @return The <b>this</b> variable for the given method. 
 	 */
@@ -120,15 +124,16 @@ public interface ITACFlowAnalysis<LE> extends IFlowAnalysis<LE> {
 	 * method only when analysis results for the method surrounding the
 	 * access are available.
 	 * @param accessedElement
-	 * @return the implicit this variable of the accessed element
+	 * @return the implicit this for the accessed element
 	 */
 	public ThisVariable getImplicitThisVariable(IBinding accessedElement);
 
-		/**
-	 * Returns the variable for a given parameter or local.
+	/**
+	 * Returns the variable for a given parameter or local <i>after
+	 * previously analyzing the method declaring the parameter or local.</i>
 	 * It is the caller's responsibility to make sure to call this
-	 * method only while the method declaring the parameter or local
-	 * is analyzed.
+	 * method only when analysis results for the declaring method 
+	 * are available.
 	 * @param varBinding Binding of a local or parameter.
 	 * @return the variable for the given parameter or local.
 	 */
