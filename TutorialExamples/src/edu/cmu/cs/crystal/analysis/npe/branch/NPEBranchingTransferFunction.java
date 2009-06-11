@@ -7,7 +7,6 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.AnnotationSummary;
-import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 import edu.cmu.cs.crystal.flow.AbstractTACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.BooleanLabel;
 import edu.cmu.cs.crystal.flow.ILabel;
@@ -21,7 +20,6 @@ import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
 import edu.cmu.cs.crystal.tac.BinaryOperation;
 import edu.cmu.cs.crystal.tac.BinaryOperator;
 import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.LoadFieldInstruction;
 import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
 import edu.cmu.cs.crystal.tac.MethodCallInstruction;
 import edu.cmu.cs.crystal.tac.NewArrayInstruction;
@@ -146,19 +144,6 @@ public class NPEBranchingTransferFunction extends AbstractTACBranchSensitiveTran
 			CopyInstruction instr, List<ILabel> labels,
 			TupleLatticeElement<Variable, NullLatticeElement> value) {
 		value.put(instr.getTarget(), value.get(instr.getOperand()));
-		return LabeledSingleResult.createResult(value, labels);
-	}
-
-	@Override
-	public IResult<TupleLatticeElement<Variable, NullLatticeElement>> transfer(
-			LoadFieldInstruction instr, List<ILabel> labels,
-			TupleLatticeElement<Variable, NullLatticeElement> value) {
-		
-		for (ICrystalAnnotation anno : annoDB.getAnnosForField(instr.resolveFieldBinding())) {
-			if (anno.getName().equals(BranchingNPEAnalysis.NON_NULL_ANNO))
-				value.put(instr.getTarget(), NullLatticeElement.NOT_NULL);
-		}
-		
 		return LabeledSingleResult.createResult(value, labels);
 	}
 
