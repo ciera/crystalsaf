@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.dom.ArrayAccess;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldAccess;
+import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
@@ -33,10 +34,10 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.IAnalysisReporter.SEVERITY;
 import edu.cmu.cs.crystal.annotations.AnnotationSummary;
-import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 import edu.cmu.cs.crystal.simple.TACFlowAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.util.Utilities;
 
 /**
  *  This analysis is almost identical to @link{edu.cmu.cs.crystal.analysis.npe.annotations.AnnotatedNPEAnalysis},
@@ -122,31 +123,20 @@ public class BranchingNPEAnalysis extends AbstractCrystalMethodAnalysis {
 		
 		@Override
 		public void endVisit(Assignment node) {
-			IVariableBinding binding = null;
 			Expression left = node.getLeftHandSide();
 			Expression right = node.getRightHandSide();
 			
-			if (left instanceof Name && ((Name)left).resolveBinding() instanceof IVariableBinding)
-				binding = (IVariableBinding) ((Name)left).resolveBinding();
-			else if (left instanceof FieldAccess)
-				binding = ((FieldAccess)left).resolveFieldBinding();
+			if (left instanceof Name && ((Name)left).resolveBinding() instanceof IVariableBinding) {
+				IVariableBinding binding = (IVariableBinding) ((Name)left).resolveBinding();
 			
-			if (binding == null)
-				return;
-			
-			if (binding.isField()) {
-				for (ICrystalAnnotation anno : getInput().getAnnoDB().getAnnosForField(binding)) {
-					if (anno.getName().equals(NON_NULL_ANNO))
+				if (binding.isParameter()) {
+					IMethodBinding method = Utilities.getMethodDeclaration(node).resolveBinding();
+					AnnotationSummary summary = getInput().getAnnoDB().getSummaryForMethod(method);
+				
+					if (summary.getParameter(binding.getName(), NON_NULL_ANNO) != null)
 						checkVariable(flowAnalysis.getResultsBefore(left), right);
 				}
 			}
-			else if (binding.isParameter()) {
-				AnnotationSummary summary = getInput().getAnnoDB().getSummaryForMethod(flowAnalysis.getAnalyzedMethod().resolveBinding());
-			
-				if (summary.getParameter(binding.getName(), NON_NULL_ANNO) != null)
-					checkVariable(flowAnalysis.getResultsBefore(left), right);
-			}
 		}
 	}
-
 }
