@@ -5,19 +5,13 @@
 
 We maintain the Eclipse update site for Crystal directly in the Subversion repository, in the !CrystalUpdate module.  In order to deploy a new version of Crystal to the update site, the project needs to be rebuild, and the changes committed to SVN.  However, in Eclipse 3.4, there are some additional hurdles to take, which are explained below.  It's probably a good idea to bump Crystal's lowermost version number to x.y.++z *after* every deployment to the update site.
 
-  * checkout the new projects !CrystalFeature and !EclipseUpdate
+  * Checkout the new projects !CrystalFeature and !EclipseUpdate
   * Update Crystal plugin. Make sure you have no local changes.
-  * Go to !EclipseUpdate->site.xml. Click the "Build All" button that appears in the site.xml editor.
+  * *Outside eclipse* delete !EclipseUpdate/artifacts.xml and content.xml (do not do it in eclipse as that causes Subclipse to mark these files as deleted in the repository)
+  * In !EclipseUpdate->site.xml, click "Add Feature..." and find Crystal (it should have the desired version number).
+  * Click the "Build All" button that appears in the site.xml editor.
   * Let it do it's thang.
+  * In !EclipseUpdate/content.xml, replace the repository name with "Crystal Static Analysis Framework".  You can do the same in artifacts.xml.
   * Commit !EclipseUpdate, and we'll have an update site for the current version of Crystal.
+  * Now, get yourself a fresh eclipse and check that this actualy worked.
   * If desired, bump the version number of the !CrystalPlugin and !CrystalFeature projects _for the next release_.  Update the code template for "types" (in the Eclipse project preferences) accordingly.  That way, the version number of the released plugin will always be different from the version number of the plugin run from source.
-
-= Eclipse 3.4 special =
-
-In Eclipse 3.4, the following steps need to be followed to ensure that Crystal's update site is properly updated with a new version.
-
-  # If necessary, *outside eclipse* delete !EclipseUpdate/artifacts.xml and content.xml (do not do it in eclipse as that causes Subclipse to mark these files as deleted in the repository)
-  # !EclipseUpdate->site.xml->Build All
-  # In !EclipseUpdate/content.xml, replace the repository name with "Crystal Static Analysis Framework".  You can do the same in artifacts.xml.
-  # Commit the changes to SVN.
-  # If desired, bump the version number of the !CrystalPlugin and !CrystalFeature projects _for the next release_ as mentioned above.
