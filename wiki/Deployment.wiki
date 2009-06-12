@@ -5,8 +5,9 @@
 
 We maintain the Eclipse update site for Crystal directly in the Subversion repository, in the !CrystalUpdate module.  In order to deploy a new version of Crystal to the update site, the project needs to be rebuild, and the changes committed to SVN.  However, in Eclipse 3.4, there are some additional hurdles to take, which are explained below.  It's probably a good idea to bump Crystal's lowermost version number to x.y.++z *after* every deployment to the update site.
 
-  * Checkout the new projects !CrystalFeature and !EclipseUpdate
+  * Checkout (or update) the projects !CrystalFeature and !EclipseUpdate
   * Update Crystal plugin. Make sure you have no local changes.
+  * Run the Ant build file javadoc.xml to generate the newest javadoc, and commit it.
   * *Outside eclipse* delete !EclipseUpdate/artifacts.xml and content.xml (do not do it in eclipse as that causes Subclipse to mark these files as deleted in the repository)
   * In !EclipseUpdate->site.xml, click "Add Feature..." and find Crystal (it should have the desired version number).
   * Click the "Build All" button that appears in the site.xml editor.
