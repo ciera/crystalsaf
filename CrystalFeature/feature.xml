@@ -2,7 +2,7 @@
 <feature
       id="edu.cmu.cs.crystal.feature"
       label="Crystal"
-      version="3.4.0"
+      version="3.4.1"
       provider-name="Carnegie Mellon University">
 
    <description url="http://code.google.com/p/crystalsaf/">
@@ -43,13 +43,13 @@ License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.junit4"/>
-      <import feature="PlaidAnnotations" version="1.0.1" match="greaterOrEqual"/>
+      <import plugin="edu.cmu.cs.planno" version="1.0.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="edu.cmu.cs.crystal"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="3.4.1"/>
 
 </feature>
