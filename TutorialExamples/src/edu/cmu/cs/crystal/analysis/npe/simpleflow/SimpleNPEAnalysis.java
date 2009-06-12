@@ -30,9 +30,9 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.IAnalysisReporter.SEVERITY;
-import edu.cmu.cs.crystal.simple.TACFlowAnalysis;
+import edu.cmu.cs.crystal.simple.SimpleTACFlowAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * A simple flow analysis. This analysis still walks the tree, but it
@@ -42,7 +42,7 @@ import edu.cmu.cs.crystal.tac.Variable;
  * @author ciera
  */
 public class SimpleNPEAnalysis extends AbstractCrystalMethodAnalysis {
-	TACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>> flowAnalysis;
+	SimpleTACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>> flowAnalysis;
 
 	@Override
 	public String getName() {
@@ -52,7 +52,7 @@ public class SimpleNPEAnalysis extends AbstractCrystalMethodAnalysis {
 	@Override
 	public void analyzeMethod(MethodDeclaration d) {
 		NPESimpleTransferFunction tf = new NPESimpleTransferFunction();
-		flowAnalysis = new TACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>>(tf, getInput());
+		flowAnalysis = new SimpleTACFlowAnalysis<TupleLatticeElement<Variable, NullLatticeElement>>(tf, getInput());
 		
 		d.accept(new NPEFlowVisitor());
 	}

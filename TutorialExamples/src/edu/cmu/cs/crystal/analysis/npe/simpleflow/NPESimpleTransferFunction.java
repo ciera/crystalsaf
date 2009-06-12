@@ -6,13 +6,13 @@ import edu.cmu.cs.crystal.flow.ILatticeOperations;
 import edu.cmu.cs.crystal.simple.AbstractingTransferFunction;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
-import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
-import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
-import edu.cmu.cs.crystal.tac.MethodCallInstruction;
-import edu.cmu.cs.crystal.tac.NewArrayInstruction;
-import edu.cmu.cs.crystal.tac.NewObjectInstruction;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.model.ArrayInitInstruction;
+import edu.cmu.cs.crystal.tac.model.CopyInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.model.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.model.NewArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 public class NPESimpleTransferFunction extends AbstractingTransferFunction<TupleLatticeElement<Variable, NullLatticeElement>> {
 	/**

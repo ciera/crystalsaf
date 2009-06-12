@@ -34,9 +34,9 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
 import edu.cmu.cs.crystal.IAnalysisReporter.SEVERITY;
 import edu.cmu.cs.crystal.annotations.AnnotationSummary;
-import edu.cmu.cs.crystal.simple.TACFlowAnalysis;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.TACFlowAnalysis;
+import edu.cmu.cs.crystal.tac.model.Variable;
 import edu.cmu.cs.crystal.util.Utilities;
 
 /**
