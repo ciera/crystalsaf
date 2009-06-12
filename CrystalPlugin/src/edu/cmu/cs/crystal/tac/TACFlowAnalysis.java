@@ -311,27 +311,23 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 		 * ITACAnalysisContext methods
 		 */
 		
-		@Override
 		public MethodDeclaration getAnalyzedMethod() {
 			return TACFlowAnalysis.this.getCurrentMethod();
 		}
 
-		@Override
+
 		public SourceVariable getSourceVariable(IVariableBinding varBinding) {
 			return tac.sourceVariable(varBinding);
 		}
 
-		@Override
 		public SuperVariable getSuperVariable() {
 			return tac.superVariable(null);
 		}
 
-		@Override
 		public ThisVariable getThisVariable() {
 			return tac.thisVariable();
 		}
 
-		@Override
 		public Variable getVariable(ASTNode node) {
 			return tac.variable(node);
 		}
