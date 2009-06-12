@@ -7,7 +7,6 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
 import edu.cmu.cs.crystal.annotations.AnnotationSummary;
-import edu.cmu.cs.crystal.flow.AbstractTACBranchSensitiveTransferFunction;
 import edu.cmu.cs.crystal.flow.BooleanLabel;
 import edu.cmu.cs.crystal.flow.ILabel;
 import edu.cmu.cs.crystal.flow.ILatticeOperations;
@@ -16,15 +15,16 @@ import edu.cmu.cs.crystal.flow.LabeledResult;
 import edu.cmu.cs.crystal.flow.LabeledSingleResult;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.simple.TupleLatticeOperations;
-import edu.cmu.cs.crystal.tac.ArrayInitInstruction;
-import edu.cmu.cs.crystal.tac.BinaryOperation;
-import edu.cmu.cs.crystal.tac.BinaryOperator;
-import edu.cmu.cs.crystal.tac.CopyInstruction;
-import edu.cmu.cs.crystal.tac.LoadLiteralInstruction;
-import edu.cmu.cs.crystal.tac.MethodCallInstruction;
-import edu.cmu.cs.crystal.tac.NewArrayInstruction;
-import edu.cmu.cs.crystal.tac.NewObjectInstruction;
-import edu.cmu.cs.crystal.tac.Variable;
+import edu.cmu.cs.crystal.tac.AbstractTACBranchSensitiveTransferFunction;
+import edu.cmu.cs.crystal.tac.model.ArrayInitInstruction;
+import edu.cmu.cs.crystal.tac.model.BinaryOperation;
+import edu.cmu.cs.crystal.tac.model.BinaryOperator;
+import edu.cmu.cs.crystal.tac.model.CopyInstruction;
+import edu.cmu.cs.crystal.tac.model.LoadLiteralInstruction;
+import edu.cmu.cs.crystal.tac.model.MethodCallInstruction;
+import edu.cmu.cs.crystal.tac.model.NewArrayInstruction;
+import edu.cmu.cs.crystal.tac.model.NewObjectInstruction;
+import edu.cmu.cs.crystal.tac.model.Variable;
 
 /**
  * These transfer functions are identical to the ones for the annotated NPE analysis except
