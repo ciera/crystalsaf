@@ -52,23 +52,19 @@ public class SingleObjectAliasOps implements ILatticeOperations<AliasLE> {
 		super();
 	}
 
-	@Override
 	public boolean atLeastAsPrecise(AliasLE info, AliasLE reference,
 			ASTNode node) {
 		return reference.getLabels().containsAll(info.getLabels());
 	}
 
-	@Override
 	public AliasLE bottom() {
 		return AliasLE.bottom();
 	}
 
-	@Override
 	public AliasLE copy(AliasLE original) {
 		return original;
 	}
 
-	@Override
 	public AliasLE join(AliasLE someInfo, AliasLE otherInfo, ASTNode node) {
 		HashSet<ObjectLabel> copy;
 		copy = new HashSet<ObjectLabel>(someInfo.getLabels());
