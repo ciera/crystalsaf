@@ -27,9 +27,9 @@ import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import edu.cmu.cs.crystal.AbstractCrystalMethodAnalysis;
+import edu.cmu.cs.crystal.IAnalysisReporter.SEVERITY;
 import edu.cmu.cs.crystal.simple.TupleLatticeElement;
 import edu.cmu.cs.crystal.tac.ITACTransferFunction;
 import edu.cmu.cs.crystal.tac.TACFlowAnalysis;
@@ -105,17 +105,7 @@ public class LiveVariableAnalysis extends AbstractCrystalMethodAnalysis
 				return;
 			
 			if (lattice.get(fa.getSourceVariable(binding)) == LiveVariableLE.DEAD)
-				reporter.reportUserProblem("The variable " + node.getLeftHandSide() + " is dead and is no longer used.", node, getName());
-		}
-
-		@Override
-		public void endVisit(VariableDeclarationFragment node) {
-			TupleLatticeElement<Variable, LiveVariableLE> lattice = fa.getResultsAfter(node);
-			
-			IVariableBinding varBinding = node.resolveBinding();
-			
-			if (lattice.get(fa.getSourceVariable(varBinding)) == LiveVariableLE.DEAD)
-				reporter.reportUserProblem("The variable " + node.getName() + " is never used.", node, getName());
+				reporter.reportUserProblem("The variable " + node.getLeftHandSide() + " is dead and is no longer used.", node, getName(), SEVERITY.WARNING);
 		}
 	}
 }

@@ -19,6 +19,8 @@
  */
 package edu.cmu.cs.crystal.flow;
 
+import edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction;
+
 /**
  * A label is a named edge on a control flow graph. This is used for distinguishing between
  * multiple branches on the control flow, and to allow a branch-senstive analysis to track
@@ -27,9 +29,9 @@ package edu.cmu.cs.crystal.flow;
  * Labels will properly override Object#equals and Object#hashCode, and so can be compared to each other
  * and used as keys in a hash.
  * 
- * @see{IResult}
- * @see{IBranchSensitiveTransferFunction}
- * @see{ITACBranchSensitiveTransferFunction}
+ * @see IResult
+ * @see IBranchSensitiveTransferFunction
+ * @see ITACBranchSensitiveTransferFunction
  * 
  * @author Kevin Bierhoff
  */
