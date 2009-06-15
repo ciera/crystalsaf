@@ -20,7 +20,7 @@
 /**
  * The interfaces for the three-address code (TAC) instructions and variables.
  * 
- * @see TACInstruction
- * @see Variable 
+ * @see edu.cmu.cs.crystal.tac.model.TACInstruction
+ * @see edu.cmu.cs.crystal.tac.model.Variable 
  */
 package edu.cmu.cs.crystal.tac.model;

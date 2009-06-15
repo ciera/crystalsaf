@@ -54,7 +54,7 @@ import edu.cmu.cs.crystal.tac.model.Variable;
  * for it.  
  * 
  * To create a flow analysis, pass an instance of this interface to
- * {@link edu.cmu.cs.crystal.flow.TACFlowAnalysis}.
+ * {@link edu.cmu.cs.crystal.tac.TACFlowAnalysis}.
  * 
  * @author Kevin Bierhoff
  *

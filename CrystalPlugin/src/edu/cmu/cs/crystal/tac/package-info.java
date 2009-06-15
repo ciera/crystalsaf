@@ -26,7 +26,7 @@
  * complex expressions in the AST into simpler expressions.
  * 
  * To create a flow analysis using TAC, 
- * implement either {@link ITACTransferFunction} or 
- * {@link ITACBranchSensitiveTransferFunction}.
+ * implement either {@link edu.cmu.cs.crystal.tac.ITACTransferFunction} or 
+ * {@link edu.cmu.cs.crystal.tac.ITACBranchSensitiveTransferFunction}.
  */
 package edu.cmu.cs.crystal.tac;
