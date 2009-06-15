@@ -3,13 +3,13 @@
 <repository name='Crystal Static Analysis Framework' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1245080884751'/>
+    <property name='p2.timestamp' value='1245103131163'/>
   </properties>
   <references size='4'>
     <repository url='http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/' type='0' options='0'/>
     <repository url='http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/' type='1' options='0'/>
-    <repository url='http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/' type='1' options='0'/>
     <repository url='http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/' type='0' options='0'/>
+    <repository url='http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/' type='1' options='0'/>
   </references>
   <units size='20'>
     <unit id='edu.cmu.cs.crystal' version='3.4.1'>
