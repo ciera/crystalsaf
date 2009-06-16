@@ -3,14 +3,14 @@
 <repository name='Crystal Static Analysis Framework' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1.0.0'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1245111195859'/>
+    <property name='p2.timestamp' value='1245112072685'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
     <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}_${version}'/>
     <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}_${version}.jar'/>
   </mappings>
-  <artifacts size='13'>
+  <artifacts size='14'>
     <artifact classifier='osgi.bundle' id='edu.cmu.cs.crystal' version='3.4.1'>
       <properties size='3'>
         <property name='artifact.size' value='4025866'/>
@@ -54,6 +54,13 @@
       <properties size='3'>
         <property name='artifact.size' value='4383203'/>
         <property name='download.size' value='4383203'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='edu.cmu.cs.crystal' version='3.4.1'>
+      <properties size='3'>
+        <property name='artifact.size' value='2913442'/>
+        <property name='download.size' value='2913442'/>
         <property name='download.contentType' value='application/zip'/>
       </properties>
     </artifact>
