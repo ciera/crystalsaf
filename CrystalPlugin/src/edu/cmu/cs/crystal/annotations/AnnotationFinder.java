@@ -20,6 +20,7 @@
 package edu.cmu.cs.crystal.annotations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -96,21 +97,23 @@ public class AnnotationFinder extends AbstractCompilationUnitAnalysis {
 		CrystalRuntimeException err = new CrystalRuntimeException("Hey! " +
 				  "If you have a multi annotation, it better have an array of Annotations!" +
 				  " Found " + baseAnno.toString() + " without an array.");
-		ArrayInitializer realAnnos = null;
+		List<Expression> realAnnos = null;
 		List<ICrystalAnnotation> crystalAnnos = new ArrayList<ICrystalAnnotation>();
 		
 		if (baseAnno.isSingleMemberAnnotation()) {
 			SingleMemberAnnotation anno = (SingleMemberAnnotation)baseAnno;
-			if (!(anno.getValue() instanceof ArrayInitializer))
-				throw err;
-			realAnnos = (ArrayInitializer)anno.getValue();
-				
+			if (!(anno.getValue() instanceof ArrayInitializer)) {
+				realAnnos = Collections.singletonList(anno.getValue());
+			}
+			else {
+				realAnnos = ((ArrayInitializer)anno.getValue()).expressions();
+			}	
 		}
 		else if (baseAnno.isNormalAnnotation()) {
 			NormalAnnotation anno = (NormalAnnotation)baseAnno;
 			for (MemberValuePair pair : (List<MemberValuePair>)anno.values()) {
 				if (pair.getName().getIdentifier().equals("annos") && pair.getValue() instanceof ArrayInitializer) {
-					realAnnos = (ArrayInitializer) pair.getValue();
+					realAnnos = ((ArrayInitializer) pair.getValue()).expressions();
 					break;
 				}
 			}
@@ -121,7 +124,7 @@ public class AnnotationFinder extends AbstractCompilationUnitAnalysis {
 			throw err;
 			
 		//ok, now we have the array of annotations
-		for (Expression exp : (List<Expression>)realAnnos.expressions()) {
+		for (Expression exp : realAnnos ) {
 			if (!(exp instanceof Annotation))
 				throw err;
 			IAnnotationBinding binding = ((Annotation)exp).resolveAnnotationBinding();
