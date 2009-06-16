@@ -95,6 +95,18 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 	/**
 	 * Creates a branch sensitive flow analysis object.
 	 * @param transferFunction
+	 * @param analysisInput
+	 */
+	public TACFlowAnalysis(ITACBranchSensitiveTransferFunction<LE> transferFunction,
+			IAnalysisInput analysisInput) {
+		super();
+		this.driver = new BranchSensitiveTACAnalysisDriver(transferFunction, analysisInput.getComUnitTACs().unwrap());
+		transferFunction.setAnalysisContext(driver);
+	}
+
+	/**
+	 * Creates a branch sensitive flow analysis object.
+	 * @param transferFunction
 	 * @param eclipseTAC
 	 */
 	public TACFlowAnalysis(ITACBranchSensitiveTransferFunction<LE> transferFunction,
