@@ -206,4 +206,13 @@ public class EclipseInstructionSequence extends ResultfulInstruction<ASTNode> {
 		throw new IllegalArgumentException("Given instruction is unknown: " + targetInstr);
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder result_ = new StringBuilder("Instructions: ");
+		for( TACInstruction instr : this.instructions ) {
+			result_.append(instr.toString() + ", ");
+		}
+		result_.delete(result_.length()-2, result_.length()-1);
+		return result_.toString();
+	}
 }
