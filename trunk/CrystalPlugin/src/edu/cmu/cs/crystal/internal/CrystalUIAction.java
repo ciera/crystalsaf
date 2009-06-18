@@ -19,6 +19,9 @@
  */
 package edu.cmu.cs.crystal.internal;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+
 import java.util.List;
 import java.util.Set;
 
@@ -60,7 +63,11 @@ public class CrystalUIAction implements IWorkbenchWindowActionDelegate {
 				
 				IRunCrystalCommand run_command = new IRunCrystalCommand(){
 					public Set<String> analyses() { return enabled;	}
-					public List<ICompilationUnit> compilationUnits() { return cus; }
+					public List<ICompilationUnit> compilationUnits() { 
+						if(cus == null) 
+							return emptyList();
+						else return unmodifiableList(cus); 
+					}
 					public IAnalysisReporter reporter() { 
 						return new StandardAnalysisReporter(); 
 					}
