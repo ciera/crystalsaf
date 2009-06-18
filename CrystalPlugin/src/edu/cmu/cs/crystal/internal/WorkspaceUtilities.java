@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -71,25 +73,28 @@ import edu.cmu.cs.crystal.util.Box;
  */
 public class WorkspaceUtilities {
 
+	private static final Logger log = Logger.getLogger(WorkspaceUtilities.class.getName());
+
 	/**
 	 * Traverses the workspace for CompilationUnits.
 	 * 
-	 * @return	the list of all CompilationUnits in the workspace
+	 * @return	the list of all CompilationUnits in the workspace or
+	 * <code>null</code> if no comp units were found.
 	 */
 	public static List<ICompilationUnit> scanForCompilationUnits() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		if(workspace == null) {
-			System.out.println("No workspace");
+			log.warning("No workspace");
 			return null;
 		}
 		IWorkspaceRoot root = workspace.getRoot();
 		if(root == null) {
-			System.out.println("No workspace root");
+			log.warning("No workspace root");
 			return null;
 		}
  		IJavaModel javaModel = JavaCore.create(root);
 		if(javaModel == null) {
-			System.out.println("No Java Model in workspace");
+			log.warning("No Java Model in workspace");
 			return null;
 		}
 
@@ -103,7 +108,7 @@ public class WorkspaceUtilities {
 	 * Each compilation unit corresponds to each java file.
 	 *  
 	 * @param javaElement a node in the IJavaModel that will be traversed
-	 * @return a list of compilation units
+	 * @return a list of compilation units or <code>null</code> if no comp units are found
 	 */
 	public static List<ICompilationUnit> collectCompilationUnits(IJavaElement javaElement) {
 		List<ICompilationUnit> list = null, temp = null;
@@ -139,11 +144,11 @@ public class WorkspaceUtilities {
 					}
 	 			}
 			} catch (JavaModelException jme) {
-				System.out.println("JAVA MODEL EXCEPTION: " + jme);
-				return null;
+				log.log(Level.SEVERE, "Problem traversing Java model element: " + parent, jme);
 			}
-		} else {
-			throw new CrystalRuntimeException("There exists an IJavaElement that is not an instance of IParent!");
+		} 
+		else {
+			log.warning("Encountered a model element that's not a comp unit or parent: " + javaElement);
 		}
 		
  		return list;
