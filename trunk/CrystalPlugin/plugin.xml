@@ -210,5 +210,11 @@
           name="Boolean Constant Analysis">
     </analysis>
  </extension>
+ <extension
+       point="org.eclipse.core.runtime.preferences">
+    <initializer
+          class="edu.cmu.cs.crystal.internal.CrystalPreferences">
+    </initializer>
+ </extension>
  
 </plugin>
