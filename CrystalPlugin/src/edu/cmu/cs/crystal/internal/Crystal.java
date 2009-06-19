@@ -84,11 +84,6 @@ public class Crystal {
 	private LinkedList<ICrystalAnalysis> analyses;
 
 	/**
-	 * The names of the analyses that are enabled.
-	 */
-	private Set<String> enabledAnalyses;
-
-	/**
 	 * Permanent registry for annotation parsers, populated at plugin initialization time.
 	 */
 	private Map<AnnoRegister, Class<? extends ICrystalAnnotation>> annotationRegistry =
@@ -96,7 +91,6 @@ public class Crystal {
 
 	public Crystal() {
 		analyses = new LinkedList<ICrystalAnalysis>();
-		enabledAnalyses = new HashSet<String>();
 	}
 
 	/**
@@ -108,7 +102,6 @@ public class Crystal {
 	 */
 	public void registerAnalysis(ICrystalAnalysis analysis) {
 		analyses.add(analysis);
-		enabledAnalyses.add(analysis.getName());
 	}
 
 	/**
