@@ -73,6 +73,9 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 	 */
 	public static void enableAnalysis(String analysis_name) {
 		registeredAnalyses.put(analysis_name, Boolean.TRUE);
+		Set<String> disabledPref = CrystalPreferences.getDisabledAnalyses();
+		disabledPref.remove(analysis_name);
+		CrystalPreferences.setDisabledAnalyses(disabledPref);
 	}
 
 	/**
@@ -81,6 +84,9 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 	 */
 	public static void disableAnalysis(String analysis_name) {
 		registeredAnalyses.put(analysis_name, Boolean.FALSE);
+		Set<String> disabledPref = CrystalPreferences.getDisabledAnalyses();
+		disabledPref.add(analysis_name);
+		CrystalPreferences.setDisabledAnalyses(disabledPref);
 	}
 
 	/**
@@ -89,6 +95,16 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 	 * necessary analyses with the framework.
 	 */
 	static private Crystal crystal;
+	
+	private static AbstractCrystalPlugin plugin;
+	
+	/**
+	 * Package-private method to access the singleton activator class.
+	 * @return the singleton activator class.
+	 */
+	static AbstractCrystalPlugin getDefault() {
+		return plugin;
+	}
 
 	static public Crystal getCrystalInstance() {
 		synchronized (AbstractCrystalPlugin.class) {
@@ -99,6 +115,7 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		plugin = this;
 		synchronized (AbstractCrystalPlugin.class) {
 			if (crystal == null)
 				crystal = new Crystal();
@@ -106,6 +123,7 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 		setupCrystalAnalyses(crystal);
 
 		// analysis extensions
+		Set<String> disabled = CrystalPreferences.getDisabledAnalyses();
 		for (IConfigurationElement config : Platform
 		    .getExtensionRegistry().getConfigurationElementsFor(
 		        "edu.cmu.cs.crystal.CrystalAnalysis")) {
@@ -118,16 +136,26 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 			try {
 				ICrystalAnalysis analysis =
 				    (ICrystalAnalysis) config.createExecutableExtension("class");
+				String analysisName = analysis.getName();
 				if (log.isLoggable(Level.CONFIG))
-					log.config("Registering analysis extension: " + analysis.getName());
+					log.config("Registering analysis extension: " + analysisName);
 				crystal.registerAnalysis(analysis);
 
-				// Enable analysis by default
-				registeredAnalyses.put(analysis.getName(), Boolean.TRUE);
+				// Enable analysis by default, disable if disabled before
+				registeredAnalyses.put(analysisName, ! disabled.contains(analysisName));
 			}
 			catch (CoreException e) {
 				log.log(Level.SEVERE, "Problem with configured analysis: " + config.getValue(), e);
 			}
+		}
+		if(disabled.retainAll(registeredAnalyses.keySet()))
+			// update disabled preference if it contains unknown analyses
+			CrystalPreferences.setDisabledAnalyses(disabled);
+		
+		// disable analyses according to preferences
+		for(String s : CrystalPreferences.getDisabledAnalyses()) {
+			if(registeredAnalyses.containsKey(s))
+				registeredAnalyses.put(s, Boolean.FALSE);
 		}
 
 		// annotation extensions
@@ -186,6 +214,12 @@ public abstract class AbstractCrystalPlugin extends AbstractUIPlugin {
 				    + config.getValue(), e);
 			}
 		}
+	}
+
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		plugin = null;
+		super.stop(context);
 	}
 
 	public abstract void setupCrystalAnalyses(Crystal crystal);
