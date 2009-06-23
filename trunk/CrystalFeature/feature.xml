@@ -50,6 +50,7 @@ License along with Crystal.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
          id="edu.cmu.cs.crystal"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

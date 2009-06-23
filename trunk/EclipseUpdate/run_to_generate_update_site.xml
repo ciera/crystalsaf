@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="feature_export" name="build">
+	<target name="feature_export">
+		<pde.exportFeatures destination="D:\workspace-unimod\EclipseUpdate" exportSource="true" exportType="directory" features="edu.cmu.cs.crystal.feature" useJARFormat="true"/>
+	</target>
+</project>
