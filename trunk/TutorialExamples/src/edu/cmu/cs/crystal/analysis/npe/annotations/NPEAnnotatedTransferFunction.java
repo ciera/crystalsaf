@@ -56,8 +56,7 @@ public class NPEAnnotatedTransferFunction extends AbstractingTransferFunction<Tu
 	/**
 	 * Just return our lattice ops.
 	 */
-	public ILatticeOperations<TupleLatticeElement<Variable, NullLatticeElement>> createLatticeOperations(
-			MethodDeclaration method) {
+	public ILatticeOperations<TupleLatticeElement<Variable, NullLatticeElement>> getLatticeOperations() {
 		return ops;
 	}
 
