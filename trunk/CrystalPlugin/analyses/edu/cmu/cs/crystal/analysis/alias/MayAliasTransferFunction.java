@@ -68,7 +68,7 @@ public class MayAliasTransferFunction extends
 		loopCounter = new LoopCounter();
 	}
 	
-	public ILatticeOperations<TupleLatticeElement<Variable, AliasLE>> createLatticeOperations(MethodDeclaration d) {
+	public ILatticeOperations<TupleLatticeElement<Variable, AliasLE>> getLatticeOperations() {
 		return ops;
 	}
 	

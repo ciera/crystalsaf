@@ -63,7 +63,7 @@ public class LiveVariableTransferFunction extends AbstractingTransferFunction<Tu
 	private final TupleLatticeOperations<Variable, LiveVariableLE> ops = 
 			new TupleLatticeOperations<Variable, LiveVariableLE>(new LiveVariableLatticeOps(), LiveVariableLE.DEAD);
 	
-	public ILatticeOperations<TupleLatticeElement<Variable, LiveVariableLE>> createLatticeOperations(MethodDeclaration d) {
+	public ILatticeOperations<TupleLatticeElement<Variable, LiveVariableLE>> getLatticeOperations() {
 		return ops;
 	}
 	

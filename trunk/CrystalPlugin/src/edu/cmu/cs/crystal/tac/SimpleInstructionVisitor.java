@@ -209,7 +209,7 @@ public class SimpleInstructionVisitor extends AbstractCrystalMethodAnalysis {
 
 	private class TransferVisitor implements ITACTransferFunction<SingletonLatticeElement> {
 
-		public ILatticeOperations<SingletonLatticeElement> createLatticeOperations(MethodDeclaration d) {
+		public ILatticeOperations<SingletonLatticeElement> getLatticeOperations() {
 			return SingletonLatticeElement.SINGLETON_OPS;
 		}
 		

@@ -65,7 +65,7 @@ public class ConstantTransferFunction implements ITACBranchSensitiveTransferFunc
 	 new TupleLatticeOperations<Variable, BooleanConstantLE>(
 	 new BooleanConstantLatticeOps(), BooleanConstantLE.BOTTOM);
 
-	public ILatticeOperations<TupleLatticeElement<Variable, BooleanConstantLE>> createLatticeOperations(MethodDeclaration d) {
+	public ILatticeOperations<TupleLatticeElement<Variable, BooleanConstantLE>> getLatticeOperations() {
 		return ops;
 	}
 	
