@@ -73,8 +73,7 @@ public class NPEBranchingTransferFunction extends AbstractTACBranchSensitiveTran
 	/**
 	 * Just return our lattice ops.
 	 */
-	public ILatticeOperations<TupleLatticeElement<Variable, NullLatticeElement>> createLatticeOperations(
-			MethodDeclaration method) {
+	public ILatticeOperations<TupleLatticeElement<Variable, NullLatticeElement>> getLatticeOperations() {
 		return ops;
 	}
 
