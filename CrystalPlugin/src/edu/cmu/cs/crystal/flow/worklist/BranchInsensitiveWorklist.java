@@ -75,7 +75,7 @@ public class BranchInsensitiveWorklist<LE> extends AbstractWorklist<LE> {
 
 	@Override
 	protected ILatticeOperations<LE> getLatticeOperations() {
-		return transferFunction.createLatticeOperations(getMethod());
+		return transferFunction.getLatticeOperations();
 	}
 
 	@Override

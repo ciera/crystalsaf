@@ -87,7 +87,7 @@ public class BranchSensitiveWorklist<LE> extends
 
 	@Override
 	protected ILatticeOperations<LE> getLatticeOperations() {
-		return transferFunction.createLatticeOperations(getMethod());
+		return transferFunction.getLatticeOperations();
 	}
 
 	@Override

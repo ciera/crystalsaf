@@ -40,15 +40,14 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 public interface IFlowAnalysisDefinition<LE> {
 
 	/**
-	 * Creates lattice operations for computing flow analysis
+	 * Gets the lattice operations for computing flow analysis
 	 * results for a given method.
 	 * Crystal uses the result of this method to compare and join intermediate
-	 * results when analyzing the given method. 
-	 * @param method the method to create the lattice operations for
+	 * results.
 	 * @return lattice operations to be used for computing flow analysis
 	 * results for a given method.
 	 */
-	public ILatticeOperations<LE> createLatticeOperations(MethodDeclaration method);
+	public ILatticeOperations<LE> getLatticeOperations();
 	
 	/**
 	 * Creates entry analysis information for analyzing a given method.

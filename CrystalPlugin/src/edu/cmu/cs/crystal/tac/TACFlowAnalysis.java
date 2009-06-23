@@ -311,8 +311,8 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 			return tf.getAnalysisDirection();
 		}
 		
-		public ILatticeOperations<LE> createLatticeOperations(MethodDeclaration method) {
-			return tf.createLatticeOperations(method);
+		public ILatticeOperations<LE> getLatticeOperations() {
+			return tf.getLatticeOperations();
 		}
 		
 		public LE createEntryValue(MethodDeclaration method) {
