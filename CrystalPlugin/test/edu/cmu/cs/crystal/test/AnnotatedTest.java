@@ -365,7 +365,7 @@ public class AnnotatedTest {
 		if (this.test.passingTest) {
 			assertEquals(
 			    fileName() + " is supposed to pass, but reported errors.", 0, failures_encountered
-			        .getValue());
+			        .getValue().intValue());
 		}
 		else if (this.test.numErrors <= 0) {
 			assertTrue(
@@ -375,7 +375,7 @@ public class AnnotatedTest {
 		else {
 			assertEquals(
 			    fileName() + " reported a different number of errors than expected.",
-			    this.test.numErrors, failures_encountered.getValue());
+			    this.test.numErrors, failures_encountered.getValue().intValue());
 		}
 	}
 
