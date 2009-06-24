@@ -50,7 +50,7 @@ public class ConsListTest {
 		
 		assertFalse(l.isEmpty());
 		assertEquals(l.size(), 1);
-		assertEquals(l.hd(), 4);
+		assertEquals(l.hd().intValue(), 4);
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class ConsListTest {
 		
 		assertEquals(l.size(), 4);
 		assertFalse(l.isEmpty());
-		assertEquals(l.hd(), 4);
+		assertEquals(l.hd().intValue(), 4);
 	}
 
 	@Test
@@ -105,19 +105,19 @@ public class ConsListTest {
 		Iterator<Integer> iter = l.iterator();
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 5);
+		assertEquals(iter.next().intValue(), 5);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 4);
+		assertEquals(iter.next().intValue(), 4);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 3);
+		assertEquals(iter.next().intValue(), 3);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 2);
+		assertEquals(iter.next().intValue(), 2);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 1);
+		assertEquals(iter.next().intValue(), 1);
 		
 		assertFalse(iter.hasNext());
 	}
@@ -131,7 +131,7 @@ public class ConsListTest {
 			public Integer call(Integer i1, Integer i2) {
 				return i1 + i2;
 			}}, 0);
-		assertEquals(result, 15);
+		assertEquals(result.intValue(), 15);
 	}
 	
 	@Test
@@ -141,19 +141,19 @@ public class ConsListTest {
 		Iterator<Integer> iter = l.iterator();
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 1);
+		assertEquals(iter.next().intValue(), 1);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 2);
+		assertEquals(iter.next().intValue(), 2);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 3);
+		assertEquals(iter.next().intValue(), 3);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 4);
+		assertEquals(iter.next().intValue(), 4);
 		
 		assertTrue(iter.hasNext());
-		assertEquals(iter.next(), 5);
+		assertEquals(iter.next().intValue(), 5);
 		
 		assertFalse(iter.hasNext());
 	}
