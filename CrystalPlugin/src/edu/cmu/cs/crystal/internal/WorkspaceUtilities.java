@@ -36,6 +36,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IParent;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
@@ -59,6 +61,8 @@ import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import edu.cmu.cs.crystal.util.Box;
+import edu.cmu.cs.crystal.util.Lambda;
+import edu.cmu.cs.crystal.util.Option;
 
 /**
  * A collection of methods used to extract useful data from the workspace.
@@ -319,7 +323,7 @@ public class WorkspaceUtilities {
 	/**
 	 * Gets the root ASTNode for a compilation unit, with bindings on.
 	 * @param compUnit
-	 * @return the root ASTNode for a compilation unit, with bindings on.
+	 * @return the root ASTNode for a compilation unit, with bindings on. 
 	 */
 	public static ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
 	 	ASTParser parser = ASTParser.newParser(AST.JLS3);
@@ -329,28 +333,70 @@ public class WorkspaceUtilities {
 	}
 
 	/**
-	 * Given an IType from the model, this method will return the type binding
-	 * associated with that type.
+	 * Given an IType from the model, this method will return the ast node
+	 * associated with that type, or null if it doesn't exist.
+	 * @return NONE if the ast node associated with this type could not
+	 * be found.
 	 */
-	public static ITypeBinding getDeclNodeFromType(final IType type) {
-		ASTNode node = getASTNodeFromCompilationUnit(type.getCompilationUnit());
+	public static Option<TypeDeclaration> getDeclNodeFromType(final IType type) {
+		return findNodeForModel(type, TypeDeclaration.class, 
+				new Lambda<TypeDeclaration,Boolean>(){
+					@Override
+					public Boolean call(TypeDeclaration i) {
+						return i.resolveBinding().getJavaElement().equals(type);
+					}
+				});
+	}
+	
+	/**
+	 * Returns the AST node associated with the given model element, which in this case
+	 * is a method.
+	 * @param method
+	 * @return
+	 */
+	public static Option<MethodDeclaration> getMethodDeclFromModel(final IMethod method) {
+		return findNodeForModel(method, MethodDeclaration.class,
+				new Lambda<MethodDeclaration, Boolean>(){
+					@Override
+					public Boolean call(MethodDeclaration i) {
+						return i.resolveBinding().getMethodDeclaration().getJavaElement().equals(method);
+					}
+				});
+	}
+	
+	/**
+	 * Return the ast node associated with the given model element.
+	 * @return
+	 */
+	private static <NODETYPE extends ASTNode> Option<NODETYPE> 
+		findNodeForModel(IMember model_element, final Class<? extends NODETYPE> clazz,
+			final Lambda<NODETYPE,Boolean> isCorrectNode) {
+		ICompilationUnit comp_unit = model_element.getCompilationUnit();
+		ASTNode node = getASTNodeFromCompilationUnit(comp_unit);
 		
 		// Now, find the corresponding type node 
-		final Box<ITypeBinding> result = new Box<ITypeBinding>(null);
+		final Box<NODETYPE> result = new Box<NODETYPE>(null);
 		node.accept(new ASTVisitor() {
+			
 			@Override
-			public void endVisit(TypeDeclaration node) {
-				if( node.resolveBinding().getJavaElement().equals(type) )
-					result.setValue(node.resolveBinding());
+			public void postVisit(ASTNode node) {
+				// If this node is a subtype of the node we are
+				// interested in, then we can ask the client's
+				// function if this is the right instance.
+				if( clazz.isAssignableFrom(node.getClass()) ) {
+					@SuppressWarnings("unchecked") NODETYPE node2 = (NODETYPE)node;
+					if( isCorrectNode.call(node2) ) {
+						result.setValue(node2);
+					}
+				}
 			}
 		});
 		
 		if( result.getValue() == null )
-			throw new RuntimeException("This should not happen.");
-		
-		return result.getValue();
+			return Option.none();
+		else
+			return Option.some(result.getValue());
 	}
-	
 }
 
 class BindingsCollectorVisitor extends ASTVisitor {
