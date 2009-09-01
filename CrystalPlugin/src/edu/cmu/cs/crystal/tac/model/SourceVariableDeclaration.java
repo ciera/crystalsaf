@@ -19,8 +19,8 @@
  */
 package edu.cmu.cs.crystal.tac.model;
 
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 /**
  * T x.  This node represents the declaration of a variable in the source, i.e. a method
@@ -40,7 +40,7 @@ public interface SourceVariableDeclaration extends TACInstruction {
 	 * @return the node this instruction is for.
 	 * @see TACInstruction#getNode()
 	 */
-	public ASTNode getNode();
+	public VariableDeclaration getNode();
 	
 	/**
 	 * Resolves the declared variable's binding.

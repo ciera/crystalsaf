@@ -29,8 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IField;
-import org.eclipse.jdt.core.IInitializer;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
@@ -194,9 +192,9 @@ public class AnnotationDatabase {
 
 	/**
 	 * This method will return the list of annotations associated with the
-	 * given field. 
+	 * given variable. 
 	 */
-	public List<ICrystalAnnotation> getAnnosForField(IVariableBinding binding) {
+	public List<ICrystalAnnotation> getAnnosForVariable(IVariableBinding binding) {
 		while (binding != binding.getVariableDeclaration())
 			binding = binding.getVariableDeclaration();
 		String name = binding.getKey();
@@ -336,13 +334,6 @@ public class AnnotationDatabase {
 		Pair<String,String> name = getQualifiedAnnoType(anno, relative_type);
 		IType anno_type = project.findType(name.fst(), name.snd());
 		
-		IField[] anno_fields = anno_type.getFields();
-		IInitializer[] inits = anno_type.getInitializers();
-		
-		IType lm = (IType)anno_type.getPrimaryElement();
-		IField[] fields = lm.getFields(); // Here's how you do it. I don't think you need the 'primary element.'
-		IMethod[] methods = lm.getMethods();
-		IMemberValuePair val = methods[0].getDefaultValue();
 		return anno_type;
 	}
 	
@@ -599,8 +590,10 @@ public class AnnotationDatabase {
 	    Class<A> type) {
 		List<A> result = new LinkedList<A>();
 		for (ICrystalAnnotation anno : list) {
-			if (type.isAssignableFrom(anno.getClass()))
-				result.add((A) anno);
+			if (type.isAssignableFrom(anno.getClass())) {
+				@SuppressWarnings("unchecked") A anno2 = (A) anno;
+				result.add(anno2);
+			}
 		}
 		return result;
 	}
