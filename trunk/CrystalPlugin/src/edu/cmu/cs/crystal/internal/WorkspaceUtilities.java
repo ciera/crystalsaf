@@ -50,7 +50,6 @@ import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IBinding;
-import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
@@ -341,7 +340,6 @@ public class WorkspaceUtilities {
 	public static Option<TypeDeclaration> getDeclNodeFromType(final IType type) {
 		return findNodeForModel(type, TypeDeclaration.class, 
 				new Lambda<TypeDeclaration,Boolean>(){
-					@Override
 					public Boolean call(TypeDeclaration i) {
 						return i.resolveBinding().getJavaElement().equals(type);
 					}
@@ -357,7 +355,6 @@ public class WorkspaceUtilities {
 	public static Option<MethodDeclaration> getMethodDeclFromModel(final IMethod method) {
 		return findNodeForModel(method, MethodDeclaration.class,
 				new Lambda<MethodDeclaration, Boolean>(){
-					@Override
 					public Boolean call(MethodDeclaration i) {
 						return i.resolveBinding().getMethodDeclaration().getJavaElement().equals(method);
 					}
