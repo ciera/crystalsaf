@@ -22,6 +22,8 @@ package edu.cmu.cs.crystal.util;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.Expression;
@@ -45,6 +47,23 @@ public class Utilities {
 //	List<ASTNode> getLocals(MethodDeclaration m) {
 //		return null;
 //	}
+	
+	/**
+	 * To be used instead of IType.resolveType(String). The former returns a String[][], 
+	 * which is about the most unhelpful thing in the world. Apparently, the idea is that
+	 * resolveType could match to multiple things, so the first dimension is the matches.
+	 * the second is really stupid, it's the qualified names.
+	 * @return the first hit from context.resolveType(simpleName) as a fully qualified name.
+	 * @throws JavaModelException 
+	 */
+	public static String resolveType(IType context, String simpleName) throws JavaModelException {
+		String[][] matches = context.resolveType(simpleName);
+		if (matches == null)
+			return null;
+		String pckg = matches[0][0].equals("") ? "" : matches[0][0] + ".";
+
+		return pckg + matches[0][1];
+	}
 
 	/**
 	 * Takes an ASTNode and creates a more useful textual representation of it.
