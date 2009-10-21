@@ -19,6 +19,7 @@
  */
 package edu.cmu.cs.crystal.util;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,15 +49,33 @@ public class Utilities {
 //		return null;
 //	}
 	
+	private static HashSet<String> elementals = new HashSet<String>();
+	static {
+		elementals.add("boolean");
+		elementals.add("int");
+		elementals.add("void");
+		elementals.add("char");
+		elementals.add("short");
+		elementals.add("long");
+		elementals.add("double");
+		elementals.add("float");
+	}
+	
 	/**
 	 * To be used instead of IType.resolveType(String). The former returns a String[][], 
-	 * which is about the most unhelpful thing in the world. Apparently, the idea is that
+	 * which is about the most useless thing in the world. Apparently, the idea is that
 	 * resolveType could match to multiple things, so the first dimension is the matches.
-	 * the second is really stupid, it's the qualified names.
-	 * @return the first hit from context.resolveType(simpleName) as a fully qualified name.
+	 * The second is really stupid, it's the qualified names. Also, IType.resolveType has 
+	 * issues with elemental types, and this method properly handles those as well.
+	 * 
+	 * @return the first hit from context.resolveType(simpleName) as a fully qualified name, or
+	 * simpleName if it was an elemental type, or null if the type could not be resolved.
 	 * @throws JavaModelException 
 	 */
 	public static String resolveType(IType context, String simpleName) throws JavaModelException {
+		if (elementals.contains(simpleName))
+			return simpleName;
+		
 		String[][] matches = context.resolveType(simpleName);
 		if (matches == null)
 			return null;
