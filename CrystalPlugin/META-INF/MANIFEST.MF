@@ -33,7 +33,8 @@ Export-Package: edu.cmu.cs.crystal,
  edu.cmu.cs.crystal.tac.eclipse,
  edu.cmu.cs.crystal.tac.model,
  edu.cmu.cs.crystal.test,
- edu.cmu.cs.crystal.util
+ edu.cmu.cs.crystal.util,
+ edu.cmu.cs.crystal.util.typehierarchy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Eclipse-BuddyPolicy: registered
 Bundle-Vendor: Carnegie Mellon University
