@@ -80,9 +80,9 @@ Use `ICrystalAnalysis.getReporter()` to report problems to the user.
 = Register Analysis with Crystal =
 
 Every Crystal analysis you write (i.e., every subclass of `ICrystalAnalysis`) *must* be registered with Crystal so that Crystal can find and run your analysis.  To register your analysis:
-  * Open 'MyAnalysisPlugin''s "plugin.xml" file
+  * Open 'MyAnalysisPlugin''s plugin configuration editor (MANIFEST.MF)
   * Go to the "Extensions" tab.
-  * Find the extension "edu.cmu.cs.crystal.CrystalAnalysis" and click "Finish"
+  * Click "Add," find the extension "edu.cmu.cs.crystal.CrystalAnalysis" and click "Finish"
   * The extensions list will now show "edu.cmu.cs.crystal.CrystalAnalysis". Drill into it, and you should see something with a name like "MyAnalysisPlugin.CrystalAnalysis (analysis)". Select that; this is your extension point.
   * The right side of the screen will now shown two properties for your analysis, "class" and "name".
   * Under "class", put the fully qualified name to your analysis (the one that implements ICrystalAnalysis).
