@@ -42,19 +42,19 @@ If you downloaded Eclipse IDE for Java Developers, you will need to take the fol
     * De-select "This plugin will make contributions to the UI"
     * Click "Finish
   * Now you have a simple plugin project, and we'll add two dependencies.
-    * Open the file "plugin.xml".
+    * The plugin configuration editor should be open; if it is not, open the file "MANIFEST.MF" in the META-INF directory.
     * Go to "Dependencies" (the second tab).
     * Under "Required Plugins", click "Add...".
-    * Select "edu.cmu.cs.crystal" and click "Ok". This will give you the ability to extend Crystal.
+    * Enter "edu.cmu.cs.crystal" and click "Ok". This will give you the ability to extend Crystal.
     * Click "Add..."
-    * Select "org.eclipse.jdt.core" and click "Ok". This will give you the ability to use Eclipse's Java AST.
-    * Save plugin.xml
+    * Enter "org.eclipse.jdt.core" and click "Ok". This will give you the ability to use Eclipse's Java AST.
+    * Save the plugin configuration
 
 Once you save, you will be able to see Javadoc and source code of all Crystal classes.  This may be useful for understanding in more detail what is going on.
 
 = Create Analysis Class =
 
-Crystal's entry point into your analysis is a class implementing the `ICrystalAnalysis` interface.  In your project, create such a class, for example with the name `MyAnalysis`.  You have three choices:
+Crystal's entry point into your analysis is a class implementing the `ICrystalAnalysis` interface.  In your project, create such a class (menu File | New | Class), for example with the name `MyAnalysis`.  You have three choices:
 
   * Subclass `AbstractCompilationUnitAnalysis` if you would like to analyze entire compilation units (aka .java files) at once.  You only have to implement the method `analyzeCompilationUnit()` in this case, which will be called by the base class for each compilation unit to be analyzed.
   * Subclass `AbstractCrystalMethodAnalysis` if you want to analyze each method separately.  You only have to implement `analyzeMethod()` in this case, which will be called by the base class for each method to be analyzed.
