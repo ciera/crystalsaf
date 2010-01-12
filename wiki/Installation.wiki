@@ -11,14 +11,20 @@ The Crystal plugin also *requires* the Plaid Annotations plugin, available at th
 
 [http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/] 
 
-== Eclipse 3.4 ==
+== Eclipse 3.5 ==
 
-  # Select Help -> Software Updates... from the main menu.
-  # Switch to the "Available Software" tsb.
-  # Use "Add site" to add the Crystal update site above (if not already present)
-  # Check "Crystal Static Analysis Framework" from the list of update sites
-  # If you haven't previously installed the Plaid Annotations plugin, add its update site (above) and also check the box for the PlaidAnnotations plugin
-  # Click the "Install..." button and follow the instructions.
+  # If you haven't previously installed the Plaid Annotations plugin, you will need to install it first
+     # Select Help -> Install New Software... from the main menu.
+     # Use the "Add..." button to add the Plaid Annotations update site above (if not already present).  The name of the site doesn't matter but you can use "Plaid Annotations Update Site"
+     # You may have to uncheck "Group items by category" to see the Plaid Annotations
+     # Check "Plaid Annotations" from the list of plugins
+     # Click the "Next >" button and follow the instructions, accept the license, etc.
+  # Now install the Crystal plugin:
+     # Select Help -> Install New Software... from the main menu.
+     # Use the "Add..." button to add the Crystal update site location above (if not already present).  The name of the site doesn't matter but you can use "Crystal Update Site"
+     # You may have to uncheck "Group items by category" to see Crystal
+     # Check "Crystal" from the list of plugins
+     # Click the "Next >" button and follow the instructions.
 
 Eclipse will automatically download and install Crystal.
 
