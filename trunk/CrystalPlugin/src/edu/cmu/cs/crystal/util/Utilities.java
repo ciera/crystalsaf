@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.Expression;
@@ -60,6 +61,15 @@ public class Utilities {
 		elementals.add("double");
 		elementals.add("float");
 	}
+	
+	/**
+	 * For resolving binary types. Those are of the form QString;.
+	 * 
+	 */
+	public static String resolveBinaryType(IType context, String binaryType) throws JavaModelException {
+		return resolveType(context, Signature.toString(binaryType));
+	}
+
 	
 	/**
 	 * To be used instead of IType.resolveType(String). The former returns a String[][], 
