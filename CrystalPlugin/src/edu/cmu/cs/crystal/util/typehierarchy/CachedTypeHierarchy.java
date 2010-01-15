@@ -29,27 +29,48 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 	}
 	
 	public boolean existsCommonSubtype(String t1, String t2, boolean skipCheck1, boolean skipCheck2) {
-		TypeNode node1 = types.get(t1);
+		int genStart1 = t1.indexOf('<');
+		int genStart2 = t2.indexOf('<');
+		String type1, gen1, type2, gen2;
+		
+		if (genStart1 != -1) {
+			type1 = t1.substring(0, genStart1);
+			gen1 = t1.substring(genStart1 + 1, t1.lastIndexOf('>'));
+		}
+		else {
+			type1 = t1;
+			gen1 = "";
+		}
+		if (genStart2 != -1) {
+			type2 = t2.substring(0, genStart2);
+			gen2 = t2.substring(genStart2 + 1, t2.lastIndexOf('>'));
+		}
+		else {
+			type2 = t2;
+			gen2 = "";
+		}
+		
+		TypeNode node1 = types.get(type1);
 		if (node1 == null) {
-			loadNewTree(t1);
-			node1 = types.get(t1);
+			loadNewTree(type1);
+			node1 = types.get(type1);
 		}
 
-		TypeNode node2 = types.get(t2);
+		TypeNode node2 = types.get(type2);
 		if (node2 == null) {
-			loadNewTree(t2);
-			node2 = types.get(t2);
+			loadNewTree(type2);
+			node2 = types.get(type2);
 		}
 
 		if (node1 == null || node2 == null)
 			return false;
 		
-		if (!skipCheck1 && isSubtypeCompatible(t1, t2)) {
-			return true;
+		if (!skipCheck1 && isSubtypeCompatible(type1, type2)) {
+			return existsCommonSubtypeGenerics(gen1, gen2);
 		}
 		
-		if (!skipCheck2 && isSubtypeCompatible(t2, t1)) {
-			return true;
+		if (!skipCheck2 && isSubtypeCompatible(type2, type1)) {
+			return existsCommonSubtypeGenerics(gen1, gen2);
 		}
 	
 		HashSet<String> t1Subs = new HashSet<String>();
@@ -60,32 +81,98 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		
 		for (String sub : t1Subs) {
 			if (t2Subs.contains(sub))
-				return true;
+				return existsCommonSubtypeGenerics(gen1, gen2);
 		}
 		return false;
 	}
 
-
+	/**
+	 * @param gen1 An empty or comma separated list of generics
+	 * @param gen2 An empty or comma separated list of generics
+	 * @return
+	 */
+	private boolean existsCommonSubtypeGenerics(String list1, String list2) {
+		if (list1.equals("") || list2.equals(""))
+			return true;
+		
+		String[] gens1 = list1.split(",");
+		String[] gens2 = list2.split(",");
+		
+		if (gens1.length != gens2.length)
+			return false;
+		
+		for (int ndx = 0; ndx < gens1.length; ndx++) {
+			if (!existsCommonSubtype(gens1[ndx].trim(), gens2[ndx].trim()))
+				return false;
+		}
+		return true;	
+	}
 
 	public boolean isSubtypeCompatible(String subType, String superType) {
-		TypeNode subNode = types.get(subType);
+		int genStartSub = subType.indexOf('<');
+		int genStartSuper = superType.indexOf('<');
+		String subTypeName, genSub, superTypeName, genSuper;
 		
-		if (subNode == null) {
-			loadNewTree(subType);
-			subNode = types.get(subType);
+		if (genStartSub != -1) {
+			subTypeName = subType.substring(0, genStartSub);
+			genSub = subType.substring(genStartSub + 1, subType.lastIndexOf('>'));
+		}
+		else {
+			subTypeName = subType;
+			genSub = "";
+		}
+		if (genStartSuper != -1) {
+			superTypeName = superType.substring(0, genStartSuper);
+			genSuper = superType.substring(genStartSuper + 1, superType.lastIndexOf('>'));
+		}
+		else {
+			superTypeName = superType;
+			genSuper = "";
 		}
 
-		TypeNode superNode = types.get(superType);
+		TypeNode subNode = types.get(subTypeName);
+		
+		if (subNode == null) {
+			loadNewTree(subTypeName);
+			subNode = types.get(subTypeName);
+		}
+
+		TypeNode superNode = types.get(superTypeName);
 
 		if (superNode == null) {
-			loadNewTree(superType);
-			superNode = types.get(superType);
+			loadNewTree(superTypeName);
+			superNode = types.get(superTypeName);
 		}
 		
 		if (subNode == null || superNode == null)
 			return false;
-		return subNode.isSupertype(superNode);
+		return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(genSub, genSuper);
 	}
+	
+	/**
+	 * @param gen1 An empty or comma separated list of generics
+	 * @param gen2 An empty or comma separated list of generics
+	 * @return
+	 */
+	private boolean isSubtypeCompatibleGenerics(String listSub, String listSuper) {
+		if (listSuper.equals(""))
+			return true;
+		if (listSub.equals(""))
+			return false;
+
+		String[] genSub = listSub.split(",");
+		String[] genSuper = listSuper.split(",");	
+		
+		if (genSub.length != genSuper.length)
+			return false;
+		
+		for (int ndx = 0; ndx < genSub.length; ndx++) {
+			if (!isSubtypeCompatible(genSub[ndx].trim(), genSuper[ndx].trim()))
+				return false;
+		}
+		return true;	
+	}
+
 	
 	private void loadInitialTree() {
 		try {
