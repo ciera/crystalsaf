@@ -87,8 +87,17 @@ public class Utilities {
 			return simpleName;
 		
 		String[][] matches = context.resolveType(simpleName);
-		if (matches == null)
-			return null;
+		if (matches == null) {
+			//we may have a type parameter then
+			String[] bound = context.getTypeParameter(simpleName).getBounds();
+			if (bound == null)
+				return null;
+			
+			if (bound.length == 0)
+				return "java.lang.Object";
+			else
+				return resolveType(context, bound[0]);
+		}
 		String pckg = matches[0][0].equals("") ? "" : matches[0][0] + ".";
 
 		return pckg + matches[0][1];
