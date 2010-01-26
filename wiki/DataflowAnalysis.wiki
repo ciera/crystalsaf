@@ -28,7 +28,7 @@ For your analysis, you create a class, say, `MyLE`. You can use an *enum* class 
 If you will eventually use this lattice value in a tuple lattice (see below), the lattice element must implement `edu.cmu.cs.crystal.util.Copyable`.
 
 {{{
-public class MyLE extends Copyable<MyLE> {
+public class MyLE implements Copyable<MyLE> {
    ...
 }
 }}}
