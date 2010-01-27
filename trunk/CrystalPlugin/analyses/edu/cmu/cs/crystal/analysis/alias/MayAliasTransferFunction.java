@@ -73,11 +73,12 @@ public class MayAliasTransferFunction extends
 	}
 	
 	public TupleLatticeElement<Variable, AliasLE> createEntryValue(MethodDeclaration m) {
+		
 		TupleLatticeElement<Variable, AliasLE> entry = ops.getDefault();
-//		Variable thisVar = mainAnalysis.getThisVar(d);
-//		AliasLE alias = new AliasLE();
-//		alias.addAlias(new ObjectLabel(thisVar.resolveType(), false));
-//		entry.put(thisVar, alias);
+		Variable thisVar = this.getAnalysisContext().getThisVariable();
+		
+		if (thisVar != null)
+			entry.put(thisVar, AliasLE.create(new DefaultObjectLabel(thisVar.resolveType(), false)));
 		
 		return entry;
 	}
