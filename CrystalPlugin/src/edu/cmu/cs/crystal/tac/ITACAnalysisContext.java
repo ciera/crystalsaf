@@ -51,7 +51,8 @@ public interface ITACAnalysisContext {
 	public Variable getVariable(ASTNode node);
 
 	/**
-	 * Returns the <b>this</b> variable for the analyzed method.
+	 * Returns the <b>this</b> variable for the analyzed method. Returns null if we are analyzing
+	 * a static method.
 	 * @return The <b>this</b> variable for the analyzed method. 
 	 */
 	public ThisVariable getThisVariable();
