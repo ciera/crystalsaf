@@ -43,16 +43,21 @@ public interface LoadLiteralInstruction extends LoadInstruction {
 	public ASTNode getNode();
 	
 	/**
-	 * This method returns the literal node that is being assigned in this 3 address
-	 * code statement. (The <code>isPrimitive()</code> <code>isNull()</code> methods
-	 * may be helpful here if you are trying to do something clever based on which
-	 * literal is actually being assigned.<br>
+	 * This method returns the literal that is being assigned in this 3 address
+	 * code statement. The <code>isPrimitive()</code> and <code>isNull()</code>
+	 * methods may be helpful here if you are trying to do something clever
+	 * based on which literal is actually being assigned.<br>
 	 * 
-	 * Note also that if you want to otherwise find out what the literal value is, you
-	 * are probably going to have to use <code>instanceof</code> tests on the return
-	 * type and cast it into something that is actually helpful.
-	 * @return the literal node that is being assigned in this 3 address
-	 * code statement.
+	 * Note also that if you want to otherwise find out what the literal value
+	 * is, you are probably going to have to use <code>instanceof</code> tests
+	 * on the return value and cast it into something that is actually helpful.
+	 * Right now numeric literals are returned as Strings; this may be cleaned
+	 * up in the future.  Boolean literals are (as you would expect)
+	 * represented as Booleans, null literals as null, and char literals as
+	 * Characters.
+	 * 
+	 * @return the literal node that is being assigned in this 3 address code
+	 *         statement.
 	 */
 	public Object getLiteral();
 	
