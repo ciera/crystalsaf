@@ -216,6 +216,13 @@
           class="edu.cmu.cs.crystal.internal.CrystalPreferences">
     </initializer>
  </extension>
+ <extension
+       point="edu.cmu.cs.crystal.CrystalAnalysis">
+    <analysis
+          class="edu.cmu.cs.crystal.analysis.print.PrintNodesAnalysis"
+          name="AST Printer Analysis">
+    </analysis>
+ </extension>
  
 </plugin>
 
