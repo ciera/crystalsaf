@@ -31,6 +31,7 @@ public interface LoadFieldInstruction extends LoadInstruction, TACFieldAccess {
 	/**
 	 * Returns the object being read from.
 	 * This method is equivalent to {@link TACFieldAccess#getAccessedObjectOperand()}.
+	 * In the expression <code>x = y.f</code> this method returns y.
 	 * @return The object being read from.
 	 */
 	public Variable getSourceObject();

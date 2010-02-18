@@ -32,6 +32,7 @@ public interface StoreFieldInstruction extends StoreInstruction, TACFieldAccess 
 	/**
 	 * Returns the object being stored into.
 	 * This method is equivalent to {@link TACFieldAccess#getAccessedObjectOperand()}.
+	 * In the expression <code>x.f = y</code>, this method returns x.
 	 * @return The object being stored into.
 	 */
 	public Variable getDestinationObject();
