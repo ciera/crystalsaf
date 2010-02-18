@@ -65,7 +65,10 @@ public interface ITACTransferFunction<LE> extends IFlowAnalysisDefinition<LE> {
 	 * This method is used to pass a variable query interface to the
 	 * transfer function.  Transfer functions can, but do not
 	 * have to, store the passed object in one of their fields for future use.
-	 * The provided object can be used to find {@link Variable} objects for AST nodes.  
+	 * The provided object can be used to find {@link Variable} objects for AST nodes.
+	 * Note that the entire context should be stored, and not individual variables like
+	 * ThisVariable. This is because this method will be called in a state where the
+	 * context is not yet ready for calls to methods like getThisVariable().   
 	 * @param context Interface to query for variables given AST nodes.
 	 */
 	public void setAnalysisContext(ITACAnalysisContext context);
