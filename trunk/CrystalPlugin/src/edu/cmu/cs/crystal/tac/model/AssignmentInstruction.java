@@ -29,7 +29,10 @@ package edu.cmu.cs.crystal.tac.model;
 public interface AssignmentInstruction extends TACInstruction {
 	
 	/**
-	 * Returns the target variable of this assignment.
+	 * Returns the target variable of this assignment. In the
+	 * 3AC statement <code>Var1 = Var2 + Var3</code>, the target
+	 * is Var1.
+	 * 
 	 * @return the target variable of this assignment.
 	 */
 	public Variable getTarget();

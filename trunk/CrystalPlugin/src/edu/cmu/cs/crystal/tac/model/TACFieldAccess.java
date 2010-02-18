@@ -49,7 +49,9 @@ public interface TACFieldAccess extends TACInstruction {
 	public boolean isStaticFieldAccess();
 	
 	/**
-	 * Returns the object being accessed.
+	 * Returns the object of which this field is a part.
+	 * In the expression <code>x.f</code>, this method
+	 * returns x.
 	 * @return The object being accessed.
 	 */
 	public Variable getAccessedObjectOperand();
