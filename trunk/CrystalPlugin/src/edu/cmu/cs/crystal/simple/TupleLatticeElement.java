@@ -54,6 +54,7 @@ public class TupleLatticeElement<K, LE> {
 	 * 
 	 * @param b The bottom value for the underlying lattice
 	 * @param d The default lattice value for the underlying lattice
+	 * @see {@link TupleLatticeOperations#getDefault()}
 	 */
 	protected TupleLatticeElement(LE b, LE d, HashMap<K,LE> e) {
 		bot = b;
@@ -65,6 +66,7 @@ public class TupleLatticeElement<K, LE> {
 	 * Currently being used by Plural. Should not be used by anyone else
 	 * @param b The bottom value for the underlying lattice
 	 * @param d The default lattice value for the underlying lattice
+	 * @see {@link TupleLatticeOperations#getDefault()}
 	 */
 	@Deprecated
 	public TupleLatticeElement(LE b, LE d) {
