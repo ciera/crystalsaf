@@ -226,4 +226,35 @@ public class Try {
 	private void runtimeExp() {
 		throw new NullPointerException();
 	}
+
+	@Test
+	public void nastyNastyNasty() throws Exception {
+		MethodDeclaration decl = methods.get("await");
+		Assert.assertTrue(CFGTestUtils.testAndCompareCFG(decl));
+	}
+
+	public void await() throws IOException {
+		int count = 0;
+		try {
+			synchronized(this) {
+				try {
+					foo();
+				} catch (IOException ex) {
+					throw ex;
+				}
+			}
+		}
+		finally {
+			for (;;) {
+				try {
+					foo();
+					count++;
+					break;
+				}
+				catch (IOException err) {
+					
+				}
+			}
+		}
+	}
 }

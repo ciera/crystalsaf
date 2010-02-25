@@ -337,6 +337,11 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph<ASTNode>
 	 */
 	private EclipseCFGNode copySubgraphRecur(EclipseCFGNode current, EclipseCFGNode stopNode,
 	    HashMap<EclipseCFGNode, EclipseCFGNode> cloneMap) {
+		//base case: we've already copied this node (or are in the process of it)
+		//so just return the clone.
+		if (cloneMap.containsKey(current))
+			return cloneMap.get(current);
+		
 		ASTNode node = current.getASTNode();
 		EclipseCFGNode clone = new EclipseCFGNode(node);
 		EclipseCFGNode start = current.getStart();
