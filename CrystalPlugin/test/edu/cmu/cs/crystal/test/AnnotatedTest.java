@@ -24,6 +24,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,6 +57,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.IRunCrystalCommand;
+import edu.cmu.cs.crystal.annotations.AnalysisTests;
 import edu.cmu.cs.crystal.annotations.FailingTest;
 import edu.cmu.cs.crystal.annotations.PassingTest;
 import edu.cmu.cs.crystal.annotations.UseAnalyses;
@@ -64,7 +66,6 @@ import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.internal.NullPrintWriter;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 import edu.cmu.cs.crystal.util.Box;
-import edu.cmu.cs.crystal.util.Option;
 
 /**
  * An analysis test that uses test annotations (
@@ -84,9 +85,9 @@ public class AnnotatedTest {
 	private static class TestType {
 		final boolean passingTest;
 		final int numErrors;
-		final Set<String> analysisToRun;
+		final String analysisToRun;
 
-		public TestType(boolean passingTest, int numErrors, Set<String> analysisToRun) {
+		public TestType(boolean passingTest, int numErrors, String analysisToRun) {
 			this.passingTest = passingTest;
 			this.numErrors = numErrors;
 			this.analysisToRun = analysisToRun;
@@ -97,14 +98,54 @@ public class AnnotatedTest {
 	 * Given a compilation unit, returns the type of test that it is, or none if this compilation
 	 * unit is not a test.
 	 */
-	public static Option<TestType> findTestType(CompilationUnit comp_unit) {
-		final Box<Boolean> is_a_test = Box.box(false);
+	public static Collection<TestType> findTestTypes(CompilationUnit comp_unit) {
+		final Box<Boolean> is_a_simple_test = Box.box(false);
 		final Box<Boolean> is_passing_test = Box.box(false);
 		final Box<Integer> failures = Box.box(0);
 		final Set<String> analyses = new LinkedHashSet<String>();
+		final Set<TestType> tests = new LinkedHashSet<TestType>();
 
 		ASTVisitor annotation_visitor = new ASTVisitor() {
-			// Visitor will find @PassingTest, @FailingTest, @UseAnalyses
+			// Visitor will find @PassingTest, @FailingTest, @UseAnalyses, and @AnalysisTests
+			// @AnalysisTests should not be used with the others!
+			
+			private TestType parseFailOrPassAnnotation(IAnnotationBinding binding, boolean isPass) {
+				int numErrors = 0;
+				String analysis = "";
+				for (IMemberValuePairBinding pair : binding.getAllMemberValuePairs()) {
+					if ("value".equals(pair.getName())) {
+						numErrors = (Integer) pair.getValue();
+					}
+					else if ("analysis".equals(pair.getName())) {
+						analysis = (String) pair.getValue();
+					}
+					else
+						throw new RuntimeException("Unknown parameter " + pair.getName());
+				}
+				return new TestType(isPass, numErrors, analysis);
+			}
+
+			private Collection<? extends TestType> parseAnalysisTests(IAnnotationBinding binding) {
+				Collection<TestType> tests = new LinkedList<TestType>();
+				
+				for (IMemberValuePairBinding pair : binding.getAllMemberValuePairs()) {
+					if ("fail".equals(pair.getName())) {
+						Object[] failures = (Object[]) pair.getValue();
+						for (Object failure : failures) {
+							tests.add(parseFailOrPassAnnotation((IAnnotationBinding)failure, false));
+						}
+					}
+					else if ("pass".equals(pair.getName())) {
+						Object[] passes = (Object[]) pair.getValue();
+						for (Object pass : passes) {
+							tests.add(parseFailOrPassAnnotation((IAnnotationBinding)pass, true));
+						}						
+					}
+					else
+						throw new RuntimeException("Unknown parameter in @AnalysisTests " + pair.getName());
+				}
+				return tests;
+			}
 
 			private Integer intValueFromBinding(IAnnotationBinding binding) {
 				for (IMemberValuePairBinding pair : binding.getAllMemberValuePairs()) {
@@ -113,7 +154,7 @@ public class AnnotatedTest {
 					}
 				}
 
-				throw new RuntimeException("Anntation had no value field.");
+				throw new RuntimeException("Annotation had no value field.");
 			}
 
 			private Collection<? extends String> stringSetValueFromBinding(
@@ -145,7 +186,7 @@ public class AnnotatedTest {
 					}
 				}
 
-				throw new RuntimeException("Anntation had no value field.");
+				throw new RuntimeException("Annotation had no value field.");
 			}
 
 			@Override
@@ -154,11 +195,11 @@ public class AnnotatedTest {
 				String annotation = node.resolveTypeBinding().getQualifiedName();
 
 				if (FailingTest.class.getName().equals(annotation)) {
-					is_a_test.setValue(true);
+					is_a_simple_test.setValue(true);
 					is_passing_test.setValue(false);
 				}
 				else if (PassingTest.class.getName().equals(annotation)) {
-					is_a_test.setValue(true);
+					is_a_simple_test.setValue(true);
 					is_passing_test.setValue(true);
 				}
 
@@ -172,15 +213,20 @@ public class AnnotatedTest {
 
 				if (FailingTest.class.getName().equals(annotation)) {
 					failures.setValue(intValueFromBinding(node.resolveAnnotationBinding()));
-					is_a_test.setValue(true);
+					is_a_simple_test.setValue(true);
 					is_passing_test.setValue(false);
 				}
 				else if (UseAnalyses.class.getName().equals(annotation)) {
 					analyses.addAll(stringSetValueFromBinding(node.resolveAnnotationBinding()));
 				}
+				else if (AnalysisTests.class.getName().equals(annotation)) {
+					tests.addAll(parseAnalysisTests(node.resolveAnnotationBinding()));
+					return false;
+				}
 
 				return true;
 			}
+
 
 			@Override
 			public boolean visit(SingleMemberAnnotation node) {
@@ -189,7 +235,7 @@ public class AnnotatedTest {
 
 				if (FailingTest.class.getName().equals(annotation)) {
 					failures.setValue(intValueFromBinding(node.resolveAnnotationBinding()));
-					is_a_test.setValue(true);
+					is_a_simple_test.setValue(true);
 					is_passing_test.setValue(false);
 				}
 				else if (UseAnalyses.class.getName().equals(annotation)) {
@@ -233,20 +279,23 @@ public class AnnotatedTest {
 		// visitor mutates state
 		comp_unit.accept(annotation_visitor);
 
-		if (is_a_test.getValue() && analyses.isEmpty()) {
-			throw new RuntimeException("No analyses specified: "
+		if (is_a_simple_test.getValue() && analyses.isEmpty()) {
+			throw new RuntimeException("No analyses specified for the simple test: "
 			    + comp_unit.getJavaElement().getElementName());
 		}
 
-		if (is_a_test.getValue())
-			return Option.some(new TestType(
-			    is_passing_test.getValue(), failures.getValue(), analyses));
-		else
-			return Option.none();
-
+		if (is_a_simple_test.getValue()) {
+			for (String analysis : analyses) 
+				tests.add(new TestType(is_passing_test.getValue(), failures.getValue(), analysis));
+		}
+		
+		return tests;
 	}
 
 	// Provides the list of files upon which to test
+	// By definition of the JUnit Parameterized test, this must return a
+	// collection of Object[]. The object[] will be passed into the constructor for the test.
+	// Therefore, each item in the collection represents a single test case
 	@Parameters
 	public static Collection<Object[]> testFiles() {
 		List<Object[]> result = new LinkedList<Object[]>();
@@ -265,7 +314,7 @@ public class AnnotatedTest {
 			try {
 				for(IType t : icu.getAllTypes()) {
 					for(IAnnotation a : t.getAnnotations()) {
-						if(a.getElementName().contains("UseAnalyses"))
+						if(a.getElementName().contains("UseAnalyses") || a.getElementName().contains("AnalysisTests"))
 							lookCloser = true;
 					}
 				}
@@ -279,12 +328,12 @@ public class AnnotatedTest {
 			
 			CompilationUnit cu =
 			    (CompilationUnit) WorkspaceUtilities.getASTNodeFromCompilationUnit(icu);
-			Option<TestType> tt_ = findTestType(cu);
+			Collection<TestType> tests = findTestTypes(cu);
 
-			if (tt_.isSome()) {
-				// These two array elements correspond to the two parameters
+			for (TestType test : tests) {
+				// These three array elements correspond to the three parameters
 				// accepted by AnnotatedTest's constructor.
-				result.add(new Object[] { icu, tt_.unwrap(), cur++ });
+				result.add(new Object[] { icu, test, cur++ });
 			}
 		}
 
@@ -306,7 +355,7 @@ public class AnnotatedTest {
 	}
 
 	@Test
-	public void testAnalysOnFile() throws Throwable {
+	public void testAnalysisOnFile() throws Throwable {
 
 		// Boxed integer which will be incremented every time an error is reported
 		final Box<Integer> failures_encountered = Box.box(0);
@@ -314,7 +363,9 @@ public class AnnotatedTest {
 		// Create run command
 		IRunCrystalCommand run_command = new IRunCrystalCommand() {
 			public Set<String> analyses() {
-				return AnnotatedTest.this.test.analysisToRun;
+				Set<String> singleSet = new HashSet<String>();
+				singleSet.add(AnnotatedTest.this.test.analysisToRun);
+				return singleSet;
 			}
 
 			public List<ICompilationUnit> compilationUnits() {
@@ -357,7 +408,7 @@ public class AnnotatedTest {
 			log.log(Level.SEVERE, 
 					"Exception in [" + testIndex + "] " + AnnotatedTest.this.icu.getElementName(), 
 					t);
-			// rethrow so JUnit knows about the failure
+			// re-throw so JUnit knows about the failure
 			throw t;
 		}
 		
