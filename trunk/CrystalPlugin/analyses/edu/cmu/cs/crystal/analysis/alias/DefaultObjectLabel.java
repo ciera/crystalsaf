@@ -67,4 +67,8 @@ public class DefaultObjectLabel implements ObjectLabel {
 	public ITypeBinding getType() {
 		return type;
 	}
+
+	public void setType(ITypeBinding type) {
+		this.type = type;
+	}
 }
