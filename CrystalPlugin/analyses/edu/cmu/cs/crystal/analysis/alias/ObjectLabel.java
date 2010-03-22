@@ -26,6 +26,4 @@ public interface ObjectLabel {
 	public boolean isSummary();
 
 	public ITypeBinding getType();
-	
-	public void setType(ITypeBinding type);
 }
