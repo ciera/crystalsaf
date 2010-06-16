@@ -63,7 +63,7 @@ public class Utilities {
 	}
 	
 	/**
-	 * For resolving binary types. Those are of the form QString;.
+	 * For resolving binary types. Those are of the form QString; and Ljava.lang.String;. 
 	 * 
 	 */
 	public static String resolveBinaryType(IType context, String binaryType) throws JavaModelException {
