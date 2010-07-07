@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import edu.cmu.cs.crystal.util.TypeHierarchy;
 import edu.cmu.cs.crystal.util.typehierarchy.CachedTypeHierarchy;
 
 public class CachedTypeHierarchyTester {
@@ -167,4 +166,10 @@ public class CachedTypeHierarchyTester {
 		Assert.assertTrue(!hierarchy.isSubtypeCompatible(sub, base));
 	}
 
+	@Test
+	public void testBug19() {
+		String sub = "java.lang.Object";
+		String base = "java.util.List";
+		Assert.assertTrue(hierarchy.existsCommonSubtype(sub, base, true, false));
+	}
 }
