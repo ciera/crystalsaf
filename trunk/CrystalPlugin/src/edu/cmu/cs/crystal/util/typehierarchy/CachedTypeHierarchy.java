@@ -183,9 +183,11 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 				
 				for (IType root : hierarchy.getRootClasses())
 					buildHierarchy(root, hierarchy);
-				for (IType root : hierarchy.getRootInterfaces())
-					buildHierarchy(root, hierarchy);
-				
+				for (IType root : hierarchy.getRootInterfaces()) {
+					IType realRoot = project.findType(root.getFullyQualifiedName());				
+					buildHierarchy(realRoot, realRoot.newTypeHierarchy(monitor));
+//					buildHierarchy(root, root.newTypeHierarchy(monitor));
+				}
 				Runtime r = Runtime.getRuntime();
 				r.gc();
 			}
