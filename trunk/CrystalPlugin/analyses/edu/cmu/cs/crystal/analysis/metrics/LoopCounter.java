@@ -30,6 +30,7 @@ import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
@@ -65,7 +66,14 @@ public class LoopCounter extends ASTVisitor {
 				decl.accept(this);
 			}
 		}
-		return loopDepth.get(node).intValue();
+		// NEB: There's an annoying bug, and this is the only way I can
+		// see how to fix it now: If 'node' is code from a nested class of
+		// some kind and IT is not inside a method (e.g., it's a field 
+		// initializer) then getMethodDeclaration(node) will return the
+		// outer method, which we do not want. I think it is safe to return
+		// 0 here, if node is not in loopDepth.
+		return loopDepth.containsKey(node) ? 
+				loopDepth.get(node) : 0;
 	}
 	
 	public boolean isInLoop(ASTNode node) {
@@ -126,6 +134,12 @@ public class LoopCounter extends ASTVisitor {
 
 	@Override
 	public boolean visit(TypeDeclarationStatement node) {
+		// We don't want to descend into local classes
+		return false;
+	}
+	
+	@Override
+	public boolean visit(TypeDeclaration node) {
 		// We don't want to descend into local classes
 		return false;
 	}
