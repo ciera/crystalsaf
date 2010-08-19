@@ -29,6 +29,7 @@ import org.eclipse.jdt.core.Signature;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
@@ -127,6 +128,14 @@ public class Utilities {
 		return prefix + " [" + node.getClass().getSimpleName() + "] \"" + nodeToString + "\"";
 	}
 
+	/**
+	 * Is the given type the "void" type?
+	 */
+	public static boolean isVoidType(ITypeBinding type) {
+		return type.isPrimitive() &&
+			"void".equals(type.getName());
+	}
+	
 	/**
 	 * Converts a modifier flag to a String representation of the modifers.
 	 * 
