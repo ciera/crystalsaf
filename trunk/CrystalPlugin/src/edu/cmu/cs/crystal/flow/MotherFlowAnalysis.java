@@ -203,7 +203,11 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 			performAnalysisOnSurroundingMethodIfNeeded(d);
 		}
 		
-		LE result = getResultAfter(this.cfgEndNode);
+		// NEB: From looking around there appear to be no
+		// outgoing edges from a method declaration, which
+		// is what cfgEndNode usually is. Therefore I believe
+		// result should be the results before the last node.
+		LE result = getResultBefore(this.cfgEndNode);
 		return result == null ? currentLattice.bottom() : result;
 	}
 
