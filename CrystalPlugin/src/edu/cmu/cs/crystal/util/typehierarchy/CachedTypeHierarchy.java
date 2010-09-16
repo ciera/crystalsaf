@@ -177,16 +177,26 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 	private void loadInitialTree() {
 		try {
 			IType baseType = project.findType("java.lang.Object");
-			
 			if (baseType != null) {
 				ITypeHierarchy hierarchy = baseType.newTypeHierarchy(monitor);
 				
 				for (IType root : hierarchy.getRootClasses())
 					buildHierarchy(root, hierarchy);
+				
+				// for reasons that are rather unclear, this is fraught with problems.
+				// it seems that simply using the hierarchy doesn't work, see bug 19.
+				// additionally, the root itself is sometimes incomplete, so we have to
+				// reaccess it.
+				// and finally, sometimes that returns null...in which case we have to use
+				// the one we have. This is all very VERY slow though.
+				// It has something to do with the cache and the classpaths, but it is not
+				// clear how that works.
 				for (IType root : hierarchy.getRootInterfaces()) {
-					IType realRoot = project.findType(root.getFullyQualifiedName());				
-					buildHierarchy(realRoot, realRoot.newTypeHierarchy(monitor));
-//					buildHierarchy(root, root.newTypeHierarchy(monitor));
+					IType realRoot = project.findType(root.getFullyQualifiedName());
+					if (realRoot != null)
+						buildHierarchy(realRoot, realRoot.newTypeHierarchy(monitor));
+					else
+						buildHierarchy(root, root.newTypeHierarchy(monitor));
 				}
 				Runtime r = Runtime.getRuntime();
 				r.gc();
