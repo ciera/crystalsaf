@@ -3,7 +3,6 @@ package edu.cmu.cs.crystal.util.typehierarchy;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
@@ -13,14 +12,12 @@ import edu.cmu.cs.crystal.util.TypeHierarchy;
 
 public class CachedTypeHierarchy implements TypeHierarchy {
 	private HashMap<String, TypeNode> types;
-	private IProgressMonitor monitor;
 	private IJavaProject project;
 	
-	public CachedTypeHierarchy(IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
-		this.monitor = monitor;
+	public CachedTypeHierarchy(IJavaProject project) throws JavaModelException {
 		this.project = project;
 		types = new HashMap<String, TypeNode>();
-		loadInitialTree();
+		loadNewTree("java.lang.Object");
 		defaults();
 	}
 	
@@ -29,6 +26,9 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 	}
 	
 	public boolean existsCommonSubtype(String t1, String t2, boolean skipCheck1, boolean skipCheck2) {
+		if (t1.equals("java.lang.Object") || t2.equals("java.lang.Object"))
+			return true;
+		
 		int genStart1 = t1.indexOf('<');
 		int genStart2 = t2.indexOf('<');
 		String type1, gen1, type2, gen2;
@@ -50,17 +50,8 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 			gen2 = "";
 		}
 		
-		TypeNode node1 = types.get(type1);
-		if (node1 == null) {
-			loadNewTree(type1);
-			node1 = types.get(type1);
-		}
-
-		TypeNode node2 = types.get(type2);
-		if (node2 == null) {
-			loadNewTree(type2);
-			node2 = types.get(type2);
-		}
+		TypeNode node1 = getOrCreateType(type1);
+		TypeNode node2 = getOrCreateType(type2);
 
 		if (node1 == null || node2 == null)
 			return false;
@@ -73,6 +64,11 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 			return existsCommonSubtypeGenerics(gen1, gen2);
 		}
 	
+		if (!node1.isCompleted())
+			loadNewTree(type1);
+		if (!node2.isCompleted())
+			loadNewTree(type2);
+
 		HashSet<String> t1Subs = new HashSet<String>();
 		HashSet<String> t2Subs = new HashSet<String>();
 		
@@ -84,6 +80,19 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 				return existsCommonSubtypeGenerics(gen1, gen2);
 		}
 		return false;
+	}
+
+	/**
+	 * Get the node out of the type map. If it doesn't exist, then
+	 * create it!
+	 */
+	private TypeNode getOrCreateType(String qualifiedName) {
+		TypeNode node = types.get(qualifiedName);
+		if (node == null) {
+			node = new TypeNode(qualifiedName);
+			types.put(qualifiedName, node);
+		}
+		return node;
 	}
 
 	/**
@@ -109,6 +118,9 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 	}
 
 	public boolean isSubtypeCompatible(String subType, String superType) {
+		if (superType.equals("java.lang.Object"))
+			return true;
+		
 		int genStartSub = subType.indexOf('<');
 		int genStartSuper = superType.indexOf('<');
 		String subTypeName, genSub, superTypeName, genSuper;
@@ -130,23 +142,26 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 			genSuper = "";
 		}
 
-		TypeNode subNode = types.get(subTypeName);
-		
-		if (subNode == null) {
-			loadNewTree(subTypeName);
-			subNode = types.get(subTypeName);
-		}
-
-		TypeNode superNode = types.get(superTypeName);
-
-		if (superNode == null) {
-			loadNewTree(superTypeName);
-			superNode = types.get(superTypeName);
-		}
+		TypeNode subNode = getOrCreateType(subTypeName);
+		TypeNode superNode = getOrCreateType(superTypeName);
 		
 		if (subNode == null || superNode == null)
 			return false;
-		return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(genSub, genSuper);
+		
+		if (subNode.isCompleted() && superNode.isCompleted())
+			return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(genSub, genSuper);
+		else if (subNode.isSupertype(superNode))
+				return isSubtypeCompatibleGenerics(genSub, genSuper);
+		else {
+			//not necessarily false, but might not be complete. So complete them both and try again!
+			if (!subNode.isCompleted())
+				loadNewTree(subTypeName);
+			if (!superNode.isCompleted())
+				loadNewTree(superTypeName);
+			return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(genSub, genSuper);
+			
+		}
+		
 	}
 	
 	/**
@@ -174,80 +189,27 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 	}
 
 	
-	private void loadInitialTree() {
-		try {
-			IType baseType = project.findType("java.lang.Object");
-			if (baseType != null) {
-				ITypeHierarchy hierarchy = baseType.newTypeHierarchy(monitor);
-				
-				for (IType root : hierarchy.getRootClasses())
-					buildHierarchy(root, hierarchy);
-				
-				// for reasons that are rather unclear, this is fraught with problems.
-				// it seems that simply using the hierarchy doesn't work, see bug 19.
-				// additionally, the root itself is sometimes incomplete, so we have to
-				// reaccess it.
-				// and finally, sometimes that returns null...in which case we have to use
-				// the one we have. This is all very VERY slow though.
-				// It has something to do with the cache and the classpaths, but it is not
-				// clear how that works.
-				for (IType root : hierarchy.getRootInterfaces()) {
-					IType realRoot = project.findType(root.getFullyQualifiedName());
-					if (realRoot != null)
-						buildHierarchy(realRoot, realRoot.newTypeHierarchy(monitor));
-					else
-						buildHierarchy(root, root.newTypeHierarchy(monitor));
-				}
-				Runtime r = Runtime.getRuntime();
-				r.gc();
-			}
-		} catch (JavaModelException e) {
-			//can't really do anything...
-			e.printStackTrace();
-		}
-	}
-	
 	/**
-	 * Build down the type hierarchy. Will return fast if this type already exists in our hierarchy.
-	 * @param type The type to look down from
-	 * @param hierarchy the hierarchy we are looking in
-	 * @return A node for this type which exists in types.
-	 * @throws JavaModelException 
+	 * 
+	 * @param qName
+	 * @param doClasses
+	 * @return the new typeNode for this type, fully completed
 	 */
-	private TypeNode buildHierarchy(IType type, ITypeHierarchy hierarchy) throws JavaModelException {
-		String qName = type.getFullyQualifiedName('.');
-		TypeNode node = types.get(qName);
-		
-		if (node == null) {
-			node = new TypeNode(qName);
-			
-			//always go down
-			for (IType sub : hierarchy.getSubtypes(type)) {
-				TypeNode subNode = buildHierarchy(sub, hierarchy);
-				subNode.addSupertype(node);
-				node.addSubtype(subNode);
-			}
-			//once were in types, we're guaranteed to have all the children
-			//that are currently known
-			types.put(qName, node);
-		}
-		return node;
-	}
-	
 	private void loadNewTree(String qName) {
 		try {
 			IType baseType = project.findType(qName);
 			
 			if (baseType != null) {
-				ITypeHierarchy hierarchy = baseType.newTypeHierarchy(monitor);
+				ITypeHierarchy hierarchy = baseType.newTypeHierarchy(null);		
+				addInHierarchy(baseType, hierarchy);
 				
-				//classes were already taken care of
-				//so just do interfaces
-				for (IType root : hierarchy.getRootInterfaces())
-					addInHierarchy(root, hierarchy);
+				//Yeah...that just wasted a bunch of resources. Clean up now...
 				Runtime r = Runtime.getRuntime();
 				r.gc();
 
+				//This node is complete!
+				TypeNode node = types.get(qName);
+				node.completed();
 			}
 		} catch (JavaModelException e) {
 			//can't really do anything...
@@ -257,36 +219,32 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 	
 	private void addInHierarchy(IType type, ITypeHierarchy hierarchy) throws JavaModelException {
 		String qName = type.getFullyQualifiedName('.');
-		TypeNode node = types.get(qName);
-		boolean firstCreate = false;
+		TypeNode node = getOrCreateType(qName);
 		
-		if (node == null) {
-			node = new TypeNode(qName);
-			//store first, and then have children build connections on the way back up
-			types.put(qName, node);
-			firstCreate = true;
-		}
-		
-		//Since this was called, we can presume that at least some children need to be created.
-		//Go get those children, and recurse.
-			
+		//Recurse on children
 		for (IType sub : hierarchy.getSubtypes(type)) {
-			addInHierarchy(sub, hierarchy);
+			String subName = sub.getFullyQualifiedName('.');
+			TypeNode subNode = getOrCreateType(subName);
+			
+			if (!subNode.isSupertype(node)) { //missing the connection
+				node.addSubtype(subNode);
+				subNode.addSupertype(node);
+				addInHierarchy(sub, hierarchy);
+			}
+			//and if we already have the connection, we also have them all the way down.
 		}
 
-		//if this node is being created for the first time, it needs to create the upward
-		//connections.
-		if (firstCreate) {
-			for (IType inter : hierarchy.getSupertypes(type)) {
-				if (inter.isClass()) //classes are already take care of
-					continue;
-				TypeNode interNode = types.get(inter.getFullyQualifiedName('.'));
-				//if we don't visit it now, we'll get it on the next time we come back...
-				if (interNode != null) {
-					node.addSupertype(interNode);
-					interNode.addSubtype(node);
-				}
+		//Recurse on parents
+		for (IType sup : hierarchy.getAllSupertypes(type)) {
+			String supName = sup.getFullyQualifiedName('.');
+			TypeNode supNode = getOrCreateType(supName);
+			
+			if (!node.isSupertype(supNode)) { //missing the connection
+				supNode.addSubtype(node);
+				node.addSupertype(supNode);
+				addInHierarchy(sup, hierarchy);
 			}
+			//and if we already have the connection, we also have them all the way up.
 		}
 	}
 

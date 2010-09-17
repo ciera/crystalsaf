@@ -26,7 +26,7 @@ public class CachedTypeHierarchyTester {
 		project = (IJavaProject) JavaCore.create(root.getProject("FusionTests"));
 		Assert.assertNotNull(project);
 		
-		hierarchy =  new CachedTypeHierarchy(project, null);
+		hierarchy =  new CachedTypeHierarchy(project);
 	}
 
 	@Test
