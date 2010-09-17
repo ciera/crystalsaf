@@ -7,12 +7,18 @@ public class TypeNode {
 	private Set<TypeNode> subTypes;
 	private Set<TypeNode> superTypes;
 	private String qualifiedName;
+	private boolean isCompleted;
 	
 	public TypeNode(String name) {
 		qualifiedName = name;
 		superTypes = new HashSet<TypeNode>();
 		subTypes = new HashSet<TypeNode>();
+		isCompleted = false;
 	}
+	
+	public boolean isCompleted() {return isCompleted;}
+	
+	public void completed() {isCompleted = true;}
 	
 	public boolean isSupertype(TypeNode superNode) {
 		if (this == superNode)
