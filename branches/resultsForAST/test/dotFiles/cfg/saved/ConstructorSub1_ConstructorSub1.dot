@@ -1,0 +1,103 @@
+digraph ConstructorSub1 {
+  21 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = x,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = SuperConstructorInvocation,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = x,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = field2,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = field2,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = "int x",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare ConstructorSub1",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 -> 7 [
+    label = ""
+  ];
+  18 -> 21 [
+    label = ""
+  ];
+  6 -> 20 [
+    label = ""
+  ];
+  17 -> 8 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  16 -> 14 [
+    label = ""
+  ];
+  19 -> 18 [
+    label = ""
+  ];
+  15 -> 16 [
+    label = ""
+  ];
+  7 -> 6 [
+    label = ""
+  ];
+  14 -> 17 [
+    label = ""
+  ];
+  21 -> 2 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = ""
+  ];
+}

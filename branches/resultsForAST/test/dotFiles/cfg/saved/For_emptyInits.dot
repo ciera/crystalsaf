@@ -1,0 +1,154 @@
+digraph emptyInits {
+  19 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = for,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = "++",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = forEdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = forBdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = ndx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "int ndx",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare emptyInits",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 -> 9 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  12 -> 18 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = ""
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  9 -> 13 [
+    label = ""
+  ];
+  3 -> 7 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  11 -> 17 [
+    label = true
+  ];
+  19 -> 2 [
+    label = ""
+  ];
+  18 -> 11 [
+    label = ""
+  ];
+  10 -> 19 [
+    label = ""
+  ];
+  6 -> 18 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = false
+  ];
+  8 -> 6 [
+    label = ""
+  ];
+}

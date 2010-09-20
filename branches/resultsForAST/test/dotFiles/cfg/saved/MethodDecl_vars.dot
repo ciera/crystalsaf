@@ -1,0 +1,223 @@
+digraph vars {
+  19 [
+    label = x,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = false,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  27 [
+    label = 9,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = bar,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = z,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = z,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "String bar",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  23 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = y,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare vars",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = y,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = x,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 -> 9 [
+    label = ""
+  ];
+  3 -> 7 [
+    label = ""
+  ];
+  21 -> 23 [
+    label = ""
+  ];
+  10 -> 12 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = ""
+  ];
+  22 -> 21 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  19 -> 22 [
+    label = ""
+  ];
+  27 -> 26 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  24 -> 27 [
+    label = ""
+  ];
+  13 -> 16 [
+    label = ""
+  ];
+  23 -> 24 [
+    label = ""
+  ];
+  12 -> 13 [
+    label = ""
+  ];
+  6 -> 3 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  18 -> 20 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  28 -> 2 [
+    label = ""
+  ];
+  17 -> 18 [
+    label = ""
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  25 -> 28 [
+    label = ""
+  ];
+  14 -> 17 [
+    label = ""
+  ];
+  26 -> 25 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  8 -> 11 [
+    label = ""
+  ];
+  9 -> 8 [
+    label = ""
+  ];
+}

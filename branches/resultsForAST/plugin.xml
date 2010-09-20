@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension-point id="CrystalAnalysis" name="Crystal Analysis" schema="schema/CrystalAnalysis.exsd"/>
+   <extension-point id="CrystalAnnotation" name="Crystal Annotation" schema="schema/CrystalAnnotation.exsd"/>
+	<extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Crystal"
+            id="edu.cmu.cs.crystal.CrystalViews">
+      </category>
+      <view
+            allowMultiple="false"
+            category="edu.cmu.cs.crystal.CrystalViews"
+            class="edu.cmu.cs.crystal.internal.UserConsoleView"
+            icon="icons/sample.gif"
+            id="edu.cmu.cs.crystal.internal.UserConsoleView"
+            name="User Console">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="edu.cmu.cs.crystal.internal.UserConsoleView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+ <extension
+       point="org.eclipse.ui.popupMenus">
+    <objectContribution
+          id="CrystalPlugin.analyzeCompUnit"
+          objectClass="org.eclipse.jdt.core.ICompilationUnit">
+       <menu
+             id="Crystal.menu1"
+             label="&amp;Crystal"
+             path="additions">
+          <separator
+                name="group1">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="Crystal.newAction"
+             label="&amp;Run Analyses"
+             menubarPath="Crystal.menu1/group1"
+             tooltip="Runs Crystal on this compilation unit">
+       </action>
+    </objectContribution>
+    <objectContribution
+          adaptable="false"
+          id="CrystalPlugin.analyzePackage"
+          objectClass="org.eclipse.jdt.core.IPackageFragment">
+       <menu
+             id="CrystalPlugin.packageMenu"
+             label="&amp;Crystal"
+             path="additions">
+          <separator
+                name="CrystalPlugin.packageSeparator">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="CrystalPlugin.analyzePackageAction"
+             label="&amp;Run Analyses"
+             menubarPath="CrystalPlugin.packageMenu/CrystalPlugin.packageSeparator"
+             tooltip="Runs Crystal on all compilation units in this folder">
+       </action>
+    </objectContribution>
+    <objectContribution
+          adaptable="false"
+          id="CrystalPlugin.analyzePackageRoot"
+          objectClass="org.eclipse.jdt.core.IPackageFragmentRoot">
+       <menu
+             id="CrystalPlugin.packageRootMenu"
+             label="&amp;Crystal">
+          <separator
+                name="CrystalPlugin.packageRootSeparator">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="CrystalPlugin.analyzePackageRootAction"
+             label="&amp;Run Analyses"
+             menubarPath="CrystalPlugin.packageRootMenu/CrystalPlugin.packageRootSeparator"
+             tooltip="Runs Crystal on all compilation units in this folder">
+       </action>
+    </objectContribution>
+    <objectContribution
+          adaptable="false"
+          id="CrystalPlugin.analyzeProject"
+          objectClass="org.eclipse.jdt.core.IJavaProject">
+       <menu
+             id="CrystalPlugin.projectMenu"
+             label="&amp;Crystal">
+          <separator
+                name="CrystalPlugin.projectSeparator">
+          </separator>
+       </menu>
+       <action
+             class="edu.cmu.cs.crystal.internal.CrystalFileAction"
+             enablesFor="*"
+             icon="icons/sample.gif"
+             id="CrystalPlugin.analyzeProjectAction"
+             label="&amp;Run Analyses"
+             menubarPath="CrystalPlugin.projectMenu/CrystalPlugin.projectSeparator"
+             tooltip="Runs Crystal on all compilation units in this project">
+       </action>
+    </objectContribution>
+ </extension>
+ <extension
+      id="crystalproblem"
+      name="Crystal Marker"
+      point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="true"/>
+      <attribute name="analysis"/>
+ </extension>
+
+ <extension
+       point="org.eclipse.ui.commands">
+    <category
+          description="Holds Crystal Commands"
+          id="CrystalPlugin.crystalcategory"
+          name="Crystal Commands">
+    </category>
+    <command
+          categoryId="CrystalPlugin.crystalcategory"
+          defaultHandler="edu.cmu.cs.crystal.internal.RunCrystalHandler"
+          description="Runs Crystal"
+          id="CrystalPlugin.runcrystal"
+          name="Run Crystal">
+    </command>
+    <command
+          categoryId="CrystalPlugin.crystalcategory"
+          defaultHandler="edu.cmu.cs.crystal.internal.EnableAnalysisHandler"
+          description="Enables or disables an analysis"
+          id="CrystalPlugin.enableanalysis"
+          name="Enable Analysis">
+       <commandParameter
+             id="CrystalPlugin.analysisname"
+             name="Analysis Name">
+       </commandParameter>
+    </command>
+    <command
+          categoryId="CrystalPlugin.crystalcategory"
+          defaultHandler="edu.cmu.cs.crystal.internal.ClearWarningHandler"
+          description="Clears Warnings"
+          id="edu.cmu.cs.crystal.clearproblems"
+          name="Clear Warnings">
+    </command>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+       <menu
+             id="Crystal.maincyrstalmenu"
+             label="Crystal">
+          <dynamic
+                class="edu.cmu.cs.crystal.internal.AnalysisMenuPopulator"
+                id="CrystalPlugin.populateanalyses">
+          </dynamic>
+          <command
+                commandId="CrystalPlugin.runcrystal"
+                icon="icons/sample.gif"
+                label="Run Crystal"
+                tooltip="Run the enabled Crystal analyses">
+          </command>
+          <command
+                commandId="edu.cmu.cs.crystal.clearproblems"
+                label="Clear Warnings"
+                tooltip="Clear all warnings created by Crystal">
+          </command>
+       </menu>
+    </menuContribution>
+    <menuContribution
+          locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+       <toolbar
+             id="CrystalPlugin.crystaltoolbar">
+          <command
+                commandId="CrystalPlugin.runcrystal"
+                icon="icons/sample.gif"
+                tooltip="Run the enabled Crystal analyses">
+          </command>
+       </toolbar>
+    </menuContribution>
+ </extension>
+ <extension
+       point="edu.cmu.cs.crystal.CrystalAnalysis">
+    <analysis
+          class="edu.cmu.cs.crystal.analysis.live.LiveVariableAnalysis"
+          name="Live Variable Analysis">
+    </analysis>
+ </extension>
+ <extension
+       point="edu.cmu.cs.crystal.CrystalAnalysis">
+    <analysis
+          class="edu.cmu.cs.crystal.analysis.constant.ConstantAnalysis"
+          name="Boolean Constant Analysis">
+    </analysis>
+ </extension>
+ <extension
+       point="org.eclipse.core.runtime.preferences">
+    <initializer
+          class="edu.cmu.cs.crystal.internal.CrystalPreferences">
+    </initializer>
+ </extension>
+ <extension
+       point="edu.cmu.cs.crystal.CrystalAnalysis">
+    <analysis
+          class="edu.cmu.cs.crystal.analysis.print.PrintNodesAnalysis"
+          name="AST Printer Analysis">
+    </analysis>
+ </extension>
+ 
+</plugin>
+
+
+
+

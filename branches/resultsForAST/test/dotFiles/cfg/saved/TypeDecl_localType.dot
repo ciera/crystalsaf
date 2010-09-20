@@ -1,0 +1,135 @@
+digraph localType {
+  21 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = local,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = "new LocalClass",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = "Call method",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = TypeDeclarationStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "int foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = 6,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = local,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare localType",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  6 -> 8 [
+    label = ""
+  ];
+  12 -> 17 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  13 -> 21 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  9 -> 12 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  3 -> 6 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  10 -> 9 [
+    label = ""
+  ];
+  21 -> 2 [
+    label = ""
+  ];
+  8 -> 11 [
+    label = ""
+  ];
+}

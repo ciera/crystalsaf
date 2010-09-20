@@ -1,0 +1,106 @@
+digraph blank {
+  9 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = forEdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = forBdummy,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = for,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = break,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare blank",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 -> 13 [
+    label = ""
+  ];
+  6 -> 12 [
+    label = ""
+  ];
+  10 -> 9 [
+    label = false
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  3 -> 12 [
+    label = ""
+  ];
+  11 -> 7 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  8 -> 6 [
+    label = ""
+  ];
+  12 -> 10 [
+    label = ""
+  ];
+  13 -> 2 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = true
+  ];
+  9 -> 8 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+}

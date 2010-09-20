@@ -1,0 +1,31 @@
+digraph runtimeExp {
+  4 [
+    label = "new NullPointerException",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = throw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(error)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare runtimeExp",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 -> 3 [
+    label = ""
+  ];
+  3 -> 1 [
+    label = "java.lang.NullPointerException"
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+}
