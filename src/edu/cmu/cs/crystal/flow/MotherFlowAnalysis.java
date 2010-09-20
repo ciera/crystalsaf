@@ -108,45 +108,76 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 	 * 					before analyzing the node.  Will be bottom if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
-    public LE getResultsBefore(ASTNode node) {
-    	LE result = getResultsOrNullBefore(node);
+	public LE getResultsBefore(ASTNode node) {
+    	LE result = getResultsOrNull(node, false, false);
 		return result == null ? currentLattice.bottom() : result;
     }
     
 	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, if any.
+	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, including <b>bottom</b>.
 	 * 
 	 * Before is respective to normal program flow and not the direction of the analysis.
+	 * 
+	 * @param node		the {@link ASTNode} of interest 
+	 * @return			the lattice that represents the analysis state 
+	 * 					before analyzing the node.  Will be bottom if the node doesn't
+	 * 					have a corresponding control flow node.
+	 */
+    public LE getResultsBeforeAST(ASTNode node) {
+    	LE result = getResultsOrNull(node, false, true);
+		return result == null ? currentLattice.bottom() : result;
+    }
+
+
+	/**
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, if any.
+	 * 
+	 * After is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
 	 * 					before analyzing the node.  Will be <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
-    protected LE getResultsOrNullBefore(ASTNode node) {
+    protected LE getResultsOrNull(ASTNode node, boolean getAfter, boolean useAST) {
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
 
 		Set<ICFGNode<ASTNode>> cfgnodes = nodeMap.get(node);
-    	
-		if(cfgnodes == null || cfgnodes.isEmpty()) {
+
+    	if(cfgnodes == null || cfgnodes.isEmpty()) {
     		if(log.isLoggable(Level.FINE))
-    			log.fine("Unable to get results before node: " + getNodeDebugInfo(node));
+    			log.fine("Unable to get results after node: " + getNodeDebugInfo(node));
     		return null;
     	}
-		else if(cfgnodes.size() == 1) {
-    		return getResultBefore(cfgnodes.iterator().next());
-    	}
+    	else if(cfgnodes.size() == 1) {
+			ICFGNode<ASTNode> cfgNode = cfgnodes.iterator().next();
+			if (getAfter)
+				return getResultAfter(useAST ? cfgNode.getEnd() : cfgNode);
+			else
+		   		return getResultBefore(useAST ? cfgNode.getStart() : cfgNode);
+	   	}
     	else {
 	    	HashMap<ICFGNode<ASTNode>, LE> results = new HashMap<ICFGNode<ASTNode>, LE>();
 	    	for(ICFGNode<ASTNode> n : cfgnodes) {
-	    		LE result = getResultBefore(n);
+	    		ICFGNode<ASTNode> resultNode;
+	    		LE result;
+	    		if (getAfter) {
+	    			resultNode = useAST ? n.getEnd() : n;
+	    			result = getResultAfter(resultNode);
+	    		}
+	    		else {
+	    			resultNode = useAST ? n.getStart() : n;
+	    			result = getResultBefore(resultNode);
+	    		}
+	    		
 	    		if(result != null)
-	    			results.put(n, result);
+	    			results.put(resultNode, result);
 	    	}
 	    	return mergeResults(results, node);
     	}
     }
+
 
 	/**
 	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, including <b>bottom</b>.
@@ -159,44 +190,26 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 	 * 					have a corresponding control flow node.
 	 */
     public LE getResultsAfter(ASTNode node) {
-    	LE result = getResultsOrNullAfter(node);
+    	LE result = getResultsOrNull(node, true, false);
     	return result == null ? currentLattice.bottom() : result;
     }
     
 	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, if any.
+	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, including <b>bottom</b>.
 	 * 
 	 * After is respective to normal program flow and not the direction of the analysis.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
 	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Will be <code>null</code> if the node doesn't
+	 * 					before analyzing the node.  Will be bottom if the node doesn't
 	 * 					have a corresponding control flow node.
 	 */
-    protected LE getResultsOrNullAfter(ASTNode node) {
-		if(nodeMap.containsKey(node) == false)
-			performAnalysisOnSurroundingMethodIfNeeded(node);
-
-		Set<ICFGNode<ASTNode>> cfgnodes = nodeMap.get(node);
-
-    	if(cfgnodes == null || cfgnodes.isEmpty()) {
-    		if(log.isLoggable(Level.FINE))
-    			log.fine("Unable to get results after node: " + getNodeDebugInfo(node));
-    		return null;
-    	}
-    	else if(cfgnodes.size() == 1) {
-    		return getResultAfter(cfgnodes.iterator().next());
-    	}
-    	else {
-	    	HashMap<ICFGNode<ASTNode>, LE> results = new HashMap<ICFGNode<ASTNode>, LE>();
-	    	for(ICFGNode<ASTNode> n : cfgnodes) {
-	    		LE result = getResultAfter(n);
-	    		if(result != null)
-	    			results.put(n, result);
-	    	}
-	    	return mergeResults(results, node);
-    	}
+    public LE getResultsAfterAST(ASTNode node) {
+    	LE result = getResultsOrNull(node, true, true);
+    	return result == null ? currentLattice.bottom() : result;
     }
+    
+    
     
 	public LE getEndResults(MethodDeclaration d) {
 		if( this.currentMethod != d ) {
@@ -367,7 +380,8 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
     	return mergeLabeledResult(getLabeledResultBefore(node), node.getASTNode());
     }
 
-	/**
+
+    /**
 	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, if any.
 	 * 
 	 * After is respective to normal program flow and not the direction of the analysis.
@@ -380,6 +394,7 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
     protected LE getResultAfter(ICFGNode<ASTNode> node) {
     	return mergeLabeledResult(getLabeledResultAfter(node), node.getASTNode());
     }
+
 
     protected LE mergeLabeledResult(IResult<LE> labeledResult, ASTNode node) {
     	if(labeledResult == null)

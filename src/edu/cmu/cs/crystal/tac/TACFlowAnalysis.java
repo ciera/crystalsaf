@@ -131,8 +131,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 		else if(rootInstr instanceof EclipseInstructionSequence) {
 			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
-			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
-					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			LE incoming =  getResultsOrNull(node, this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS, false);
 			if(incoming == null) 
 				// no result available -> return bottom
 				return nodeResults;
@@ -159,8 +158,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 		else if(rootInstr instanceof EclipseInstructionSequence) {
 			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
-			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
-					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			LE incoming = getResultsOrNull(node, this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS, false);
 			if(incoming == null) 
 				// no result available -> return bottom
 				return nodeResults;
@@ -187,8 +185,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 		else if(rootInstr instanceof EclipseInstructionSequence) {
 			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
-			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
-					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			LE incoming = getResultsOrNull(node, this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS, false);
 			if(incoming == null) 
 				// no result available -> return bottom
 				return nodeResults;
@@ -215,8 +212,7 @@ extends MotherFlowAnalysis<LE> implements ITACFlowAnalysis<LE> {
 		else if(rootInstr instanceof EclipseInstructionSequence) {
 			// compute intermediary results for instruction sequence
 			EclipseInstructionSequence seq = (EclipseInstructionSequence) rootInstr;
-			LE incoming = this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS ?
-					getResultsOrNullAfter(node) : getResultsOrNullBefore(node);
+			LE incoming = getResultsOrNull(node, this.driver.tf.getAnalysisDirection() == AnalysisDirection.BACKWARD_ANALYSIS, false);
 			if(incoming == null) 
 				// no result available -> return bottom
 				return nodeResults;

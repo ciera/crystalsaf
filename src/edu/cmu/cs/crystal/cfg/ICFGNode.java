@@ -42,5 +42,9 @@ public interface ICFGNode<N> {
 	public Set<? extends ICFGEdge<N>> getInputEdges(ILabel label);
 	
 	public Set<? extends ICFGEdge<N>> getOutputEdges(ILabel label);
+	
+	public ICFGNode<N> getEnd();
+	
+	public ICFGNode<N> getStart();
 }
 
