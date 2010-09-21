@@ -44,6 +44,7 @@ import edu.cmu.cs.crystal.util.Utilities;
  * @author David Dickey
  * @author Jonathan Aldrich
  * @author Kevin Bierhoff
+ * @author Ciera Jaspan 
  * 
  * @param <LE> the type that represents the analysis knowledge
  */
@@ -98,43 +99,45 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 		this.factory.setMonitor(monitor.isNone() ? null : monitor.unwrap());
 	}
 	
-	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, including <b>bottom</b>.
-	 * 
-	 * Before is respective to normal program flow and not the direction of the analysis.
-	 * 
-	 * @param node		the {@link ASTNode} of interest 
-	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Will be bottom if the node doesn't
-	 * 					have a corresponding control flow node.
-	 */
+	@Deprecated
 	public LE getResultsBefore(ASTNode node) {
+    	return getResultsBeforeCFG(node);
+    }
+    
+	public LE getResultsBeforeCFG(ASTNode node) {
     	LE result = getResultsOrNull(node, false, false);
 		return result == null ? currentLattice.bottom() : result;
     }
-    
-	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, including <b>bottom</b>.
-	 * 
-	 * Before is respective to normal program flow and not the direction of the analysis.
-	 * 
-	 * @param node		the {@link ASTNode} of interest 
-	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Will be bottom if the node doesn't
-	 * 					have a corresponding control flow node.
-	 */
+	
     public LE getResultsBeforeAST(ASTNode node) {
     	LE result = getResultsOrNull(node, false, true);
 		return result == null ? currentLattice.bottom() : result;
     }
 
+   @Deprecated
+    public LE getResultsAfter(ASTNode node) {
+   		return getResultsAfterCFG(node);
+    }
+    
+    public LE getResultsAfterCFG(ASTNode node) {
+    	LE result = getResultsOrNull(node, true, false);
+    	return result == null ? currentLattice.bottom() : result;
+    }
+    
+
+    public LE getResultsAfterAST(ASTNode node) {
+    	LE result = getResultsOrNull(node, true, true);
+    	return result == null ? currentLattice.bottom() : result;
+    }
+
 
 	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, if any.
-	 * 
-	 * After is respective to normal program flow and not the direction of the analysis.
+	 * Retrieves the analysis state for a given node.
 	 * 
 	 * @param node		the {@link ASTNode} of interest 
+	 * @param getAfter  true if we want the results after analyzing the node, false if we want the results before analyzing
+	 * @param useAST	true if we want the results for the entire tree of this AST, false if we want the results only before/after
+	 *                  the given node and not any subnodes.
 	 * @return			the lattice that represents the analysis state 
 	 * 					before analyzing the node.  Will be <code>null</code> if the node doesn't
 	 * 					have a corresponding control flow node.
@@ -179,41 +182,9 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
     }
 
 
-	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, including <b>bottom</b>.
-	 * 
-	 * After is respective to normal program flow and not the direction of the analysis.
-	 * 
-	 * @param node		the {@link ASTNode} of interest 
-	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Will be bottom if the node doesn't
-	 * 					have a corresponding control flow node.
-	 */
-    public LE getResultsAfter(ASTNode node) {
-    	LE result = getResultsOrNull(node, true, false);
-    	return result == null ? currentLattice.bottom() : result;
-    }
-    
-	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, including <b>bottom</b>.
-	 * 
-	 * After is respective to normal program flow and not the direction of the analysis.
-	 * 
-	 * @param node		the {@link ASTNode} of interest 
-	 * @return			the lattice that represents the analysis state 
-	 * 					before analyzing the node.  Will be bottom if the node doesn't
-	 * 					have a corresponding control flow node.
-	 */
-    public LE getResultsAfterAST(ASTNode node) {
-    	LE result = getResultsOrNull(node, true, true);
-    	return result == null ? currentLattice.bottom() : result;
-    }
-    
-    
-    
-	public LE getEndResults(MethodDeclaration d) {
-		if( this.currentMethod != d ) {
-			performAnalysisOnSurroundingMethodIfNeeded(d);
+    public LE getEndResults(MethodDeclaration decl) {
+		if (this.currentMethod != decl) {
+			performAnalysisOnSurroundingMethodIfNeeded(decl);
 		}
 		
 		// NEB: From looking around there appear to be no
@@ -224,9 +195,9 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 		return result == null ? currentLattice.bottom() : result;
 	}
 
-	public LE getStartResults(MethodDeclaration d) {
-		if( this.currentMethod != d ) {
-			performAnalysisOnSurroundingMethodIfNeeded(d);
+ 	public LE getStartResults(MethodDeclaration decl) {
+		if (this.currentMethod != decl) {
+			performAnalysisOnSurroundingMethodIfNeeded(decl);
 		}
 		
 		LE result = getResultBefore(this.cfgStartNode);
@@ -253,16 +224,6 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 		return result;
 	}
 
-	/**
-	 * Retrieves the analysis state that exists <b>before</b> analyzing the node, including <b>bottom</b>.
-	 * 
-	 * Before is respective to normal program flow and not the direction of the analysis.
-	 * 
-	 * @param node		the {@link ASTNode} of interest 
-	 * @return			the lattice that represents the analysis state 
-	 * 					after analyzing the node.  Will be bottom if the node doesn't
-	 * 					have a corresponding control flow node.
-	 */
     public IResult<LE> getLabeledResultsBefore(ASTNode node) {
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
@@ -291,16 +252,6 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
     	return result == null ? new SingleResult<LE>(currentLattice.bottom()) : result;
    	}
     
-	/**
-	 * Retrieves the analysis state that exists <b>after</b> analyzing the node, including <b>bottom</b>.
-	 * 
-	 * After is respective to normal program flow and not the direction of the analysis.
-	 * 
-	 * @param node		the {@link ASTNode} of interest 
-	 * @return			the lattice that represents the analysis state 
-	 * 					after analyzing the node.  Will be bottom if the node doesn't
-	 * 					have a corresponding control flow node.
-	 */
     public IResult<LE> getLabeledResultsAfter(ASTNode node) {
 		if(nodeMap.containsKey(node) == false)
 			performAnalysisOnSurroundingMethodIfNeeded(node);
@@ -334,7 +285,7 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 			performAnalysisOnSurroundingMethodIfNeeded(d);
 		}
 		
-		IResult<LE> result = getLabeledResultAfter(this.cfgEndNode);
+		IResult<LE> result = getLabeledResultBefore(this.cfgEndNode);
 		return result == null ? new SingleResult<LE>(currentLattice.bottom()) : result; 
 	}
 
@@ -430,7 +381,6 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 		if(log.isLoggable(Level.FINE))
 			log.fine("Unable to get results after CFG node [" + node + "]");
 		return null;
-//		return new SingleResult<LE>(currentLattice.bottom());
    	}
     
     /**
@@ -454,7 +404,6 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
 		if(log.isLoggable(Level.FINE))
 			log.fine("Unable to get results after CFG node [" + node + "]");
 		return null;
-//		return new SingleResult<LE>(currentLattice.bottom());
    	}
     
     /**
