@@ -184,27 +184,60 @@ implements IFlowAnalysis<LE> {
 		return addAsFakeFuture(decl,defaultFlowAnalysis).getLabeledResultsBefore(node);
 	}
 
+	@Deprecated
 	public LE getResultsAfter(ASTNode node) {
-		MethodDeclaration decl = Utilities.getMethodDeclaration(node);
-		
-		if( decl!= null && this.analyzedMethods.containsKey(decl) ) {
-			try {
-				return this.analyzedMethods.get(decl).get().getResultsAfter(node);
-			} catch (Exception e) {/* Do nothing, let fall through to default. */ }
-		}
-		return addAsFakeFuture(decl,defaultFlowAnalysis).getResultsAfter(node);
+		return getResultsAfterCFG(node);
 	}
 
+	@Deprecated
 	public LE getResultsBefore(ASTNode node) {
+		return getResultsBeforeCFG(node);
+	}
+
+	public LE getResultsAfterCFG(ASTNode node) {
 		MethodDeclaration decl = Utilities.getMethodDeclaration(node);
 		
 		if( decl!= null && this.analyzedMethods.containsKey(decl) ) {
 			try {
-				return this.analyzedMethods.get(decl).get().getResultsBefore(node);
+				return this.analyzedMethods.get(decl).get().getResultsAfterCFG(node);
 			} catch (Exception e) {/* Do nothing, let fall through to default. */ }
 		}
-		return addAsFakeFuture(decl,defaultFlowAnalysis).getResultsBefore(node);
+		return addAsFakeFuture(decl,defaultFlowAnalysis).getResultsAfterCFG(node);
 	}
+
+	public LE getResultsBeforeCFG(ASTNode node) {
+		MethodDeclaration decl = Utilities.getMethodDeclaration(node);
+		
+		if( decl!= null && this.analyzedMethods.containsKey(decl) ) {
+			try {
+				return this.analyzedMethods.get(decl).get().getResultsBeforeCFG(node);
+			} catch (Exception e) {/* Do nothing, let fall through to default. */ }
+		}
+		return addAsFakeFuture(decl,defaultFlowAnalysis).getResultsBeforeCFG(node);
+	}
+
+	public LE getResultsBeforeAST(ASTNode node) {
+		MethodDeclaration decl = Utilities.getMethodDeclaration(node);
+		
+		if( decl!= null && this.analyzedMethods.containsKey(decl) ) {
+			try {
+				return this.analyzedMethods.get(decl).get().getResultsBeforeAST(node);
+			} catch (Exception e) {/* Do nothing, let fall through to default. */ }
+		}
+		return addAsFakeFuture(decl,defaultFlowAnalysis).getResultsBeforeAST(node);
+	}
+
+	public LE getResultsAfterAST(ASTNode node) {
+		MethodDeclaration decl = Utilities.getMethodDeclaration(node);
+		
+		if( decl!= null && this.analyzedMethods.containsKey(decl) ) {
+			try {
+				return this.analyzedMethods.get(decl).get().getResultsAfterAST(node);
+			} catch (Exception e) {/* Do nothing, let fall through to default. */ }
+		}
+		return addAsFakeFuture(decl,defaultFlowAnalysis).getResultsAfterAST(node);
+	}
+
 
 	/*
 	 * In an effort provide further caching, this method will add the given
