@@ -52,6 +52,7 @@ import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.eclipse.jdt.core.dom.InfixExpression.Operator;
 import org.eclipse.jdt.core.dom.InstanceofExpression;
 import org.eclipse.jdt.core.dom.LabeledStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -90,7 +91,6 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
-import org.eclipse.jdt.core.dom.InfixExpression.Operator;
 
 import att.grappa.Graph;
 import edu.cmu.cs.crystal.cfg.BlockStack;
@@ -391,7 +391,6 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph<ASTNode>
 		ITypeBinding binding = node.getAST().resolveWellKnownType("java.lang.Throwable");
 		EclipseCFGNode catchNode = exceptionMap.getCatchNode(binding);
 
-		createEdge(assertNode, expNode.getStart());
 		assertNode.setStart(expNode.getStart());
 		createBooleanEdge(expNode.getEnd(), assertNode, true);
 
