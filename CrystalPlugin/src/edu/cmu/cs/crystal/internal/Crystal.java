@@ -20,11 +20,9 @@ package edu.cmu.cs.crystal.internal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +38,6 @@ import edu.cmu.cs.crystal.IAnalysisInput;
 import edu.cmu.cs.crystal.ICrystalAnalysis;
 import edu.cmu.cs.crystal.IRunCrystalCommand;
 import edu.cmu.cs.crystal.annotations.AnnotationDatabase;
-import edu.cmu.cs.crystal.annotations.AnnotationFinder;
 import edu.cmu.cs.crystal.annotations.ICrystalAnnotation;
 import edu.cmu.cs.crystal.tac.eclipse.CompilationUnitTACs;
 import edu.cmu.cs.crystal.util.Option;
@@ -269,48 +266,9 @@ public class Crystal {
 				}
 
 				AnnotationDatabase annoDB = new AnnotationDatabase();
-				AnnotationFinder finder = new AnnotationFinder(annoDB);
 
 				// register annotations with database
 				registerAnnotationsWithDatabase(annoDB);
-
-				// run the annotation finder on everything
-				if (monitor != null)
-					monitor.subTask("Scanning annotations of analyzed compilation units");
-				if (logger.isLoggable(Level.FINER))
-					logger.finer("Scanning annotations of analyzed compilation units");
-				for (ICompilationUnit compUnit : command.compilationUnits()) {
-					if (compUnit == null)
-						continue;
-					ASTNode node = WorkspaceUtilities.getASTNodeFromCompilationUnit(compUnit);
-					if (monitor != null && monitor.isCanceled())
-						// cancel here in case cancellation can produce null or incomplete ASTs
-						return;
-					if (!(node instanceof CompilationUnit))
-						continue;
-
-					// Dummy analysis input
-					IAnalysisInput input = new IAnalysisInput() {
-						private AnnotationDatabase annoDB = new AnnotationDatabase();
-
-						public AnnotationDatabase getAnnoDB() {
-							return annoDB;
-						}
-						
-						public Option<IProgressMonitor> getProgressMonitor() {
-							// don't give progress monitor to annotation finder
-							return Option.none();
-						}
-
-						public Option<CompilationUnitTACs> getComUnitTACs() {
-							// don't give 3-address code to annotation finder
-							return Option.none();
-						}
-					};
-
-					// Run annotation finder
-					finder.runAnalysis(command.reporter(), input, compUnit, (CompilationUnit) node);
-				}
 
 				// tell analyses that the analysis is about to begin!
 				for (ICrystalAnalysis analysis : analyses_to_use ) {

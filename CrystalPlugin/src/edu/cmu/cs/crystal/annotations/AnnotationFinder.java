@@ -47,6 +47,7 @@ import edu.cmu.cs.crystal.internal.CrystalRuntimeException;
  * @author ciera
  * @since Crystal 3.4.0
  */
+@Deprecated
 public class AnnotationFinder extends AbstractCompilationUnitAnalysis {
 	AnnotationDatabase db;
 	
