@@ -20,6 +20,10 @@ public class TypeNode {
 	
 	public void completed() {isCompleted = true;}
 	
+	public boolean isDirectSupertype(TypeNode superNode) {
+		return superTypes.contains(superNode);
+	}
+
 	public boolean isSupertype(TypeNode superNode) {
 		if (this == superNode)
 			return true;
