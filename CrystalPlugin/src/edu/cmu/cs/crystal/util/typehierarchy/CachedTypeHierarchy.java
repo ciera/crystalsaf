@@ -12,6 +12,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
+import edu.cmu.cs.crystal.util.Pair;
 import edu.cmu.cs.crystal.util.TypeHierarchy;
 
 public class CachedTypeHierarchy implements TypeHierarchy {
@@ -36,45 +37,28 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		if (t1.equals("void") || t2.equals("void"))
 			return false;
 
-		int genStart1 = t1.indexOf('<');
-		int genStart2 = t2.indexOf('<');
-		String type1, gen1, type2, gen2;
+		Pair<String, String> type1 = getTypeAndGenerics(t1);
+		Pair<String, String> type2 = getTypeAndGenerics(t2);
 		
-		if (genStart1 != -1) {
-			type1 = t1.substring(0, genStart1);
-			gen1 = t1.substring(genStart1 + 1, t1.lastIndexOf('>'));
-		}
-		else {
-			type1 = t1;
-			gen1 = "";
-		}
-		if (genStart2 != -1) {
-			type2 = t2.substring(0, genStart2);
-			gen2 = t2.substring(genStart2 + 1, t2.lastIndexOf('>'));
-		}
-		else {
-			type2 = t2;
-			gen2 = "";
-		}
 		
-		TypeNode node1 = getOrCreateType(type1);
-		TypeNode node2 = getOrCreateType(type2);
+		TypeNode node1 = getOrCreateType(type1.fst());
+		TypeNode node2 = getOrCreateType(type2.fst());
 
 		if (node1 == null || node2 == null)
 			return false;
 		
-		if (!skipCheck1 && isSubtypeCompatible(type1, type2)) {
-			return existsCommonSubtypeGenerics(gen1, gen2);
+		if (!skipCheck1 && isSubtypeCompatible(type1.fst(), type2.fst())) {
+			return existsCommonSubtypeGenerics(type1.snd(), type2.snd());
 		}
 		
-		if (!skipCheck2 && isSubtypeCompatible(type2, type1)) {
-			return existsCommonSubtypeGenerics(gen1, gen2);
+		if (!skipCheck2 && isSubtypeCompatible(type2.fst(), type1.fst())) {
+			return existsCommonSubtypeGenerics(type1.snd(), type2.snd());
 		}
 	
-		if (!node1.isCompleted())
-			loadNewTree(type1);
-		if (!node2.isCompleted())
-			loadNewTree(type2);
+		if (!node1.isCompleteDown())
+			loadNewTree(type1.fst());
+		if (!node2.isCompleteDown())
+			loadNewTree(type2.fst());
 
 		HashSet<String> t1Subs = new HashSet<String>();
 		HashSet<String> t2Subs = new HashSet<String>();
@@ -84,10 +68,26 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		
 		for (String sub : t1Subs) {
 			if (t2Subs.contains(sub))
-				return existsCommonSubtypeGenerics(gen1, gen2);
+				return existsCommonSubtypeGenerics(type1.snd(), type2.snd());
 		}
 		return false;
 	}
+	
+	Pair<String, String> getTypeAndGenerics(String fullType) {
+		int genStart = fullType.indexOf('<');
+		String type, gen;
+		
+		if (genStart != -1) {
+			type = fullType.substring(0, genStart);
+			gen = fullType.substring(genStart + 1, fullType.lastIndexOf('>'));
+		}
+		else {
+			type = fullType;
+			gen = "";
+		}
+		return new Pair<String, String>(type, gen);
+	}
+	
 
 	/**
 	 * Get the node out of the type map. If it doesn't exist, then
@@ -127,54 +127,29 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		return true;
 	}
 
-	public boolean isSubtypeCompatible(String subType, String superType) {
-		if (superType.equals("java.lang.Object"))
+	public boolean isSubtypeCompatible(String subTypeFullName, String superTypeFullName) {
+		if (superTypeFullName.equals("java.lang.Object"))
 			return true;
 		
-		if (subType.equals("void") || superType.equals("void"))
+		if (subTypeFullName.equals("void") || superTypeFullName.equals("void"))
 			return false;
 		
-		int genStartSub = subType.indexOf('<');
-		int genStartSuper = superType.indexOf('<');
-		String subTypeName, genSub, superTypeName, genSuper;
 		
-		if (genStartSub != -1) {
-			subTypeName = subType.substring(0, genStartSub);
-			genSub = subType.substring(genStartSub + 1, subType.lastIndexOf('>'));
-		}
-		else {
-			subTypeName = subType;
-			genSub = "";
-		}
-		if (genStartSuper != -1) {
-			superTypeName = superType.substring(0, genStartSuper);
-			genSuper = superType.substring(genStartSuper + 1, superType.lastIndexOf('>'));
-		}
-		else {
-			superTypeName = superType;
-			genSuper = "";
-		}
+		Pair<String, String> subType = getTypeAndGenerics(subTypeFullName);
+		Pair<String, String> supType = getTypeAndGenerics(superTypeFullName);
 
-		TypeNode subNode = getOrCreateType(subTypeName);
-		TypeNode superNode = getOrCreateType(superTypeName);
+
+		TypeNode subNode = getOrCreateType(subType.fst());
+		TypeNode superNode = getOrCreateType(supType.fst());
 		
 		if (subNode == null || superNode == null)
 			return false;
 		
-		if (subNode.isCompleted() && superNode.isCompleted())
-			return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(genSub, genSuper);
-		else if (subNode.isSupertype(superNode))
-				return isSubtypeCompatibleGenerics(genSub, genSuper);
-		else {
-			//not necessarily false, but might not be complete. So complete them both and try again!
-			if (!subNode.isCompleted())
-				loadNewTree(subTypeName);
-			if (!superNode.isCompleted())
-				loadNewTree(superTypeName);
-			return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(genSub, genSuper);
-			
-		}
+		if (!superNode.isCompleteDown())
+			loadNewTree(supType.fst());
 		
+		//now we have all the info
+		return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(subType.snd(), supType.snd());		
 	}
 	
 	/**
@@ -282,19 +257,11 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 			
 			if (baseType != null) {
 				ITypeHierarchy hierarchy = baseType.newTypeHierarchy(project, null);		
-				addInHierarchy(baseType, hierarchy);
-				
-				for (IType iType : hierarchy.getRootInterfaces())
-					addInHierarchy(iType, hierarchy);
-				
+				addInHierarchy(baseType, hierarchy);			
 				
 				//Yeah...that just wasted a bunch of resources. Clean up now...
 				Runtime r = Runtime.getRuntime();
 				r.gc();
-
-				//This node is complete!
-				TypeNode node = types.get(qName);
-				node.completed();
 			}
 		} catch (JavaModelException e) {
 			//can't really do anything...
@@ -306,7 +273,7 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		String qName = type.getFullyQualifiedName('.');
 		TypeNode node = getOrCreateType(qName);
 		
-		if (node.isCompleted())
+		if (node.isCompleteDown())
 			return;
 		
 		//Recurse on children
@@ -314,13 +281,12 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 			String subName = sub.getFullyQualifiedName('.');
 			TypeNode subNode = getOrCreateType(subName);
 			
-			if (!subNode.isDirectSupertype(node)) { //missing the connection
-				node.addSubtype(subNode);
-				subNode.addSupertype(node);
-				addInHierarchy(sub, hierarchy);
-			}
-			//and if we already have the connection, we also have them all the way down.
+			node.addSubtype(subNode);
+			subNode.addSupertype(node);
+			addInHierarchy(sub, hierarchy);
 		}
+		//we now have everything below this node in the hierarchy.
+		node.completedDown();
 	}
 
 

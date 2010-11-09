@@ -16,9 +16,16 @@ public class TypeNode {
 		isCompleted = false;
 	}
 	
-	public boolean isCompleted() {return isCompleted;}
+	/**
+	 * 
+	 * @return True if this type knows all of its subtypes, false otherwise.
+	 */
+	public boolean isCompleteDown() {return isCompleted;}
 	
-	public void completed() {isCompleted = true;}
+	/**
+	 * To be called when this type knows all of its subtypes.
+	 */
+	public void completedDown() {isCompleted = true;}
 	
 	public boolean isDirectSupertype(TypeNode superNode) {
 		return superTypes.contains(superNode);
