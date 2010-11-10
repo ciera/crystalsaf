@@ -64,5 +64,10 @@ public class ReturnInstructionImpl extends AbstractTACInstruction<ReturnStatemen
 			LE value) {
 		return tf.transfer(this, labels, value);
 	}
+	
+	@Override
+	public String toString() {
+		return "return " + getReturnedVariable().toString();
+	}
 
 }
