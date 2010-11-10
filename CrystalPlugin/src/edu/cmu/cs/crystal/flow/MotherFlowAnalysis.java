@@ -411,7 +411,9 @@ public abstract class MotherFlowAnalysis<LE> implements IFlowAnalysis<LE> {
      * @param node A node that must be inside a method.
      */
     private void performAnalysisOnSurroundingMethodIfNeeded(ASTNode node) {
-    	switchToMethod(findSurroundingMethod(node));
+    	MethodDeclaration decl = Utilities.getMethodDeclaration(node);
+    	if (decl != null)
+    		switchToMethod(decl);
     }
     
     /**
