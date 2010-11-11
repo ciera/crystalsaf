@@ -131,7 +131,9 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		if (superTypeFullName.equals("java.lang.Object"))
 			return true;
 		
-		if (subTypeFullName.equals("void") || superTypeFullName.equals("void"))
+		if (subTypeFullName.equals("void"))
+			return superTypeFullName.equals("void");
+		if (superTypeFullName.equals("void"))
 			return false;
 		
 		
