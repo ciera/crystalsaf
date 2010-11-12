@@ -222,6 +222,10 @@ public class Crystal {
 									logger.info("Ongoing Crystal analysis job canceled");
 								}
 							}
+							catch (Throwable err) {
+								logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getElementName());
+								logger.log(Level.SEVERE, err.getMessage());
+							}
 						}
 					}
 					if (monitor != null && !monitor.isCanceled()) {
