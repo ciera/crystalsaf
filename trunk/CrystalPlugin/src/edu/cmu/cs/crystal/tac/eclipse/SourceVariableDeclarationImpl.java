@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CatchClause;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
@@ -81,6 +82,21 @@ implements SourceVariableDeclaration {
 		return false;
 	}
 
+	public boolean isEnhancedForLoopVariable() {
+		ASTNode parent = this.getNode().getParent();
+		if (parent instanceof EnhancedForStatement) {
+			// This is not enough. We must make sure that this variable
+			// is being declared inside the declaration part.
+			EnhancedForStatement loop = (EnhancedForStatement) parent;
+			if (loop.getParameter().equals(this.getNode()) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	
 	public boolean isFormalParameter() {
 		return getNode().getParent() instanceof MethodDeclaration;
 	}
