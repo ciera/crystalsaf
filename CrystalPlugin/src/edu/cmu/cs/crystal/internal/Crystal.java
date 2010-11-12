@@ -223,8 +223,7 @@ public class Crystal {
 								}
 							}
 							catch (Throwable err) {
-								logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getElementName());
-								logger.log(Level.SEVERE, err.getMessage());
+								logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getElementName(), err);
 							}
 						}
 					}

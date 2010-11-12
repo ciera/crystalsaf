@@ -62,6 +62,13 @@ public interface SourceVariableDeclaration extends TACInstruction {
 	public boolean isCaughtVariable();
 	
 	/**
+	 * Is this variable being declared as part of an enhanced for loop?
+	 * 
+	 * @return <code>true</code> if this variable is the parameter of an enhanced for loop
+	 */
+	public boolean isEnhancedForLoopVariable();
+	
+    /**
 	 * Is this variable being declared as a formal parameter to a method?
 	 * @return <code>true</code> if this is a formal parameter declaration,
 	 * <code>false</code> otherwise.
