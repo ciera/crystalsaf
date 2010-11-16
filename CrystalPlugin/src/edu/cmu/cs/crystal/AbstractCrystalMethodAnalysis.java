@@ -20,11 +20,14 @@
 package edu.cmu.cs.crystal;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 
 /**
@@ -62,7 +65,14 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 			List<MethodDeclaration> methods = WorkspaceUtilities.scanForMethodDeclarationsFromAST(rootNode);
 			for (MethodDeclaration md : methods) {
 				// TODO automatically poll for cancel here?  call afterAllMethods or not?
-				analyzeMethod(md);
+				try {
+					analyzeMethod(md);
+				}
+				catch (Throwable err) {
+					Logger logger = Logger.getLogger(Crystal.class.getName());
+					logger.log(Level.SEVERE, "Analysis " + getName() + " had an error in " + md.resolveBinding().getDeclaringClass().getQualifiedName() + " when analyzing " + md.resolveBinding().toString(), err);
+				}
+
 			}
 			
 			afterAllMethods(compUnit, rootNode);
