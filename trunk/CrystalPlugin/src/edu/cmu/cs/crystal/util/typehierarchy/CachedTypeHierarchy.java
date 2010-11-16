@@ -12,12 +12,17 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 
-import edu.cmu.cs.crystal.util.Pair;
 import edu.cmu.cs.crystal.util.TypeHierarchy;
 
 public class CachedTypeHierarchy implements TypeHierarchy {
 	private HashMap<String, TypeNode> types;
 	private IJavaProject project;
+	
+	private class TypeInfo {
+		public String typeName;
+		public String generics;
+		public boolean isArray;
+	}
 	
 	public CachedTypeHierarchy(IJavaProject project) throws JavaModelException {
 		this.project = project;
@@ -37,28 +42,30 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		if (t1.equals("void") || t2.equals("void"))
 			return false;
 
-		Pair<String, String> type1 = getTypeAndGenerics(t1);
-		Pair<String, String> type2 = getTypeAndGenerics(t2);
+		TypeInfo type1 = getTypeAndGenerics(t1);
+		TypeInfo type2 = getTypeAndGenerics(t2);
 		
+		if (type1.isArray != type2.isArray)
+			return false;
 		
-		TypeNode node1 = getOrCreateType(type1.fst());
-		TypeNode node2 = getOrCreateType(type2.fst());
+		TypeNode node1 = getOrCreateType(type1.typeName);
+		TypeNode node2 = getOrCreateType(type2.typeName);
 
 		if (node1 == null || node2 == null)
 			return false;
 		
-		if (!skipCheck1 && isSubtypeCompatible(type1.fst(), type2.fst())) {
-			return existsCommonSubtypeGenerics(type1.snd(), type2.snd());
+		if (!skipCheck1 && isSubtypeCompatible(type1.typeName, type2.typeName)) {
+			return existsCommonSubtypeGenerics(type1.generics, type2.generics);
 		}
 		
-		if (!skipCheck2 && isSubtypeCompatible(type2.fst(), type1.fst())) {
-			return existsCommonSubtypeGenerics(type1.snd(), type2.snd());
+		if (!skipCheck2 && isSubtypeCompatible(type2.typeName, type1.typeName)) {
+			return existsCommonSubtypeGenerics(type1.generics, type2.generics);
 		}
 	
 		if (!node1.isCompleteDown())
-			loadNewTree(type1.fst());
+			loadNewTree(type1.typeName);
 		if (!node2.isCompleteDown())
-			loadNewTree(type2.fst());
+			loadNewTree(type2.typeName);
 
 		HashSet<String> t1Subs = new HashSet<String>();
 		HashSet<String> t2Subs = new HashSet<String>();
@@ -68,24 +75,29 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		
 		for (String sub : t1Subs) {
 			if (t2Subs.contains(sub))
-				return existsCommonSubtypeGenerics(type1.snd(), type2.snd());
+				return existsCommonSubtypeGenerics(type1.generics, type2.generics);
 		}
 		return false;
 	}
 	
-	Pair<String, String> getTypeAndGenerics(String fullType) {
+	TypeInfo getTypeAndGenerics(String fullType) {
 		int genStart = fullType.indexOf('<');
-		String type, gen;
+		TypeInfo info = new TypeInfo();
 		
 		if (genStart != -1) {
-			type = fullType.substring(0, genStart);
-			gen = fullType.substring(genStart + 1, fullType.lastIndexOf('>'));
+			info.typeName = fullType.substring(0, genStart);
+			info.generics = fullType.substring(genStart + 1, fullType.lastIndexOf('>'));
 		}
 		else {
-			type = fullType;
-			gen = "";
+			info.typeName = fullType;
+			info.generics = "";
 		}
-		return new Pair<String, String>(type, gen);
+		
+		info.isArray = info.typeName.endsWith("[]");
+		if (info.isArray)
+			info.typeName = info.typeName.substring(0, info.typeName.length() - 2);
+		
+		return info;
 	}
 	
 
@@ -137,21 +149,24 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 			return false;
 		
 		
-		Pair<String, String> subType = getTypeAndGenerics(subTypeFullName);
-		Pair<String, String> supType = getTypeAndGenerics(superTypeFullName);
+		TypeInfo subType = getTypeAndGenerics(subTypeFullName);
+		TypeInfo supType = getTypeAndGenerics(superTypeFullName);
 
+		if (subType.isArray != supType.isArray)
+			return false;
 
-		TypeNode subNode = getOrCreateType(subType.fst());
-		TypeNode superNode = getOrCreateType(supType.fst());
+		
+		TypeNode subNode = getOrCreateType(subType.typeName);
+		TypeNode superNode = getOrCreateType(supType.typeName);
 		
 		if (subNode == null || superNode == null)
 			return false;
 		
 		if (!superNode.isCompleteDown())
-			loadNewTree(supType.fst());
+			loadNewTree(supType.typeName);
 		
 		//now we have all the info
-		return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(subType.snd(), supType.snd());		
+		return subNode.isSupertype(superNode) && isSubtypeCompatibleGenerics(subType.generics, supType.generics);		
 	}
 	
 	/**

@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IBinding;
@@ -223,7 +224,11 @@ public class Crystal {
 								}
 							}
 							catch (Throwable err) {
-								logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getElementName(), err);
+								try {
+									logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getUnderlyingResource().getFullPath().toOSString(), err);
+								} catch (JavaModelException e) {
+									logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getElementName() + " and couldn't even get the full path to the file!", err);
+								}
 							}
 						}
 					}
