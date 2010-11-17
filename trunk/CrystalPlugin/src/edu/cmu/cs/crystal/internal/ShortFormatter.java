@@ -24,8 +24,7 @@ import java.util.logging.LogRecord;
 
 /**
  * This class is intended as a 1-line formatter for {@link java.util.logging.Formatter} 
- * log messages.  Unfortunately, the log manager can't seem to be able to load
- * this class.
+ * log messages.  
  * 
  * @author Kevin Bierhoff
  *
