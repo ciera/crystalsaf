@@ -54,6 +54,12 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		if (node1 == null || node2 == null)
 			return false;
 		
+		//need to deal with primitives early? also equality of strings passed in
+/*		if (node1.isPrimitive())
+			return node2.isPrimitive();
+		if (node2.isPrimitive())
+			return false;
+*/		
 		if (!skipCheck1 && isSubtypeCompatible(type1.typeName, type2.typeName)) {
 			return existsCommonSubtypeGenerics(type1.generics, type2.generics);
 		}
@@ -154,7 +160,6 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 
 		if (subType.isArray != supType.isArray)
 			return false;
-
 		
 		TypeNode subNode = getOrCreateType(subType.typeName);
 		TypeNode superNode = getOrCreateType(supType.typeName);
@@ -308,17 +313,19 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 
 
 	private void defaults() {
-		TypeNode intNode = new TypeNode("int");
-		TypeNode shortNode = new TypeNode("short");
-		TypeNode longNode = new TypeNode("long");
-		TypeNode charNode = new TypeNode("char");
-		TypeNode boolNode = new TypeNode("boolean");
-		TypeNode doubleNode = new TypeNode("double");
-		TypeNode floatNode = new TypeNode("float");
-		TypeNode voidNode = new TypeNode("void");
+		TypeNode intNode = new TypeNode("int", true);
+		TypeNode shortNode = new TypeNode("short", true);
+		TypeNode longNode = new TypeNode("long", true);
+		TypeNode charNode = new TypeNode("char", true);
+		TypeNode boolNode = new TypeNode("boolean", true);
+		TypeNode doubleNode = new TypeNode("double", true);
+		TypeNode floatNode = new TypeNode("float", true);
+		TypeNode voidNode = new TypeNode("void", true);
+		TypeNode byteNode = new TypeNode("byte", true);
 		
 		types.put("void", voidNode);
 		types.put("char", charNode);
+		types.put("byte", byteNode);
 		types.put("short", shortNode);
 		types.put("int", intNode);
 		types.put("long", longNode);
@@ -326,25 +333,44 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		types.put("float", floatNode);
 		types.put("double", doubleNode);
 		
-		shortNode.addSubtype(charNode);
-		charNode.addSupertype(shortNode);
+		shortNode.addSubtype(byteNode);
+		byteNode.addSupertype(shortNode);
 		
 		intNode.addSubtype(shortNode);
-		intNode.addSubtype(charNode);
-		charNode.addSupertype(intNode);
+		intNode.addSubtype(byteNode);
+		byteNode.addSupertype(intNode);
 		shortNode.addSupertype(intNode);
 		
 		longNode.addSubtype(shortNode);
 		longNode.addSubtype(intNode);
-		longNode.addSubtype(charNode);
-		charNode.addSupertype(longNode);
+		longNode.addSubtype(byteNode);
+		byteNode.addSupertype(longNode);
 		shortNode.addSupertype(longNode);
 		intNode.addSupertype(longNode);
+		
+		charNode.addSupertype(longNode);
+		longNode.addSubtype(charNode);
+		charNode.addSupertype(intNode);
+		intNode.addSubtype(charNode);
+		shortNode.addSupertype(charNode);
+		charNode.addSubtype(shortNode);
+		byteNode.addSupertype(charNode);
+		charNode.addSubtype(byteNode);
 		
 		doubleNode.addSubtype(floatNode);
 		floatNode.addSupertype(doubleNode);
 
 		floatNode.addSubtype(longNode);
 		longNode.addSupertype(floatNode);
+		
+		byteNode.completedDown();
+		shortNode.completedDown();
+		intNode.completedDown();
+		longNode.completedDown();
+		doubleNode.completedDown();
+		floatNode.completedDown();
+		charNode.completedDown();
+		boolNode.completedDown();
+		voidNode.completedDown();
 	}
 }
