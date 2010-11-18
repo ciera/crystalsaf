@@ -4,10 +4,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TypeNode {
-	private Set<TypeNode> subTypes;
+	private Set<TypeNode> subTypes;		//performance check 2: use a LinkedList since we ask for typenodes originally from another hashmap
 	private Set<TypeNode> superTypes;
 	private String qualifiedName;
 	private boolean isCompleted;
+	private boolean isPrimitive;
+	
+	public TypeNode(String name, boolean isPrimitive) {
+		this(name);
+		if (isPrimitive) {
+			isCompleted = true;
+			this.isPrimitive = true;
+		}
+	}
 	
 	public TypeNode(String name) {
 		qualifiedName = name;
@@ -27,6 +36,10 @@ public class TypeNode {
 	 */
 	public void completedDown() {isCompleted = true;}
 	
+	public boolean isPrimitive() {
+		return isPrimitive;
+	}
+
 	public boolean isDirectSupertype(TypeNode superNode) {
 		return superTypes.contains(superNode);
 	}
@@ -54,6 +67,8 @@ public class TypeNode {
 	 * @param subs An out parameter, must be initialized
 	 */
 	public void collectAllSubs(HashSet<String> subs) {
+		if (subs.contains(qualifiedName))  //Performance change 1: check containment of qualified name?
+			return;
 		subs.add(qualifiedName);
 		for (TypeNode subNode : subTypes)
 			subNode.collectAllSubs(subs);
