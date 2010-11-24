@@ -78,12 +78,9 @@ public class StandardAnalysisReporter implements IAnalysisReporter {
 			throw new NullPointerException("null ASTNode argument in reportUserProblem");
 		if (analysisName == null)
 			throw new NullPointerException("null analysis argument in reportUserProblem");
-		if (logger.isLoggable(Level.FINE))
-			logger.fine("Reporting problem to user: " + problemDescription + "; node: " + node);
-		if (regressionLogger.isLoggable(Level.INFO)) {
-			regressionLogger.info(problemDescription);
-			regressionLogger.info(node.toString());
-		}
+		logger.fine("Reporting problem to user: " + problemDescription + "; node: " + node);
+		regressionLogger.info(problemDescription);
+		regressionLogger.info(node.toString());
 
 		IResource resource;
 		ASTNode root = node.getRoot();
