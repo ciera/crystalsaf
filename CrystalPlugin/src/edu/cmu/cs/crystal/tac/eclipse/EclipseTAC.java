@@ -485,7 +485,7 @@ public class EclipseTAC implements IEclipseVariableQuery {
 		if(result == null) {
 			// explicitly qualified this
 			result = new ThisVariable(this, qualifier);
-			thisVar.put(node.resolveTypeBinding(), result);
+			thisVar.put(node.resolveTypeBinding().getTypeDeclaration(), result);
 		}
 		if(result.isImplicit()) {
 			// fix up qualifier of previously created implicitly qualified this variable
