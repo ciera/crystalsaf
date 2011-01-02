@@ -159,6 +159,13 @@
           id="edu.cmu.cs.crystal.clearproblems"
           name="Clear Warnings">
     </command>
+    <command
+          categoryId="CrystalPlugin.crystalcategory"
+          defaultHandler="edu.cmu.cs.crystal.internal.RunCrystalOnCurrentFileHandler"
+          description="Run Crystal on current file"
+          id="CrystalPlugin.runcrystaloncurrent"
+          name="runCrystalOnCurrent">
+    </command>
  </extension>
  <extension
        point="org.eclipse.ui.menus">
@@ -166,7 +173,8 @@
           locationURI="menu:org.eclipse.ui.main.menu?after=additions">
        <menu
              id="Crystal.maincyrstalmenu"
-             label="Crystal">
+             label="Crystal"
+             mnemonic="C">
           <dynamic
                 class="edu.cmu.cs.crystal.internal.AnalysisMenuPopulator"
                 id="CrystalPlugin.populateanalyses">
@@ -175,11 +183,13 @@
                 commandId="CrystalPlugin.runcrystal"
                 icon="icons/sample.gif"
                 label="Run Crystal"
+                mnemonic="R"
                 tooltip="Run the enabled Crystal analyses">
           </command>
           <command
                 commandId="edu.cmu.cs.crystal.clearproblems"
                 label="Clear Warnings"
+                mnemonic="l"
                 tooltip="Clear all warnings created by Crystal">
           </command>
        </menu>
@@ -189,9 +199,9 @@
        <toolbar
              id="CrystalPlugin.crystaltoolbar">
           <command
-                commandId="CrystalPlugin.runcrystal"
+                commandId="CrystalPlugin.runcrystaloncurrent"
                 icon="icons/sample.gif"
-                tooltip="Run the enabled Crystal analyses">
+                tooltip="Run the enabled Crystal analyses on current editor">
           </command>
        </toolbar>
     </menuContribution>
@@ -222,6 +232,21 @@
           class="edu.cmu.cs.crystal.analysis.print.PrintNodesAnalysis"
           name="AST Printer Analysis">
     </analysis>
+ </extension>
+ <extension
+       point="org.eclipse.ui.bindings">
+    <key
+          commandId="CrystalPlugin.runcrystaloncurrent"
+          contextId="org.eclipse.jdt.ui.javaEditorScope"
+          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+          sequence="F6">
+    </key>
+    <key
+          commandId="CrystalPlugin.runcrystal"
+          contextId="org.eclipse.ui.contexts.window"
+          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+          sequence="Shift+F6">
+    </key>
  </extension>
  
 </plugin>
