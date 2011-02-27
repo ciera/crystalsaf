@@ -1,0 +1,234 @@
+digraph simple {
+  31 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = err,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = Exception,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = Exception,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = "Exception err",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = catch,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = try,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = "int foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  27 [
+    label = "new Exception",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = throw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = 3,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "String message",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  23 [
+    label = "<",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare simple",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = blah,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 -> 24 [
+    label = ""
+  ];
+  19 -> 18 [
+    label = ""
+  ];
+  9 -> 7 [
+    label = ""
+  ];
+  22 -> 21 [
+    label = ""
+  ];
+  15 -> 12 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = ""
+  ];
+  23 -> 22 [
+    label = false
+  ];
+  12 -> 20 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  16 -> 11 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  30 -> 27 [
+    label = ""
+  ];
+  18 -> 17 [
+    label = ""
+  ];
+  23 -> 30 [
+    label = true
+  ];
+  21 -> 10 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  3 -> 8 [
+    label = ""
+  ];
+  13 -> 15 [
+    label = ""
+  ];
+  31 -> 2 [
+    label = ""
+  ];
+  6 -> 3 [
+    label = ""
+  ];
+  10 -> 31 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  26 -> 14 [
+    label = "java.lang.Exception"
+  ];
+  27 -> 26 [
+    label = ""
+  ];
+  25 -> 23 [
+    label = ""
+  ];
+  24 -> 25 [
+    label = ""
+  ];
+}

@@ -1,0 +1,79 @@
+digraph throwsExceptions {
+  9 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = "int a",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = str,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = "String str",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare throwsExceptions",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 -> 11 [
+    label = ""
+  ];
+  4 -> 9 [
+    label = ""
+  ];
+  6 -> 5 [
+    label = ""
+  ];
+  3 -> 0 [
+    label = ""
+  ];
+  10 -> 8 [
+    label = ""
+  ];
+  7 -> 4 [
+    label = ""
+  ];
+  11 -> 3 [
+    label = ""
+  ];
+  9 -> 10 [
+    label = ""
+  ];
+  5 -> 7 [
+    label = ""
+  ];
+}

@@ -1,0 +1,165 @@
+digraph returning {
+  19 [
+    label = 3,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = ">",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = "--",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = 2,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = "==",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = od,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = do,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "int a",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare returning",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 -> 9 [
+    label = false
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  19 -> 17 [
+    label = ""
+  ];
+  3 -> 6 [
+    label = ""
+  ];
+  14 -> 8 [
+    label = ""
+  ];
+  18 -> 19 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  8 -> 18 [
+    label = ""
+  ];
+  20 -> 2 [
+    label = ""
+  ];
+  7 -> 20 [
+    label = ""
+  ];
+  12 -> 10 [
+    label = ""
+  ];
+  11 -> 12 [
+    label = ""
+  ];
+  17 -> 7 [
+    label = false
+  ];
+  6 -> 11 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  13 -> 2 [
+    label = ""
+  ];
+  17 -> 6 [
+    label = true
+  ];
+  9 -> 16 [
+    label = ""
+  ];
+  10 -> 13 [
+    label = true
+  ];
+}

@@ -1,0 +1,130 @@
+digraph ConstructorSelf2 {
+  22 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = "+=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = bar,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = sx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = "String sx",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = sx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = Integer,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = "Call parseInt",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = ConstructorInvocation,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = sx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  1 [
+    label = "(error)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare ConstructorSelf2",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  13 -> 21 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  19 -> 18 [
+    label = ""
+  ];
+  1 -> 0 [
+    label = ""
+  ];
+  17 -> 14 [
+    label = ""
+  ];
+  12 -> 9 [
+    label = ""
+  ];
+  15 -> 17 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  22 -> 2 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+  14 -> 1 [
+    label = "java.lang.NumberFormatException"
+  ];
+  18 -> 22 [
+    label = ""
+  ];
+  10 -> 12 [
+    label = ""
+  ];
+  9 -> 15 [
+    label = ""
+  ];
+}

@@ -1,0 +1,71 @@
+digraph ConstructorSelf1 {
+  9 [
+    label = "double dx",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = dx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = CastExpression,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = ConstructorInvocation,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = dx,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = double,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare ConstructorSelf1",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 -> 9 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = ""
+  ];
+  9 -> 15 [
+    label = ""
+  ];
+  12 -> 16 [
+    label = ""
+  ];
+  10 -> 11 [
+    label = ""
+  ];
+  15 -> 13 [
+    label = ""
+  ];
+  16 -> 2 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+}

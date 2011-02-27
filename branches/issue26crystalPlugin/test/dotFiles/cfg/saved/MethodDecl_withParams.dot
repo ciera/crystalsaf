@@ -1,0 +1,79 @@
+digraph withParams {
+  9 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = "int a",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = str,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "String str",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare withParams",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 -> 7 [
+    label = ""
+  ];
+  6 -> 3 [
+    label = ""
+  ];
+  10 -> 2 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  7 -> 10 [
+    label = ""
+  ];
+  3 -> 8 [
+    label = ""
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+}

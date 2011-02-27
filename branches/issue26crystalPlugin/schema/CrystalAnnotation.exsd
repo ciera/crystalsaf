@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="edu.cmu.cs.crystal">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="edu.cmu.cs.crystal" id="CrystalAnnotation" name="Crystal Annotation"/>
+      </appInfo>
+      <documentation>
+         This extension point allows registering specialized annotation parsers with the Crystal annotation database.  &lt;b&gt;All&lt;/b&gt; annotations present in the analyzed source files will be available in the Crystal annotation database.  This extension point allows using customized representations for specific annotations.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="customAnnotation"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a fully qualified identifier of the target extension point
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  an optional identifier of the extension instance
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  an optional name of the extension instance
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="customAnnotation">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name"/>
+         </appInfo>
+         <documentation>
+            Defines a set of @Annotation types to be represented in Crystal&apos;s annotation database with a custom parser.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="sourceAnnotation"/>
+         </sequence>
+         <attribute name="parserClass" type="string" use="default" value="edu.cmu.cs.crystal.annotations.CrystalAnnotation">
+            <annotation>
+               <documentation>
+                  Fully qualified name of the custom annotation parser class.  Must implement the ICrystalAnnotation interface
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":edu.cmu.cs.crystal.annotations.ICrystalAnnotation"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  Optional user-friendly name for the annotation parser.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="sourceAnnotation">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name"/>
+         </appInfo>
+         <documentation>
+            Defines a @Annotation class for use in Crystal with a custom annotation parser.  Annotations not registered with this extension point will still be available in Crystal&apos;s annotation database.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="annotationClass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Fully qualified name of the @Annotation class.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":java.lang.annotation.Annotation"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  Optional user-friendly name of the annotation.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="parseFromMeta" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  If this is true, then the annotation class is actually a meta annotation. Parse any annotation which has this class as a meta annotation.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         Crystal 3.3.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         Suppose your analysis uses an annotation @IntRange to track value ranges of integers.  The annotation takes a single string &quot;value&quot; parameter describing the range relative to a variable &lt;code&gt;x&lt;/code&gt;, e.g. @IntRange(&quot;0 &lt;= x &lt; 10&quot;).  In order to use this annotation more effectively in an analysis you may choose to provide a custom annotation parser that parses the parameter string and provides convenience methods to access the lower and upper bounds:
+
+&lt;pre&gt;
+public class IntRangeAnnotation 
+ extends CrystalAnnotation 
+ implements ICrystalAnnotation {
+ // inherit getName, setName, getObject, setObject
+ Integer min, max;
+ public int getMinInclusive() {
+  if(min == null || max == null) {
+   parseString();
+  }
+  return min;
+ }
+ public int getMaxInclusive() {
+  if(min == null || max == null) {
+   parseString();
+  }
+  return max;
+ }
+ private void parseString() {
+  // get raw annotation parameter from inherited method
+  String value = getObject(&quot;value&quot;);
+  // ... parse min and max from value
+ }
+}
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         Annotations will by default be represented in the Crystal annotation database using instances of the CrystalAnnotation class.  Plugin developers &lt;i&gt;can&lt;/i&gt; provide their implementations of ICrystalAnnotation as long as they include a parameterless constructor.  Annotation types can be associated with these specialized representations (&quot;annotation parsers&quot;) using this extension point.  At runtime, annotations of registered types with be represented with the registered annotation parsers in the Crystal annotationd database.  Annotations not registered with this extension point will still be available in the Crystal annotation database.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         The class CrystalAnnotation is the default implementation of ICrystalAnnotation.  It is used to represent all annotations not registered with this extension point.  Custom annotation parsers &lt;i&gt;can&lt;/i&gt; but do not have to extend CrystalAnnotation; they must implement ICrystalAnnotation.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

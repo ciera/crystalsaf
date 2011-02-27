@@ -1,0 +1,122 @@
+digraph returning {
+  8 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = "int b",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = return,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "int a",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = b,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = a,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = "==",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare returning",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 -> 6 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  10 -> 14 [
+    label = true
+  ];
+  7 -> 8 [
+    label = ""
+  ];
+  10 -> 16 [
+    label = false
+  ];
+  6 -> 11 [
+    label = ""
+  ];
+  13 -> 2 [
+    label = ""
+  ];
+  15 -> 2 [
+    label = ""
+  ];
+  12 -> 10 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  3 -> 7 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  16 -> 15 [
+    label = ""
+  ];
+  11 -> 12 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+}

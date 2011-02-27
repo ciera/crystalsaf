@@ -1,0 +1,221 @@
+digraph blockbreak6 {
+  37 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  35 [
+    label = "Call meth3",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  34 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  32 [
+    label = break,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
+    label = "Call meth2",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = "Call meth1",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = "label subbar1",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = "label bar",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  29 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = "label foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = "label subbar2",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = boolean,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = "Call meth2",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "boolean cond",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  23 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare blockbreak6",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = break,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = cond,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  35 -> 34 [
+    label = ""
+  ];
+  20 -> 19 [
+    label = false
+  ];
+  9 -> 35 [
+    label = ""
+  ];
+  16 -> 20 [
+    label = ""
+  ];
+  17 -> 16 [
+    label = ""
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  12 -> 30 [
+    label = false
+  ];
+  37 -> 2 [
+    label = ""
+  ];
+  20 -> 21 [
+    label = true
+  ];
+  3 -> 12 [
+    label = ""
+  ];
+  6 -> 37 [
+    label = ""
+  ];
+  23 -> 15 [
+    label = ""
+  ];
+  5 -> 3 [
+    label = ""
+  ];
+  8 -> 6 [
+    label = ""
+  ];
+  24 -> 23 [
+    label = ""
+  ];
+  19 -> 24 [
+    label = ""
+  ];
+  28 -> 26 [
+    label = ""
+  ];
+  32 -> 28 [
+    label = ""
+  ];
+  29 -> 32 [
+    label = ""
+  ];
+  11 -> 9 [
+    label = ""
+  ];
+  30 -> 29 [
+    label = ""
+  ];
+  12 -> 17 [
+    label = true
+  ];
+  13 -> 11 [
+    label = ""
+  ];
+  21 -> 15 [
+    label = ""
+  ];
+  26 -> 11 [
+    label = ""
+  ];
+  15 -> 13 [
+    label = ""
+  ];
+  4 -> 5 [
+    label = ""
+  ];
+  34 -> 8 [
+    label = ""
+  ];
+}

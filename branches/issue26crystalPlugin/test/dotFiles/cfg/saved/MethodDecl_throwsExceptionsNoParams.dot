@@ -1,0 +1,23 @@
+digraph throwsExceptionsNoParams {
+  4 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare throwsExceptionsNoParams",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 -> 0 [
+    label = ""
+  ];
+  4 -> 3 [
+    label = ""
+  ];
+}

@@ -1,0 +1,290 @@
+digraph simpleFinally {
+  29 [
+    label = if,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  28 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  27 [
+    label = blah,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  26 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  25 [
+    label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  24 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  23 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  22 [
+    label = err,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  21 [
+    label = Exception,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  20 [
+    label = Exception,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  9 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  8 [
+    label = int,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  19 [
+    label = "Exception err",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  7 [
+    label = "int foo",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  18 [
+    label = catch,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  6 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  17 [
+    label = foobar,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  5 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  16 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  4 [
+    label = String,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  15 [
+    label = "+",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 [
+    label = "String message",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  14 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  2 [
+    label = "(uber-return)",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  13 [
+    label = "=",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  12 [
+    label = ExpressionStatement,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  0 [
+    label = "Declare simpleFinally",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  11 [
+    label = "{}",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  10 [
+    label = try,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  38 [
+    label = Block,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  37 [
+    label = message,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  34 [
+    label = "new Exception",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  33 [
+    label = throw,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  32 [
+    label = 3,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  31 [
+    label = foo,
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  30 [
+    label = "<",
+    fontname = Helvetica,
+    fontsize = 10
+  ];
+  3 -> 8 [
+    label = ""
+  ];
+  37 -> 34 [
+    label = ""
+  ];
+  32 -> 30 [
+    label = ""
+  ];
+  24 -> 23 [
+    label = ""
+  ];
+  12 -> 11 [
+    label = ""
+  ];
+  22 -> 19 [
+    label = ""
+  ];
+  16 -> 17 [
+    label = ""
+  ];
+  4 -> 6 [
+    label = ""
+  ];
+  28 -> 16 [
+    label = ""
+  ];
+  38 -> 2 [
+    label = ""
+  ];
+  26 -> 25 [
+    label = ""
+  ];
+  7 -> 31 [
+    label = ""
+  ];
+  21 -> 20 [
+    label = ""
+  ];
+  14 -> 13 [
+    label = ""
+  ];
+  8 -> 9 [
+    label = ""
+  ];
+  34 -> 33 [
+    label = ""
+  ];
+  23 -> 18 [
+    label = ""
+  ];
+  30 -> 29 [
+    label = false
+  ];
+  11 -> 10 [
+    label = ""
+  ];
+  19 -> 27 [
+    label = ""
+  ];
+  17 -> 15 [
+    label = ""
+  ];
+  6 -> 3 [
+    label = ""
+  ];
+  30 -> 37 [
+    label = true
+  ];
+  2 -> 0 [
+    label = ""
+  ];
+  31 -> 32 [
+    label = ""
+  ];
+  25 -> 24 [
+    label = ""
+  ];
+  20 -> 22 [
+    label = ""
+  ];
+  13 -> 12 [
+    label = ""
+  ];
+  9 -> 7 [
+    label = ""
+  ];
+  33 -> 21 [
+    label = "java.lang.Exception"
+  ];
+  5 -> 4 [
+    label = ""
+  ];
+  18 -> 16 [
+    label = ""
+  ];
+  29 -> 28 [
+    label = ""
+  ];
+  10 -> 38 [
+    label = ""
+  ];
+  27 -> 26 [
+    label = ""
+  ];
+  15 -> 14 [
+    label = ""
+  ];
+}
