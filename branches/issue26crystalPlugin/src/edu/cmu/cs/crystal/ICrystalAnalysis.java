@@ -19,7 +19,7 @@
  */
 package edu.cmu.cs.crystal;
 
-import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 /**
@@ -39,7 +39,7 @@ public interface ICrystalAnalysis {
 	 * @param rootNode The root ASTNode of the compilation unit
 	 */
 	public void runAnalysis(IAnalysisReporter reporter,	
-			IAnalysisInput input, ICompilationUnit compUnit, 
+			IAnalysisInput input, ITypeRoot compUnit, 
 			CompilationUnit rootNode);
 	
 	/**

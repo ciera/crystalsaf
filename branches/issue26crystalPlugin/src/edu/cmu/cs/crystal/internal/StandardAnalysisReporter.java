@@ -25,8 +25,8 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
@@ -44,10 +44,15 @@ public class StandardAnalysisReporter implements IAnalysisReporter {
 	private static final Logger logger = Logger.getLogger(Crystal.class.getName());
 	private static final Logger regressionLogger = Logger.getLogger(REGRESSION_LOGGER);
 
-	public void clearMarkersForCompUnit(ICompilationUnit compUnit) {
+	public void clearMarkersForCompUnit(ITypeRoot compUnit) {
 		try {
-			compUnit.getResource().deleteMarkers(
-			    Crystal.MARKER_DEFAULT, true, IResource.DEPTH_INFINITE);
+			IResource resource = compUnit.getResource();
+			if (resource == null)
+				// this happens with external libraries like the Java runtime library
+				logger.warning("Cannot clear markers in " + compUnit);
+			else
+				resource.deleteMarkers(
+				    Crystal.MARKER_DEFAULT, true, IResource.DEPTH_INFINITE);
 		}
 		catch (CoreException ce) {
 			logger.log(Level.SEVERE, "CoreException when removing markers", ce);
@@ -82,20 +87,26 @@ public class StandardAnalysisReporter implements IAnalysisReporter {
 		regressionLogger.info(problemDescription);
 		regressionLogger.info(node.toString());
 
-		IResource resource;
+		IResource resource = null;
 		ASTNode root = node.getRoot();
+		String prefix = null;
 
 		// Identify the closest resource to the ASTNode,
 		// otherwise fall back to using the high-level workspace root.
-		if (root.getNodeType() == ASTNode.COMPILATION_UNIT) {
+		if (root != null && root.getNodeType() == ASTNode.COMPILATION_UNIT) {
 			CompilationUnit cu = (CompilationUnit) root;
 			IJavaElement je = cu.getJavaElement();
 			resource = je.getResource();
+			// print type root name into message if no resource
+			prefix = resource == null ? 
+					"[" + analysisName + " in " + je.getElementName() + "]" : 
+					"[" + analysisName + "]"; 
 		}
-		else {
-			// Use the high-level Workspace
+		if (resource == null)
+			// Fall back to the high-level Workspace
 			resource = ResourcesPlugin.getWorkspace().getRoot();
-		}
+		if (prefix == null)
+			prefix = "[" + analysisName + " in ???]";
 
 		int sevMarker;
 
@@ -112,7 +123,7 @@ public class StandardAnalysisReporter implements IAnalysisReporter {
 			IMarker marker = resource.createMarker(Crystal.MARKER_DEFAULT);
 			marker.setAttribute(IMarker.CHAR_START, node.getStartPosition());
 			marker.setAttribute(IMarker.CHAR_END, node.getStartPosition() + node.getLength());
-			marker.setAttribute(IMarker.MESSAGE, "[" + analysisName + "]: " + problemDescription);
+			marker.setAttribute(IMarker.MESSAGE, prefix + ": " + problemDescription);
 			marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
 			marker.setAttribute(IMarker.SEVERITY, sevMarker);
 			marker.setAttribute(Crystal.MARKER_ATTR_ANALYSIS, analysisName);

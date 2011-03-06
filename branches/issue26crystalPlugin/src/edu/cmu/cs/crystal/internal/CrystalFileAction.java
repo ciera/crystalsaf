@@ -19,6 +19,8 @@
  */
 package edu.cmu.cs.crystal.internal;
 
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,8 +28,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -63,17 +65,19 @@ public class CrystalFileAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		List<ICompilationUnit> reanalyzeList = null;
+		// use set in case of overlapping selections (e.g., methods from 1 comp unit)
+		Set<ITypeRoot> reanalyzeList = null;
 		
 		if (!selection.isEmpty()) {
 			if (selection instanceof IStructuredSelection) {
 				for (Object element : ((IStructuredSelection)selection).toList()) {
-					List<ICompilationUnit> temp =
-						WorkspaceUtilities.collectCompilationUnits((IJavaElement) element);
+					List<ITypeRoot> temp =
+						WorkspaceUtilities.collectCompilationUnits((IJavaElement) element,
+								CrystalPreferences.getIncludeArchives());
 					if(temp == null)
 						continue;
 					if(reanalyzeList == null)
-						reanalyzeList = temp;
+						reanalyzeList = new LinkedHashSet<ITypeRoot>(temp);
 					else
 						reanalyzeList.addAll(temp);
 				}
@@ -82,7 +86,7 @@ public class CrystalFileAction implements IObjectActionDelegate {
 		
 		if(reanalyzeList != null) {
 			final Crystal crystal = AbstractCrystalPlugin.getCrystalInstance();
-			final List<ICompilationUnit> compUnits = reanalyzeList;
+			final Collection<ITypeRoot> compUnits = reanalyzeList;
 			Job j = new Job("Crystal") {
 
 				@Override
@@ -90,7 +94,7 @@ public class CrystalFileAction implements IObjectActionDelegate {
 					final Set<String> enabled = AbstractCrystalPlugin.getEnabledAnalyses(); 
 					IRunCrystalCommand run_command = new IRunCrystalCommand(){
 						public Set<String> analyses() {	return enabled;	}
-						public List<ICompilationUnit> compilationUnits() {
+						public Collection<ITypeRoot> compilationUnits() {
 							return compUnits;
 						}
 						public IAnalysisReporter reporter() { 

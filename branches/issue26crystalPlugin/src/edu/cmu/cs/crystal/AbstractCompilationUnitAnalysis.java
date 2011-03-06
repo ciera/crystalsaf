@@ -19,7 +19,7 @@
  */
 package edu.cmu.cs.crystal;
 
-import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 /**
@@ -41,12 +41,12 @@ public abstract class AbstractCompilationUnitAnalysis implements ICrystalAnalysi
 	 * This implementation of runAnalysis will set the reporter and input and then
 	 * call the abstract method $analyzeCompilationUnit.
 	 * 
-	 * @param compUnit The ICompilationUnit that represents the file we are analyzing
+	 * @param compUnit The ITypeRoot that represents the .java or .class file we are analyzing
 	 * @param reporter The IAnalysisReport that allows an analysis to report issues.
 	 * @param rootNode The ASTNode which represents this compilation unit.
 	 */
 	public void runAnalysis(IAnalysisReporter reporter,
-			IAnalysisInput input, ICompilationUnit compUnit, 
+			IAnalysisInput input, ITypeRoot compUnit, 
 			CompilationUnit rootNode) {
 		this.reporter = reporter;
 		this.analysisInput = input;
