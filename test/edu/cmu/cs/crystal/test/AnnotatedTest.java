@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -374,7 +375,7 @@ public class AnnotatedTest {
 
 			public IAnalysisReporter reporter() {
 				return new IAnalysisReporter() {
-					public void clearMarkersForCompUnit(ICompilationUnit compUnit) {}
+					public void clearMarkersForCompUnit(ITypeRoot compUnit) {}
 
 					public PrintWriter debugOut() {
 						return NullPrintWriter.instance();

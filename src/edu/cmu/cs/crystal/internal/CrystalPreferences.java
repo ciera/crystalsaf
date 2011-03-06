@@ -30,13 +30,16 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
  * @since Crystal 3.4.2
  */
 public class CrystalPreferences extends AbstractPreferenceInitializer {
-	
+
 	private static final String P_DISABLED_ANALYSES = "enabledAnalyses";
+	private static final String P_INCLUDE_ARCHIVES = "includeArchives";
 
 	@Override
 	public void initializeDefaultPreferences() {
 		AbstractCrystalPlugin.getDefault().getPreferenceStore().
-		setDefault(P_DISABLED_ANALYSES, "");
+			setDefault(P_DISABLED_ANALYSES, "");
+		AbstractCrystalPlugin.getDefault().getPreferenceStore().
+			setDefault(P_INCLUDE_ARCHIVES, false);
 	}
 	
 	static Set<String> getDisabledAnalyses() {
@@ -65,4 +68,13 @@ public class CrystalPreferences extends AbstractPreferenceInitializer {
 				setValue(P_DISABLED_ANALYSES, disabledString.toString());
 	}
 
+	static boolean getIncludeArchives() {
+		return AbstractCrystalPlugin.getDefault().getPreferenceStore().
+				getBoolean(P_INCLUDE_ARCHIVES);
+	}
+
+	static void setIncludeArchives(boolean include) {
+		AbstractCrystalPlugin.getDefault().getPreferenceStore().
+				setValue(P_INCLUDE_ARCHIVES, include);
+	}
 }
