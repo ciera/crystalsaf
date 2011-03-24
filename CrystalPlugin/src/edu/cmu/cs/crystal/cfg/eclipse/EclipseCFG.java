@@ -663,10 +663,13 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph<ASTNode>
 		createEdge(uberReturn, method);
 
 		if (node.isConstructor()) {
-			TypeDeclaration type = (TypeDeclaration) node.getParent();
-			for (FieldDeclaration field : type.getFields()) {
-				if (!Modifier.isStatic(field.getModifiers()))
-					field.accept(this);
+			ITypeBinding parentClass = node.resolveBinding().getDeclaringClass();
+			if (parentClass.isClass()) { //ignore enums or annotations, as they have constructors but not fields
+				TypeDeclaration type = (TypeDeclaration) node.getParent();
+				for (FieldDeclaration field : type.getFields()) {
+					if (!Modifier.isStatic(field.getModifiers()))
+						field.accept(this);
+				}
 			}
 		}
 
@@ -734,38 +737,40 @@ public class EclipseCFG extends ASTVisitor implements IControlFlowGraph<ASTNode>
 		ASTNode firstStmt = null;
 		EclipseCFGNode body = new EclipseCFGNode(node.getBody());
 
-		// connect field declarations with initializers together
-		for (FieldDeclaration field : ((TypeDeclaration) node.getParent()).getFields()) {
-			if (Modifier.isStatic(field.getModifiers()))
-				continue;
-			for (VariableDeclarationFragment frag : (List<VariableDeclarationFragment>) field
-			    .fragments()) {
-				if (frag.getInitializer() != null) {
-					current = nodeMap.get(frag);
+		
+		if (node.resolveBinding().getDeclaringClass().isClass()) { //annotations and enums don't have fields
+			// connect field declarations with initializers together
+			for (FieldDeclaration field : ((TypeDeclaration) node.getParent()).getFields()) {
+				if (Modifier.isStatic(field.getModifiers()))
+					continue;
+				for (VariableDeclarationFragment frag : (List<VariableDeclarationFragment>) field
+				    .fragments()) {
+					if (frag.getInitializer() != null) {
+						current = nodeMap.get(frag);
+						if (last != null) {
+							createEdge(last.getEnd(), current.getStart());
+							current.setStart(last.getStart());
+						}
+						last = current;
+					}
+				}
+			}
+			// now figure out where to insert the initializers
+			if (statements.size() > 0) {
+				firstStmt = statements.get(0);
+	
+				if (firstStmt instanceof SuperConstructorInvocation) {
+					current = nodeMap.get(firstStmt);
 					if (last != null) {
-						createEdge(last.getEnd(), current.getStart());
-						current.setStart(last.getStart());
+						createEdge(current.getEnd(), last.getStart());
+						current.setEnd(last.getEnd());
 					}
 					last = current;
+					statements.remove(firstStmt);
 				}
-			}
-		}
-
-		// now figure out where to insert the initializers
-		if (statements.size() > 0) {
-			firstStmt = statements.get(0);
-
-			if (firstStmt instanceof SuperConstructorInvocation) {
-				current = nodeMap.get(firstStmt);
-				if (last != null) {
-					createEdge(current.getEnd(), last.getStart());
-					current.setEnd(last.getEnd());
+				else if (firstStmt instanceof ConstructorInvocation) {
+					last = null;
 				}
-				last = current;
-				statements.remove(firstStmt);
-			}
-			else if (firstStmt instanceof ConstructorInvocation) {
-				last = null;
 			}
 		}
 
