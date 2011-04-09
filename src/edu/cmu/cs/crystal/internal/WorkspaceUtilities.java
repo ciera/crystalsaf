@@ -424,8 +424,11 @@ public class WorkspaceUtilities {
 
 	/**
 	 * Gets the root ASTNode for a compilation unit, with bindings on.
-	 * @param compUnit
+	 * @param compUnit never {@code null}
 	 * @return the root ASTNode for a compilation unit, with bindings on. 
+	 * @throws IllegalStateException if {@code compUnit} doesn't have a
+	 * {@link ITypeRoot#getSource() source attachment} 
+	 * @see ASTParser#createAST(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public static ASTNode getASTNodeFromCompilationUnit(ITypeRoot compUnit) {
 	 	ASTParser parser = ASTParser.newParser(AST.JLS3);
@@ -435,7 +438,7 @@ public class WorkspaceUtilities {
 			return parser.createAST(/* passing in monitor messes up previous monitor state */ null);
 		} catch (IllegalStateException e) {
 			log.log(Level.SEVERE, "could not parse " + compUnit, e);
-			return null;
+			throw e;
 		}
 	}
 
