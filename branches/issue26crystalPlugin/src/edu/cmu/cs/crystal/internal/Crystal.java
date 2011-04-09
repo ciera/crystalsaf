@@ -180,11 +180,6 @@ public class Crystal {
 						// Run each analysis on the current compilation unit.
 						CompilationUnit ast_comp_unit =
 						    (CompilationUnit) WorkspaceUtilities.getASTNodeFromCompilationUnit(cu);
-						if (ast_comp_unit == null) {
-							// this can happen with .class files with no source attachment
-							logger.fine("couldn't parse " + cu);
-							return;
-						}
 
 						// Here, create one TAC cache per compilation unit.
 						final CompilationUnitTACs compUnitTacs = new CompilationUnitTACs();
