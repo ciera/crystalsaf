@@ -33,13 +33,11 @@ import org.eclipse.ui.menus.UIElement;
  */
 public class IncludeClassFilesHandler extends AbstractHandler implements IElementUpdater {
 
-	@Override
 	public void updateElement(UIElement element, 
-			@SuppressWarnings("unchecked") Map parameters) {
+			@SuppressWarnings("rawtypes") Map parameters) {
 		element.setChecked(CrystalPreferences.getIncludeArchives());
 	}
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		CrystalPreferences.setIncludeArchives(! CrystalPreferences.getIncludeArchives());
 		
