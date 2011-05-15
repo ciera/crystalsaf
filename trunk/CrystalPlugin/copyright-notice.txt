@@ -1,4 +1,4 @@
-Copyright (c) 2006-2009 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman,    
+Copyright (c) 2006-2011 Marwan Abi-Antoun, Jonathan Aldrich, Nels E. Beckman,    
 Kevin Bierhoff, David Dickey, Ciera Jaspan, Thomas LaToza, Gabriel Zenarosa, and others.
 
 This file is part of Crystal.

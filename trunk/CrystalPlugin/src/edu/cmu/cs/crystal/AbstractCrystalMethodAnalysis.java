@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
@@ -54,7 +54,7 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	 * been analyzed.
 	 */
 	public final void runAnalysis(IAnalysisReporter reporter,
-			IAnalysisInput input, ICompilationUnit compUnit, 
+			IAnalysisInput input, ITypeRoot compUnit, 
 			CompilationUnit rootNode) {
 		this.reporter = reporter;
 		this.analysisInput = input;
@@ -103,7 +103,7 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	 * This method is invoked once before any methods are analyzed. 
 	 * It can be used to perform pre-analysis functionality, if needed.
 	 */
-	public void beforeAllMethods(ICompilationUnit compUnit, CompilationUnit rootNode) {
+	public void beforeAllMethods(ITypeRoot compUnit, CompilationUnit rootNode) {
 	}
 
 	/**
@@ -115,6 +115,6 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	 * This method is invoked once after all methods are analyzed. 
 	 * It can be used to perform post-analysis functionality, if needed.
 	 */
-	public void afterAllMethods(ICompilationUnit compUnit, CompilationUnit rootNode) {
+	public void afterAllMethods(ITypeRoot compUnit, CompilationUnit rootNode) {
 	}
 }

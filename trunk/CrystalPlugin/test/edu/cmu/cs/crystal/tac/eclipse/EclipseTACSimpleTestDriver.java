@@ -26,8 +26,8 @@ import java.util.logging.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
@@ -68,7 +68,7 @@ public class EclipseTACSimpleTestDriver implements ICrystalAnalysis {
 	/* (non-Javadoc)
 	 * @see edu.cmu.cs.crystal.ICrystalAnalysis#runAnalysis()
 	 */
-	public void runAnalysis(IAnalysisReporter reporter, IAnalysisInput input, ICompilationUnit compUnit, CompilationUnit rootNode) {
+	public void runAnalysis(IAnalysisReporter reporter, IAnalysisInput input, ITypeRoot compUnit, CompilationUnit rootNode) {
 		if (runOnce) {
 			runSimpleTests();
 			runTargetSelectionTests();

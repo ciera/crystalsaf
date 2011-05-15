@@ -19,7 +19,7 @@ package edu.cmu.cs.crystal;
 
 import java.io.PrintWriter;
 
-import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 /**
@@ -72,5 +72,5 @@ public interface IAnalysisReporter {
 	 * For the given compilation unit, clear all the user problems which were reported, if necessary. Implementers
 	 * are free to implement this method as necessary, including by doing nothing at all.
 	 */
-	public void clearMarkersForCompUnit(ICompilationUnit compUnit);
+	public void clearMarkersForCompUnit(ITypeRoot compUnit);
 }

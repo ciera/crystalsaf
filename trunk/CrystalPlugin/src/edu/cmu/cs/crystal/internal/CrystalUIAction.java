@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -59,11 +59,12 @@ public class CrystalUIAction implements IWorkbenchWindowActionDelegate {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				final Set<String> enabled = AbstractCrystalPlugin.getEnabledAnalyses();
-				final List<ICompilationUnit> cus = WorkspaceUtilities.scanForCompilationUnits();
+				final List<ITypeRoot> cus = WorkspaceUtilities.scanForCompilationUnits(
+						CrystalPreferences.getIncludeArchives());
 				
 				IRunCrystalCommand run_command = new IRunCrystalCommand(){
 					public Set<String> analyses() { return enabled;	}
-					public List<ICompilationUnit> compilationUnits() { 
+					public List<ITypeRoot> compilationUnits() { 
 						if(cus == null) 
 							return emptyList();
 						else return unmodifiableList(cus); 

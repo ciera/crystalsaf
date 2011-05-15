@@ -29,8 +29,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IBinding;
@@ -161,7 +160,7 @@ public class Crystal {
 		}
 
 		// Now, create one job per compilation unit
-		for (final ICompilationUnit cu : command.compilationUnits()) {
+		for (final ITypeRoot cu : command.compilationUnits()) {
 
 			jobs.add(new ISingleCrystalJob() {
 				public void run(final AnnotationDatabase annoDB) {
@@ -223,12 +222,9 @@ public class Crystal {
 									logger.info("Ongoing Crystal analysis job canceled");
 								}
 							}
-							catch (Throwable err) {
-								try {
-									logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getUnderlyingResource().getFullPath().toOSString(), err);
-								} catch (JavaModelException e) {
-									logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu.getElementName() + " and couldn't even get the full path to the file!", err);
-								}
+							catch (RuntimeException err) {
+								logger.log(Level.SEVERE, "Analysis " + analysis.getName() + " had an error when analyzing " + cu, err);
+								throw err;
 							}
 						}
 					}
@@ -280,18 +276,28 @@ public class Crystal {
 
 				// tell analyses that the analysis is about to begin!
 				for (ICrystalAnalysis analysis : analyses_to_use ) {
+					if (monitor != null)
+						monitor.subTask("Preparing Crystal analyses");
 					analysis.beforeAllCompilationUnits();
 				}
 				
 				// Now, run every single job
+				RuntimeException err = null;
 				for (ISingleCrystalJob job : analysisJobs()) {
 					if(monitor != null && monitor.isCanceled())
 						// TODO Do we run the after methods if canceled??
 						break;
-					job.run(annoDB);
+					try {
+						job.run(annoDB);
+					} catch (RuntimeException e) {
+						// don't abort the overall run if one job fails
+						err = e;
+					}
 				}
 				// Tell all analyses, we are done.
 				for (ICrystalAnalysis analysis : analyses_to_use) {
+					if (monitor != null)
+						monitor.subTask("Post-processing");
 					analysis.afterAllCompilationUnits();
 				}
 				
@@ -299,6 +305,10 @@ public class Crystal {
 					// that's it folks!
 					monitor.done();
 				}
+				
+				if (err != null)
+					// throw latest exception, if there was one
+					throw err;
 			}
 		};
 	}
