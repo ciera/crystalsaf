@@ -58,7 +58,6 @@ public class RunCrystalOnCurrentFileHandler implements IHandler {
 	
 	private static final Logger log = Logger.getLogger(RunCrystalOnCurrentFileHandler.class.getName());
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ICompilationUnit cu = null;
 		try {
