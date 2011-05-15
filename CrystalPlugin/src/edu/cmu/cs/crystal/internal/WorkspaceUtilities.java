@@ -40,6 +40,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IParent;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
@@ -157,6 +158,108 @@ public class WorkspaceUtilities {
  		return list;
 	}
 	
+	/**
+	 * Traverses the workspace for CompilationUnits and (optionally) class files.
+	 * 
+	 * @param   includeClassfiles include compilation units availabile as .class files
+	 * @return	the list of all CompilationUnits in the workspace or
+	 * <code>null</code> if no comp units were found.
+	 */
+	public static List<ITypeRoot> scanForCompilationUnits(boolean includeClassfiles) {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		if(workspace == null) {
+			log.warning("No workspace");
+			return null;
+		}
+		IWorkspaceRoot root = workspace.getRoot();
+		if(root == null) {
+			log.warning("No workspace root");
+			return null;
+		}
+ 		IJavaModel javaModel = JavaCore.create(root);
+		if(javaModel == null) {
+			log.warning("No Java Model in workspace");
+			return null;
+		}
+
+ 		// Get all CompilationUnits
+ 		return collectCompilationUnits(javaModel, includeClassfiles);
+	}
+
+	/**
+	 * A recursive traversal of the IJavaModel starting from the given
+	 * element to collect all ITypeRoots, optionally including .class files available
+	 * in libraries.
+	 * If the given element is a type root it will be included no matter what.
+	 * Each compilation unit corresponds to each java file.
+	 *  
+	 * @param javaElement a node in the IJavaModel that will be traversed
+	 * @param includeArchives whether to descend into binary libraries of .class files
+	 * @return a list of compilation units or <code>null</code> if no comp units are found
+	 */
+	public static List<ITypeRoot> collectCompilationUnits(IJavaElement javaElement, 
+			boolean includeArchives) {
+		List<ITypeRoot> result = new ArrayList<ITypeRoot>();
+		collectTypeRoots(result, javaElement, includeArchives);
+		return result;
+	}
+	
+	private static void collectTypeRoots(List<? super ITypeRoot> list, IJavaElement javaElement,
+			boolean includeArchives) {
+		// We are traversing the JavaModel for COMPILATION_UNITs and CLASS_FILEs
+ 		switch (javaElement.getElementType()) {
+ 		case IJavaElement.CLASS_FILE:
+ 		case IJavaElement.COMPILATION_UNIT:
+ 			list.add((ITypeRoot) javaElement);
+ 			return;
+ 		// if the given element is inside a type root, find it
+ 		case IJavaElement.ANNOTATION:
+ 		case IJavaElement.FIELD:
+ 		case IJavaElement.IMPORT_CONTAINER:
+ 		case IJavaElement.IMPORT_DECLARATION:
+ 		case IJavaElement.INITIALIZER:
+ 		case IJavaElement.LOCAL_VARIABLE:
+ 		case IJavaElement.METHOD:
+ 		case IJavaElement.PACKAGE_DECLARATION:
+ 		case IJavaElement.TYPE:
+ 		case IJavaElement.TYPE_PARAMETER:
+ 			do {
+ 				if (javaElement instanceof ITypeRoot) {
+ 					list.add((ITypeRoot) javaElement);
+ 					return;
+ 				}
+ 				javaElement = javaElement.getParent();
+ 			} while (javaElement != null);
+ 			return;
+ 		}
+ 		
+		// Non COMPILATION_UNITs will have to be further traversed
+		if(javaElement instanceof IParent) {
+ 	 		IParent parent = (IParent) javaElement;
+ 	 		
+ 	 		// Do not traverse PACKAGE_FRAGMENT_ROOTs that are ReadOnly
+ 	 		// this ignores libraries and .class files
+ 	 		if(! includeArchives
+ 	 				&& javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT
+ 	 				&& javaElement.isReadOnly()) {
+				return;
+ 	 		}
+ 	 		
+ 			// Traverse
+ 	 		try {
+	 			if(parent.hasChildren()) {
+	 				IJavaElement[] children = parent.getChildren();
+					for(int i = 0; i < children.length; i++)
+						collectTypeRoots(list, children[i], includeArchives);
+	 			}
+			} catch (JavaModelException jme) {
+				log.log(Level.SEVERE, "Problem traversing Java model element: " + parent, jme);
+			}
+		} 
+		else {
+			log.warning("Encountered a model element that's not a comp unit or parent: " + javaElement);
+		}
+	}
 	
 	/**
 	 * Goes through a list of compilation units and parses them.  The act of parsing
@@ -321,14 +424,22 @@ public class WorkspaceUtilities {
 
 	/**
 	 * Gets the root ASTNode for a compilation unit, with bindings on.
-	 * @param compUnit
+	 * @param compUnit never {@code null}
 	 * @return the root ASTNode for a compilation unit, with bindings on. 
+	 * @throws IllegalStateException if {@code compUnit} doesn't have a
+	 * {@link ITypeRoot#getSource() source attachment} 
+	 * @see ASTParser#createAST(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public static ASTNode getASTNodeFromCompilationUnit(ICompilationUnit compUnit) {
+	public static ASTNode getASTNodeFromCompilationUnit(ITypeRoot compUnit) {
 	 	ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setResolveBindings(true);
 		parser.setSource(compUnit);
-		return parser.createAST(/* passing in monitor messes up previous monitor state */ null);
+		try {
+			return parser.createAST(/* passing in monitor messes up previous monitor state */ null);
+		} catch (IllegalStateException e) {
+			log.log(Level.SEVERE, "could not parse " + compUnit, e);
+			throw e;
+		}
 	}
 
 	/**

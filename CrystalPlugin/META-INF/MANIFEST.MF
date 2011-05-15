@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Crystal Plug-in
 Bundle-SymbolicName: edu.cmu.cs.crystal;singleton:=true
-Bundle-Version: 3.4.1
+Bundle-Version: 3.5.0.qualifier
 Bundle-Activator: edu.cmu.cs.crystal.internal.CrystalPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.debug.core,
  org.junit4,
- edu.cmu.cs.planno;bundle-version="1.0.1";visibility:=reexport
+ edu.cmu.cs.planno;bundle-version="1.0.1";resolution:=optional;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Export-Package: edu.cmu.cs.crystal,
  edu.cmu.cs.crystal.analysis.alias,

@@ -75,6 +75,24 @@ public class AnnotationDatabase {
 
 	private static final Logger log = Logger.getLogger(AnnotationDatabase.class.getName());
 
+	/**
+	 * {@link MultiAnnotation}'s fully qualified name or {@code null}
+	 * if it's not in the classpath (means edu.cmu.cs.planno plugin not loaded).
+	 * Notice that edu.cmu.cs.planno is an optional dependency so it may be missing.
+	 */
+	private static final String MULTI_ANNOTATION_CLASSNAME;
+	static {
+		String className = null;
+		try {
+			className = MultiAnnotation.class.getName();
+		} catch (Throwable t) {
+			// Expect NoClassDefFoundError if MultiAnnotation is missing
+			// catch-all just in case so we can keep going no matter what
+			log.log(Level.INFO, "@MultiAnnotation not available, install edu.cmu.cs.planno plugin if you want to use multi-annotations", t);
+		}
+		MULTI_ANNOTATION_CLASSNAME = className;
+	}
+
 	private Map<String, Class<? extends ICrystalAnnotation>> qualNames;
 	private Map<String, Class<? extends ICrystalAnnotation>> metaQualNames;
 
@@ -419,7 +437,7 @@ public class AnnotationDatabase {
 		ITypeBinding binding = annoBinding.getAnnotationType();
 
 		for (IAnnotationBinding meta : binding.getAnnotations()) {
-			if (meta.getAnnotationType().getQualifiedName().equals(MultiAnnotation.class.getName()))
+			if (meta.getAnnotationType().getQualifiedName().equals(MULTI_ANNOTATION_CLASSNAME))
 				return true;
 		}
 		return false;
@@ -436,7 +454,7 @@ public class AnnotationDatabase {
 		for (IAnnotation meta : anno_type.getAnnotations()) {
 			Pair<String,String> qual_name_ = getQualifiedAnnoType(meta, anno_type);
 			String qual_name = "".equals(qual_name_.fst()) ? qual_name_.snd() : qual_name_.fst() + "." + qual_name_.snd();
-			if (qual_name.equals(MultiAnnotation.class.getName()))
+			if (qual_name.equals(MULTI_ANNOTATION_CLASSNAME))
 				return true;
 		}
 		return false;

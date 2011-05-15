@@ -19,10 +19,10 @@
  */
 package edu.cmu.cs.crystal;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
-import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ITypeRoot;
 
 
 /**
@@ -44,7 +44,7 @@ public interface IRunCrystalCommand {
 	 * A list of compilation units that the analyses will be run on. Will
 	 * be run in order.
 	 */
-	public List<ICompilationUnit> compilationUnits();
+	public Collection<? extends ITypeRoot> compilationUnits();
 	
 	/**
 	 * The reporter to be used.

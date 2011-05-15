@@ -30,7 +30,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ITypeRoot;
 
 import edu.cmu.cs.crystal.IAnalysisReporter;
 import edu.cmu.cs.crystal.IRunCrystalCommand;
@@ -49,11 +49,12 @@ public class RunCrystalHandler implements IHandler {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				final Set<String> enabled = AbstractCrystalPlugin.getEnabledAnalyses();
-				final List<ICompilationUnit> cus = WorkspaceUtilities.scanForCompilationUnits();
+				final List<ITypeRoot> cus = WorkspaceUtilities.scanForCompilationUnits(
+						CrystalPreferences.getIncludeArchives());
 				
 				IRunCrystalCommand run_command = new IRunCrystalCommand(){
 					public Set<String> analyses() { return enabled;	}
-					public List<ICompilationUnit> compilationUnits() { return cus; }
+					public List<ITypeRoot> compilationUnits() { return cus; }
 					public IAnalysisReporter reporter() { 
 						return new StandardAnalysisReporter(); 
 					}
