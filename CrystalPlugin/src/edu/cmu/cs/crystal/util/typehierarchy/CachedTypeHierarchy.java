@@ -39,7 +39,9 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		if (t1.equals("java.lang.Object") || t2.equals("java.lang.Object"))
 			return true;
 
-		if (t1.equals("void") || t2.equals("void"))
+		if (t1.equals("void"))
+			return t2.equals("void");
+		if (t2.equals("void"))
 			return false;
 
 		TypeInfo type1 = getTypeAndGenerics(t1);
@@ -55,11 +57,11 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 			return false;
 		
 		//need to deal with primitives early? also equality of strings passed in
-/*		if (node1.isPrimitive())
+		if (node1.isPrimitive())
 			return node2.isPrimitive();
 		if (node2.isPrimitive())
 			return false;
-*/		
+		
 		if (!skipCheck1 && isSubtypeCompatible(type1.typeName, type2.typeName)) {
 			return existsCommonSubtypeGenerics(type1.generics, type2.generics);
 		}
@@ -154,7 +156,6 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		if (superTypeFullName.equals("void"))
 			return false;
 		
-		
 		TypeInfo subType = getTypeAndGenerics(subTypeFullName);
 		TypeInfo supType = getTypeAndGenerics(superTypeFullName);
 
@@ -166,6 +167,12 @@ public class CachedTypeHierarchy implements TypeHierarchy {
 		
 		if (subNode == null || superNode == null)
 			return false;
+		
+		if (subNode.isPrimitive())
+			return superNode.isPrimitive();
+		if (superNode.isPrimitive())
+			return false;
+
 		
 		if (!superNode.isCompleteDown())
 			loadNewTree(supType.typeName);
