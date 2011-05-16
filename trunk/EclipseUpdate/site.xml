@@ -3,7 +3,7 @@
    <description url="http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/">
       The update site for the Crystal Static Analysis Framework.
    </description>
-   <feature url="features/edu.cmu.cs.crystal.feature_3.4.3.jar" id="edu.cmu.cs.crystal.feature" version="3.4.3">
+   <feature url="features/edu.cmu.cs.crystal.feature_3.5.0.jar" id="edu.cmu.cs.crystal.feature" version="3.5.0">
       <category name="Crystal Core"/>
    </feature>
    <category-def name="Crystal Core" label="Crystal Core">
