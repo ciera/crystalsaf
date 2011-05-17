@@ -3,18 +3,24 @@
 <repository name='${p2.artifact.repo.name}' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1.0.0'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1305577144466'/>
+    <property name='p2.timestamp' value='1305647579929'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
     <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}_${version}'/>
     <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}_${version}.jar'/>
   </mappings>
-  <artifacts size='15'>
+  <artifacts size='17'>
     <artifact classifier='org.eclipse.update.feature' id='edu.cmu.cs.crystal.feature' version='3.3.8'>
       <properties size='2'>
         <property name='artifact.size' value='1400'/>
         <property name='download.size' value='1400'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='edu.cmu.cs.crystal' version='3.5.1'>
+      <properties size='2'>
+        <property name='artifact.size' value='850'/>
+        <property name='download.size' value='2608659'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='edu.cmu.cs.crystal' version='3.4.0'>
@@ -87,10 +93,17 @@
         <property name='download.size' value='1400'/>
       </properties>
     </artifact>
-    <artifact classifier='org.eclipse.update.feature' id='edu.cmu.cs.crystal.feature' version='3.4.2'>
+    <artifact classifier='org.eclipse.update.feature' id='edu.cmu.cs.crystal.feature' version='3.5.1'>
       <properties size='2'>
-        <property name='artifact.size' value='1414'/>
-        <property name='download.size' value='1414'/>
+        <property name='download.contentType' value='application/zip'/>
+        <property name='download.size' value='1115'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='edu.cmu.cs.crystal' version='3.4.2'>
+      <properties size='3'>
+        <property name='artifact.size' value='633638'/>
+        <property name='download.size' value='633638'/>
+        <property name='download.contentType' value='application/zip'/>
       </properties>
     </artifact>
     <artifact classifier='osgi.bundle' id='edu.cmu.cs.crystal' version='3.3.8'>
@@ -100,11 +113,10 @@
         <property name='download.contentType' value='application/zip'/>
       </properties>
     </artifact>
-    <artifact classifier='osgi.bundle' id='edu.cmu.cs.crystal' version='3.4.2'>
-      <properties size='3'>
-        <property name='artifact.size' value='633638'/>
-        <property name='download.size' value='633638'/>
-        <property name='download.contentType' value='application/zip'/>
+    <artifact classifier='org.eclipse.update.feature' id='edu.cmu.cs.crystal.feature' version='3.4.2'>
+      <properties size='2'>
+        <property name='artifact.size' value='1414'/>
+        <property name='download.size' value='1414'/>
       </properties>
     </artifact>
   </artifacts>
