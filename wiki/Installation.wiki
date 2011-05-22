@@ -7,26 +7,33 @@ The easiest way to install Crystal is to update your existing Eclipse installati
 
 [http://crystalsaf.googlecode.com/svn/trunk/EclipseUpdate/]
 
-The Crystal plugin also *requires* the Plaid Annotations plugin, available at the following update site:
+You may want to install the *optional* Plaid Annotations plugin, available at the following update site:
 
 [http://plaidannotations.googlecode.com/svn/trunk/PlaidAnnotationsUpdateSite/] 
 
-== Eclipse 3.5 ==
+== Installing Crystal 3.5 ==
 
-  # If you haven't previously installed the Plaid Annotations plugin, you will need to install it first
-     # Select Help -> Install New Software... from the main menu.
-     # Use the "Add..." button to add the Plaid Annotations update site above (if not already present).  The name of the site doesn't matter but you can use "Plaid Annotations Update Site"
-     # You may have to uncheck "Group items by category" to see the Plaid Annotations
-     # Check "Plaid Annotations" from the list of plugins
-     # Click the "Next >" button and follow the instructions, accept the license, etc.
-  # Now install the Crystal plugin:
-     # Select Help -> Install New Software... from the main menu.
-     # Use the "Add..." button to add the Crystal update site location above (if not already present).  The name of the site doesn't matter but you can use "Crystal Update Site"
-     # You may have to uncheck "Group items by category" to see Crystal
-     # Check "Crystal" from the list of plugins
-     # Click the "Next >" button and follow the instructions.
+We recommend using Crystal 3.5 with Eclipse 3.5.
+
+   # Select Help -> Install New Software... from the main menu.
+   # Use the "Add..." button to add the Crystal update site location above (if not already present).  The name of the site doesn't matter but you can use "Crystal Update Site"
+   # You may have to *uncheck* "Group items by category" to see Crystal
+   # Check "Crystal" from the list of plugins
+   # Click the "Next >" button and follow the instructions.
 
 Eclipse will automatically download and install Crystal.
+
+== Installing Plaid Annotations ==
+You will need Plaid annotations to take advantage of Crystal's @MultiAnnotation and built-in analysis test features.  You also need Plaid Annotations to run [http://code.google.com/p/pluralism Plural].
+
+   # Select Help -> Install New Software... from the main menu.
+   # Use the "Add..." button to add the Plaid Annotations update site above (if not already present).  The name of the site doesn't matter but you can use "Plaid Annotations Update Site"
+   # You may have to uncheck "Group items by category" to see the Plaid Annotations
+   # Check "Plaid Annotations" from the list of plugins
+   # Click the "Next >" button and follow the instructions, accept the license, etc.
+
+== Crystal 3.4 ==
+Earlier versions of Crystal *require* Plaid Annotations, so go through its installation before installing a Crystal 3.4 version.
 
 == Macs and Eclipse 3.5 ==
 If you are using a Mac, make sure you get the right version of Eclipse. If you intend to run Java 1.6, you will need the 64-bit version of Eclipse.
