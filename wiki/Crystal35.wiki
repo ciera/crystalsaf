@@ -3,7 +3,7 @@
 
 = Crystal 3.5 =
 
-We released Crystal 3.5 in May 2011.  You can install it from Crystal's eclipse update site (see Installation), browse the Javadoc or go to the source.
+We released Crystal 3.5 in May 2011.  You can install it from Crystal's eclipse update site (see Installation), browse the [http://crystalsaf.googlecode.com/svn/trunk/CrystalPlugin/doc/index.html Javadocs] or go to the source.
 
 
 = Release Notes =
