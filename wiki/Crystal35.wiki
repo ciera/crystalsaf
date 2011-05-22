@@ -10,5 +10,5 @@ We released Crystal 3.5 in May 2011.  You can install it from Crystal's eclipse 
 
 Crystal 3.5 comes with a few improvements and API changes:
   * You can run Crystal on .class files with source attachment (requires a small interface change that should be transparent to most users).
-  * Installing the [http://code.google.com/p/planno planno] Eclipse plugin is no longer required (but needed for Crystal's analysis test feature).
+  * Installing the [http://code.google.com/p/plaidannotations planno] Eclipse plugin is no longer required (but needed for Crystal's analysis test feature).
   * You can hit F6 to run Crystal on the .java file in the current Eclipse editor.
