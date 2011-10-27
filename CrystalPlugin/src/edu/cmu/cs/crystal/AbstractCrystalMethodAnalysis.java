@@ -27,7 +27,6 @@ import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import edu.cmu.cs.crystal.internal.Crystal;
 import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
 
 /**
@@ -38,9 +37,12 @@ import edu.cmu.cs.crystal.internal.WorkspaceUtilities;
  * 
  */
 public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis {
-	
+
+	private static final Logger logger = Logger.getLogger(AbstractCrystalMethodAnalysis.class.getName());
+
+	/** Object used to report errors */
 	protected IAnalysisReporter reporter = null;
-	
+	/** Auxiliary analysis input */
 	protected IAnalysisInput analysisInput = null;
 	
 	public String getName() {
@@ -52,6 +54,10 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 	 * Then each method is analysed by {@link #analyzeMethod(MethodDeclaration)}.<br/>
 	 * Finally {@link #afterAllMethods} is run after all methods have
 	 * been analyzed.
+	 * @param reporter {@inheritDoc}
+	 * @param input {@inheritDoc}
+	 * @param compUnit {@inheritDoc}
+	 * @param rootNode {@inheritDoc}
 	 */
 	public final void runAnalysis(IAnalysisReporter reporter,
 			IAnalysisInput input, ITypeRoot compUnit, 
@@ -62,20 +68,26 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 		try {
 			beforeAllMethods(compUnit, rootNode);
 			
+			RuntimeException err = null;
 			List<MethodDeclaration> methods = WorkspaceUtilities.scanForMethodDeclarationsFromAST(rootNode);
 			for (MethodDeclaration md : methods) {
 				// TODO automatically poll for cancel here?  call afterAllMethods or not?
 				try {
 					analyzeMethod(md);
 				}
-				catch (Throwable err) {
-					Logger logger = Logger.getLogger(Crystal.class.getName());
-					logger.log(Level.SEVERE, "Analysis " + getName() + " had an error in " + md.resolveBinding().getDeclaringClass().getQualifiedName() + " when analyzing " + md.resolveBinding().toString(), err);
+				catch (RuntimeException e) {
+					// analyze the remaining methods anyway
+					// don't catch errors so we terminate asap
+					err = e;
+					logger.log(Level.SEVERE, "Analysis " + getName() + " had an error in " + md.resolveBinding().getDeclaringClass().getQualifiedName() + " when analyzing " + md.resolveBinding().toString(), e);
 				}
-
 			}
 			
 			afterAllMethods(compUnit, rootNode);
+			
+			if (err != null)
+				// re-throw latest exception, if any, so user gets notified
+				throw err;
 		}
 		finally {
 			this.reporter = null;
@@ -108,6 +120,7 @@ public abstract class AbstractCrystalMethodAnalysis implements ICrystalAnalysis 
 
 	/**
 	 * Invoked for each method or constructor in the class.
+	 * @param d method or constructor AST node to be analyzed
 	 */
 	public abstract void analyzeMethod(MethodDeclaration d);
 
