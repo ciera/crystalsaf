@@ -2,7 +2,7 @@
 <feature
       id="edu.cmu.cs.crystal.feature"
       label="Crystal"
-      version="3.5.1"
+      version="3.5.2"
       provider-name="Carnegie Mellon University">
 
    <description url="http://code.google.com/p/crystalsaf/">

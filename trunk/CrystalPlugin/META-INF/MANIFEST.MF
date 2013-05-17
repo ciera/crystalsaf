@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Crystal Plug-in
 Bundle-SymbolicName: edu.cmu.cs.crystal;singleton:=true
-Bundle-Version: 3.5.1
+Bundle-Version: 3.5.2
 Bundle-Activator: edu.cmu.cs.crystal.internal.CrystalPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
